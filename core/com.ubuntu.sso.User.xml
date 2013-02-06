@@ -1,0 +1,10 @@
+<node>
+  <interface name="com.ubuntu.sso.User">
+
+    <method name="sessionOpened">
+        <arg name="opened" type="b" direction="out" />
+    </method>
+
+ </interface>
+</node>
+
