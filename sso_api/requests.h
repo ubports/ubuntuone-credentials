@@ -2,7 +2,6 @@
 #define _REQUESTS_H_
 
 #include <QString>
-#include <qjson/serializer.h>
 
 namespace SSO {
 
@@ -11,8 +10,6 @@ class RequestInterface
 public:
     RequestInterface();
     virtual QByteArray Serialize() const = 0;
-protected:
-    QJson::Serializer* serializer;
 };
 
 class Token : public RequestInterface
@@ -51,7 +48,7 @@ public:
     QString name() const { return _name; }
     QString captchaId() const { return _captchaId; }
     QString captchaSolution() const { return _captchaSolution; }
- 
+
     void email(QString& val) { _email = val; }
     void password(QString& val) { _password = val; }
     void name(QString& val) { _name = val; }

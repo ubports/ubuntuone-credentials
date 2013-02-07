@@ -3,8 +3,9 @@
 #include <QHash>
 #include <QList>
 #include <QObject>
-#include <QxtLogger>
-#include <QxtJSON>
+#include <QDebug>
+#include <QJsonDocument>
+#include <QJsonObject>
 
 #include "dbus/signal_mapper.h"
 #include "async_call_data.h"
@@ -33,7 +34,7 @@ namespace keyring
 
 #define ASSERT_SESSION_NOT_NULL(message, signal) \
     if (!_session){ \
-        qxtLog->debug() << message; \
+        qCritical() << message; \
         signal; \
         return; \
     }
@@ -45,7 +46,7 @@ namespace keyring
 
 #define ASSERT_DBUS_REPLY_IS_ERROR(call, reply, signal) \
     if (reply.isError()) { \
-        qxtLog->critical() << reply.error().message() << reply.error().type(); \
+        qCritical() << reply.error().message() << reply.error().type(); \
         signal; \
         call->deleteLater(); \
         return; \
@@ -157,7 +158,7 @@ KeyringPrivate::KeyringPrivate(QDBusConnection connection, Keyring* parent, QStr
     _windowId(windowId)
 {
     Q_Q(Keyring);
-    qxtLog->debug() << "Keyring instance created.";
+    qDebug() << "Keyring instance created.";
 
     // mappers used to track the operations and be abble to pass the data between the objects
 
@@ -199,7 +200,7 @@ void KeyringPrivate::openSession()
     q->connect(watcher, SIGNAL(finished(QDBusPendingCallWatcher*)),
         q, SLOT(onSessionOpened(QDBusPendingCallWatcher*)));
 
-    qxtLog->trace() << "Openning session for user using plain algorithm.";
+    qDebug() << "Openning session for user using plain algorithm.";
 }
 
 /**
@@ -252,7 +253,7 @@ void KeyringPrivate::setCredentials(QString id, QString token, QString tokenSecr
 
     if (defaultCollection->label().isEmpty())
     {
-        qxtLog->debug() << "Could not get default collection.";
+        qDebug() << "Could not get default collection.";
 
         QDBusPendingReply<QDBusObjectPath> async =_service->ReadAlias(DEFAULT_LABEL);
         QDBusPendingCallWatcher* watcher = new QDBusPendingCallWatcher(async);
@@ -261,7 +262,7 @@ void KeyringPrivate::setCredentials(QString id, QString token, QString tokenSecr
     }
     else
     {
-        qxtLog->debug() << "Default collection:" << DEFAULT_COLLECTION_PATH;
+        qDebug() << "Default collection:" << DEFAULT_COLLECTION_PATH;
 
         QList<QDBusObjectPath> paths;
         paths.append(QDBusObjectPath(DEFAULT_COLLECTION_PATH));
@@ -282,7 +283,7 @@ void KeyringPrivate::setCredentials(QString id, QString token, QString tokenSecr
  */
 void KeyringPrivate::deleteCredentials(QString id)
 {
-    qxtLog->debug() << "Deleting credentials for account:" << id;
+    qDebug() << "Deleting credentials for account:" << id;
     Q_Q(Keyring);
 
     ASSERT_SESSION_NOT_NULL("Unable to get credentials: Session is NULL.",
@@ -308,7 +309,7 @@ QHash<QString, QString> KeyringPrivate::getKeyringAttrs(QString id)
     attrs[KeyringPrivate::ATTR_KEY_TYPE_KEY] = "ubuntu sso token";
     attrs[KeyringPrivate::ATTR_KEY_NAME_KEY] = id;
 
-    qxtLog->trace() << "Generated attributes are:" << attrs[KeyringPrivate::ATTR_KEY_TYPE_KEY]
+    qDebug() << "Generated attributes are:" << attrs[KeyringPrivate::ATTR_KEY_TYPE_KEY]
             << attrs[KeyringPrivate::ATTR_KEY_NAME_KEY];
     return attrs;
 }
@@ -329,7 +330,7 @@ void KeyringPrivate::getCredentialsFromItem(QDBusObjectPath itemPath, AsyncCallD
 void KeyringPrivate::deleteItemInterface(AsyncCallData* data)
 {
     Q_Q(Keyring);
-    qxtLog->debug() << "Deleting item for path:" << data->unlocked.at(0).path();
+    qDebug() << "Deleting item for path:" << data->unlocked.at(0).path();
     QScopedPointer<ItemInterface> item(
     _interfaceFactory->create<ItemInterface>(SECRET_SERVICE, data->unlocked.at(0).path(), _conn));
 
@@ -344,7 +345,7 @@ void KeyringPrivate::doPrompt(QString promptPath, AsyncCallData* data, prompt_in
 {
     if (promptPath != KeyringPrivate::NO_PROMPT_REQUIRED)
     {
-        qxtLog->debug() << "Performing prompt for path:" << promptPath;
+        qDebug() << "Performing prompt for path:" << promptPath;
 
         PromptInterface* prompt = _interfaceFactory->create<PromptInterface>(SECRET_SERVICE, promptPath, _conn);
 
@@ -357,7 +358,7 @@ void KeyringPrivate::doPrompt(QString promptPath, AsyncCallData* data, prompt_in
 void KeyringPrivate::doPromptForGet(QString promptPath, AsyncCallData* data)
 {
     Q_Q(Keyring);
-    qxtLog->debug() << "doPromptForGet with path:" << promptPath;
+    qDebug() << "doPromptForGet with path:" << promptPath;
 
     prompt_interface_cb connectSignal = [this, q](PromptInterface* interface, AsyncCallData* in_data)
     {
@@ -373,7 +374,7 @@ void KeyringPrivate::doPromptForGet(QString promptPath, AsyncCallData* data)
 void KeyringPrivate::doPromptForDelete(QString promptPath, AsyncCallData* data)
 {
     Q_Q(Keyring);
-    qxtLog->debug() << "doPromptForDelete with path:" << promptPath;
+    qDebug() << "doPromptForDelete with path:" << promptPath;
 
     prompt_interface_cb connectSignal = [this, q](PromptInterface* interface, AsyncCallData* in_data)
     {
@@ -388,7 +389,7 @@ void KeyringPrivate::doPromptForDelete(QString promptPath, AsyncCallData* data)
 void KeyringPrivate::doPromptForCollectionUnlock(QString promptPath, AsyncCallData* data)
 {
     Q_Q(Keyring);
-    qxtLog->debug() << "doPromptForCollectionUnlock with path:" << promptPath;
+    qDebug() << "doPromptForCollectionUnlock with path:" << promptPath;
 
     prompt_interface_cb connectSignal = [this, q](PromptInterface* interface, AsyncCallData* in_data)
     {
@@ -406,7 +407,7 @@ void KeyringPrivate::onSessionOpened(QDBusPendingCallWatcher* call)
     ASSERT_DBUS_REPLY_IS_ERROR(call, reply, q->sessionOpenError())
 
     QDBusObjectPath objPath = reply.argumentAt<1>();
-    qxtLog->debug() << "Opened session with path" << objPath.path();
+    qDebug() << "Opened session with path" << objPath.path();
     _session = QSharedPointer<SessionInterface>(
         _interfaceFactory->create<SessionInterface>(SECRET_SERVICE, objPath.path(), _conn));;
     emit q->sessionOpened();
@@ -417,13 +418,13 @@ void KeyringPrivate::onSearchItems(QDBusPendingCallWatcher* call, QObject* obj, 
     async_callback_cb unlockDbusError, locked_items_cb lockedItemsCb, async_callback_cb unlockedItemsCb,
     async_callback_cb credentialsNotFoundCb)
 {
-    qxtLog->debug() << "onSearchItemsForGet";
+    qDebug() << "onSearchItemsForGet";
     Q_Q(Keyring);
 
     QDBusPendingReply<QList<QDBusObjectPath>, QList<QDBusObjectPath>> reply = *call;
     AsyncCallData* data = (AsyncCallData*) obj;
 
-    qxtLog->debug() << "onSearchItemsFor accoutn id:" << data->accId;
+    qDebug() << "onSearchItemsFor accoutn id:" << data->accId;
 
     ASSERT_DBUS_REPLY_IS_ERROR(call, reply, dbusErrorCb(data))
 
@@ -432,7 +433,7 @@ void KeyringPrivate::onSearchItems(QDBusPendingCallWatcher* call, QObject* obj, 
     // we are a signal handler.
     QList<QDBusObjectPath> unlocked = reply.argumentAt<0>();
     data->unlocked = unlocked;
-    qxtLog->trace() << "Number of unlocked items is:" << data->unlocked.length();
+    qDebug() << "Number of unlocked items is:" << data->unlocked.length();
 
     QList<QDBusObjectPath> locked = reply.argumentAt<0>();
     data->locked = locked;
@@ -460,7 +461,7 @@ void KeyringPrivate::onSearchItems(QDBusPendingCallWatcher* call, QObject* obj, 
         return;
     }
 
-    qxtLog->debug() << "Items not found for account with id:" << data->accId;
+    qDebug() << "Items not found for account with id:" << data->accId;
     credentialsNotFoundCb(data);
 
     call->deleteLater();
@@ -468,7 +469,7 @@ void KeyringPrivate::onSearchItems(QDBusPendingCallWatcher* call, QObject* obj, 
 
 void KeyringPrivate::onSearchItemsForGet(QDBusPendingCallWatcher* call, QObject* obj)
 {
-    qxtLog->debug() << "onSearchItemsForGet";
+    qDebug() << "onSearchItemsForGet";
     Q_Q(Keyring);
 
     async_callback_cb dbusErrorCb = [q](AsyncCallData* data)
@@ -501,7 +502,7 @@ void KeyringPrivate::onSearchItemsForGet(QDBusPendingCallWatcher* call, QObject*
 
 void KeyringPrivate::onSearchItemsForDelete(QDBusPendingCallWatcher* call, QObject* obj)
 {
-    qxtLog->debug() << "onSearchItemsForDelete";
+    qDebug() << "onSearchItemsForDelete";
     Q_Q(Keyring);
 
     async_callback_cb dbusErrorCb = [](AsyncCallData*) {};
@@ -536,7 +537,7 @@ void KeyringPrivate::onPromptCompleted(bool dismissed, const QDBusVariant&, QObj
     {
         // user dismissed the unlocking of the keyring, that means that we are not allows to
         // get the data
-        qxtLog->debug() << "User dismissed prompt for account with id" << data->accId;
+        qDebug() << "User dismissed prompt for account with id" << data->accId;
         emit q->userCancelation(data->accId);
         return;
     }
@@ -550,7 +551,7 @@ void KeyringPrivate::onPromptCompleted(bool dismissed, const QDBusVariant&, QObj
 
     if (data->unlocked.length() == 0)
     {
-        qxtLog->debug() << "Unlocked items length is 0. We do not have items.";
+        qDebug() << "Unlocked items length is 0. We do not have items.";
         emptyCb(data);
         return;
     }
@@ -600,7 +601,7 @@ void KeyringPrivate::onCollectionUnlocked(QDBusPendingCallWatcher* call, QObject
     QString promptPath = reply.argumentAt<1>().path().trimmed();
     if (promptPath != KeyringPrivate::NO_PROMPT_REQUIRED)
     {
-        qxtLog->debug() << "We need prompt for" << promptPath;
+        qDebug() << "We need prompt for" << promptPath;
         doPromptForCollectionUnlock(promptPath, data);
         return;
     }
@@ -610,11 +611,12 @@ void KeyringPrivate::onCollectionUnlocked(QDBusPendingCallWatcher* call, QObject
     _interfaceFactory->create<CollectionInterface>(SECRET_SERVICE, data->interfacePath, _conn));
 
     // serialize token and token secret in json
-    QVariantMap secret;
+    QJsonObject secret;
     secret.insert(TOKEN_KEY, data->token);
     secret.insert(TOKEN_SECRET_KEY, data->tokenSecret);
 
-    QByteArray json =  QxtJSON::stringify(secret).toUtf8();
+    QJsonDocument doc(secret);
+    QByteArray json = doc.toJson();
     Secret secretStruct(QDBusObjectPath(_session->path()), QString("").toUtf8(), json, QString("application/octet-stream").toUtf8());
 
     QVariantMap properties;
@@ -655,12 +657,13 @@ void KeyringPrivate::onGetSecret(QDBusPendingCallWatcher* call, QObject* obj)
     ASSERT_DBUS_REPLY_IS_ERROR(call, reply, q->credentialsError(data->accId))
 
     Secret secret =  reply.argumentAt<0>();
-    QVariantMap result = QxtJSON::parse(secret.getValue()).toMap();
+    QJsonDocument jsonData = QJsonDocument::fromJson(secret.getValue());
+    QJsonObject result = jsonData.object();
 
     // assert that the info is present
     if (!result.contains(KeyringPrivate::TOKEN_KEY) || !result.contains(KeyringPrivate::TOKEN_SECRET_KEY))
     {
-        qxtLog->critical() << "Credentials could not be parsed keys missing.";
+        qCritical() << "Credentials could not be parsed keys missing.";
         emit q->credentialsError(data->accId);
         call->deleteLater();
         return;
@@ -669,7 +672,7 @@ void KeyringPrivate::onGetSecret(QDBusPendingCallWatcher* call, QObject* obj)
     emit q->credentialsFound(data->accId,
         result[KeyringPrivate::TOKEN_KEY].toString(),
         result[KeyringPrivate::TOKEN_SECRET_KEY].toString(), true);
-    qxtLog->debug() << "Got credentials for account id:" << data->accId;
+    qDebug() << "Got credentials for account id:" << data->accId;
     call->deleteLater();
 }
 

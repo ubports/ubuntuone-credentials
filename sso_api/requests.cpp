@@ -1,16 +1,11 @@
 #include "requests.h"
-
-//#include <QVariantList>
-#include <QVariantMap>
-#include <qjson/serializer.h>
-#include <QDebug>
+#include <QJsonDocument>
+#include <QJsonObject>
 
 namespace SSO {
 
 RequestInterface::RequestInterface()
 {
-    /* TODO: delete */
-    this->serializer = new QJson::Serializer();
 }
 
 Token::Token()
@@ -27,16 +22,18 @@ Token::Token(QString email, QString password, QString name, QString otp)
 
 QByteArray Token::Serialize() const
 {
-    QVariantMap data;
-    data.insert("email", this->email());
-    data.insert("password", this->password());
-    data.insert("token_name", this->name());
+    QJsonObject serializer;
+    serializer.insert("email", this->email());
+    serializer.insert("password", this->password());
+    serializer.insert("token_name", this->name());
     /* TODO: check for null */
-    data.insert("otp", this->otp());
+    serializer.insert("otp", this->otp());
+
+    QJsonDocument doc(serializer);
 
     /* TODO: Check what this returns in error case,
             may want to use the overload that takes a bool for success. */
-    return this->serializer->serialize(data);
+    return doc.toJson();
 }
 
 Account::Account()
@@ -46,14 +43,15 @@ Account::Account()
 
 QByteArray Account::Serialize() const
 {
-    QVariantMap data;
+    QJsonObject data;
     data.insert("email", this->email());
     data.insert("password", this->password());
     data.insert("displayname", this->name());
     data.insert("captcha_id", this->captchaId());
     data.insert("captcha_solution", this->captchaSolution());
-    
-    return this->serializer->serialize(data);
+
+    QJsonDocument doc(data);
+    return doc.toJson();
 }
 
 } /* end SSO namespace */

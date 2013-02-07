@@ -7,7 +7,6 @@
 #include <QObject>
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkReply>
-#include <qjson/parser.h>
 
 namespace SSO { /* TODO: is this a good/correct name? */
 
@@ -33,7 +32,6 @@ private slots:
     void reply_obtained(QNetworkReply*);
 
 private:
-    QJson::Parser parser;
     Network* network;
 };
 

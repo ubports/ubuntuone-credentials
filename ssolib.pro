@@ -4,17 +4,16 @@
 #
 #-------------------------------------------------
 
-QT       += core dbus
+QT       += core dbus xml network
 
 QT       -= gui
 
-TARGET = keyring_example
+TARGET = ssolib
+QMAKE_CXXFLAGS += -std=c++0x
 CONFIG   += console
 CONFIG   -= app_bundle
-CONFIG  += qxt
-QXT     += core
 
-TEMPLATE = app
+TEMPLATE = lib
 
 
 SOURCES += main.cpp \
@@ -32,6 +31,3 @@ HEADERS += \
     ssoservice.h \
     core/user.h
 
-
-QMAKE_CXXFLAGS += -std=c++0x -I /usr/include/qjson
-QMAKE_LIBS += -lqjson

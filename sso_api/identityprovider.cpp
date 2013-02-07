@@ -1,8 +1,8 @@
 #include "identityprovider.h"
 
 //#include <QVariantList>
-#include <QVariantMap>
-#include <qjson/serializer.h>
+//#include <QVariantMap>
+#include <QJsonDocument>
 #include <QDebug>
 
 namespace SSO {
@@ -29,16 +29,9 @@ void IdentityProvider::CreateAccount(const Account& account)
 
 void IdentityProvider::reply_obtained(QNetworkReply* reply)
 {
-    bool ok;
-    QVariantMap result = parser.parse(reply->readAll(), &ok).toMap();
-    if(!ok){
-        return;
-    }
+    QJsonDocument doc = QJsonDocument::fromJson(reply->readAll());
 
-    qDebug() << result["href"].toString();
-//    qDebug() << result["key"].toString();
-//    qDebug() << result["secret"].toString();
-//    qDebug() << result["token_name"].toString();
+    // Parse document
 }
 
 } /* end SSO namespace */

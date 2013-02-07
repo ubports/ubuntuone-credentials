@@ -16,11 +16,13 @@ public:
 
     void init_service();
     bool sessionOpened();
-    void createAccount(QString email, QString password, QString display_name);
-    void getToken(QString email, QString password, QString token_name);
+//    void getCredentials();
+//    void invalidateCredentials();
+    void login(QString email, QString password);
+    void registerUser(QString email, QString password, QString display_name);
 
 signals:
-    void sessionOpened();
+    void sessionActivated();
     // Account Fail
     void alreadyRegistered();
     void captchaFailure();

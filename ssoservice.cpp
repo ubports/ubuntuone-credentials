@@ -1,5 +1,5 @@
 #include "ssoservice.h"
-#include <QxtLogger>
+#include <QDebug>
 
 namespace SSO {
 
@@ -10,7 +10,6 @@ SSOService::SSOService(QObject *parent) :
     _conn(QDBusConnection::sessionBus())
 {
     // create the keyring that will be used to store and retrieve the different tokens
-    qxtLog->info() << "Initialize SSO Service...";
     _keyring = new keyring::Keyring(_conn);
     this->connect(_keyring, SIGNAL(sessionOpened()), this, SLOT(sessionDetected()));
     this->connect(_keyring, SIGNAL(credentialsFound(QString,QString,QString,bool)), this, SLOT(credentialsFound(QString,QString,QString)));
@@ -29,9 +28,8 @@ bool SSOService::sessionOpened()
 
 void SSOService::sessionDetected()
 {
-    qxtLog->debug() << "Session Detected";
     this->_serviceEnabled = true;
-    emit this->sessionOpened();
+    emit this->sessionActivated();
 //    this->_keyring->setCredentials("diego-sso", "asdtoken", "asdsecret");
 //    this->_keyring->getCredentials("diego-sso");
 }
@@ -44,12 +42,12 @@ void SSOService::credentialsFound(QString id, QString token, QString secret)
     qDebug() << secret;
 }
 
-void SSOService::createAccount(QString email, QString password, QString display_name)
+void SSOService::registerUser(QString email, QString password, QString display_name)
 {
 
 }
 
-void SSOService::getToken(QString email, QString password, QString token_name)
+void SSOService::login(QString email, QString password)
 {
 
 }
