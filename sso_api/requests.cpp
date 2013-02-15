@@ -4,44 +4,59 @@
 
 namespace SSO {
 
-RequestInterface::RequestInterface()
+RequestInterface::RequestInterface(const QUrl& url)
+    : _url(url)
 {
 }
 
-Token::Token()
-    : RequestInterface(),
+TokenRequest::TokenRequest()
+    : RequestInterface(API_BASE + "tokens"),
       _email(""), _password(""), _name(""), _otp("")
 {
 }
 
-Token::Token(QString email, QString password, QString name, QString otp)
-    : RequestInterface(),
+TokenRequest::TokenRequest(QString email, QString password,
+                           QString name, QString otp)
+    : RequestInterface(API_BASE + "tokens"),
       _email(email), _password(password), _name(name), _otp(otp)
 {
 }
 
-QByteArray Token::Serialize() const
+QByteArray TokenRequest::serialize() const
 {
     QJsonObject serializer;
     serializer.insert("email", this->email());
     serializer.insert("password", this->password());
     serializer.insert("token_name", this->name());
     /* TODO: check for null */
-    serializer.insert("otp", this->otp());
+    if (!this->otp().isEmpty())
+        serializer.insert("otp", this->otp());
 
     QJsonDocument doc(serializer);
 
-    /* TODO: Check what this returns in error case,
-            may want to use the overload that takes a bool for success. */
     return doc.toJson();
 }
 
-Account::Account()
-    : RequestInterface()
+AccountRequest::AccountRequest()
+    : RequestInterface(API_BASE + "accounts"),
+      _email(""), _password(""), _name(""),
+      _captchaId(""), _captchaSolution(""),
+      _createCaptcha(true)
 {
 }
 
-QByteArray Account::Serialize() const
+AccountRequest::AccountRequest(QString email, QString password, QString name,
+                               QString captchaId, QString captchaSolution,
+                               bool createCaptcha)
+    : RequestInterface(API_BASE + "accounts"),
+      _email(email), _password(password), _name(name),
+      _captchaId(captchaId), _captchaSolution(captchaSolution),
+      _createCaptcha(true)
+{
+}
+
+
+QByteArray AccountRequest::serialize() const
 {
     QJsonObject data;
     data.insert("email", this->email());
@@ -49,6 +64,7 @@ QByteArray Account::Serialize() const
     data.insert("displayname", this->name());
     data.insert("captcha_id", this->captchaId());
     data.insert("captcha_solution", this->captchaSolution());
+    data.insert("create_captcha", this->createCaptcha());
 
     QJsonDocument doc(data);
     return doc.toJson();

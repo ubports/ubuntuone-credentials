@@ -31,6 +31,7 @@
 
 #include "ssoservice.h"
 #include <QDebug>
+#include "sso_api/requests.h"
 
 namespace SSO {
 
@@ -43,13 +44,18 @@ SSOService::SSOService(QObject *parent) :
     // create the keyring that will be used to store and retrieve the different tokens
     _keyring = new keyring::Keyring(_conn);
     this->connect(_keyring, SIGNAL(sessionOpened()), this, SLOT(sessionDetected()));
-    this->connect(_keyring, SIGNAL(credentialsFound(QString,QString,QString,bool)), this, SLOT(credentialsFound(QString,QString,QString)));
+    this->connect(_keyring, SIGNAL(credentialsFound(QString,QString,QString,QString,QString,bool)),
+                  this, SLOT(credentialsAcquired(QString,QString,QString,QString,QString,bool)));
+    this->connect(_keyring, SIGNAL(credentialsSet(QString, bool)), this, SLOT(credentialsSet(QString, bool)));
+
+    this->connect(&(this->provider), SIGNAL(TokenGranted(const TokenResponse&)), this, SLOT(tokenReceived(const TokenResponse&)));
+    this->connect(&(this->provider), SIGNAL(AccountGranted(const AccountResponse&)), this, SLOT(accountRegistered(const AccountResponse&)));
+    this->connect(&(this->provider), SIGNAL(ErrorOccurred(const ErrorResponse&)), this, SLOT(errorOcurred(const ErrorResponse&)));
 }
 
 void SSOService::init_service()
 {
     _keyring->openSession();
-    // Open DBus listener
 }
 
 bool SSOService::sessionOpened()
@@ -61,26 +67,76 @@ void SSOService::sessionDetected()
 {
     this->_serviceEnabled = true;
     emit this->sessionActivated();
-//    this->_keyring->setCredentials("diego-sso", "asdtoken", "asdsecret");
-//    this->_keyring->getCredentials("diego-sso");
 }
 
-void SSOService::credentialsFound(QString id, QString token, QString secret)
+void SSOService::getCredentials()
 {
-    qDebug() << "CREDENTIALS FOUND";
-    qDebug() << id;
-    qDebug() << token;
-    qDebug() << secret;
+    this->_keyring->getCredentials(TOKEN_NAME);
+}
+
+void SSOService::credentialsAcquired(QString id, QString token, QString secret, QString consumer, QString consumerSecret, bool found)
+{
+    if(found)
+    {
+        emit this->credentialsFound(id, token, secret, consumer, consumerSecret);
+    }
+    else
+    {
+        emit this->credentialsNotFound(id);
+    }
+
 }
 
 void SSOService::registerUser(QString email, QString password, QString display_name)
 {
+    SSO::AccountRequest request(email, password, display_name, NULL, NULL);
 
+    this->_tempPassword = password;
+    this->provider.CreateAccount(request);
+}
+
+void SSOService::accountRegistered(const AccountResponse& account)
+{
+    this->login(account.email(), this->_tempPassword);
+    this->_tempPassword = "";
 }
 
 void SSOService::login(QString email, QString password)
 {
+    TokenRequest request(email, password, TOKEN_NAME, NULL);
 
+    this->provider.GetToken(request);
+}
+
+void SSOService::tokenReceived(const TokenResponse& token)
+{
+    // Save the Tokens in the Keyring
+    this->_keyring->setCredentials(TOKEN_NAME, token.token_key(), token.token_secret(),
+                                   token.consumer_key(), token.consumer_secret());
+}
+
+void SSOService::credentialsSet(QString id, bool stored)
+{
+    if(stored)
+    {
+        this->_keyring->getCredentials(TOKEN_NAME);
+    }
+    else
+    {
+        emit this->loginFailed("Failed to set credentials");
+    }
+}
+
+void SSOService::invalidateCredentials()
+{
+    this->_keyring->deleteCredentials(TOKEN_NAME);
+    emit credentialsDeleted();
+}
+
+void SSOService::errorOcurred(const ErrorResponse& error)
+{
+    this->_tempPassword = "";
+    emit this->requestFailed(error);
 }
 
 }

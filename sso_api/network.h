@@ -33,29 +33,46 @@
 #ifndef _NETWORK_H_
 #define _NETWORK_H_
 
+#include "responses.h"
+
+#include <QDebug>
 #include <QObject>
+#include <QString>
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkReply>
 
 namespace SSO {
 
-static QString API_BASE = "https://login.staging.ubuntu.com/api/v2/";
+//static QString API_BASE = "https://login.ubuntu.com/api/v2/";
 
 class Network : public QObject
 {
     Q_OBJECT
 public:
     explicit Network(QObject *parent = 0);
-    void Post(const QByteArray&);
+
+    template <class T>
+    void Post(const T& request)
+    {
+        qDebug() << request.url();
+        this->_request->setUrl(request.url());
+        this->_nam->post(*this->_request, request.serialize());
+    }
 
 signals:
-
+    void TokenGranted(const TokenResponse& token);
+    void AccountGranted(const AccountResponse& account);
+    void ErrorOccurred(const ErrorResponse& error);
+    
 public slots:
 
 private slots:
     void OnReply(QNetworkReply*);
 
 private:
+    void ProcessTokensReply(const QJsonObject& object);
+    void ProcessAccountsReply(const QJsonObject& object);
+
     QNetworkAccessManager* _nam;
     QNetworkRequest* _request;
 

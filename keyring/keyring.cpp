@@ -98,7 +98,7 @@ public:
 
     void openSession();
     void getCredentials(QString id);
-    void setCredentials(QString id, QString token, QString tokenSecret);
+    void setCredentials(QString id, QString token, QString tokenSecret, QString consumer, QString consumerSecret);
     void deleteCredentials(QString id);
 
     static class _init
@@ -141,6 +141,8 @@ protected:
     static QString SECRET_SERVICE;
     static QString TOKEN_KEY;
     static QString TOKEN_SECRET_KEY;
+    static QString CONSUMER_KEY;
+    static QString CONSUMER_SECRET_KEY;
     static QString ATTR_KEY_TYPE_KEY;
     static QString ATTR_KEY_TYPE_VALUE;
     static QString ATTR_KEY_NAME_KEY;
@@ -175,6 +177,8 @@ KeyringPrivate::_init KeyringPrivate::_initializer;
 QString KeyringPrivate::SECRET_SERVICE = "org.freedesktop.secrets";
 QString KeyringPrivate::TOKEN_KEY = "token";
 QString KeyringPrivate::TOKEN_SECRET_KEY = "token_secret";
+QString KeyringPrivate::CONSUMER_KEY = "consumer";
+QString KeyringPrivate::CONSUMER_SECRET_KEY = "consumer_secret";
 QString KeyringPrivate::ATTR_KEY_TYPE_KEY = "key-type";
 QString KeyringPrivate::ATTR_KEY_TYPE_VALUE = "sso token";
 QString KeyringPrivate::ATTR_KEY_NAME_KEY = "token-name";
@@ -246,7 +250,7 @@ void KeyringPrivate::getCredentials(QString id)
     Q_Q(Keyring);
 
     ASSERT_SESSION_NOT_NULL("Unable to get credentials: Session is NULL.",
-        q->credentialsFound(id, QString(""), QString(""), false))
+        q->credentialsFound(id, QString(""), QString(""), QString(""), QString(""), false))
 
     // search the items with the given attrs
     QDBusPendingReply<QList<QDBusObjectPath>, QList<QDBusObjectPath>> async =
@@ -268,13 +272,15 @@ void KeyringPrivate::getCredentials(QString id)
  * Tries to store the credentials in the keyring for the account with the given id. The result of
  * the operation will be returned via the credentialsSet signal.
  */
-void KeyringPrivate::setCredentials(QString id, QString token, QString tokenSecret)
+void KeyringPrivate::setCredentials(QString id, QString token, QString tokenSecret, QString consumer, QString consumerSecret)
 {
     Q_Q(Keyring);
     AsyncCallData* data = new AsyncCallData();
     data->accId = id;
     data->token = token;
     data->tokenSecret = tokenSecret;
+    data->consumer = consumer;
+    data->consumerSecret = consumerSecret;
 
     ASSERT_SESSION_NOT_NULL( "Unable to set credentials: Session is NULL.",
         q->credentialsSet(id, false))
@@ -506,7 +512,7 @@ void KeyringPrivate::onSearchItemsForGet(QDBusPendingCallWatcher* call, QObject*
 
     async_callback_cb dbusErrorCb = [q](AsyncCallData* data)
     {
-        emit q->credentialsFound(data->accId, QString(""), QString(""), false);
+        emit q->credentialsFound(data->accId, QString(""), QString(""), QString(""), QString(""), false);
     };
 
     async_callback_cb unlockDbusError = [q](AsyncCallData* data)
@@ -526,7 +532,7 @@ void KeyringPrivate::onSearchItemsForGet(QDBusPendingCallWatcher* call, QObject*
 
     async_callback_cb credentialsNotFoundCb = [q](AsyncCallData* data)
     {
-        emit q->credentialsFound(data->accId, QString(""), QString(""), false);
+        emit q->credentialsFound(data->accId, QString(""), QString(""), QString(""), QString(""), false);
     };
 
     onSearchItems(call, obj, dbusErrorCb, unlockDbusError, lockedItemsCb, unlockedItemsCb, credentialsNotFoundCb);
@@ -598,7 +604,7 @@ void KeyringPrivate::onPromptCompletedForGet(bool dismissed, const QDBusVariant 
 
     async_callback_cb emptyCb = [q](AsyncCallData* data)
     {
-        emit q->credentialsFound(data->accId, QString(""), QString(""), false);
+        emit q->credentialsFound(data->accId, QString(""), QString(""), QString(""), QString(""), false);
     };
 
     async_callback_cb lockedCb = [this](AsyncCallData* data)
@@ -646,6 +652,8 @@ void KeyringPrivate::onCollectionUnlocked(QDBusPendingCallWatcher* call, QObject
     QJsonObject secret;
     secret.insert(TOKEN_KEY, data->token);
     secret.insert(TOKEN_SECRET_KEY, data->tokenSecret);
+    secret.insert(CONSUMER_KEY, data->consumer);
+    secret.insert(CONSUMER_SECRET_KEY, data->consumerSecret);
 
     QJsonDocument doc(secret);
     QByteArray json = doc.toJson();
@@ -693,7 +701,8 @@ void KeyringPrivate::onGetSecret(QDBusPendingCallWatcher* call, QObject* obj)
     QJsonObject result = jsonData.object();
 
     // assert that the info is present
-    if (!result.contains(KeyringPrivate::TOKEN_KEY) || !result.contains(KeyringPrivate::TOKEN_SECRET_KEY))
+    if (!result.contains(KeyringPrivate::TOKEN_KEY) || !result.contains(KeyringPrivate::TOKEN_SECRET_KEY) ||
+        !result.contains(KeyringPrivate::CONSUMER_KEY) || !result.contains(KeyringPrivate::CONSUMER_SECRET_KEY))
     {
         qCritical() << "Credentials could not be parsed keys missing.";
         emit q->credentialsError(data->accId);
@@ -703,7 +712,9 @@ void KeyringPrivate::onGetSecret(QDBusPendingCallWatcher* call, QObject* obj)
 
     emit q->credentialsFound(data->accId,
         result[KeyringPrivate::TOKEN_KEY].toString(),
-        result[KeyringPrivate::TOKEN_SECRET_KEY].toString(), true);
+        result[KeyringPrivate::TOKEN_SECRET_KEY].toString(),
+        result[KeyringPrivate::CONSUMER_KEY].toString(),
+        result[KeyringPrivate::CONSUMER_SECRET_KEY].toString(), true);
     qDebug() << "Got credentials for account id:" << data->accId;
     call->deleteLater();
 }
@@ -785,10 +796,10 @@ void Keyring::getCredentials(QString id)
     d->getCredentials(id);
 }
 
-void Keyring::setCredentials(QString id, QString token, QString tokenSecret)
+void Keyring::setCredentials(QString id, QString token, QString tokenSecret, QString consumer, QString consumerSecret)
 {
     Q_D(Keyring);
-    d->setCredentials(id, token, tokenSecret);
+    d->setCredentials(id, token, tokenSecret, consumer, consumerSecret);
 }
 
 void Keyring::deleteCredentials(QString id)

@@ -34,8 +34,9 @@
 
 #include <QObject>
 #include <QString>
-#include <QDBusConnection>
 #include "keyring/keyring.h"
+#include "sso_api/identityprovider.h"
+#include "sso_api/responses.h"
 
 namespace SSO {
 
@@ -47,32 +48,34 @@ public:
 
     void init_service();
     bool sessionOpened();
-//    void getCredentials();
-//    void invalidateCredentials();
+    void invalidateCredentials();
+    void getCredentials();
     void login(QString email, QString password);
     void registerUser(QString email, QString password, QString display_name);
 
 signals:
     void sessionActivated();
-    // Account Fail
-    void alreadyRegistered();
-    void captchaFailure();
-    void captchaRequired();
-    // Token Fail
-    void invalidCredentials();
-    void accountSuspended();
-    void accountDeactivated();
-    void twoFactorRequired();
-    void twoFactorFailure();
+    void credentialsDeleted();
+
+    void credentialsFound(QString id, QString token, QString tokenSecret, QString consumer, QString consumerSecret);
+    void credentialsNotFound(QString id);
+    void loginFailed(QString message);
+    void requestFailed(const ErrorResponse& error);
 
 private slots:
     void sessionDetected();
-    void credentialsFound(QString id, QString token, QString secret);
+    void credentialsSet(QString id, bool stored);
+    void credentialsAcquired(QString id, QString token, QString secret, QString consumer, QString consumerSecret, bool found);
+    void tokenReceived(const TokenResponse& token);
+    void accountRegistered(const AccountResponse& account);
+    void errorOcurred(const ErrorResponse&);
 
 private:
     bool _serviceEnabled = false;
+    QString _tempPassword;
     QDBusConnection _conn;
     keyring::Keyring* _keyring;
+    IdentityProvider provider;
 };
 
 }

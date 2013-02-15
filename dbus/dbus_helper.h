@@ -75,7 +75,4 @@ public:
 
 } // dbus
 
-Q_DECLARE_METATYPE(DBusStringHash)
-Q_DECLARE_METATYPE(DBusObjectPathHash)
-
 #endif // DBUS_HELPER_H

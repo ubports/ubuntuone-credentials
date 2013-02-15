@@ -52,7 +52,7 @@ public:
 
     void openSession();
     void getCredentials(QString id);
-    void setCredentials(QString id, QString token, QString tokenSecret);
+    void setCredentials(QString id, QString token, QString tokenSecret, QString consumer, QString consumerSecret);
     void deleteCredentials(QString id);
 
 Q_SIGNALS:
@@ -61,7 +61,7 @@ Q_SIGNALS:
     void sessionOpenError();
 
     // signals used to let the user know that we did retrieve the data
-    void credentialsFound(QString id, QString token, QString tokenSecret, bool found);
+    void credentialsFound(QString id, QString token, QString tokenSecret, QString consumer, QString consumerSecret, bool found);
     void credentialsError(QString id);
     void credentialsSet(QString id, bool stored);
     void credentialsDeleted(QString id, bool deleted);

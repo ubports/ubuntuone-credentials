@@ -23,6 +23,8 @@ public:
     QString accId;
     QString token;
     QString tokenSecret;
+    QString consumer;
+    QString consumerSecret;
     QString interfacePath;
     QList<QDBusObjectPath> unlocked;
     QList<QDBusObjectPath> locked;

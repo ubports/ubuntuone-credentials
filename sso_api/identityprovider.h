@@ -3,10 +3,9 @@
 
 #include "network.h"
 #include "requests.h"
+#include "responses.h"
 
 #include <QObject>
-#include <QtNetwork/QNetworkAccessManager>
-#include <QtNetwork/QNetworkReply>
 
 namespace SSO { /* TODO: is this a good/correct name? */
 
@@ -16,20 +15,20 @@ class IdentityProvider : public QObject
 public:
     explicit IdentityProvider(QObject *parent = 0);
 
-    void GetToken(const Token& token);
-    /*void AddOtp();*/
-    /*void AddOtpHandler();*/
-
-    void CreateAccount(const Account& account);
-    /*void AddCaptcha();*/
-    /*void AddCaptchaHandler();*/
+    void GetToken(const TokenRequest& token);
+    void CreateAccount(const AccountRequest& account);
 
 signals:
+    void TokenGranted(const TokenResponse& token);
+    void AccountGranted(const AccountResponse& account);
+    void ErrorOccurred(const ErrorResponse& error);
 
 public slots:
+    void OnTokenGranted(const TokenResponse& token);
+    void OnAccountGranted(const AccountResponse& account);
+    void OnErrorOccurred(const ErrorResponse& error);
 
 private slots:
-    void reply_obtained(QNetworkReply*);
 
 private:
     Network* network;
