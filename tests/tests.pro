@@ -13,6 +13,6 @@ INCLUDEPATH += ../ sso_api
 LIBS += ../lib/libssolib.a
 
 # Input
-HEADERS += sso_api/*
+HEADERS += sso_api/*.h
 SOURCES += main.cpp \
-    sso_api/*
+    sso_api/*.cpp
