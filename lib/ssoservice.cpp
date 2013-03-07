@@ -48,7 +48,7 @@ SSOService::SSOService(QObject *parent) :
                   this, SLOT(credentialsAcquired(QString,QString,QString,QString,QString,bool)));
     this->connect(_keyring, SIGNAL(credentialsSet(QString, bool)), this, SLOT(credentialsSet(QString, bool)));
 
-    this->connect(&(this->provider), SIGNAL(TokenGranted(const TokenResponse&)), this, SLOT(tokenReceived(const TokenResponse&)));
+    this->connect(&(this->provider), SIGNAL(OAuthTokenGranted(const OAuthTokenResponse&)), this, SLOT(tokenReceived(const OAuthTokenResponse&)));
     this->connect(&(this->provider), SIGNAL(AccountGranted(const AccountResponse&)), this, SLOT(accountRegistered(const AccountResponse&)));
     this->connect(&(this->provider), SIGNAL(ErrorOccurred(const ErrorResponse&)), this, SLOT(errorOcurred(const ErrorResponse&)));
 }
@@ -103,12 +103,12 @@ void SSOService::accountRegistered(const AccountResponse& account)
 
 void SSOService::login(QString email, QString password)
 {
-    TokenRequest request(email, password, TOKEN_NAME, NULL);
+    OAuthTokenRequest request(email, password, TOKEN_NAME, NULL);
 
-    this->provider.GetToken(request);
+    this->provider.GetOAuthToken(request);
 }
 
-void SSOService::tokenReceived(const TokenResponse& token)
+void SSOService::tokenReceived(const OAuthTokenResponse& token)
 {
     // Save the Tokens in the Keyring
     this->_keyring->setCredentials(TOKEN_NAME, token.token_key(), token.token_secret(),

@@ -2,7 +2,6 @@
  *
  * Copyright 2013 Canonical Ltd.
  * Author: Diego Sarmentero <diego.sarmentero@canonical.com>
- * Author: Brian Curtin <brian.curtin@canonical.com>
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 3, as published
@@ -30,55 +29,33 @@
  * files in the program, then also delete it here.
  */
 
-#ifndef _NETWORK_H_
-#define _NETWORK_H_
+#include <QCoreApplication>
 
-#include "responses.h"
+#include "sso_api/requests.h"
+#include "sso_api/identityprovider.h"
 
-#include <QDebug>
-#include <QObject>
-#include <QString>
-#include <QtNetwork/QNetworkAccessManager>
-#include <QtNetwork/QNetworkReply>
-
-namespace SSO {
-
-//static QString API_BASE = "https://login.ubuntu.com/api/v2/";
-
-class Network : public QObject
+int main(int argc, char *argv[])
 {
-    Q_OBJECT
-public:
-    explicit Network(QObject *parent = 0);
+    QCoreApplication a(argc, argv);
 
-    template <class T>
-    void Post(const T& request)
-    {
-        qDebug() << request.url();
-        this->_request->setUrl(request.url());
-        this->_nam->post(*this->_request, request.serialize());
-    }
+    SSO::IdentityProvider provider;
 
-signals:
-    void TokenGranted(const TokenResponse& token);
-    void AccountGranted(const AccountResponse& account);
-    void ErrorOccurred(const ErrorResponse& error);
-    
-public slots:
+    /*
+    SSO::PasswordTokenRequest request(getenv("EMAIL"));
+    provider.GetPasswordToken(request);
+    */
 
-private slots:
-    void OnReply(QNetworkReply*);
+    SSO::OAuthTokenRequest request(getenv("EMAIL"), getenv("PASSWORD"),
+                                   "sso-test",
+                                   NULL);
+                                   //"incorrectotp");
+    provider.GetOAuthToken(request);
 
-private:
-    void ProcessTokensReply(const QJsonObject& object);
-    void ProcessAccountsReply(const QJsonObject& object);
+    /*
+    SSO::AccountRequest request(getenv("EMAIL"), getenv("PASSWORD"), "brian",
+                                NULL, NULL, true);
+    provider.CreateAccount(request);
+    */
 
-    QNetworkAccessManager* _nam;
-    QNetworkRequest* _request;
-
-    static const QString _tokensApi, _accountsApi;
-};
-
-} /* end SSO namespace */
-
-#endif /* _NETWORK_H_ */
+    return a.exec();
+}

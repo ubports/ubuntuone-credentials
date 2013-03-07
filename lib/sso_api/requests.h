@@ -7,6 +7,9 @@
 namespace SSO {
 
 static QString API_BASE = "https://login.ubuntu.com/api/v2/";
+static QString OAUTH_API = API_BASE + "tokens/oauth";
+static QString PASSWORD_API = API_BASE + "tokens/password";
+static QString ACCOUNTS_API = API_BASE + "accounts";
 
 class RequestInterface
 {
@@ -20,11 +23,12 @@ protected:
     QUrl _url;
 };
 
-class TokenRequest : public RequestInterface
+class OAuthTokenRequest : public RequestInterface
 {
 public:
-    TokenRequest();
-    TokenRequest(QString email, QString password, QString token, QString otp);
+    OAuthTokenRequest();
+    OAuthTokenRequest(QString email, QString password,
+                      QString token, QString otp);
 
     QByteArray serialize() const;
 
@@ -69,6 +73,21 @@ public:
 private:
     QString _email, _password, _name, _captchaId, _captchaSolution;
     bool _createCaptcha;
+};
+
+class PasswordTokenRequest : public RequestInterface
+{
+public:
+    PasswordTokenRequest();
+    PasswordTokenRequest(QString email);
+
+    QByteArray serialize() const;
+
+    QString email() const { return _email; }
+    void email(QString& val) { _email = val; }
+
+private:
+    QString _email;
 };
 
 } /* end SSO namespace */

@@ -97,9 +97,11 @@ void Network::OnReply(QNetworkReply* reply)
 
     /* TODO: map out urls to reply parsers */
     if (httpStatus == 200 || httpStatus == 201) {
-        if (reply->url() == API_BASE + "tokens")
-            ProcessTokensReply(object);
-        else if (reply->url() == API_BASE + "accounts")
+        if (reply->url() == OAUTH_API)
+            ProcessOAuthTokenReply(object);
+        else if (reply->url() == PASSWORD_API)
+            ProcessPasswordTokenReply(object);
+        else if (reply->url() == ACCOUNTS_API)
             ProcessAccountsReply(object);
     } else /* Statuses outside 200, 201 are fails */ {
         QVariant phraseAttr = reply->attribute(
@@ -180,12 +182,20 @@ void Network::ProcessAccountsReply(const QJsonObject& object)
     emit AccountGranted(response);
 }
 
-void Network::ProcessTokensReply(const QJsonObject& object)
+void Network::ProcessPasswordTokenReply(const QJsonObject& object)
+{
+    PasswordTokenResponse response;
+    response.email(object.value("email").toString());
+
+    emit PasswordTokenGranted(response);
+}
+
+void Network::ProcessOAuthTokenReply(const QJsonObject& object)
 {
     /* TODO: may be able to speed this up by working with a map
              internal to the QJsonDocument, or something like that.*/
 
-    TokenResponse response;
+    OAuthTokenResponse response;
     response.token_name(object.value("token_name").toString());
     response.token_secret(object.value("token_secret").toString());
     response.token_key(object.value("token_key").toString());
@@ -195,7 +205,7 @@ void Network::ProcessTokensReply(const QJsonObject& object)
     response.consumer_key(object.value("consumer_key").toString());
     response.href(object.value("href").toString());
 
-    emit TokenGranted(response);
+    emit OAuthTokenGranted(response);
 }
 
 } /* end SSO namespace */

@@ -18,10 +18,15 @@ ErrorResponse::ErrorResponse(const int& httpStatus, const QString& httpReason,
 {
 }
 
-TokenResponse::TokenResponse()
+OAuthTokenResponse::OAuthTokenResponse()
     : _token_name(""), _token_secret(""), _token_key(""),
       _date_created(""), _date_updated(""),
       _consumer_secret(""), _consumer_key(""), _href("")
+{
+}
+
+PasswordTokenResponse::PasswordTokenResponse()
+    : _email("")
 {
 }
 

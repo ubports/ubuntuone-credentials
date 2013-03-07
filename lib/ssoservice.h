@@ -66,7 +66,7 @@ private slots:
     void sessionDetected();
     void credentialsSet(QString id, bool stored);
     void credentialsAcquired(QString id, QString token, QString secret, QString consumer, QString consumerSecret, bool found);
-    void tokenReceived(const TokenResponse& token);
+    void tokenReceived(const OAuthTokenResponse& token);
     void accountRegistered(const AccountResponse& account);
     void errorOcurred(const ErrorResponse&);
 

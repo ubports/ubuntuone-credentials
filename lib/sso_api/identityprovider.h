@@ -15,16 +15,19 @@ class IdentityProvider : public QObject
 public:
     explicit IdentityProvider(QObject *parent = 0);
 
-    void GetToken(const TokenRequest& token);
+    void GetOAuthToken(const OAuthTokenRequest& token);
+    void GetPasswordToken(const PasswordTokenRequest& token);
     void CreateAccount(const AccountRequest& account);
 
 signals:
-    void TokenGranted(const TokenResponse& token);
+    void OAuthTokenGranted(const OAuthTokenResponse& token);
+    void PasswordTokenGranted(const PasswordTokenResponse& token);
     void AccountGranted(const AccountResponse& account);
     void ErrorOccurred(const ErrorResponse& error);
 
 public slots:
-    void OnTokenGranted(const TokenResponse& token);
+    void OnOAuthTokenGranted(const OAuthTokenResponse& token);
+    void OnPasswordTokenGranted(const PasswordTokenResponse& token);
     void OnAccountGranted(const AccountResponse& account);
     void OnErrorOccurred(const ErrorResponse& error);
 

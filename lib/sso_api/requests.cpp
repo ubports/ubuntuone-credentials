@@ -9,20 +9,20 @@ RequestInterface::RequestInterface(const QUrl& url)
 {
 }
 
-TokenRequest::TokenRequest()
-    : RequestInterface(API_BASE + "tokens"),
+OAuthTokenRequest::OAuthTokenRequest()
+    : RequestInterface(OAUTH_API),
       _email(""), _password(""), _name(""), _otp("")
 {
 }
 
-TokenRequest::TokenRequest(QString email, QString password,
-                           QString name, QString otp)
-    : RequestInterface(API_BASE + "tokens"),
+OAuthTokenRequest::OAuthTokenRequest(QString email, QString password,
+                                     QString name, QString otp)
+    : RequestInterface(OAUTH_API),
       _email(email), _password(password), _name(name), _otp(otp)
 {
 }
 
-QByteArray TokenRequest::serialize() const
+QByteArray OAuthTokenRequest::serialize() const
 {
     QJsonObject serializer;
     serializer.insert("email", this->email());
@@ -38,7 +38,7 @@ QByteArray TokenRequest::serialize() const
 }
 
 AccountRequest::AccountRequest()
-    : RequestInterface(API_BASE + "accounts"),
+    : RequestInterface(ACCOUNTS_API),
       _email(""), _password(""), _name(""),
       _captchaId(""), _captchaSolution(""),
       _createCaptcha(true)
@@ -48,13 +48,12 @@ AccountRequest::AccountRequest()
 AccountRequest::AccountRequest(QString email, QString password, QString name,
                                QString captchaId, QString captchaSolution,
                                bool createCaptcha)
-    : RequestInterface(API_BASE + "accounts"),
+    : RequestInterface(ACCOUNTS_API),
       _email(email), _password(password), _name(name),
       _captchaId(captchaId), _captchaSolution(captchaSolution),
-      _createCaptcha(true)
+      _createCaptcha(createCaptcha)
 {
 }
-
 
 QByteArray AccountRequest::serialize() const
 {
@@ -65,6 +64,25 @@ QByteArray AccountRequest::serialize() const
     data.insert("captcha_id", this->captchaId());
     data.insert("captcha_solution", this->captchaSolution());
     data.insert("create_captcha", this->createCaptcha());
+
+    QJsonDocument doc(data);
+    return doc.toJson();
+}
+
+PasswordTokenRequest::PasswordTokenRequest()
+    : RequestInterface(PASSWORD_API), _email("")
+{
+}
+
+PasswordTokenRequest::PasswordTokenRequest(QString email)
+    : RequestInterface(PASSWORD_API), _email(email)
+{
+}
+
+QByteArray PasswordTokenRequest::serialize() const
+{
+    QJsonObject data;
+    data.insert("email", this->email());
 
     QJsonDocument doc(data);
     return doc.toJson();

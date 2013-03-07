@@ -37,10 +37,10 @@ private:
             _captchaId, _captchaMessage, _email;
 };
 
-class TokenResponse
+class OAuthTokenResponse
 {
 public:
-    TokenResponse();
+    OAuthTokenResponse();
 
     QString token_name() const { return _token_name; }
     QString token_secret() const { return _token_secret; }
@@ -64,6 +64,20 @@ private:
     QString _token_name, _token_secret, _token_key,
             _date_created, _date_updated,
             _consumer_secret, _consumer_key, _href;
+};
+
+class PasswordTokenResponse
+{
+public:
+    PasswordTokenResponse();
+
+    QString email() const { return _email; }
+
+    void email(QString val) { _email = val; }
+
+private:
+    QString _email;
+  
 };
 
 class AccountResponse
