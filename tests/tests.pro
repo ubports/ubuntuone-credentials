@@ -10,7 +10,7 @@ TARGET = tests
 
 INCLUDEPATH += ../ sso_api
 
-LIBS += ../lib/libssolib.a
+LIBS += -L../lib -lssolib
 
 # Input
 HEADERS += sso_api/*.h
