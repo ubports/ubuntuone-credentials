@@ -83,4 +83,26 @@ void TestAccountRequests::testValues()
     QCOMPARE(request.createCaptcha(), create);
 }
 
+TestPasswordTokenRequests::TestPasswordTokenRequests()
+    : test_email(QUuid::createUuid().toString())
+{
+}
+
+void TestPasswordTokenRequests::testDefaults()
+{
+    SSO::PasswordTokenRequest request;
+
+    QString empty("");
+
+    QCOMPARE(request.email(), empty);
+}
+
+void TestPasswordTokenRequests::testValues()
+{
+    SSO::PasswordTokenRequest request;
+
+    request.email(this->test_email);
+
+    QCOMPARE(request.email(), this->test_email);
+}
 

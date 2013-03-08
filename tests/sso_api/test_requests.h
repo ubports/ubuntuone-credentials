@@ -32,4 +32,18 @@ private slots:
     void testValues();
 };
 
+class TestPasswordTokenRequests : public QObject
+{
+    Q_OBJECT
+public:
+    TestPasswordTokenRequests();
+
+private:
+    QString test_email;
+
+private slots:
+    void testDefaults();
+    void testValues();
+};
+
 #endif /* _TEST_REQUESTS_H_ */
