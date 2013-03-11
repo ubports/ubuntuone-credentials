@@ -13,6 +13,8 @@ int main()
 
     /* Response tests */
     TestErrorResponses test_error_responses;
+    TestOAuthTokenResponses test_oauth_token_responses;
+    TestPasswordTokenResponses test_password_token_responses;
 
     int result = 0;
 
@@ -20,6 +22,8 @@ int main()
     result += QTest::qExec(&test_password_token_requests);
     result += QTest::qExec(&test_account_requests);
     result += QTest::qExec(&test_error_responses);
+    result += QTest::qExec(&test_oauth_token_responses);
+    result += QTest::qExec(&test_password_token_responses);
 
     return result;
 }
