@@ -36,12 +36,11 @@ private slots:
     void testValues();
 };
 
-/*
-class TestPasswordTokenResponse : public QObject
+class TestPasswordTokenResponses : public QObject
 {
     Q_OBJECT
 public:
-    TestPasswordTokenResponse();
+    TestPasswordTokenResponses();
 
 private:
     QString test_email;
@@ -51,6 +50,7 @@ private slots:
     void testValues();
 };
 
+/*
 class TestAccountResponse : public QObject
 {
     Q_OBJECT

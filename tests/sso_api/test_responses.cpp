@@ -105,3 +105,26 @@ void TestOAuthTokenResponses::testValues()
     QCOMPARE(response.consumer_key(), this->test_consumer_key);
     QCOMPARE(response.href(), this->test_href);
 }
+
+TestPasswordTokenResponses::TestPasswordTokenResponses()
+    : test_email(QUuid::createUuid().toString())
+{
+}
+
+void TestPasswordTokenResponses::testDefaults()
+{
+    SSO::PasswordTokenResponse response;
+
+    QString empty("");
+
+    QCOMPARE(response.email(), empty);
+}
+
+void TestPasswordTokenResponses::testValues()
+{
+    SSO::PasswordTokenResponse response;
+
+    response.email(this->test_email);
+
+    QCOMPARE(response.email(), this->test_email);
+}
