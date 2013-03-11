@@ -16,18 +16,18 @@ CONFIG   -= app_bundle
 TEMPLATE = lib
 
 
-SOURCES += main.cpp \
+SOURCES += \
     keyring/*.cpp \
     dbus/*.cpp \
     sso_api/*.cpp \
-    core/*.cpp \
+    main/*.cpp \
     ssoservice.cpp
 
 HEADERS += \
     keyring/*.h \
     dbus/*.h \
     sso_api/*.h \
-    core/*.h \
+    main/*.h \
     ssoservice.h \
-    core/user.h
+    main/user.h
 
