@@ -8,7 +8,6 @@ class TestErrorResponses: public QObject
     Q_OBJECT
 public:
     TestErrorResponses();
-    ~TestErrorResponses() {};
 
 private:
     int test_httpStatus;
