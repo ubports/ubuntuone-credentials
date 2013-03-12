@@ -49,21 +49,20 @@ private slots:
     void testValues();
 };
 
-/*
-class TestAccountResponse : public QObject
+class TestAccountResponses : public QObject
 {
     Q_OBJECT
 public:
-    TestAccountResponse();
+    TestAccountResponses();
 
 private:
-    QString status, openid, displayname, href, email;
-    QStringList emails;
+    QString test_status, test_openid, test_displayname, test_href,
+            test_email;
+    QStringList test_emails;
 
 private slots:
     void testDefaults();
     void testValues();
-}
-*/
+};
 
 #endif /* _TEST_RESPONSES_H_ */

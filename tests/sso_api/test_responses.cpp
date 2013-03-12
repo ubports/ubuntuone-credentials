@@ -128,3 +128,45 @@ void TestPasswordTokenResponses::testValues()
 
     QCOMPARE(response.email(), this->test_email);
 }
+
+TestAccountResponses::TestAccountResponses()
+    : test_status(QUuid::createUuid().toString()),
+      test_openid(QUuid::createUuid().toString()),
+      test_displayname(QUuid::createUuid().toString()),
+      test_href(QUuid::createUuid().toString()),
+      test_email(QUuid::createUuid().toString())
+{
+}
+
+void TestAccountResponses::testDefaults()
+{
+    SSO::AccountResponse response;
+
+    QString empty("");
+
+    QCOMPARE(response.status(), empty);
+    QCOMPARE(response.openid(), empty);
+    QCOMPARE(response.displayname(), empty);
+    QCOMPARE(response.href(), empty);
+    QCOMPARE(response.email(), empty);
+    /*QCOMPARE(response.emails(), empty);*/
+}
+
+void TestAccountResponses::testValues()
+{
+    SSO::AccountResponse response;
+
+    response.status(this->test_status);
+    response.openid(this->test_openid);
+    response.displayname(this->test_displayname);
+    response.href(this->test_href);
+    response.email(this->test_email);
+    /*response.emails(this->test_emails);*/
+
+    QCOMPARE(response.status(), this->test_status);
+    QCOMPARE(response.openid(), this->test_openid);
+    QCOMPARE(response.displayname(), this->test_displayname);
+    QCOMPARE(response.href(), this->test_href);
+    QCOMPARE(response.email(), this->test_email);
+    /*QCOMPARE(response.emails(), this->test_emails);*/
+}
