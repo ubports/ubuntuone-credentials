@@ -4,6 +4,9 @@
 
 QT += testlib
 CONFIG += testcase
+# Include the rpath libdir to run the test program
+CONFIG += rpath_libdirs
+QMAKE_LFLAGS += "-Wl,-rpath,../lib"
 
 TEMPLATE = app
 TARGET = tests
