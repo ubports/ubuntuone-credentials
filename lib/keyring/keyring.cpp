@@ -156,7 +156,7 @@ private:
     QSharedPointer<SessionInterface> _session;
     QSharedPointer<InterfaceFactory> _interfaceFactory;
 
-    Keyring* q_ptr;
+    Keyring *q_ptr;
 };
 
 KeyringPrivate::_init KeyringPrivate::_initializer;
@@ -175,9 +175,9 @@ QString KeyringPrivate::ITEM_ATTRIBUTES_PROPERTY = "org.freedesktop.Secret.Item.
 QString KeyringPrivate::NO_PROMPT_REQUIRED = "/";
 
 KeyringPrivate::KeyringPrivate(QDBusConnection connection, Keyring* parent, QString windowId) :
+    _windowId(windowId),
     _conn(connection),
-    q_ptr(parent),
-    _windowId(windowId)
+    q_ptr(parent)
 {
     Q_Q(Keyring);
     qDebug() << "Keyring instance created.";
@@ -729,7 +729,6 @@ void KeyringPrivate::onCreateItem(QDBusPendingCallWatcher* call, QObject* obj)
 
 void KeyringPrivate::onUnlock(QDBusPendingCallWatcher* call, QObject* obj)
 {
-    Q_Q(Keyring);
     AsyncCallData* data = (AsyncCallData*)obj;
     QDBusPendingReply<QList<QDBusObjectPath> , QDBusObjectPath> reply = *call;
 
