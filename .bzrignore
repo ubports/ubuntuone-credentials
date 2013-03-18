@@ -1,2 +1,12 @@
+CMakeFiles
+CMakeCache.txt
+CPackConfig.cmake
+CPackSourceConfig.cmake
 Makefile
-
+cmake_install.cmake
+test-ubuntuoneauth
+moc_*.cpp
+*_automoc.cpp
+*.so*
+*.tar.bz2
+*.tar.gz
