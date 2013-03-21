@@ -2,7 +2,7 @@
 
 #include "test_responses.h"
 
-#include "lib/sso_api/responses.h"
+#include "../lib/sso_api/responses.h"
 
 TestErrorResponses::TestErrorResponses()
     : test_httpStatus(123),

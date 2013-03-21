@@ -16,27 +16,19 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INTERFACE_FACTORY_H
-#define INTERFACE_FACTORY_H
+#include "user.h"
 
-#include "collection.h"
-#include "item.h"
-#include "service.h"
+namespace SSO {
 
-class InterfaceFactory
+User::User(SSOService *parent) :
+    QObject(parent)
 {
+    this->_service = parent;
+}
 
-public:
-    InterfaceFactory();
-    ~InterfaceFactory();
+bool User::sessionOpened()
+{
+    return this->_service->sessionOpened();
+}
 
-    template <class T>
-    T* create(const QString &service, const QString &path,
-        const QDBusConnection &connection, QObject *parent = 0)
-    {
-        return new T(service, path, connection, parent);
-    }
-
-};
-
-#endif // INTERFACE_FACTORY_H
+}
