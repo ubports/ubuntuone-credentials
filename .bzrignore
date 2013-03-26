@@ -4,9 +4,13 @@ CPackConfig.cmake
 CPackSourceConfig.cmake
 Makefile
 cmake_install.cmake
+test-music-login
 test-ubuntuoneauth
 moc_*.cpp
+ui_*.h
 *_automoc.cpp
+*_resources.cpp
+*.depends
 *.so*
 *.tar.bz2
 *.tar.gz

@@ -1,0 +1,106 @@
+QMainWindow {
+    background-color: #f9f9f8;
+}
+
+QFrame#U1Header {
+    background-color: #494845;
+    background-image: url(:/img/texture);
+}
+
+QFrame#U1Header > QLabel {
+    color: white;
+}
+
+QLabel#lblError:enabled {
+    color: white;
+    background-color: red;
+}
+
+QLabel#lblError:disabled {
+    color: transparent;
+    background-color: transparent;
+}
+
+Header {
+    background-color: #ebe9e8;
+}
+
+Footer {
+    background-color: #ebebeb;
+}
+
+QFrame {
+    border: none;
+    border-color: #333333;
+}
+
+QPushButton {
+    border-radius: 5px;
+    border-style: solid;
+    padding: 6px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-width: 1px;
+}
+
+QPushButton:focus {
+    border-width: 2px;
+    /* reduce the padding since we have a 2px border now */
+    padding: 5px;
+    padding-left: 19px;
+    padding-right: 19px;
+}
+
+QPushButton:disabled {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+        stop: 0 #eaeaea, stop: 1.0 #cacaca);
+    color: #595959;
+    border-color: #939389;
+}
+
+QPushButton:enabled {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+        stop: 0 white, stop: 1.0 #e6e6e6);
+    color: #333333;
+    border-color: #999999;
+}
+
+QPushButton:enabled:hover {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+        stop: 0 white, stop: 1.0 #ededed);
+}
+
+QPushButton:enabled:pressed {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+        stop: 0 #d9d9d9,stop: 1.0 #fefefe);
+}
+
+QPushButton:default:enabled {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+        stop: 0 #fe9e84,stop: 1.0 #dd4814);
+    color: white;
+    border-color: #999999;
+}
+
+QPushButton:default:enabled:hover {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+        stop: 0 #ffb19c,stop: 1.0 #dd4814);
+}
+
+QPushButton:default:enabled:pressed {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+        stop: 0 #b93f14,stop: 1.0 #dd4814);
+}
+
+QFrame#frm_box {
+    border-radius: 5px;
+    border-style: solid;
+    border-color: #939389;
+    border-width: 1px;
+    color: white;
+    min-height: 100px;
+}
+
+LoadingOverlay {
+    background: transparent;
+}

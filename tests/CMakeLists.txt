@@ -16,17 +16,17 @@ target_link_libraries (${TESTS_TARGET}
   -L${CMAKE_BINARY_DIR}/lib
   ${AUTH_LIB_NAME})
 
-add_custom_target(check
+add_custom_target(ubuntuoneauth-tests
     COMMAND ${CMAKE_CURRENT_BINARY_DIR}/${TESTS_TARGET}
     DEPENDS ${TESTS_TARGET}
 )
 
-add_custom_target(check-valgrind
+add_custom_target(ubuntuoneauth-tests-valgrind
     COMMAND valgrind --tool=memcheck ${CMAKE_CURRENT_BINARY_DIR}/${TESTS_TARGET}
     DEPENDS ${TESTS_TARGET}
 )
 
-add_custom_target(check-valgrind-leaks
+add_custom_target(ubuntuoneauth-tests-valgrind-leaks
     COMMAND valgrind --tool=memcheck --track-origins=yes --num-callers=40 --leak-resolution=high --leak-check=full ${CMAKE_CURRENT_BINARY_DIR}/${TESTS_TARGET}
     DEPENDS ${TESTS_TARGET}
 )
