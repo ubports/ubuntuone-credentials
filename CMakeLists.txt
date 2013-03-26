@@ -14,6 +14,10 @@ SET (AUTH_LIB_NAME ubuntuoneauth-${AUTH_LIB_API_VERSION})
 SET (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O2 -g -Wall -Werror -fPIC")
 SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -O2 -g -Wall -Werror -fPIC")
 
+# Allow specifying the libdir to use for the C library
+SET (LIB_SUFFIX "" CACHE STRING "Define suffix of library directory name.")
+SET (LIB_INSTALL_DIR "lib${LIB_SUFFIX}")
+
 include_directories(${CMAKE_SOURCE_DIR}/lib)
 
 # A rule and variables for creating a tarball distribution
@@ -26,4 +30,21 @@ add_custom_target(dist
 
 
 add_subdirectory(lib)
+add_subdirectory(music-login)
 add_subdirectory(tests)
+
+# We need to add these here which simply depend on other test rules, as
+# CMake doesn't allow defining a "check" rule in multiple places.
+# We use $namespace-tests[-valgrind[-leaks]] for the test names in subdirs,
+# and depend on them here, so that 'make check' will run them all.
+add_custom_target(check
+  DEPENDS ubuntuoneauth-tests music-login-tests
+)
+
+add_custom_target(check-valgrind
+  DEPENDS ubuntuoneauth-tests-valgrind music-login-tests-valgrind
+)
+
+add_custom_target(check-valgrind-leaks
+  DEPENDS ubuntuoneauth-tests-valgrind-leaks music-login-tests-valgrind-leaks
+)

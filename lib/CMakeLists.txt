@@ -3,10 +3,6 @@ SET (CMAKE_INCLUDE_CURRENT_DIR ON)
 SET (CMAKE_AUTOMOC ON)
 find_package(Qt5Core REQUIRED)
 
-# Allow specifying the libdir to use for the C library
-SET (LIB_SUFFIX "" CACHE STRING "Define suffix of library directory name.")
-SET (LIB_INSTALL_DIR "lib${LIB_SUFFIX}")
-
 # Allow the developer to select if Dynamic or Static libraries are built
 OPTION (BUILD_STATIC_LIBS "Build Static Libraries" OFF)
 
