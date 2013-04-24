@@ -12,8 +12,8 @@ FILE (GLOB SOURCES sso_api/*.cpp main.cpp)
 add_executable (${TESTS_TARGET} ${SOURCES})
 qt5_use_modules (${TESTS_TARGET} Test)
 target_link_libraries (${TESTS_TARGET}
-  -Wl,-rpath,${CMAKE_BINARY_DIR}/lib
-  -L${CMAKE_BINARY_DIR}/lib
+  -Wl,-rpath,${CMAKE_BINARY_DIR}/libubuntuoneauth
+  -L${CMAKE_BINARY_DIR}/libubuntuoneauth
   ${AUTH_LIB_NAME})
 
 add_custom_target(ubuntuoneauth-tests

@@ -4,11 +4,16 @@ cmake_minimum_required (VERSION 2.8.9)
 PROJECT (ubuntuone-credentials)
 SET (PROJECT_VERSION 4.1.92)
 
-# Some variables for the library build
+# Some variables for the library builds
 SET (AUTH_LIB_VERSION 0.1.0)
 SET (AUTH_LIB_SOVERSION 0)
 SET (AUTH_LIB_API_VERSION 2.0)
 SET (AUTH_LIB_NAME ubuntuoneauth-${AUTH_LIB_API_VERSION})
+
+SET (AUTHUI_LIB_VERSION 0.1.0)
+SET (AUTHUI_LIB_SOVERSION 0)
+SET (AUTHUI_LIB_API_VERSION 2.0)
+SET (AUTH_LIB_NAME ubuntuoneauthui-${AUTHUI_LIB_API_VERSION})
 
 # Some default CFLAGS
 SET (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O2 -g -Wall -Werror -fPIC")
@@ -29,7 +34,8 @@ add_custom_target(dist
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
 
-add_subdirectory(lib)
+add_subdirectory(libubuntuoneauth)
+add_subdirectory(libubuntuoneauthui)
 add_subdirectory(music-login)
 add_subdirectory(tests)
 
