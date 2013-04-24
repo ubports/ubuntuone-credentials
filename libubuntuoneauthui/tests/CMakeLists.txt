@@ -26,7 +26,7 @@ add_custom_target(ubuntuoneauthui-tests-valgrind
     DEPENDS ${AUTHUI_TESTS_TARGET}
 )
 
-add_custom_target(ubuntuoneauth-tests-valgrind-leaks
+add_custom_target(ubuntuoneauthui-tests-valgrind-leaks
     COMMAND valgrind --tool=memcheck --track-origins=yes --num-callers=40 --leak-resolution=high --leak-check=full ${CMAKE_CURRENT_BINARY_DIR}/${AUTHUI_TESTS_TARGET}
     DEPENDS ${AUTHUI_TESTS_TARGET}
 )

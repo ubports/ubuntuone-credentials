@@ -39,3 +39,5 @@ INSTALL (
   FILES ${HEADERS}
   DESTINATION include/${AUTH_LIB_NAME}
 )
+
+add_subdirectory(tests)
