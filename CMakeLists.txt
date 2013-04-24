@@ -23,7 +23,8 @@ SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -O2 -g -Wall -Werror -fPIC")
 SET (LIB_SUFFIX "" CACHE STRING "Define suffix of library directory name.")
 SET (LIB_INSTALL_DIR "lib${LIB_SUFFIX}")
 
-include_directories(${CMAKE_SOURCE_DIR}/lib)
+include_directories(${CMAKE_SOURCE_DIR}/libubuntuoneauth
+  ${CMAKE_SOURCE_DIR}/libubuntuoneauthui)
 
 # A rule and variables for creating a tarball distribution
 SET (ARCHIVE_NAME ${CMAKE_PROJECT_NAME}-${PROJECT_VERSION})
@@ -35,6 +36,7 @@ add_custom_target(dist
 
 
 add_subdirectory(libubuntuoneauth)
+add_subdirectory(libubuntuoneauthui)
 add_subdirectory(music-login)
 
 # We need to add these here which simply depend on other test rules, as
@@ -42,13 +44,13 @@ add_subdirectory(music-login)
 # We use $namespace-tests[-valgrind[-leaks]] for the test names in subdirs,
 # and depend on them here, so that 'make check' will run them all.
 add_custom_target(check
-  DEPENDS ubuntuoneauth-tests music-login-tests
+  DEPENDS ubuntuoneauth-tests ubuntuoneauthui-tests music-login-tests
 )
 
 add_custom_target(check-valgrind
-  DEPENDS ubuntuoneauth-tests-valgrind music-login-tests-valgrind
+  DEPENDS ubuntuoneauth-tests-valgrind ubuntuoneauthui-tests-valgrind music-login-tests-valgrind
 )
 
 add_custom_target(check-valgrind-leaks
-  DEPENDS ubuntuoneauth-tests-valgrind-leaks music-login-tests-valgrind-leaks
+  DEPENDS ubuntuoneauth-tests-valgrind-leaks ubuntuoneauthui-tests-valgrind-leaks music-login-tests-valgrind-leaks
 )
