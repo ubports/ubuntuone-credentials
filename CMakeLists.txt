@@ -35,9 +35,7 @@ add_custom_target(dist
 
 
 add_subdirectory(libubuntuoneauth)
-add_subdirectory(libubuntuoneauthui)
 add_subdirectory(music-login)
-add_subdirectory(tests)
 
 # We need to add these here which simply depend on other test rules, as
 # CMake doesn't allow defining a "check" rule in multiple places.
