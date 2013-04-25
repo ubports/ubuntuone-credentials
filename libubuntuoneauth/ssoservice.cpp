@@ -22,7 +22,7 @@
 
 namespace SSO {
 
-#define TOKEN_NAME "UbuntuSSO"
+#define TOKEN_NAME "Ubuntu One"
 
 SSOService::SSOService(QObject *parent) :
     QObject(parent),
