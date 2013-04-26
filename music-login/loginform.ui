@@ -95,7 +95,7 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Email address invalid&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#eb1313;&quot;&gt;Email address invalid&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
      </item>
@@ -163,7 +163,7 @@
       </font>
      </property>
      <property name="text">
-      <string>I am a new customer</string>
+      <string>I am a new Ubuntu One user</string>
      </property>
      <property name="checked">
       <bool>false</bool>
@@ -178,7 +178,7 @@
       </font>
      </property>
      <property name="text">
-      <string>I am a returning customer and my password</string>
+      <string>I am a returning Ubuntu One user and my password is:</string>
      </property>
      <property name="checked">
       <bool>true</bool>
@@ -232,7 +232,7 @@
         </font>
        </property>
        <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#d50003;&quot;&gt;Password Invalid&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#eb1313;&quot;&gt;Password Invalid&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
      </item>

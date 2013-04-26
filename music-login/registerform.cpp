@@ -49,6 +49,8 @@ RegisterForm::RegisterForm(QWidget *parent) :
                      this, SLOT(validateForm()));
     QObject::connect(this->ui->lineConfirm, SIGNAL(textChanged(QString)),
                      this, SLOT(validateForm()));
+    QObject::connect(this->ui->checkBox, SIGNAL(clicked()),
+                     this, SLOT(validateForm()));
     QObject::connect(this->ui->lineName, SIGNAL(editingFinished()),
                      this, SLOT(showNameWarning()));
     QObject::connect(this->ui->linePassword, SIGNAL(editingFinished()),

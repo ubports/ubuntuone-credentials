@@ -59,6 +59,8 @@ private slots:
     void on_btnProceed_clicked();
     void on_lineEmail_returnPressed();
     void on_linePassword_returnPressed();
+    void on_radioNewCustomer_clicked();
+    void on_radioReturningCustomer_clicked();
     void showEmailWarning();
     void showPasswordWarning();
 
