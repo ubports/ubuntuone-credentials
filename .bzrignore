@@ -6,11 +6,14 @@ Makefile
 cmake_install.cmake
 test-music-login
 test-ubuntuoneauth
+test-ubuntuoneauthui
+ubuntuone-music-login
 moc_*.cpp
 ui_*.h
 *_automoc.cpp
 *_resources.cpp
 *.depends
-*.so*
+*.so
+*.so.*
 *.tar.bz2
 *.tar.gz

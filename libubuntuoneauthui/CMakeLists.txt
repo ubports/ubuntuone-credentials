@@ -14,19 +14,23 @@ IF (BUILD_STATIC_LIBS)
 ENDIF (BUILD_STATIC_LIBS)
 
 # The sources for building the library
-FILE (GLOB SOURCES keyring/*.cpp dbus/*.cpp sso_api/*.cpp main/*.cpp ssoservice.cpp)
-FILE (GLOB HEADERS keyring/*.h dbus/*.h sso_api/*.h main/*.h ssoservice.h)
+FILE (GLOB SOURCES *.cpp)
+FILE (GLOB HEADERS *.h)
 
-add_library (${AUTH_LIB_NAME} ${LIB_TYPE} ${SOURCES} ${HEADERS})
-qt5_use_modules (${AUTH_LIB_NAME} Core DBus Xml Network)
+add_library (${AUTHUI_LIB_NAME} ${LIB_TYPE} ${SOURCES} ${HEADERS})
+qt5_use_modules (${AUTHUI_LIB_NAME} Core DBus Xml Network)
+target_link_libraries (${AUTHUI_LIB_NAME}
+  -Wl,-rpath,${CMAKE_BINARY_DIR}/libubuntuoneauth
+  -L${CMAKE_BINARY_DIR}/libubuntuoneauth
+  ${AUTH_LIB_NAME})
 
-SET_TARGET_PROPERTIES(${AUTH_LIB_NAME} PROPERTIES
-  VERSION ${AUTH_LIB_VERSION}
-  SOVERSION ${AUTH_LIB_SOVERSION}
+SET_TARGET_PROPERTIES(${AUTHUI_LIB_NAME} PROPERTIES
+  VERSION ${AUTHUI_LIB_VERSION}
+  SOVERSION ${AUTHUI_LIB_SOVERSION}
 )
 
 INSTALL (
-  TARGETS ${AUTH_LIB_NAME}
+  TARGETS ${AUTHUI_LIB_NAME}
   ARCHIVE DESTINATION ${LIB_INSTALL_DIR}
   LIBRARY DESTINATION ${LIB_INSTALL_DIR}
 )
@@ -35,3 +39,5 @@ INSTALL (
   FILES ${HEADERS}
   DESTINATION include/${AUTH_LIB_NAME}
 )
+
+add_subdirectory(tests)

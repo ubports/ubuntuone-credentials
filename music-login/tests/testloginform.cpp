@@ -54,6 +54,15 @@ void TestLoginForm::cleanup()
     this->loginForm.hide();
 }
 
+void TestLoginForm::testButtonText()
+{
+    QCOMPARE(this->loginForm.ui->btnProceed->text(), QString("Proceed to Checkout"));
+    this->loginForm.ui->radioNewCustomer->clicked();
+    QCOMPARE(this->loginForm.ui->btnProceed->text(), QString("Continue"));
+    this->loginForm.ui->radioReturningCustomer->clicked();
+    QCOMPARE(this->loginForm.ui->btnProceed->text(), QString("Proceed to Checkout"));
+}
+
 void TestLoginForm::testCheckEmail()
 {
     this->loginForm.ui->lineEmail->setText("mail");

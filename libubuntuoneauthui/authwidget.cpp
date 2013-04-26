@@ -15,14 +15,3 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
-
-#include "test_requests.h"
-
-#include "sso_api/requests.h"
-
-void TestOAuthTokenRequests::testDefaults()
-{
-    SSO::OAuthTokenRequest request;
-
-    QVERIFY(1 == 1);
-}
