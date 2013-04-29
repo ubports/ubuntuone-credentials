@@ -90,7 +90,7 @@ void SSOService::accountRegistered(const AccountResponse& account)
 
 void SSOService::login(QString email, QString password)
 {
-    OAuthTokenRequest request(email, password, TOKEN_NAME, NULL);
+    OAuthTokenRequest request(email, password, this->_keyring->getTokenName(TOKEN_NAME), NULL);
 
     this->provider.GetOAuthToken(request);
 }

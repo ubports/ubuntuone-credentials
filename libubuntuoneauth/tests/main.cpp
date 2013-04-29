@@ -18,11 +18,15 @@
 
 #include <QtTest/QtTest>
 
+#include "keyring/test_keyring.h"
 #include "sso_api/test_requests.h"
 #include "sso_api/test_responses.h"
 
 int main()
 {
+
+    /* Keyring tests */
+    TestKeyring test_keyring;
 
     /* Request tests */
     TestOAuthTokenRequests test_oauth_token_requests;
@@ -36,6 +40,7 @@ int main()
 
     int result = 0;
 
+    result += QTest::qExec(&test_keyring);
     result += QTest::qExec(&test_oauth_token_requests);
     result += QTest::qExec(&test_password_token_requests);
     result += QTest::qExec(&test_account_requests);

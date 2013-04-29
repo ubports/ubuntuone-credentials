@@ -40,6 +40,7 @@ public:
     void getCredentials(QString id);
     void setCredentials(QString id, QString token, QString tokenSecret, QString consumer, QString consumerSecret);
     void deleteCredentials(QString id);
+    static QString getTokenName(QString id);
 
 Q_SIGNALS:
     void userCancelation(QString id);

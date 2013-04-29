@@ -7,10 +7,10 @@ SET (CMAKE_AUTOMOC ON)
 find_package(Qt5Core REQUIRED)
 
 # The sources for building the tests
-FILE (GLOB SOURCES sso_api/*.cpp main.cpp)
+FILE (GLOB SOURCES sso_api/*.cpp keyring/*.cpp main.cpp)
 
 add_executable (${TESTS_TARGET} ${SOURCES})
-qt5_use_modules (${TESTS_TARGET} Test)
+qt5_use_modules (${TESTS_TARGET} Test DBus Network)
 target_link_libraries (${TESTS_TARGET}
   -Wl,-rpath,${CMAKE_BINARY_DIR}/libubuntuoneauth
   -L${CMAKE_BINARY_DIR}/libubuntuoneauth
