@@ -19,11 +19,11 @@
 #include <functional>
 #include <QDBusPendingCallWatcher>
 #include <QHash>
+#include <QHostInfo>
 #include <QList>
 #include <QObject>
 #include <QDebug>
-#include <QJsonDocument>
-#include <QJsonObject>
+#include <QUrl>
 
 #include "dbus/signal_mapper.h"
 #include "async_call_data.h"
@@ -35,6 +35,8 @@
 #include "keyring_signal_mapper.h"
 #include "keyring.h"
 
+#define TOKEN_SEP " @ "
+#define TOKEN_SEP_REPLACEMENT " AT "
 
 namespace keyring
 {
@@ -125,6 +127,7 @@ protected:
 
 protected:
     static QString SECRET_SERVICE;
+    static QString TOKEN_NAME;
     static QString TOKEN_KEY;
     static QString TOKEN_SECRET_KEY;
     static QString CONSUMER_KEY;
@@ -161,9 +164,10 @@ private:
 
 KeyringPrivate::_init KeyringPrivate::_initializer;
 QString KeyringPrivate::SECRET_SERVICE = "org.freedesktop.secrets";
+QString KeyringPrivate::TOKEN_NAME = "name";
 QString KeyringPrivate::TOKEN_KEY = "token";
 QString KeyringPrivate::TOKEN_SECRET_KEY = "token_secret";
-QString KeyringPrivate::CONSUMER_KEY = "consumer";
+QString KeyringPrivate::CONSUMER_KEY = "consumer_key";
 QString KeyringPrivate::CONSUMER_SECRET_KEY = "consumer_secret";
 QString KeyringPrivate::ATTR_KEY_TYPE_KEY = "key-type";
 QString KeyringPrivate::ATTR_KEY_TYPE_VALUE = "sso token";
@@ -204,6 +208,7 @@ KeyringPrivate::KeyringPrivate(QDBusConnection connection, Keyring* parent, QStr
     _service = QSharedPointer<ServiceInterface>(
         _interfaceFactory->create<ServiceInterface>(SECRET_SERVICE, "/org/freedesktop/secrets", _conn));
 }
+
 
 /**
  * \fn void Keyring::openSession()
@@ -330,8 +335,8 @@ void KeyringPrivate::deleteCredentials(QString id)
 QHash<QString, QString> KeyringPrivate::getKeyringAttrs(QString id)
 {
     QHash<QString, QString> attrs;
-    attrs[KeyringPrivate::ATTR_KEY_TYPE_KEY] = "ubuntu sso token";
-    attrs[KeyringPrivate::ATTR_KEY_NAME_KEY] = id;
+    attrs[KeyringPrivate::ATTR_KEY_TYPE_KEY] = "Ubuntu SSO credentials";
+    attrs[KeyringPrivate::ATTR_KEY_NAME_KEY] = Keyring::getTokenName(id);
 
     qDebug() << "Generated attributes are:" << attrs[KeyringPrivate::ATTR_KEY_TYPE_KEY]
             << attrs[KeyringPrivate::ATTR_KEY_NAME_KEY];
@@ -442,13 +447,13 @@ void KeyringPrivate::onSearchItems(QDBusPendingCallWatcher* call, QObject* obj, 
     async_callback_cb unlockDbusError, locked_items_cb lockedItemsCb, async_callback_cb unlockedItemsCb,
     async_callback_cb credentialsNotFoundCb)
 {
-    qDebug() << "onSearchItemsForGet";
+    qDebug() << "onSearchItems";
     Q_Q(Keyring);
 
     QDBusPendingReply<QList<QDBusObjectPath>, QList<QDBusObjectPath>> reply = *call;
     AsyncCallData* data = (AsyncCallData*) obj;
 
-    qDebug() << "onSearchItemsFor accoutn id:" << data->accId;
+    qDebug() << "onSearchItemsFor account id:" << data->accId;
 
     ASSERT_DBUS_REPLY_IS_ERROR(call, reply, dbusErrorCb(data))
 
@@ -634,19 +639,24 @@ void KeyringPrivate::onCollectionUnlocked(QDBusPendingCallWatcher* call, QObject
     QScopedPointer<CollectionInterface> interface(
     _interfaceFactory->create<CollectionInterface>(SECRET_SERVICE, data->interfacePath, _conn));
 
-    // serialize token and token secret in json
-    QJsonObject secret;
-    secret.insert(TOKEN_KEY, data->token);
-    secret.insert(TOKEN_SECRET_KEY, data->tokenSecret);
-    secret.insert(CONSUMER_KEY, data->consumer);
-    secret.insert(CONSUMER_SECRET_KEY, data->consumerSecret);
+    // serialize token and token secret in query string
+    QStringList secret;
+    secret.prepend(QString(TOKEN_NAME) + "=" + QUrl::toPercentEncoding(Keyring::getTokenName(data->accId).replace(" ", "+"), "+", "@"));
+    secret.prepend(QString(TOKEN_KEY) + "=" + data->token);
+    secret.prepend(QString(TOKEN_SECRET_KEY) + "=" + data->tokenSecret);
+    secret.prepend(QString(CONSUMER_KEY) + "=" + data->consumer);
+    secret.prepend(QString(CONSUMER_SECRET_KEY) + "=" + data->consumerSecret);
 
-    QJsonDocument doc(secret);
-    QByteArray json = doc.toJson();
-    Secret secretStruct(QDBusObjectPath(_session->path()), QString("").toUtf8(), json, QString("application/octet-stream").toUtf8());
+    secret.sort();
+
+    QString secret_data = secret.join("&");
+    Secret secretStruct(QDBusObjectPath(_session->path()),
+                        QString("").toUtf8(),
+                        secret_data.toUtf8(),
+                        QString("application/octet-stream").toUtf8());
 
     QVariantMap properties;
-    properties[ITEM_LABEL_PROPERTY] = QString("Ubuntu SSO %1").arg(data->accId);
+    properties[ITEM_LABEL_PROPERTY] = QString("%1").arg(data->accId);
     properties[ITEM_ATTRIBUTES_PROPERTY] = dbus::DBusHelper::getVariant(getKeyringAttrs(data->accId));
 
     QDBusPendingReply<QDBusObjectPath, QDBusObjectPath> async = interface->CreateItem(properties, secretStruct, true);
@@ -683,12 +693,24 @@ void KeyringPrivate::onGetSecret(QDBusPendingCallWatcher* call, QObject* obj)
     ASSERT_DBUS_REPLY_IS_ERROR(call, reply, q->credentialsError(data->accId))
 
     Secret secret =  reply.argumentAt<0>();
-    QJsonDocument jsonData = QJsonDocument::fromJson(secret.getValue());
-    QJsonObject result = jsonData.object();
+    QString secretData = secret.getValue();
+    QStringList secretPairs = secretData.split("&");
+
+    QHash<QString, QString> result;
+    for (int i = 0; i < secretPairs.size(); ++i) {
+        QStringList pair = secretPairs.at(i).split("=");
+        if (pair.at(0) == KeyringPrivate::TOKEN_NAME)
+            result[pair.at(0)] = QString(pair.at(1)).replace("+", " ").replace("%40", "@");
+        else
+            result[pair.at(0)] = pair.at(1);
+    }
 
     // assert that the info is present
-    if (!result.contains(KeyringPrivate::TOKEN_KEY) || !result.contains(KeyringPrivate::TOKEN_SECRET_KEY) ||
-        !result.contains(KeyringPrivate::CONSUMER_KEY) || !result.contains(KeyringPrivate::CONSUMER_SECRET_KEY))
+    if (!result.contains(KeyringPrivate::TOKEN_NAME) ||
+        !result.contains(KeyringPrivate::TOKEN_KEY) ||
+        !result.contains(KeyringPrivate::TOKEN_SECRET_KEY) ||
+        !result.contains(KeyringPrivate::CONSUMER_KEY) ||
+        !result.contains(KeyringPrivate::CONSUMER_SECRET_KEY))
     {
         qCritical() << "Credentials could not be parsed keys missing.";
         emit q->credentialsError(data->accId);
@@ -697,10 +719,11 @@ void KeyringPrivate::onGetSecret(QDBusPendingCallWatcher* call, QObject* obj)
     }
 
     emit q->credentialsFound(data->accId,
-        result[KeyringPrivate::TOKEN_KEY].toString(),
-        result[KeyringPrivate::TOKEN_SECRET_KEY].toString(),
-        result[KeyringPrivate::CONSUMER_KEY].toString(),
-        result[KeyringPrivate::CONSUMER_SECRET_KEY].toString(), true);
+                             result[KeyringPrivate::TOKEN_KEY],
+                             result[KeyringPrivate::TOKEN_SECRET_KEY],
+                             result[KeyringPrivate::CONSUMER_KEY],
+                             result[KeyringPrivate::CONSUMER_SECRET_KEY],
+                             true);
     qDebug() << "Got credentials for account id:" << data->accId;
     call->deleteLater();
 }
@@ -793,6 +816,18 @@ void Keyring::deleteCredentials(QString id)
     d->deleteCredentials(id);
 }
 
+/**
+ * \fn QString Keyring::getTokenName(QString id)
+ *
+ * Compute the token name for the token, from the id and hostname.
+ */
+QString Keyring::getTokenName(QString id)
+{
+    QString computer_name = QHostInfo::localHostName();
+    computer_name.replace(TOKEN_SEP, TOKEN_SEP_REPLACEMENT);
+
+    return id + TOKEN_SEP + computer_name;
+}
 
 } // keyring
 
