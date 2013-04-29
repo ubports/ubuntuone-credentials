@@ -700,6 +700,8 @@ void KeyringPrivate::onGetSecret(QDBusPendingCallWatcher* call, QObject* obj)
     for (int i = 0; i < secretPairs.size(); ++i) {
         QStringList pair = secretPairs.at(i).split("=");
         if (pair.at(0) == KeyringPrivate::TOKEN_NAME)
+            // TODO: Need to figure out how to actually use the
+            // QUrl::fromPercentEncoding at this point in the code.
             result[pair.at(0)] = QString(pair.at(1)).replace("+", " ").replace("%40", "@");
         else
             result[pair.at(0)] = pair.at(1);
