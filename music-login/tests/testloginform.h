@@ -51,6 +51,7 @@ private slots:
     void testCheckEmailWarnings();
     void testCheckPasswordWarnings();
     void testButtonProceed();
+    void testButtonText();
     void cleanup();
 
 private:

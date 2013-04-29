@@ -98,6 +98,16 @@ void LoginForm::on_linePassword_returnPressed()
     this->ui->btnProceed->click();
 }
 
+void LoginForm::on_radioNewCustomer_clicked()
+{
+    this->ui->btnProceed->setText(tr("Continue"));
+}
+
+void LoginForm::on_radioReturningCustomer_clicked()
+{
+    this->ui->btnProceed->setText(tr("Proceed to Checkout"));
+}
+
 void LoginForm::showEmailWarning()
 {
     this->ui->lblEmailError->setVisible(!this->checkEmail());

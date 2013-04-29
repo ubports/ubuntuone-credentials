@@ -52,7 +52,7 @@
        <property name="font">
         <font>
          <family>Ubuntu</family>
-         <pointsize>16</pointsize>
+         <pointsize>25</pointsize>
         </font>
        </property>
        <property name="text">
