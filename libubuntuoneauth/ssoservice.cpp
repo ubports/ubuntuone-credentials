@@ -16,9 +16,13 @@
  * Boston, MA 02110-1301, USA.
  */
 
+#include "logging.h"
 #include "ssoservice.h"
 #include <QDebug>
+#include <QtGlobal>
 #include "sso_api/requests.h"
+
+using namespace UbuntuOne;
 
 namespace SSO {
 
@@ -28,6 +32,15 @@ SSOService::SSOService(QObject *parent) :
     QObject(parent),
     _conn(QDBusConnection::sessionBus())
 {
+    // Set up logging
+    AuthLogger::setupLogging();
+#if ENABLE_DEBUG
+    AuthLogger::setLogLevel(QtDebugMsg);
+#else
+    if (qgetenv("U1_DEBUG") != "")
+        AuthLogger::setLogLevel(QtDebugMsg);
+#endif
+
     // create the keyring that will be used to store and retrieve the different tokens
     _keyring = new keyring::Keyring(_conn);
     this->connect(_keyring, SIGNAL(sessionOpened()), this, SLOT(sessionDetected()));

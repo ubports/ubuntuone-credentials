@@ -14,8 +14,8 @@ IF (BUILD_STATIC_LIBS)
 ENDIF (BUILD_STATIC_LIBS)
 
 # The sources for building the library
-FILE (GLOB SOURCES keyring/*.cpp dbus/*.cpp sso_api/*.cpp main/*.cpp ssoservice.cpp)
-FILE (GLOB HEADERS keyring/*.h dbus/*.h sso_api/*.h main/*.h ssoservice.h)
+FILE (GLOB SOURCES keyring/*.cpp dbus/*.cpp sso_api/*.cpp main/*.cpp *.cpp)
+FILE (GLOB HEADERS keyring/*.h dbus/*.h sso_api/*.h main/*.h *.h)
 
 add_library (${AUTH_LIB_NAME} ${LIB_TYPE} ${SOURCES} ${HEADERS})
 qt5_use_modules (${AUTH_LIB_NAME} Core DBus Xml Network)
