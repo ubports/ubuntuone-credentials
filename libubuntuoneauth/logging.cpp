@@ -16,7 +16,6 @@
  * Boston, MA 02110-1301, USA.
  */
 #include <QDateTime>
-#include <QDebug>
 #include <QDir>
 #include <QStandardPaths>
 
@@ -24,7 +23,7 @@
 
 namespace UbuntuOne {
 
-    static void *_logger;
+    static void *_logger = NULL;
     static void _realMessageHandler(QtMsgType type,
                                     const QMessageLogContext &context,
                                     const QString &message)
@@ -61,28 +60,40 @@ namespace UbuntuOne {
             _logger = new AuthLogger(filename);
     }
 
-    void AuthLogger::setLogLevel(QtMsgType level)
+    void AuthLogger::stopLogging() {
+        if (_logger != NULL) {
+            delete (AuthLogger *)_logger;
+            _logger = NULL;
+        }
+    }
+
+    bool AuthLogger::setLogLevel(QtMsgType level)
     {
-        ((AuthLogger *)_logger)->_logLevel = level;
+        if (_logger != NULL) {
+            ((AuthLogger *)_logger)->_logLevel = level;
+            return true;
+        }
+
+        return false;
     }
 
     const QString AuthLogger::getMessageTypeString(QtMsgType type)
     {
         switch (type) {
         case QtDebugMsg:
-            return "DEBUG";
+            return QStringLiteral("DEBUG");
             break;
         case QtWarningMsg:
-            return "WARNING";
+            return QStringLiteral("WARNING");
             break;
         case QtCriticalMsg:
-            return "CRITICAL";
+            return QStringLiteral("CRITICAL");
             break;
         case QtFatalMsg:
-            return "FATAL";
+            return QStringLiteral("FATAL");
             break;
         }
-        return "UNKNOWN";
+        return QStringLiteral("UNKNOWN");
     }
 
     QString AuthLogger::getLogDirectory()

@@ -15,18 +15,24 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
-#include <QByteArray>
+#ifndef _TEST_AUTH_LOGGING_H_
+#define _TEST_AUTH_LOGGING_H_
+
 #include <QtTest/QtTest>
 
-int main()
+class TestAuthLogger: public QObject
 {
-    QByteArray fake_home = QDir::currentPath().toUtf8() + "/_test_temp";
-    /* Need to alter some environment variables to avoid contamination. */
-    qputenv("HOME", fake_home);
-    qputenv("XDG_CACHE_HOME", fake_home);
-    qputenv("XDG_DATA_HOME", fake_home);
+    Q_OBJECT
+ public:
+    TestAuthLogger();
 
-    int result = 0;
+ private:
+    QString test_cache_path;
 
-    return result;
-}
+ private slots:
+    void testLogPath();
+    void testMessageTypeString();
+    void testLogLevel();
+};
+
+#endif /* _TEST_AUTH_LOGGING_H_ */

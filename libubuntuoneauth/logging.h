@@ -34,13 +34,14 @@ namespace UbuntuOne {
 
         AuthLogger(const QString filename = "");
 
-        QString getLogDirectory();
         void logMessage(QtMsgType type, const QMessageLogContext &context,
                         const QString &message);
 
         static void setupLogging(const QString filename = "");
-        static void setLogLevel(QtMsgType level);
+        static void stopLogging();
+        static bool setLogLevel(QtMsgType level);
         static const QString getMessageTypeString(QtMsgType type);
+        static QString getLogDirectory();
 
     private:
         bool _initialized = false;
