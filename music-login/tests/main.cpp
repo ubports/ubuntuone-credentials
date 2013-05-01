@@ -26,9 +26,10 @@
  * version.  If you delete this exception statement from all source
  * files in the program, then also delete it here.
  */
-
 #include <QApplication>
+#include <QByteArray>
 #include <QtTest/QtTest>
+
 #include "testheader.h"
 #include "testloginform.h"
 #include "testregisterform.h"
@@ -36,6 +37,12 @@
 
 int main(int argc, char *argv[])
 {
+    QByteArray fake_home = QDir::currentPath().toUtf8() + "/_test_temp";
+    /* Need to alter some environment variables to avoid contamination. */
+    qputenv("HOME", fake_home);
+    qputenv("XDG_CACHE_HOME", fake_home);
+    qputenv("XDG_DATA_HOME", fake_home);
+
     QApplication a(argc, argv);
     int result = 0;
 
