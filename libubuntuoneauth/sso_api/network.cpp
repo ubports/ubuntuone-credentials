@@ -15,12 +15,6 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
-
-#include "network.h"
-#include "responses.h"
-#include "requests.h"
-
-//#include <QVariantList>
 #include <QVariantMap>
 #include <QDebug>
 #include <QJsonDocument>
@@ -28,6 +22,11 @@
 #include <QJsonArray>
 
 #include <QStringList>
+
+#include "network.h"
+#include "responses.h"
+#include "requests.h"
+
 
 namespace SSO {
 
@@ -52,7 +51,7 @@ void Network::OnReply(QNetworkReply* reply)
     /* TODO: see if we really need to do this check, we could just operate
        on a bad value as being an error rather than the extra check? */
     if (!statusAttr.isValid()) {
-        qDebug() << "invalid status received!";
+        qDebug() << "Invalid status received!";
         return;
     }
 
