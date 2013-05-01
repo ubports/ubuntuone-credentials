@@ -21,7 +21,6 @@
 
 #include "responses.h"
 
-#include <QDebug>
 #include <QObject>
 #include <QString>
 #include <QtNetwork/QNetworkAccessManager>
@@ -40,7 +39,6 @@ public:
     template <class T>
     void Post(const T& request)
     {
-        qDebug() << request.url();
         this->_request->setUrl(request.url());
         this->_nam->post(*this->_request, request.serialize());
     }

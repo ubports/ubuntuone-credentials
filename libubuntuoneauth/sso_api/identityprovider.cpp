@@ -15,11 +15,11 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
+#include <QDebug>
 
 #include "identityprovider.h"
 #include "responses.h"
 
-#include <QDebug>
 
 namespace SSO {
 
@@ -62,53 +62,29 @@ void IdentityProvider::OnOAuthTokenGranted(const OAuthTokenResponse& token)
 {
     emit OAuthTokenGranted(token);
 
-    qDebug() << "OAuth Token received!";
-    qDebug() << "token_name: " << token.token_name();
-    qDebug() << "token_secret: " << token.token_secret();
-    qDebug() << "token_key: " << token.token_key();
-    qDebug() << "date_created: " << token.date_created();
-    qDebug() << "date_updated: " << token.date_updated();
-    qDebug() << "consumer_secret: " << token.consumer_secret();
-    qDebug() << "consumer_key: " << token.consumer_key();
-    qDebug() << "href: " << token.href();
+    qWarning() << "OAuth token received for " << token.token_name();
 }
 
 void IdentityProvider::OnPasswordTokenGranted(const PasswordTokenResponse& token)
 {
     emit PasswordTokenGranted(token);
 
-    qDebug() << "Password Token received!";
-    qDebug() << "email: " << token.email();
+    qWarning() << "Password token received for " << token.email();
 }
 
 void IdentityProvider::OnAccountGranted(const AccountResponse& account)
 {
     emit AccountGranted(account);
 
-    qDebug() << "Account granted!";
-    qDebug() << "status" << account.status();
-    qDebug() << "openid" << account.openid();
-    qDebug() << "displayname" << account.displayname();
-    qDebug() << "email" << account.email();
-    qDebug() << "href" << account.href();
-    qDebug() << "emails" << account.emails();
+    qWarning() << "Account created for " << account.email();
 }
 
 void IdentityProvider::OnErrorOccurred(const ErrorResponse& error)
 {
     emit ErrorOccurred(error);
 
-    qDebug() << "Error occurred!";
-    qDebug() << "httpStatus" << error.httpStatus();
-    qDebug() << "httpReason" << error.httpReason();
-    qDebug() << "code" << error.code();
-    qDebug() << "message" << error.message();
-
-    qDebug() << "Extra info:";
-    qDebug() << "imageUrl" << error.imageUrl();
-    qDebug() << "captchaId" << error.captchaId();
-    qDebug() << "captchaMessage" << error.captchaMessage();
-    qDebug() << "email" << error.email();
+    qWarning("Error occurred creating account: %s (%s)",
+             error.code().toUtf8().data(), error.message().toUtf8().data());
 }
 
 } /* end SSO namespace */
