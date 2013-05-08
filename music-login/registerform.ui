@@ -58,6 +58,9 @@
      <property name="placeholderText">
       <string>mail@ubuntu.com</string>
      </property>
+     <property name="error" stdset="0">
+      <bool>false</bool>
+     </property>
     </widget>
    </item>
    <item>
@@ -183,6 +186,9 @@
          </property>
          <property name="placeholderText">
           <string>At least 8 characters password</string>
+         </property>
+         <property name="error" stdset="0">
+          <bool>false</bool>
          </property>
         </widget>
        </item>

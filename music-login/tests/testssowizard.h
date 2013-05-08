@@ -52,7 +52,6 @@ private slots:
     void testShowPageLogin();
     void testAccountAuthenticated();
     void testServiceFailed();
-    void testLoginFailed();
     void cleanup();
 
 private:

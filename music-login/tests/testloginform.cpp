@@ -31,6 +31,8 @@
 #include "ui_loginform.h"
 #include <QtTest/QtTest>
 #include <QDebug>
+#include <sso_api/responses.h>
+#include "error_messages.h"
 
 TestLoginForm::TestLoginForm(QObject *parent) :
     QObject(parent)
@@ -42,6 +44,8 @@ void TestLoginForm::init()
     this->loginForm._sessionActive = true;
     this->_newCustomerEmitted = false;
     this->_loginCheckoutEmitted = false;
+    this->loginForm.ui->lineEmail->setProperty("error", false);
+    this->loginForm.ui->linePassword->setProperty("error", false);
     this->loginForm.ui->lineEmail->setText("");
     this->loginForm.ui->linePassword->setText("");
     this->loginForm.ui->btnProceed->setEnabled(false);
@@ -129,6 +133,31 @@ void TestLoginForm::testButtonProceed()
     this->loginForm.ui->btnProceed->clicked();
     QCOMPARE(this->_newCustomerEmitted, true);
     QCOMPARE(this->_loginCheckoutEmitted, true);
+}
+
+void TestLoginForm::testShowErrorTipsAlreadyRegistered()
+{
+    QCOMPARE(this->loginForm.ui->lineEmail->property("error").toBool(), false);
+    ErrorResponse error(0, "", CODE_ALREADY_REGISTERED, "");
+    this->loginForm.showErrorTips(error);
+    QCOMPARE(this->loginForm.ui->lineEmail->property("error").toBool(), true);
+}
+
+void TestLoginForm::testShowErrorTipsEmailInvalidated()
+{
+    QCOMPARE(this->loginForm.ui->lineEmail->property("error").toBool(), false);
+    ErrorResponse error(0, "", CODE_EMAIL_INVALIDATED, "");
+    this->loginForm.showErrorTips(error);
+    QCOMPARE(this->loginForm.ui->lineEmail->property("error").toBool(), true);
+}
+
+void TestLoginForm::testShowErrorTipsInvalidCredentials()
+{
+    QCOMPARE(this->loginForm.ui->lineEmail->property("error").toBool(), false);
+    QCOMPARE(this->loginForm.ui->linePassword->property("error").toBool(), false);
+    ErrorResponse error(0, "", CODE_INVALID_CREDENTIALS, "");
+    this->loginForm.showErrorTips(error);
+    QCOMPARE(this->loginForm.ui->linePassword->property("error").toBool(), true);
 }
 
 void TestLoginForm::receiveCustomerSignal()

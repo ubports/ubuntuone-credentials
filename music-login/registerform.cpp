@@ -29,6 +29,7 @@
 
 #include "registerform.h"
 #include "ui_registerform.h"
+#include "error_messages.h"
 
 RegisterForm::RegisterForm(QWidget *parent) :
     QWidget(parent),
@@ -64,6 +65,20 @@ RegisterForm::~RegisterForm()
     delete ui;
 }
 
+void RegisterForm::showErrorTips(const ErrorResponse& error)
+{
+    if(error.code() == CODE_ALREADY_REGISTERED ||
+            error.code() == CODE_EMAIL_INVALIDATED){
+        this->ui->lineEmail->setProperty("error", true);
+    }else if(error.code() == CODE_INVALID_CREDENTIALS){
+        this->ui->lineEmail->setProperty("error", true);
+        this->ui->linePassword->setProperty("error", true);
+    }
+
+    this->style()->unpolish(this);
+    this->style()->polish(this);
+}
+
 void RegisterForm::setEmail(QString email)
 {
     this->ui->lineEmail->setText(email);
@@ -89,14 +104,19 @@ void RegisterForm::validateForm()
 
 bool RegisterForm::checkEmail()
 {
-    return !this->ui->lineEmail->text().isEmpty() && this->ui->lineEmail->text().contains("@");
+    bool value = !this->ui->lineEmail->text().isEmpty() && this->ui->lineEmail->text().contains("@");
+    this->ui->lineEmail->setProperty("error", !value);
+    this->style()->unpolish(this->ui->lineEmail);
+    this->style()->polish(this->ui->lineEmail);
+    return value;
 }
 
 bool RegisterForm::checkPassword()
 {
     bool value = this->ui->linePassword->text().length() > 7;
-//    value = value && this->ui->linePassword->text().contains(QRegExp("[A-Z]"));
-//    value = value && this->ui->linePassword->text().contains(QRegExp("[0-9]"));
+    this->ui->linePassword->setProperty("error", !value);
+    this->style()->unpolish(this->ui->linePassword);
+    this->style()->polish(this->ui->linePassword);
 
     return value;
 }

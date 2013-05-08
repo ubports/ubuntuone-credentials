@@ -30,6 +30,8 @@
 #include "testregisterform.h"
 #include <QtTest/QtTest>
 #include "ui_registerform.h"
+#include <sso_api/responses.h>
+#include "error_messages.h"
 
 TestRegisterForm::TestRegisterForm(QObject *parent) :
     QObject(parent)
@@ -41,6 +43,8 @@ void TestRegisterForm::init()
     this->_goBackEmitted = false;
     this->_registerCheckoutEmitted = false;
     this->registerForm._sessionActive = true;
+    this->registerForm.ui->lineEmail->setProperty("error", false);
+    this->registerForm.ui->linePassword->setProperty("error", false);
     this->registerForm.ui->lineEmail->setText("");
     this->registerForm.ui->linePassword->setText("");
     this->registerForm.ui->lineName->setText("");
@@ -142,6 +146,31 @@ void TestRegisterForm::testCheckoutPressed()
     this->registerForm.ui->checkBox->setChecked(true);
     this->registerForm.ui->btnCheckout->clicked();
     QCOMPARE(this->_registerCheckoutEmitted, true);
+}
+
+void TestRegisterForm::testShowErrorTipsAlreadyRegistered()
+{
+    QCOMPARE(this->registerForm.ui->lineEmail->property("error").toBool(), false);
+    ErrorResponse error(0, "", CODE_ALREADY_REGISTERED, "");
+    this->registerForm.showErrorTips(error);
+    QCOMPARE(this->registerForm.ui->lineEmail->property("error").toBool(), true);
+}
+
+void TestRegisterForm::testShowErrorTipsEmailInvalidated()
+{
+    QCOMPARE(this->registerForm.ui->lineEmail->property("error").toBool(), false);
+    ErrorResponse error(0, "", CODE_EMAIL_INVALIDATED, "");
+    this->registerForm.showErrorTips(error);
+    QCOMPARE(this->registerForm.ui->lineEmail->property("error").toBool(), true);
+}
+
+void TestRegisterForm::testShowErrorTipsInvalidCredentials()
+{
+    QCOMPARE(this->registerForm.ui->lineEmail->property("error").toBool(), false);
+    QCOMPARE(this->registerForm.ui->linePassword->property("error").toBool(), false);
+    ErrorResponse error(0, "", CODE_INVALID_CREDENTIALS, "");
+    this->registerForm.showErrorTips(error);
+    QCOMPARE(this->registerForm.ui->linePassword->property("error").toBool(), true);
 }
 
 void TestRegisterForm::receiveCheckout()

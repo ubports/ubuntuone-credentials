@@ -84,6 +84,9 @@
        <property name="placeholderText">
         <string>Your Ubuntu One email</string>
        </property>
+       <property name="error" stdset="0">
+        <bool>false</bool>
+       </property>
       </widget>
      </item>
      <item>
@@ -215,6 +218,9 @@
        </property>
        <property name="placeholderText">
         <string>Your Ubuntu One password</string>
+       </property>
+       <property name="error" stdset="0">
+        <bool>false</bool>
        </property>
       </widget>
      </item>

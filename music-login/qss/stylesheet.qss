@@ -43,6 +43,10 @@ QPushButton {
     border-width: 1px;
 }
 
+QLineEdit[error="true"] {
+    border: 2px solid red
+}
+
 QPushButton:focus {
     border-width: 2px;
     /* reduce the padding since we have a 2px border now */
