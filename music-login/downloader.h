@@ -14,7 +14,7 @@ public:
 
     void startDownload(const QString& url);
 
-public slots:
+private slots:
     void onReply(QNetworkReply*);
 
 signals:
