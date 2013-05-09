@@ -25,7 +25,6 @@ void Downloader::onReply(QNetworkReply* reply)
     QByteArray payload = reply->readAll();
     if(!payload.isEmpty()) {
         QUuid uuid = QUuid::createUuid();
-        qDebug() << uuid.toString();
         QString imagePath = this->_downloadDir->filePath(uuid.toString());
         QFile file(imagePath);
         file.open(QIODevice::WriteOnly);
