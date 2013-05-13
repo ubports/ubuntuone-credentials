@@ -46,7 +46,7 @@
         <property name="font">
          <font>
           <family>Ubuntu</family>
-          <pointsize>11</pointsize>
+          <pointsize>13</pointsize>
          </font>
         </property>
         <property name="text">
