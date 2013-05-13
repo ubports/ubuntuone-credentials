@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>455</width>
+    <width>485</width>
     <height>304</height>
    </rect>
   </property>
@@ -137,6 +137,7 @@
          <property name="font">
           <font>
            <family>Ubuntu</family>
+           <pointsize>9</pointsize>
           </font>
          </property>
          <property name="text">
@@ -197,6 +198,7 @@
          <property name="font">
           <font>
            <family>Ubuntu</family>
+           <pointsize>9</pointsize>
           </font>
          </property>
          <property name="text">
@@ -254,6 +256,7 @@
          <property name="font">
           <font>
            <family>Ubuntu</family>
+           <pointsize>9</pointsize>
           </font>
          </property>
          <property name="text">
