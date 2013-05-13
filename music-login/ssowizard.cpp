@@ -35,6 +35,8 @@
 #include <QResizeEvent>
 #include "error_messages.h"
 
+#define GENERAL_ERROR_MESSAGE "We apologize, but we cannot process your request right now. Please try again later."
+
 SSOWizard::SSOWizard(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::SSOWizard)
@@ -89,20 +91,14 @@ SSOWizard::SSOWizard(QWidget *parent) :
                      this, SLOT(registerAndBuy(QString, QString, QString)));
 
     // Set the error messages depending the code.
-    this->_codeMessages[CODE_INVALID_DATA] = tr("Invalid request data.");
     this->_codeMessages[CODE_CAPTCHA_REQUIRED] = tr("A captcha challenge is required to complete the request.");
-    this->_codeMessages[CODE_INVALID_CREDENTIALS] = tr("Provided email/password is not correct.");
+    this->_codeMessages[CODE_INVALID_CREDENTIALS] = tr("That's not your password. Please try again.");
     this->_codeMessages[CODE_TWOFACTOR_REQUIRED] = tr("2-factor authentication required.");
     this->_codeMessages[CODE_ACCOUNT_SUSPENDED] = tr("Your account has been suspended. Please contact login support to re-enable it.");
     this->_codeMessages[CODE_ACCOUNT_DEACTIVATED] = tr("Your account has been deactivated. To reactivate it, please reset your password.");
     this->_codeMessages[CODE_EMAIL_INVALIDATED] = tr("This email address has been invalidated. Please contact login support.");
     this->_codeMessages[CODE_CAN_NOT_RESET_PASSWORD] = tr("Can not reset password. Please contact login support.");
-    this->_codeMessages[CODE_CAPTCHA_FAILURE] = tr("Failed response to captcha challenge.");
-    this->_codeMessages[CODE_TOO_MANY_TOKENS] = tr("Too many non-consumed tokens exist. Further token creation is not allowed until existing tokens are consumed.");
-    this->_codeMessages[CODE_TWOFACTOR_FAILURE] = tr("The provided 2-factor key is not recognised.");
-    this->_codeMessages[CODE_RESOURCE_NOT_FOUND] = tr("The resource requested was not found.");
     this->_codeMessages[CODE_ALREADY_REGISTERED] = tr("The email address is already registered.");
-    this->_codeMessages[CODE_LOGIN_FAILED] = tr("Failed to set credentials.");
 }
 
 QString SSOWizard::cleanArgument(QString& arg)
@@ -170,7 +166,7 @@ void SSOWizard::serviceFailed(const ErrorResponse& error)
 
 void SSOWizard::showError(const ErrorResponse& error)
 {
-    this->ui->lblError->setText(this->_codeMessages.value(error.code(), error.message()));
+    this->ui->lblError->setText(this->_codeMessages.value(error.code(), GENERAL_ERROR_MESSAGE));
     this->ui->lblError->setEnabled(true);
 
     this->ui->pageLogin->showErrorTips(error);
