@@ -32,7 +32,7 @@
 #include <QtTest/QtTest>
 #include <QDebug>
 #include <sso_api/responses.h>
-#include "error_messages.h"
+#include "sso_api/errormessages.h"
 
 TestLoginForm::TestLoginForm(QObject *parent) :
     QObject(parent)
