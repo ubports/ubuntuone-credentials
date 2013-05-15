@@ -29,7 +29,7 @@
 
 #include "registerform.h"
 #include "ui_registerform.h"
-#include "error_messages.h"
+#include "sso_api/errormessages.h"
 
 RegisterForm::RegisterForm(QWidget *parent) :
     QWidget(parent),

@@ -31,7 +31,7 @@
 #include <QtTest/QtTest>
 #include "ui_registerform.h"
 #include <sso_api/responses.h>
-#include "error_messages.h"
+#include "sso_api/errormessages.h"
 
 TestRegisterForm::TestRegisterForm(QObject *parent) :
     QObject(parent)
