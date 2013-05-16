@@ -19,6 +19,8 @@
 #ifndef _RESPONSES_H_
 #define _RESPONSES_H_
 
+#include <map>
+#include <string>
 #include <QString>
 #include <QStringList>
 
@@ -33,7 +35,7 @@ public:
 
     int httpStatus() const { return _httpStatus; }
     QString httpReason() const { return _httpReason; }
-    QString code() const { return _code; }
+    int code() const { return _code; }
     QString message() const { return _message; }
     QString imageUrl() const { return _imageUrl; }
     QString captchaId() const { return _captchaId; }
@@ -42,7 +44,7 @@ public:
 
     void httpStatus(int val) { _httpStatus = val; }
     void httpReason(QString val) { _httpReason = val; }
-    void code(QString val) { _code = val; }
+    void code(QString val);
     void message(QString val) { _message = val; }
     void imageUrl(QString val) { _imageUrl = val; }
     void captchaId(QString val) { _captchaId = val; }
@@ -51,8 +53,13 @@ public:
 
 private:
     int _httpStatus;
-    QString _httpReason, _code, _message, _imageUrl,
+    QString _httpReason, _message, _imageUrl,
             _captchaId, _captchaMessage, _email;
+    int _code;
+
+    // Map to associate the strings with the enum values
+    std::map<std::string, int> _mapErrorEnum;
+    void initializeMap();
 };
 
 class OAuthTokenResponse

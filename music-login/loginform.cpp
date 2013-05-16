@@ -52,10 +52,10 @@ LoginForm::LoginForm(QWidget *parent) :
 
 void LoginForm::showErrorTips(const ErrorResponse& error)
 {
-    if(error.code() == CODE_ALREADY_REGISTERED ||
-            error.code() == CODE_EMAIL_INVALIDATED){
+    if(error.code() == ErrorCodes::CODE_ALREADY_REGISTERED ||
+            error.code() == ErrorCodes::CODE_EMAIL_INVALIDATED){
         this->ui->lineEmail->setProperty("error", true);
-    }else if(error.code() == CODE_INVALID_CREDENTIALS){
+    }else if(error.code() == ErrorCodes::CODE_INVALID_CREDENTIALS){
         this->ui->lineEmail->setProperty("error", true);
         this->ui->linePassword->setProperty("error", true);
     }

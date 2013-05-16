@@ -74,7 +74,7 @@ private:
     QString purchaseUrl;
     SSOService _service;
     LoadingOverlay* _overlay;
-    QHash<QString, QString> _codeMessages;
+    QHash<int, QString> _codeMessages;
 
     QString cleanArgument(QString& arg);
     void showError(const ErrorResponse& error);

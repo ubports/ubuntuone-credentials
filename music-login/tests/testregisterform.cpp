@@ -151,7 +151,7 @@ void TestRegisterForm::testCheckoutPressed()
 void TestRegisterForm::testShowErrorTipsAlreadyRegistered()
 {
     QVERIFY(!this->registerForm.ui->lineEmail->property("error").toBool());
-    ErrorResponse error(0, "", CODE_ALREADY_REGISTERED, "");
+    ErrorResponse error(0, "", ALREADY_REGISTERED, "");
     this->registerForm.showErrorTips(error);
     QVERIFY(this->registerForm.ui->lineEmail->property("error").toBool());
 }
@@ -159,7 +159,7 @@ void TestRegisterForm::testShowErrorTipsAlreadyRegistered()
 void TestRegisterForm::testShowErrorTipsEmailInvalidated()
 {
     QVERIFY(!this->registerForm.ui->lineEmail->property("error").toBool());
-    ErrorResponse error(0, "", CODE_EMAIL_INVALIDATED, "");
+    ErrorResponse error(0, "", EMAIL_INVALIDATED, "");
     this->registerForm.showErrorTips(error);
     QVERIFY(this->registerForm.ui->lineEmail->property("error").toBool());
 }
@@ -168,7 +168,7 @@ void TestRegisterForm::testShowErrorTipsInvalidCredentials()
 {
     QVERIFY(!this->registerForm.ui->lineEmail->property("error").toBool());
     QVERIFY(!this->registerForm.ui->linePassword->property("error").toBool());
-    ErrorResponse error(0, "", CODE_INVALID_CREDENTIALS, "");
+    ErrorResponse error(0, "", INVALID_CREDENTIALS, "");
     this->registerForm.showErrorTips(error);
     QVERIFY(this->registerForm.ui->linePassword->property("error").toBool());
 }
