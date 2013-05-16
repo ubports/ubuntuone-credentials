@@ -21,6 +21,7 @@
 #include "test_responses.h"
 
 #include "sso_api/responses.h"
+#include "sso_api/errormessages.h"
 
 TestErrorResponses::TestErrorResponses()
     : test_httpStatus(123),
@@ -42,7 +43,7 @@ void TestErrorResponses::testDefaults()
 
     QCOMPARE(response.httpStatus(), -1);
     QCOMPARE(response.httpReason(), empty);
-    QCOMPARE(response.code(), empty);
+    QCOMPARE(response.code(), -1);
     QCOMPARE(response.message(), empty);
     QCOMPARE(response.imageUrl(), empty);
     QCOMPARE(response.captchaId(), empty);
@@ -65,12 +66,20 @@ void TestErrorResponses::testValues()
 
     QCOMPARE(response.httpStatus(), this->test_httpStatus);
     QCOMPARE(response.httpReason(), this->test_httpReason);
-    QCOMPARE(response.code(), this->test_code);
+    QCOMPARE(response.code(), -1);
     QCOMPARE(response.message(), this->test_message);
     QCOMPARE(response.imageUrl(), this->test_imageUrl);
     QCOMPARE(response.captchaId(), this->test_captchaId);
     QCOMPARE(response.captchaMessage(), this->test_captchaMessage);
     QCOMPARE(response.email(), this->test_email);
+}
+
+void TestErrorResponses::testErrorMessage()
+{
+    SSO::ErrorResponse response;
+
+    response.code(CAPTCHA_REQUIRED);
+    QCOMPARE(response.code(), int(ErrorCodes::CODE_CAPTCHA_REQUIRED));
 }
 
 TestOAuthTokenResponses::TestOAuthTokenResponses()

@@ -95,14 +95,14 @@ SSOWizard::SSOWizard(QWidget *parent) :
     this->downloader.startDownload(picture);
 
     // Set the error messages depending the code.
-    this->_codeMessages[CODE_CAPTCHA_REQUIRED] = tr("A captcha challenge is required to complete the request.");
-    this->_codeMessages[CODE_INVALID_CREDENTIALS] = tr("That's not your password. Please try again.");
-    this->_codeMessages[CODE_TWOFACTOR_REQUIRED] = tr("2-factor authentication required.");
-    this->_codeMessages[CODE_ACCOUNT_SUSPENDED] = tr("Your account has been suspended. Please contact login support to re-enable it.");
-    this->_codeMessages[CODE_ACCOUNT_DEACTIVATED] = tr("Your account has been deactivated. To reactivate it, please reset your password.");
-    this->_codeMessages[CODE_EMAIL_INVALIDATED] = tr("This email address has been invalidated. Please contact login support.");
-    this->_codeMessages[CODE_CAN_NOT_RESET_PASSWORD] = tr("Can not reset password. Please contact login support.");
-    this->_codeMessages[CODE_ALREADY_REGISTERED] = tr("The email address is already registered.");
+    this->_codeMessages[ErrorCodes::CODE_CAPTCHA_REQUIRED] = "A captcha challenge is required to complete the request.";
+    this->_codeMessages[ErrorCodes::CODE_INVALID_CREDENTIALS] = "That's not your password. Please try again.";
+    this->_codeMessages[ErrorCodes::CODE_TWOFACTOR_REQUIRED] = "2-factor authentication required.";
+    this->_codeMessages[ErrorCodes::CODE_ACCOUNT_SUSPENDED] = "Your account has been suspended. Please contact login support to re-enable it.";
+    this->_codeMessages[ErrorCodes::CODE_ACCOUNT_DEACTIVATED] = "Your account has been deactivated. To reactivate it, please reset your password.";
+    this->_codeMessages[ErrorCodes::CODE_EMAIL_INVALIDATED] = "This email address has been invalidated. Please contact login support.";
+    this->_codeMessages[ErrorCodes::CODE_CAN_NOT_RESET_PASSWORD] = "Can not reset password. Please contact login support.";
+    this->_codeMessages[ErrorCodes::CODE_ALREADY_REGISTERED] = "The email address is already registered.";
 }
 
 QString SSOWizard::cleanArgument(QString& arg)
