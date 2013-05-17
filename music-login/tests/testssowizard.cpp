@@ -31,6 +31,7 @@
 #include <QtTest/QtTest>
 #include "ui_ssowizard.h"
 #include <sso_api/responses.h>
+#include "ssowizard.cpp"
 
 TestSSOWizard::TestSSOWizard(QObject *parent) :
     QObject(parent)
@@ -55,7 +56,7 @@ void TestSSOWizard::testShowError()
 {
     ErrorResponse error(0, "", "LOGIN_FAILED", "");
     this->wizard.showError(error);
-    QCOMPARE(this->wizard.ui->lblError->text(), QString("Failed to set credentials."));
+    QCOMPARE(this->wizard.ui->lblError->text(), QString(GENERAL_ERROR_MESSAGE));
     QCOMPARE(this->wizard.ui->lblError->isEnabled(), true);
 }
 
@@ -122,6 +123,6 @@ void TestSSOWizard::testServiceFailed()
     error.message("service failded");
     this->wizard._service.requestFailed(error);
     QCOMPARE(this->wizard._overlay->isVisible(), false);
-    QCOMPARE(this->wizard.ui->lblError->text(), QString("service failded"));
+    QCOMPARE(this->wizard.ui->lblError->text(), QString(GENERAL_ERROR_MESSAGE));
     QCOMPARE(this->wizard.ui->lblError->isEnabled(), true);
 }
