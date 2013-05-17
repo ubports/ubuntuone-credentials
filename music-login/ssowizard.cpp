@@ -33,6 +33,9 @@
 #include <QCoreApplication>
 #include <QDesktopServices>
 #include <QResizeEvent>
+#include "sso_api/errormessages.h"
+
+#define GENERAL_ERROR_MESSAGE "We apologize, but we cannot process your request right now. Please try again later."
 
 SSOWizard::SSOWizard(QWidget *parent) :
     QWidget(parent),
@@ -78,8 +81,6 @@ SSOWizard::SSOWizard(QWidget *parent) :
                      this, SLOT(accountAuthenticated()));
     QObject::connect(&(this->_service), SIGNAL(requestFailed(const ErrorResponse&)),
                      this, SLOT(serviceFailed(const ErrorResponse&)));
-    QObject::connect(&(this->_service), SIGNAL(loginFailed(QString)),
-                     this, SLOT(loginFailed(const QString&)));
     QObject::connect(this->ui->pageLogin, SIGNAL(newCustomerSelected(QString,QString)),
                      this, SLOT(showRegisterPage(QString,QString)));
     QObject::connect(this->ui->pageLogin, SIGNAL(loginCheckout(QString,QString)),
@@ -88,6 +89,16 @@ SSOWizard::SSOWizard(QWidget *parent) :
                      this, SLOT(showPageLogin()));
     QObject::connect(this->ui->pageRegister, SIGNAL(registerCheckout(QString,QString,QString)),
                      this, SLOT(registerAndBuy(QString, QString, QString)));
+
+    // Set the error messages depending the code.
+    this->_codeMessages[ErrorCodes::CODE_CAPTCHA_REQUIRED] = "A captcha challenge is required to complete the request.";
+    this->_codeMessages[ErrorCodes::CODE_INVALID_CREDENTIALS] = "That's not your password. Please try again.";
+    this->_codeMessages[ErrorCodes::CODE_TWOFACTOR_REQUIRED] = "2-factor authentication required.";
+    this->_codeMessages[ErrorCodes::CODE_ACCOUNT_SUSPENDED] = "Your account has been suspended. Please contact login support to re-enable it.";
+    this->_codeMessages[ErrorCodes::CODE_ACCOUNT_DEACTIVATED] = "Your account has been deactivated. To reactivate it, please reset your password.";
+    this->_codeMessages[ErrorCodes::CODE_EMAIL_INVALIDATED] = "This email address has been invalidated. Please contact login support.";
+    this->_codeMessages[ErrorCodes::CODE_CAN_NOT_RESET_PASSWORD] = "Can not reset password. Please contact login support.";
+    this->_codeMessages[ErrorCodes::CODE_ALREADY_REGISTERED] = "The email address is already registered.";
 }
 
 QString SSOWizard::cleanArgument(QString& arg)
@@ -105,12 +116,6 @@ QString SSOWizard::cleanArgument(QString& arg)
 SSOWizard::~SSOWizard()
 {
     delete ui;
-}
-
-void SSOWizard::loginFailed(const QString& message)
-{
-    this->_overlay->hide();
-    this->showError(message);
 }
 
 void SSOWizard::showRegisterPage(QString email, QString password)
@@ -156,13 +161,16 @@ void SSOWizard::sessionDetected()
 void SSOWizard::serviceFailed(const ErrorResponse& error)
 {
     this->_overlay->hide();
-    this->showError(error.message());
+    this->showError(error);
 }
 
-void SSOWizard::showError(QString message)
+void SSOWizard::showError(const ErrorResponse& error)
 {
-    this->ui->lblError->setText(message);
+    this->ui->lblError->setText(this->_codeMessages.value(error.code(), GENERAL_ERROR_MESSAGE));
     this->ui->lblError->setEnabled(true);
+
+    this->ui->pageLogin->showErrorTips(error);
+    this->ui->pageRegister->showErrorTips(error);
 }
 
 void SSOWizard::hideError()

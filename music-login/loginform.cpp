@@ -31,6 +31,7 @@
 #include "ui_loginform.h"
 #include <QRegExp>
 #include <QDebug>
+#include "sso_api/errormessages.h"
 
 LoginForm::LoginForm(QWidget *parent) :
     QWidget(parent),
@@ -49,6 +50,20 @@ LoginForm::LoginForm(QWidget *parent) :
     QObject::connect(this->ui->linePassword, SIGNAL(editingFinished()), this, SLOT(showPasswordWarning()));
 }
 
+void LoginForm::showErrorTips(const ErrorResponse& error)
+{
+    if(error.code() == ErrorCodes::CODE_ALREADY_REGISTERED ||
+            error.code() == ErrorCodes::CODE_EMAIL_INVALIDATED){
+        this->ui->lineEmail->setProperty("error", true);
+    }else if(error.code() == ErrorCodes::CODE_INVALID_CREDENTIALS){
+        this->ui->lineEmail->setProperty("error", true);
+        this->ui->linePassword->setProperty("error", true);
+    }
+
+    this->style()->unpolish(this);
+    this->style()->polish(this);
+}
+
 LoginForm::~LoginForm()
 {
     delete ui;
@@ -62,14 +77,19 @@ void LoginForm::validateForm()
 
 bool LoginForm::checkEmail()
 {
-    return !this->ui->lineEmail->text().isEmpty() && this->ui->lineEmail->text().contains("@");
+    bool value = !this->ui->lineEmail->text().isEmpty() && this->ui->lineEmail->text().contains("@");
+    this->ui->lineEmail->setProperty("error", !value);
+    this->style()->unpolish(this->ui->lineEmail);
+    this->style()->polish(this->ui->lineEmail);
+    return value;
 }
 
 bool LoginForm::checkPassword()
 {
     bool value = this->ui->linePassword->text().length() > 7;
-//    value = value && this->ui->linePassword->text().contains(QRegExp("[A-Z]"));
-//    value = value && this->ui->linePassword->text().contains(QRegExp("[0-9]"));
+    this->ui->linePassword->setProperty("error", !value);
+    this->style()->unpolish(this->ui->linePassword);
+    this->style()->polish(this->ui->linePassword);
 
     return value;
 }

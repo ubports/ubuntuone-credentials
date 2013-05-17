@@ -83,8 +83,8 @@ void IdentityProvider::OnErrorOccurred(const ErrorResponse& error)
 {
     emit ErrorOccurred(error);
 
-    qWarning("Error occurred creating account: %s (%s)",
-             error.code().toUtf8().data(), error.message().toUtf8().data());
+    qWarning("Error occurred creating account: %d (%s)",
+             error.code(), error.message().toUtf8().data());
 }
 
 } /* end SSO namespace */

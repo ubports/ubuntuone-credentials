@@ -34,6 +34,7 @@ private:
 private slots:
     void testDefaults();
     void testValues();
+    void testErrorMessage();
 };
 
 class TestOAuthTokenResponses : public QObject

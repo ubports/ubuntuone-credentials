@@ -31,6 +31,9 @@
 #define REGISTERFORM_H
 
 #include <QWidget>
+#include <sso_api/responses.h>
+
+using namespace SSO;
 
 namespace Ui {
 class RegisterForm;
@@ -51,6 +54,7 @@ public:
     void setEmail(QString email);
     void setPassword(QString password);
     void setSessionState(bool value);
+    void showErrorTips(const ErrorResponse& error);
 
 signals:
     void goBack();

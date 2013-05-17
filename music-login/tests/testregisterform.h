@@ -55,6 +55,9 @@ private slots:
     void testBackPressed();
     void testCheckoutPressed();
     void testLineConfirmPasswordReturnPressed();
+    void testShowErrorTipsAlreadyRegistered();
+    void testShowErrorTipsEmailInvalidated();
+    void testShowErrorTipsInvalidCredentials();
     void cleanup();
 
 private:

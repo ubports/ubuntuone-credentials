@@ -31,6 +31,9 @@
 #define LOGINFORM_H
 
 #include <QWidget>
+#include <sso_api/responses.h>
+
+using namespace SSO;
 
 namespace Ui {
 class LoginForm;
@@ -49,6 +52,7 @@ public:
     ~LoginForm();
 
     void setSessionState(bool value);
+    void showErrorTips(const ErrorResponse& error);
 
 signals:
     void newCustomerSelected(QString email, QString password);

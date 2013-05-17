@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>455</width>
+    <width>485</width>
     <height>304</height>
    </rect>
   </property>
@@ -57,6 +57,9 @@
      </property>
      <property name="placeholderText">
       <string>mail@ubuntu.com</string>
+     </property>
+     <property name="error" stdset="0">
+      <bool>false</bool>
      </property>
     </widget>
    </item>
@@ -134,6 +137,7 @@
          <property name="font">
           <font>
            <family>Ubuntu</family>
+           <pointsize>9</pointsize>
           </font>
          </property>
          <property name="text">
@@ -184,6 +188,9 @@
          <property name="placeholderText">
           <string>At least 8 characters password</string>
          </property>
+         <property name="error" stdset="0">
+          <bool>false</bool>
+         </property>
         </widget>
        </item>
        <item>
@@ -191,6 +198,7 @@
          <property name="font">
           <font>
            <family>Ubuntu</family>
+           <pointsize>9</pointsize>
           </font>
          </property>
          <property name="text">
@@ -248,6 +256,7 @@
          <property name="font">
           <font>
            <family>Ubuntu</family>
+           <pointsize>9</pointsize>
           </font>
          </property>
          <property name="text">

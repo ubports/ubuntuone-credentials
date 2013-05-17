@@ -31,6 +31,7 @@
 #define SSOWIZARD_H
 
 #include <QWidget>
+#include <QHash>
 #include <ssoservice.h>
 #include "loadingoverlay.h"
 
@@ -67,16 +68,16 @@ private slots:
     void accountAuthenticated();
     void sessionDetected();
     void serviceFailed(const ErrorResponse&);
-    void loginFailed(const QString& message);
 
 private:
     Ui::SSOWizard *ui;
     QString purchaseUrl;
     SSOService _service;
     LoadingOverlay* _overlay;
+    QHash<int, QString> _codeMessages;
 
     QString cleanArgument(QString& arg);
-    void showError(QString message);
+    void showError(const ErrorResponse& error);
     void hideError();
     void setHeader(QString artist, QString album, QString price, QString picture_path);
 

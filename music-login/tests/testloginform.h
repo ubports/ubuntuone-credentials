@@ -52,6 +52,9 @@ private slots:
     void testCheckPasswordWarnings();
     void testButtonProceed();
     void testButtonText();
+    void testShowErrorTipsAlreadyRegistered();
+    void testShowErrorTipsEmailInvalidated();
+    void testShowErrorTipsInvalidCredentials();
     void cleanup();
 
 private:

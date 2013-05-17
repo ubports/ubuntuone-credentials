@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>451</width>
-    <height>466</height>
+    <width>465</width>
+    <height>477</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -84,6 +84,9 @@
        <property name="placeholderText">
         <string>Your Ubuntu One email</string>
        </property>
+       <property name="error" stdset="0">
+        <bool>false</bool>
+       </property>
       </widget>
      </item>
      <item>
@@ -93,6 +96,11 @@
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>9</pointsize>
+        </font>
        </property>
        <property name="text">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#eb1313;&quot;&gt;Email address invalid&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -127,6 +135,7 @@
        <property name="font">
         <font>
          <family>Ubuntu</family>
+         <pointsize>9</pointsize>
         </font>
        </property>
        <property name="text">
@@ -216,6 +225,9 @@
        <property name="placeholderText">
         <string>Your Ubuntu One password</string>
        </property>
+       <property name="error" stdset="0">
+        <bool>false</bool>
+       </property>
       </widget>
      </item>
      <item>
@@ -229,6 +241,7 @@
        <property name="font">
         <font>
          <family>Ubuntu</family>
+         <pointsize>9</pointsize>
         </font>
        </property>
        <property name="text">
@@ -262,10 +275,11 @@
      <property name="font">
       <font>
        <family>Ubuntu</family>
+       <pointsize>9</pointsize>
       </font>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://login.ubuntu.com/+forgot_password&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Forgotten Ubuntu One password&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://login.ubuntu.com/+forgot_password&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#3c3b37;&quot;&gt;Forgotten Ubuntu One password&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="openExternalLinks">
       <bool>true</bool>

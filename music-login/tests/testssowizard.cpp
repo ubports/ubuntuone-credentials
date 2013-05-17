@@ -30,6 +30,8 @@
 #include "testssowizard.h"
 #include <QtTest/QtTest>
 #include "ui_ssowizard.h"
+#include <sso_api/responses.h>
+#include "ssowizard.cpp"
 
 TestSSOWizard::TestSSOWizard(QObject *parent) :
     QObject(parent)
@@ -52,8 +54,9 @@ void TestSSOWizard::testCleanArgument()
 
 void TestSSOWizard::testShowError()
 {
-    this->wizard.showError("test error");
-    QCOMPARE(this->wizard.ui->lblError->text(), QString("test error"));
+    ErrorResponse error(0, "", "LOGIN_FAILED", "");
+    this->wizard.showError(error);
+    QCOMPARE(this->wizard.ui->lblError->text(), QString(GENERAL_ERROR_MESSAGE));
     QCOMPARE(this->wizard.ui->lblError->isEnabled(), true);
 }
 
@@ -120,15 +123,6 @@ void TestSSOWizard::testServiceFailed()
     error.message("service failded");
     this->wizard._service.requestFailed(error);
     QCOMPARE(this->wizard._overlay->isVisible(), false);
-    QCOMPARE(this->wizard.ui->lblError->text(), QString("service failded"));
-    QCOMPARE(this->wizard.ui->lblError->isEnabled(), true);
-}
-
-void TestSSOWizard::testLoginFailed()
-{
-    this->wizard.show();
-    this->wizard._service.loginFailed("login failed");
-    QCOMPARE(this->wizard._overlay->isVisible(), false);
-    QCOMPARE(this->wizard.ui->lblError->text(), QString("login failed"));
+    QCOMPARE(this->wizard.ui->lblError->text(), QString(GENERAL_ERROR_MESSAGE));
     QCOMPARE(this->wizard.ui->lblError->isEnabled(), true);
 }

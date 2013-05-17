@@ -46,7 +46,6 @@ signals:
 
     void credentialsFound(QString id, QString token, QString tokenSecret, QString consumer, QString consumerSecret);
     void credentialsNotFound(QString id);
-    void loginFailed(QString message);
     void requestFailed(const ErrorResponse& error);
 
 private slots:

@@ -21,6 +21,7 @@
 #include <QDebug>
 #include <QtGlobal>
 #include "sso_api/requests.h"
+#include "sso_api/errormessages.h"
 
 using namespace UbuntuOne;
 
@@ -123,7 +124,8 @@ void SSOService::credentialsSet(QString id, bool stored)
     }
     else
     {
-        emit this->loginFailed("Failed to set credentials");
+        ErrorResponse error(0, "", LOGIN_FAILED, "Failed to set credentials.");
+        emit this->requestFailed(error);
     }
 }
 
