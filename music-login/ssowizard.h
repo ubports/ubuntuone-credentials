@@ -34,6 +34,7 @@
 #include <QHash>
 #include <ssoservice.h>
 #include "loadingoverlay.h"
+#include "downloader.h"
 
 using namespace SSO;
 
@@ -60,6 +61,7 @@ protected:
     virtual void resizeEvent(QResizeEvent *);
 
 private slots:
+    void imageDownloaded(QString& path);
     void showRegisterPage(QString email, QString password);
     void loginAndBuy(QString email, QString password);
     void registerAndBuy(QString email, QString password, QString name);
@@ -71,6 +73,7 @@ private slots:
 
 private:
     Ui::SSOWizard *ui;
+    Downloader downloader;
     QString purchaseUrl;
     SSOService _service;
     LoadingOverlay* _overlay;
@@ -79,7 +82,7 @@ private:
     QString cleanArgument(QString& arg);
     void showError(const ErrorResponse& error);
     void hideError();
-    void setHeader(QString artist, QString album, QString price, QString picture_path);
+    void setHeader(QString artist, QString album, QString price);
 
 #ifdef TESTS
     friend class TestSSOWizard;
