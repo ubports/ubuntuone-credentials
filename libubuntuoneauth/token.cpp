@@ -85,7 +85,7 @@ namespace UbuntuOne {
      */
     QString Token::signUrl(const QString url, const QString method, bool asQuery)
     {
-        static const QString hdrPrefix("Authorization: OAuth ");
+        static const QString hdrPrefix("OAuth ");
         QString result;
         int argc = 0;
         char **argv = NULL;
