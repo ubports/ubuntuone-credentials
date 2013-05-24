@@ -15,21 +15,25 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
-#include <QHostInfo>
-#include <QUuid>
+#ifndef _TEST_KEYRING_H_
+#define _TEST_KEYRING_H_
 
-#include "test_keyring.h"
+#include <QtTest/QtTest>
 
-#include "keyring/keyring.h"
-
-TestKeyring::TestKeyring()
-    : test_token_name(QUuid::createUuid().toString()),
-      test_hostname(QHostInfo::localHostName())
+class TestKeyring: public QObject
 {
-}
+    Q_OBJECT
+ public:
+    TestKeyring();
 
-void TestKeyring::testTokenName()
-{
-    QString expected = this->test_token_name + " @ " + this->test_hostname;
-    QCOMPARE(keyring::Keyring::getTokenName(this->test_token_name), expected);
-}
+ private:
+    bool _foundToken;
+
+ private slots:
+    void testFindToken();
+    void testStoreToken();
+    void testDeleteToken();
+};
+
+#endif /* _TEST_KEYRING_H_ */
+

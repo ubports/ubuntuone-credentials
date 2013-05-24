@@ -15,28 +15,30 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
+#ifndef _TEST_TOKEN_H_
+#define _TEST_TOKEN_H_
 
-#ifndef INTERFACE_FACTORY_H
-#define INTERFACE_FACTORY_H
+#include <QtTest/QtTest>
 
-#include "collection.h"
-#include "item.h"
-#include "service.h"
-
-class InterfaceFactory
+class TestToken: public QObject
 {
+    Q_OBJECT
+ public:
+    TestToken();
 
-public:
-    InterfaceFactory();
-    ~InterfaceFactory();
+ private:
+    QString test_hostname;
 
-    template <class T>
-    T* create(const QString &service, const QString &path,
-        const QDBusConnection &connection, QObject *parent = 0)
-    {
-        return new T(service, path, connection, parent);
-    }
+    private slots:
+        void testEmptyToken();
+        void testTokenArgs();
+        void testTokenCopy();
 
+        void testToQuery();
+
+        void testFromQuery();
+        void testTokenName();
 };
 
-#endif // INTERFACE_FACTORY_H
+#endif /* _TEST_TOKEN_H_ */
+

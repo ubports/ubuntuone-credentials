@@ -26,7 +26,7 @@
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkReply>
 
-namespace SSO {
+namespace UbuntuOne {
 
 //static QString API_BASE = "https://login.ubuntu.com/api/v2/";
 

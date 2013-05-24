@@ -15,27 +15,29 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
+#include <QHostInfo>
+#include <QUuid>
 
-#include "dbus_helper.h"
+#include <keyring.h>
 
-namespace dbus
-{
+#include "test_keyring.h"
 
-// required for the init
-int DBusHelper::DBUS_STRING_MAP_ID = 0;
-int DBusHelper::DBUS_OBJECTPATH_MAP_ID = 1;
 
-DBusHelper::_init DBusHelper::_initializer;
-
-DBusHelper::DBusHelper(QObject *parent) :
-    QObject(parent)
+TestKeyring::TestKeyring()
 {
 }
 
-
-QVariant DBusHelper::getVariant(DBusStringHash hash)
+void TestKeyring::testFindToken()
 {
-    return QVariant(DBUS_STRING_MAP_ID, &hash);
+    // Need to figure out how to fake the keyring/dbus
 }
 
-} // dbus
+void TestKeyring::testStoreToken()
+{
+    // Need to figure out how to fake the keyring/dbus
+}
+
+void TestKeyring::testDeleteToken()
+{
+    // Need to figure out how to fake the keyring/dbus
+}

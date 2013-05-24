@@ -20,7 +20,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
-namespace SSO {
+namespace UbuntuOne {
 
 RequestInterface::RequestInterface(const QUrl& url)
     : _url(url)

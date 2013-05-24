@@ -14,11 +14,18 @@ IF (BUILD_STATIC_LIBS)
 ENDIF (BUILD_STATIC_LIBS)
 
 # The sources for building the library
-FILE (GLOB SOURCES keyring/*.cpp dbus/*.cpp sso_api/*.cpp main/*.cpp *.cpp)
-FILE (GLOB HEADERS keyring/*.h dbus/*.h sso_api/*.h main/*.h *.h)
+FILE (GLOB SOURCES *.cpp sso_api/*.cpp)
+# HEADERS only includes the public headers for installation.
+FILE (GLOB HEADERS *.h sso_api/*.h)
 
-add_library (${AUTH_LIB_NAME} ${LIB_TYPE} ${SOURCES} ${HEADERS})
+find_package (PkgConfig REQUIRED)
+pkg_check_modules(LIBSECRET REQUIRED libsecret-1)
+add_definitions(${LIBSECRET_CFLAGS} ${LIBSECRET_CFLAGS_OTHER})
+
+add_library (${AUTH_LIB_NAME} ${LIB_TYPE} ${SOURCES})
 qt5_use_modules (${AUTH_LIB_NAME} Core DBus Xml Network)
+target_link_libraries (${AUTH_LIB_NAME}
+  ${LIBSECRET_LDFLAGS})
 
 SET_TARGET_PROPERTIES(${AUTH_LIB_NAME} PROPERTIES
   VERSION ${AUTH_LIB_VERSION}

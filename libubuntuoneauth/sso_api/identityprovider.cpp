@@ -21,7 +21,7 @@
 #include "responses.h"
 
 
-namespace SSO {
+namespace UbuntuOne {
 
 IdentityProvider::IdentityProvider(QObject *parent) :
     QObject(parent)

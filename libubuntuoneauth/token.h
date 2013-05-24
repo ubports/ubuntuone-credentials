@@ -15,20 +15,39 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
+#ifndef _U1_TOKEN_H_
+#define _U1_TOKEN_H_
 
-#include "user.h"
+#include <QHash>
+#include <QObject>
+#include <QString>
 
-namespace SSO {
 
-User::User(SSOService *parent) :
-    QObject(parent)
-{
-    this->_service = parent;
-}
+namespace UbuntuOne {
 
-bool User::sessionOpened()
-{
-    return this->_service->sessionOpened();
-}
+#define TOKEN_ID "Ubuntu One"
+#define TOKEN_SEP " @ "
+#define TOKEN_SEP_REPLACEMENT " AT "
 
-}
+    class Token : public QObject
+    {
+        Q_OBJECT
+    public:
+        Token();
+        Token(QString token_key, QString token_secret,
+              QString consumer_key, QString consumer_secret);
+        Token(const Token& token);
+
+        QString toQuery();
+        bool isValid();
+
+        static Token *fromQuery(const QString query);
+        static QString buildTokenName();
+
+    private:
+        QHash<QString, QString> _tokenHash;
+    };
+
+} /* namespace UbuntuOne */
+
+#endif /* _U1_KEYRING_H_ */

@@ -35,7 +35,7 @@
 #include <ssoservice.h>
 #include "loadingoverlay.h"
 
-using namespace SSO;
+using namespace UbuntuOne;
 
 namespace Ui {
 class SSOWizard;
@@ -66,7 +66,6 @@ private slots:
     void showPageLogin();
 
     void accountAuthenticated();
-    void sessionDetected();
     void serviceFailed(const ErrorResponse&);
 
 private:

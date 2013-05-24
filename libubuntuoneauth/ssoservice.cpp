@@ -16,129 +16,94 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#include "logging.h"
-#include "ssoservice.h"
 #include <QDebug>
 #include <QtGlobal>
+
+#include "logging.h"
+#include "ssoservice.h"
 #include "sso_api/requests.h"
 #include "sso_api/errormessages.h"
 
-using namespace UbuntuOne;
+namespace UbuntuOne {
 
-namespace SSO {
-
-#define TOKEN_NAME "Ubuntu One"
-
-SSOService::SSOService(QObject *parent) :
-    QObject(parent),
-    _conn(QDBusConnection::sessionBus())
-{
-    // Set up logging
-    AuthLogger::setupLogging();
+    SSOService::SSOService(QObject *parent) :
+        QObject(parent)
+    {
+        // Set up logging
+        AuthLogger::setupLogging();
 #if ENABLE_DEBUG
-    AuthLogger::setLogLevel(QtDebugMsg);
-#else
-    if (qgetenv("U1_DEBUG") != "")
         AuthLogger::setLogLevel(QtDebugMsg);
+#else
+        if (qgetenv("U1_DEBUG") != "")
+            AuthLogger::setLogLevel(QtDebugMsg);
 #endif
 
-    // create the keyring that will be used to store and retrieve the different tokens
-    _keyring = new keyring::Keyring(_conn);
-    this->connect(_keyring, SIGNAL(sessionOpened()), this, SLOT(sessionDetected()));
-    this->connect(_keyring, SIGNAL(credentialsFound(QString,QString,QString,QString,QString,bool)),
-                  this, SLOT(credentialsAcquired(QString,QString,QString,QString,QString,bool)));
-    this->connect(_keyring, SIGNAL(credentialsSet(QString, bool)), this, SLOT(credentialsSet(QString, bool)));
+        // create the keyring that will be used to store and retrieve the different tokens
+        _keyring = new Keyring();
+        connect(_keyring, SIGNAL(tokenFound(const Token&)),
+                this, SLOT(credentialsAcquired(const Token&)));
 
-    this->connect(&(this->provider), SIGNAL(OAuthTokenGranted(const OAuthTokenResponse&)), this, SLOT(tokenReceived(const OAuthTokenResponse&)));
-    this->connect(&(this->provider), SIGNAL(AccountGranted(const AccountResponse&)), this, SLOT(accountRegistered(const AccountResponse&)));
-    this->connect(&(this->provider), SIGNAL(ErrorOccurred(const ErrorResponse&)), this, SLOT(errorOcurred(const ErrorResponse&)));
-}
-
-void SSOService::init_service()
-{
-    _keyring->openSession();
-}
-
-bool SSOService::sessionOpened()
-{
-    return this->_serviceEnabled;
-}
-
-void SSOService::sessionDetected()
-{
-    this->_serviceEnabled = true;
-    emit this->sessionActivated();
-}
-
-void SSOService::getCredentials()
-{
-    this->_keyring->getCredentials(TOKEN_NAME);
-}
-
-void SSOService::credentialsAcquired(QString id, QString token, QString secret, QString consumer, QString consumerSecret, bool found)
-{
-    if(found)
-    {
-        emit this->credentialsFound(id, token, secret, consumer, consumerSecret);
-    }
-    else
-    {
-        emit this->credentialsNotFound(id);
+        connect(&(_provider),
+                SIGNAL(OAuthTokenGranted(const OAuthTokenResponse&)),
+                this, SLOT(tokenReceived(const OAuthTokenResponse&)));
+        connect(&(_provider),
+                SIGNAL(AccountGranted(const AccountResponse&)),
+                this, SLOT(accountRegistered(const AccountResponse&)));
+        connect(&(_provider),
+                SIGNAL(ErrorOccurred(const ErrorResponse&)),
+                this, SLOT(errorOcurred(const ErrorResponse&)));
     }
 
-}
-
-void SSOService::registerUser(QString email, QString password, QString display_name)
-{
-    SSO::AccountRequest request(email, password, display_name, NULL, NULL);
-
-    this->_tempPassword = password;
-    this->provider.CreateAccount(request);
-}
-
-void SSOService::accountRegistered(const AccountResponse& account)
-{
-    this->login(account.email(), this->_tempPassword);
-    this->_tempPassword = "";
-}
-
-void SSOService::login(QString email, QString password)
-{
-    OAuthTokenRequest request(email, password, this->_keyring->getTokenName(TOKEN_NAME), NULL);
-
-    this->provider.GetOAuthToken(request);
-}
-
-void SSOService::tokenReceived(const OAuthTokenResponse& token)
-{
-    // Save the Tokens in the Keyring
-    this->_keyring->setCredentials(TOKEN_NAME, token.token_key(), token.token_secret(),
-                                   token.consumer_key(), token.consumer_secret());
-}
-
-void SSOService::credentialsSet(QString id, bool stored)
-{
-    if(stored)
+    void SSOService::getCredentials()
     {
-        this->_keyring->getCredentials(TOKEN_NAME);
+        _keyring->findToken();
     }
-    else
+
+    void SSOService::credentialsAcquired(const Token& token)
     {
-        ErrorResponse error(0, "", LOGIN_FAILED, "Failed to set credentials.");
-        emit this->requestFailed(error);
+        qDebug() << "Found a token.";
+        emit this->credentialsFound(token);
     }
-}
 
-void SSOService::invalidateCredentials()
-{
-    this->_keyring->deleteCredentials(TOKEN_NAME);
-    emit credentialsDeleted();
-}
+    void SSOService::registerUser(QString email, QString password,
+                                  QString display_name)
+    {
+        AccountRequest request(email, password, display_name, NULL, NULL);
 
-void SSOService::errorOcurred(const ErrorResponse& error)
-{
-    this->_tempPassword = "";
-    emit this->requestFailed(error);
-}
+        _tempPassword = password;
+        _provider.CreateAccount(request);
+    }
+
+    void SSOService::accountRegistered(const AccountResponse& account)
+    {
+        login(account.email(), _tempPassword);
+        _tempPassword = "";
+    }
+
+    void SSOService::login(QString email, QString password)
+    {
+        OAuthTokenRequest request(email, password, Token::buildTokenName(), NULL);
+
+        _provider.GetOAuthToken(request);
+    }
+
+    void SSOService::tokenReceived(const OAuthTokenResponse& token)
+    {
+        Token realToken = Token(token.token_key(), token.token_secret(),
+                                token.consumer_key(), token.consumer_secret());
+        _keyring->storeToken(realToken);
+        emit credentialsFound(realToken);
+    }
+
+    void SSOService::invalidateCredentials()
+    {
+        _keyring->deleteToken();
+    }
+
+    void SSOService::errorOcurred(const ErrorResponse& error)
+    {
+        _tempPassword = "";
+        emit requestFailed(error);
+    }
 
 }

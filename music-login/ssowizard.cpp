@@ -73,11 +73,11 @@ SSOWizard::SSOWizard(QWidget *parent) :
     }
 
     this->setHeader(artist, album, price, picture);
+    this->ui->pageLogin->setSessionState(true);
+    this->ui->pageRegister->setSessionState(true);
 
     // Connect signals
-    QObject::connect(&(this->_service), SIGNAL(sessionActivated()), this, SLOT(sessionDetected()));
-    this->_service.init_service();
-    QObject::connect(&(this->_service), SIGNAL(credentialsFound(QString,QString,QString,QString,QString)),
+    QObject::connect(&(this->_service), SIGNAL(credentialsFound(const Token&)),
                      this, SLOT(accountAuthenticated()));
     QObject::connect(&(this->_service), SIGNAL(requestFailed(const ErrorResponse&)),
                      this, SLOT(serviceFailed(const ErrorResponse&)));
@@ -150,12 +150,6 @@ void SSOWizard::registerAndBuy(QString email, QString password, QString name)
 void SSOWizard::showPageLogin()
 {
     this->ui->stackedWidget->setCurrentIndex(0);
-}
-
-void SSOWizard::sessionDetected()
-{
-    this->ui->pageLogin->setSessionState(true);
-    this->ui->pageRegister->setSessionState(true);
 }
 
 void SSOWizard::serviceFailed(const ErrorResponse& error)

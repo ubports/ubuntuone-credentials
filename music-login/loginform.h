@@ -33,7 +33,7 @@
 #include <QWidget>
 #include <sso_api/responses.h>
 
-using namespace SSO;
+using namespace UbuntuOne;
 
 namespace Ui {
 class LoginForm;

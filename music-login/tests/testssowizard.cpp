@@ -105,7 +105,8 @@ void TestSSOWizard::testAccountAuthenticated()
     QObject::connect(&(this->wizard), SIGNAL(aboutToClose()), this, SLOT(receiveAboutToClose()));
     this->_aboutToCloseEmitted = false;
     this->wizard.purchaseUrl = "";
-    this->wizard._service.credentialsFound("", "", "", "", "");
+    Token *token = new Token();
+    this->wizard._service.credentialsFound(*token);
     QCOMPARE(this->wizard._overlay->isVisible(), false);
     QCOMPARE(this->_aboutToCloseEmitted, true);
 }
