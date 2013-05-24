@@ -80,7 +80,7 @@ SSOWizard::SSOWizard(QWidget *parent) :
     QObject::connect(&(this->downloader), SIGNAL(fileDownloaded(QString&)),
                      this, SLOT(imageDownloaded(QString&)));
 
-    QObject::connect(&(this->_service), SIGNAL(credentialsFound(const Token&)),
+    QObject::connect(&(this->_service), SIGNAL(credentialsStored()),
                      this, SLOT(accountAuthenticated()));
     QObject::connect(&(this->_service), SIGNAL(requestFailed(const ErrorResponse&)),
                      this, SLOT(serviceFailed(const ErrorResponse&)));

@@ -53,21 +53,20 @@ namespace UbuntuOne {
 
         if (error != NULL) {
             QString message(error->message);
-            qDebug() << "Error getting token: " << error->message;
+            qCritical() << message;
             emit keyring->keyringError(message);
             g_error_free(error);
         } else if (password == NULL) {
-            qDebug() << "didn't find a token.";
             emit keyring->tokenNotFound();
         } else {
             QString query(password);
             Token *token = Token::fromQuery(query);
             if (token->isValid()) {
-                qDebug() << "Found a valid token.";
                 emit keyring->tokenFound(*token);
             } else {
-                qDebug() << "Found token is not valid.";
-                emit keyring->keyringError(QStringLiteral("Faild to convert result to Token object."));
+                QString message("Faild to convert result to Token object.");
+                qCritical() << message;
+                emit keyring->keyringError(message);
             }
             delete token;
             secret_password_free(password);
@@ -91,16 +90,19 @@ namespace UbuntuOne {
         secret_password_store_finish (result, &error);
         if (error != NULL) {
             QString message(error->message);
+            qCritical() << "Error storing token: " << message;
             emit keyring->keyringError(message);
             g_error_free(error);
+            return;
         }
+        emit keyring->tokenStored();
     }
 
     void Keyring::storeToken(Token token)
     {
         secret_password_store(_getTokenSchema(), SECRET_COLLECTION_DEFAULT,
-                              TOKEN_ID, token.toQuery().toUtf8(), NULL,
-                              (GAsyncReadyCallback)_onPasswordStored, NULL,
+                              TOKEN_ID, token.toQuery().toUtf8().data(), NULL,
+                              (GAsyncReadyCallback)_onPasswordStored, this,
                               "key-type", TOKEN_KEY_TYPE,
                               "name", Token::buildTokenName().toUtf8().data(),
                               NULL);
@@ -114,15 +116,17 @@ namespace UbuntuOne {
         secret_password_store_finish (result, &error);
         if (error != NULL) {
             QString message(error->message);
+            qDebug() << message;
             emit keyring->keyringError(message);
             g_error_free(error);
         }
+        emit keyring->tokenDeleted();
     }
 
     void Keyring::deleteToken()
     {
         secret_password_clear(_getTokenSchema(), NULL,
-                              (GAsyncReadyCallback)_onPasswordCleared, NULL,
+                              (GAsyncReadyCallback)_onPasswordCleared, this,
                               "key-type", TOKEN_KEY_TYPE,
                               "name", Token::buildTokenName().toUtf8().data(),
                               NULL);

@@ -43,11 +43,15 @@ namespace UbuntuOne {
                           QString display_name);
 
     signals:
+        void credentialsDeleted();
+        void credentialsStored();
         void credentialsFound(const Token& token);
         void credentialsNotFound(QString id);
         void requestFailed(const ErrorResponse& error);
 
         private slots:
+            void credentialsSet() { emit credentialsStored(); };
+            void credentialsCleared() { emit credentialsDeleted(); };
             void credentialsAcquired(const Token& token);
             void tokenReceived(const OAuthTokenResponse& token);
             void accountRegistered(const AccountResponse& account);

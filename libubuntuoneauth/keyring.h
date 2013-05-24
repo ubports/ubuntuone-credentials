@@ -38,6 +38,8 @@ namespace UbuntuOne {
     Q_SIGNALS:
         void tokenFound(const Token& token);
         void tokenNotFound();
+        void tokenStored();
+        void tokenDeleted();
 
         void keyringError(QString message);
     };

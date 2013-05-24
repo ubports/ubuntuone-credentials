@@ -42,6 +42,10 @@ namespace UbuntuOne {
         _keyring = new Keyring();
         connect(_keyring, SIGNAL(tokenFound(const Token&)),
                 this, SLOT(credentialsAcquired(const Token&)));
+        connect(_keyring, SIGNAL(tokenStored()),
+                this, SLOT(credentialsSet()));
+        connect(_keyring, SIGNAL(tokenDeleted()),
+                this, SLOT(credentialsCleared()));
 
         connect(&(_provider),
                 SIGNAL(OAuthTokenGranted(const OAuthTokenResponse&)),
@@ -61,7 +65,6 @@ namespace UbuntuOne {
 
     void SSOService::credentialsAcquired(const Token& token)
     {
-        qDebug() << "Found a token.";
         emit this->credentialsFound(token);
     }
 
@@ -92,7 +95,6 @@ namespace UbuntuOne {
         Token realToken = Token(token.token_key(), token.token_secret(),
                                 token.consumer_key(), token.consumer_secret());
         _keyring->storeToken(realToken);
-        emit credentialsFound(realToken);
     }
 
     void SSOService::invalidateCredentials()
