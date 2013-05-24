@@ -68,6 +68,7 @@ private slots:
     void showPageLogin();
 
     void accountAuthenticated();
+    void openUrlAndFinish(Token);
     void serviceFailed(const ErrorResponse&);
 
 private:

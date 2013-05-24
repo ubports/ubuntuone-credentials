@@ -15,6 +15,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
+#include <stdlib.h>
+#include <oauth.h>
+
 #include <QHash>
 #include <QHostInfo>
 #include <QStringList>
@@ -72,6 +75,35 @@ namespace UbuntuOne {
                 _tokenHash.contains(TOKEN_TOKEN_SEC_KEY) &&
                 _tokenHash.contains(TOKEN_CONSUMER_KEY) &&
                 _tokenHash.contains(TOKEN_CONSUMER_SEC_KEY));
+    }
+
+    /**
+     * \fn QString Token::signUrl(const QString url, const QString method,
+     *                            bool asQuery = false)
+     *
+     * Sign a URL with the token.
+     */
+    QString Token::signUrl(const QString url, const QString method, bool asQuery)
+    {
+        static const QString hdrPrefix("Authorization: OAuth ");
+        QString result;
+        int argc = 0;
+        char **argv = NULL;
+
+        argc = oauth_split_url_parameters(url.toUtf8().data(), &argv);
+        oauth_sign_array2_process(&argc, &argv, NULL,
+                                  OA_HMAC, method.toUtf8().data(),
+                                  _tokenHash[TOKEN_CONSUMER_KEY].toUtf8().data(),
+                                  _tokenHash[TOKEN_CONSUMER_SEC_KEY].toUtf8().data(),
+                                  _tokenHash[TOKEN_TOKEN_KEY].toUtf8().data(),
+                                  _tokenHash[TOKEN_TOKEN_SEC_KEY].toUtf8().data());
+        if (asQuery)
+            result = oauth_serialize_url_parameters(argc, argv);
+        else
+            result = hdrPrefix + oauth_serialize_url_sep(argc, 1, argv, (char *)", ", 4);
+        oauth_free_array(&argc, &argv);
+
+        return result;
     }
 
     /**

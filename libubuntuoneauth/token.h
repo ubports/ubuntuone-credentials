@@ -38,6 +38,8 @@ namespace UbuntuOne {
         QString toQuery();
         bool isValid();
 
+        QString signUrl(const QString url, const QString method, bool asQuery = false);
+
         static Token *fromQuery(const QString query);
         static QString buildTokenName();
 
