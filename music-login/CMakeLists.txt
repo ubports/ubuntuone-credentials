@@ -14,6 +14,7 @@ FILE (GLOB MAIN_SOURCES
 FILE (GLOB LIB_SOURCES
   header.cpp
   footer.cpp
+  downloader.cpp
   loadingoverlay.cpp
   loginform.cpp
   mainwindow.cpp
@@ -42,8 +43,8 @@ add_executable (${MUSIC_LOGIN_EXE}
   ${BUILT_RESOURCES}
 )
 
-qt5_use_modules (${MUSIC_LOGIN_LIB} Core DBus Gui Widgets)
-qt5_use_modules (${MUSIC_LOGIN_EXE} DBus Widgets)
+qt5_use_modules (${MUSIC_LOGIN_LIB} Core DBus Gui Widgets Network)
+qt5_use_modules (${MUSIC_LOGIN_EXE} DBus Widgets Network)
 target_link_libraries (${MUSIC_LOGIN_EXE}
   -Wl,-rpath,${CMAKE_BINARY_DIR}/lib
   -L${CMAKE_BINARY_DIR}/lib

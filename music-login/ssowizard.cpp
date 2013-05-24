@@ -72,11 +72,14 @@ SSOWizard::SSOWizard(QWidget *parent) :
         }
     }
 
-    this->setHeader(artist, album, price, picture);
+    this->setHeader(artist, album, price);
     this->ui->pageLogin->setSessionState(true);
     this->ui->pageRegister->setSessionState(true);
 
     // Connect signals
+    QObject::connect(&(this->downloader), SIGNAL(fileDownloaded(QString&)),
+                     this, SLOT(imageDownloaded(QString&)));
+
     QObject::connect(&(this->_service), SIGNAL(credentialsFound(const Token&)),
                      this, SLOT(accountAuthenticated()));
     QObject::connect(&(this->_service), SIGNAL(requestFailed(const ErrorResponse&)),
@@ -89,6 +92,8 @@ SSOWizard::SSOWizard(QWidget *parent) :
                      this, SLOT(showPageLogin()));
     QObject::connect(this->ui->pageRegister, SIGNAL(registerCheckout(QString,QString,QString)),
                      this, SLOT(registerAndBuy(QString, QString, QString)));
+
+    this->downloader.startDownload(picture);
 
     // Set the error messages depending the code.
     this->_codeMessages[ErrorCodes::CODE_CAPTCHA_REQUIRED] = "A captcha challenge is required to complete the request.";
@@ -173,12 +178,16 @@ void SSOWizard::hideError()
     this->ui->lblError->setEnabled(false);
 }
 
-void SSOWizard::setHeader(QString artist, QString album, QString price, QString picture_path)
+void SSOWizard::setHeader(QString artist, QString album, QString price)
 {
     this->ui->header->setAlbum(album);
     this->ui->header->setArtist(artist);
     this->ui->header->setPrice(price);
-    this->ui->header->setPicture(picture_path);
+}
+
+void SSOWizard::imageDownloaded(QString& path)
+{
+    this->ui->header->setPicture(path);
 }
 
 void SSOWizard::resizeEvent(QResizeEvent * event)
