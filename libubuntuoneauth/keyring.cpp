@@ -69,6 +69,7 @@ namespace UbuntuOne {
                 qDebug() << "Found token is not valid.";
                 emit keyring->keyringError(QStringLiteral("Faild to convert result to Token object."));
             }
+            delete token;
             secret_password_free(password);
         }
     }

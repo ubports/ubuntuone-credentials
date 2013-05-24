@@ -31,10 +31,9 @@ namespace UbuntuOne {
     class Token
     {
     public:
-        Token();
+        Token() {};
         Token(QString token_key, QString token_secret,
               QString consumer_key, QString consumer_secret);
-        Token(const Token& token);
 
         QString toQuery();
         bool isValid();

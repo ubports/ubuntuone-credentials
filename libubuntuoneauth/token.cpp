@@ -30,10 +30,6 @@
 
 namespace UbuntuOne {
 
-    Token::Token()
-    {
-    }
-
     Token::Token(QString token_key, QString token_secret,
                  QString consumer_key, QString consumer_secret)
     {
@@ -42,11 +38,6 @@ namespace UbuntuOne {
         _tokenHash[TOKEN_TOKEN_SEC_KEY] = token_secret;
         _tokenHash[TOKEN_CONSUMER_KEY] = consumer_key;
         _tokenHash[TOKEN_CONSUMER_SEC_KEY] = consumer_secret;
-    }
-
-    Token::Token(const Token& token)
-    {
-        _tokenHash = token._tokenHash;
     }
 
     /**
@@ -76,14 +67,11 @@ namespace UbuntuOne {
      **/
     bool Token::isValid()
     {
-        if (!_tokenHash.contains(TOKEN_NAME_KEY) ||
-            !_tokenHash.contains(TOKEN_TOKEN_KEY) ||
-            !_tokenHash.contains(TOKEN_TOKEN_SEC_KEY) ||
-            !_tokenHash.contains(TOKEN_CONSUMER_KEY) ||
-            !_tokenHash.contains(TOKEN_CONSUMER_SEC_KEY))
-            return false;
-
-        return true;
+        return (_tokenHash.contains(TOKEN_NAME_KEY) &&
+                _tokenHash.contains(TOKEN_TOKEN_KEY) &&
+                _tokenHash.contains(TOKEN_TOKEN_SEC_KEY) &&
+                _tokenHash.contains(TOKEN_CONSUMER_KEY) &&
+                _tokenHash.contains(TOKEN_CONSUMER_SEC_KEY));
     }
 
     /**
