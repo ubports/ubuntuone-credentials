@@ -26,7 +26,8 @@
 
 namespace UbuntuOne {
 
-    Keyring::Keyring()
+    Keyring::Keyring(QObject *parent)
+        : QObject(parent)
     {
     }
 

@@ -29,7 +29,7 @@ namespace UbuntuOne {
     {
         Q_OBJECT
     public:
-        Keyring();
+        explicit Keyring(QObject *parent=NULL);
 
         void findToken();
         void storeToken(Token token);

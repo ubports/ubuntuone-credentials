@@ -19,7 +19,6 @@
 #define _U1_TOKEN_H_
 
 #include <QHash>
-#include <QObject>
 #include <QString>
 
 
@@ -29,9 +28,8 @@ namespace UbuntuOne {
 #define TOKEN_SEP " @ "
 #define TOKEN_SEP_REPLACEMENT " AT "
 
-    class Token : public QObject
+    class Token
     {
-        Q_OBJECT
     public:
         Token();
         Token(QString token_key, QString token_secret,
