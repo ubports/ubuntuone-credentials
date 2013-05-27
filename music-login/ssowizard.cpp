@@ -151,10 +151,9 @@ void SSOWizard::openUrlAndFinish(Token token)
 {
     if (this->purchaseUrl.startsWith("http")) {
         static const QString apiUrl = QStringLiteral("https://one.ubuntu.com/api/1.0/from_oauth/");
-        QString encoded =  QUrl::toPercentEncoding(this->purchaseUrl);
-        QString urlToSign = apiUrl + "?next=" + encoded;
-        QString params = token.signUrl(apiUrl, QStringLiteral("GET"), true);
-        QString realUrl = apiUrl + "?" + params + "&next=" + encoded;
+        QString urlToSign = apiUrl + "?next=" + this->purchaseUrl;
+        QString params = token.signUrl(urlToSign, QStringLiteral("GET"), true);
+        QString realUrl = apiUrl + "?" + params + "&next=" + this->purchaseUrl;
         QDesktopServices::openUrl(realUrl);
     }
     this->_overlay->hide();
