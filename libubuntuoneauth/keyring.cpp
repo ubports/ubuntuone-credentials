@@ -37,7 +37,7 @@ namespace UbuntuOne {
             "com.ubuntu.one.Token", SECRET_SCHEMA_DONT_MATCH_NAME,
             {
                 { "key-type", SECRET_SCHEMA_ATTRIBUTE_STRING },
-                { "name", SECRET_SCHEMA_ATTRIBUTE_STRING },
+                { "token-name", SECRET_SCHEMA_ATTRIBUTE_STRING },
             }
         };
 
@@ -78,7 +78,7 @@ namespace UbuntuOne {
         secret_password_lookup(_getTokenSchema(), NULL,
                                (GAsyncReadyCallback)_onPasswordLookup, this,
                                "key-type", TOKEN_KEY_TYPE,
-                               "name", Token::buildTokenName().toUtf8().data(),
+                               "token-name", Token::buildTokenName().toUtf8().data(),
                                NULL);
     }
 
@@ -104,7 +104,7 @@ namespace UbuntuOne {
                               TOKEN_ID, token.toQuery().toUtf8().data(), NULL,
                               (GAsyncReadyCallback)_onPasswordStored, this,
                               "key-type", TOKEN_KEY_TYPE,
-                              "name", Token::buildTokenName().toUtf8().data(),
+                              "token-name", Token::buildTokenName().toUtf8().data(),
                               NULL);
     }
 
@@ -128,7 +128,7 @@ namespace UbuntuOne {
         secret_password_clear(_getTokenSchema(), NULL,
                               (GAsyncReadyCallback)_onPasswordCleared, this,
                               "key-type", TOKEN_KEY_TYPE,
-                              "name", Token::buildTokenName().toUtf8().data(),
+                              "tokne-name", Token::buildTokenName().toUtf8().data(),
                               NULL);
     }
 
