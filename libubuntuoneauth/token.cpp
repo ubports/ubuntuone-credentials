@@ -100,7 +100,7 @@ namespace UbuntuOne {
         if (asQuery)
             result = oauth_serialize_url_parameters(argc, argv);
         else
-            result = hdrPrefix + oauth_serialize_url_sep(argc, 1, argv, (char *)", ", 4);
+            result = hdrPrefix + oauth_serialize_url_sep(argc, 1, argv, (char *)", ", 6);
         oauth_free_array(&argc, &argv);
 
         return result;

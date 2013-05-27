@@ -24,6 +24,9 @@ pkg_check_modules(OAUTH REQUIRED oauth)
 add_definitions(${LIBSECRET_CFLAGS} ${LIBSECRET_CFLAGS_OTHER})
 add_definitions(${OAUTH_CFLAGS} ${OAUTH_CFLAGS_OTHER})
 
+# Need the project version here
+add_definitions("-DPROJECT_VERSION=\"${PROJECT_VERSION}\"")
+
 add_library (${AUTH_LIB_NAME} ${LIB_TYPE} ${SOURCES})
 qt5_use_modules (${AUTH_LIB_NAME} Core DBus Xml Network)
 target_link_libraries (${AUTH_LIB_NAME}

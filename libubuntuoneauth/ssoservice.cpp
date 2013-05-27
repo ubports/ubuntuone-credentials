@@ -15,9 +15,12 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
+#include <sys/utsname.h>
 
 #include <QDebug>
 #include <QtGlobal>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
 
 #include "logging.h"
 #include "ssoservice.h"
@@ -25,6 +28,8 @@
 #include "sso_api/errormessages.h"
 
 namespace UbuntuOne {
+
+    static Token _pendingPing;
 
     SSOService::SSOService(QObject *parent) :
         QObject(parent)
@@ -80,21 +85,87 @@ namespace UbuntuOne {
     void SSOService::accountRegistered(const AccountResponse& account)
     {
         login(account.email(), _tempPassword);
+        _tempEmail = account.email();
         _tempPassword = "";
     }
 
     void SSOService::login(QString email, QString password)
     {
         OAuthTokenRequest request(email, password, Token::buildTokenName(), NULL);
+        _tempEmail = email;
 
         _provider.GetOAuthToken(request);
+    }
+
+    static QString _getPlatformDataParams()
+    {
+        struct utsname _platData;
+        uname(&_platData);
+        QStringList params;
+        params.prepend(QStringLiteral("platform") + "=" + _platData.sysname);
+        params.prepend(QStringLiteral("platform_version") + "=" + _platData.release);
+        params.prepend(QStringLiteral("platform_arch") + "=" + _platData.machine);
+        params.prepend(QStringLiteral("client_version") + "=" + PROJECT_VERSION);
+
+        qDebug() << params.join("&");
+        return params.join("&");
+    }
+
+    QString SSOService::getAuthBaseUrl()
+    {
+        QString baseUrl = qgetenv("SSO_AUTH_BASE_URL");
+        if (baseUrl == "")
+            baseUrl = QStringLiteral("https://login.ubuntu.com/");
+        return baseUrl;
+    }
+
+    QString SSOService::getUOneBaseUrl()
+    {
+        QString baseUrl = qgetenv("SSO_UONE_BASE_URL");
+        if (baseUrl == "")
+            baseUrl = QStringLiteral("https://one.ubuntu.com/");
+        return baseUrl;
     }
 
     void SSOService::tokenReceived(const OAuthTokenResponse& token)
     {
         Token realToken = Token(token.token_key(), token.token_secret(),
                                 token.consumer_key(), token.consumer_secret());
-        _keyring->storeToken(realToken);
+        QString urlToSign = getUOneBaseUrl() + "oauth/sso-finished-so-get-tokens/" + _tempEmail + "?" + _getPlatformDataParams();
+        QString authHeader = realToken.signUrl(urlToSign,
+                                               QStringLiteral("GET"));
+        QNetworkAccessManager *_nam = new QNetworkAccessManager(this);
+        QNetworkRequest *_request = new QNetworkRequest();
+
+        QObject::connect(_nam, SIGNAL(finished(QNetworkReply*)),
+                         this, SLOT(accountPinged(QNetworkReply*)));
+
+        _request->setRawHeader(QStringLiteral("Authorization").toUtf8(),
+                              authHeader.toUtf8());
+        _request->setUrl(urlToSign);
+        _nam->get(*_request);
+
+        _tempEmail = "";
+        _pendingPing = realToken;
+    }
+
+    void SSOService::accountPinged(QNetworkReply* reply)
+    {
+        QVariant statusAttr = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+        int httpStatus = statusAttr.toInt();
+
+        if (httpStatus != 200 && httpStatus != 201) {
+            QVariant phraseAttr = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute);
+            QString reason = phraseAttr.toString();
+
+            qCritical() << "Ping to Ubuntu One failed: " + httpStatus + reason;
+            ErrorResponse error(httpStatus, reason, "", "");
+            emit requestFailed(error);
+            goto endAccountPing;
+        }
+        _keyring->storeToken(_pendingPing);
+    endAccountPing:
+        _pendingPing = Token();
     }
 
     void SSOService::invalidateCredentials()
