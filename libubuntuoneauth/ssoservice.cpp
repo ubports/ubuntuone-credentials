@@ -44,7 +44,7 @@ namespace UbuntuOne {
 #endif
 
         // create the keyring that will be used to store and retrieve the different tokens
-        _keyring = new Keyring();
+        _keyring = new Keyring(this);
         connect(_keyring, SIGNAL(tokenFound(const Token&)),
                 this, SLOT(credentialsAcquired(const Token&)));
         connect(_keyring, SIGNAL(tokenStored()),
