@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 2.8.9)
 
 # This is the name and release version of the project
 PROJECT (ubuntuone-credentials)
-SET (PROJECT_VERSION 4.1.92)
+SET (PROJECT_VERSION 99.12)
 
 # Some variables for the library builds
 SET (AUTH_LIB_VERSION 0.1.0)
