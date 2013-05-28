@@ -57,7 +57,7 @@ void TestToken::testToQuery()
     Token *token = new Token("token", "t_secret", "consumer", "c_secret");
     QString query = token->toQuery();
     QString expected("consumer_key=consumer&consumer_secret=c_secret&name=Ubuntu+One+%40+" + this->test_hostname + "&token=token&token_secret=t_secret");
-    QCOMPARE(query.toUtf8().data(), expected.toUtf8().data());
+    QCOMPARE(query, expected);
     delete token;
 }
 
