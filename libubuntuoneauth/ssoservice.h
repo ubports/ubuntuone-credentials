@@ -19,6 +19,8 @@
 #ifndef SSOSERVICE_H
 #define SSOSERVICE_H
 
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
 #include <QObject>
 #include <QString>
 
@@ -42,6 +44,9 @@ namespace UbuntuOne {
         void registerUser(QString email, QString password,
                           QString display_name);
 
+        static QString getAuthBaseUrl();
+        static QString getUOneBaseUrl();
+
     signals:
         void credentialsDeleted();
         void credentialsStored();
@@ -50,6 +55,7 @@ namespace UbuntuOne {
         void requestFailed(const ErrorResponse& error);
 
         private slots:
+            void accountPinged(QNetworkReply*);
             void credentialsSet() { emit credentialsStored(); };
             void credentialsCleared() { emit credentialsDeleted(); };
             void credentialsAcquired(const Token& token);
@@ -61,7 +67,9 @@ namespace UbuntuOne {
             Keyring *_keyring;
 
             QString _tempPassword;
+            QString _tempEmail;
             IdentityProvider _provider;
+            QNetworkAccessManager *_nam;
     };
 
 }
