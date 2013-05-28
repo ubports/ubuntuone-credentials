@@ -167,6 +167,7 @@ namespace UbuntuOne {
         } else
             _keyring->storeToken(_pendingPing);
 
+        reply->deleteLater();
         _pendingPing = Token();
     }
 
