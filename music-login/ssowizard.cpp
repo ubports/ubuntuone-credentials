@@ -31,6 +31,7 @@
 #include "ui_ssowizard.h"
 #include <QStringList>
 #include <QCoreApplication>
+#include <QDebug>
 #include <QDesktopServices>
 #include <QResizeEvent>
 #include "sso_api/errormessages.h"
@@ -82,6 +83,9 @@ SSOWizard::SSOWizard(QWidget *parent) :
 
     QObject::connect(&(this->_service), SIGNAL(credentialsStored()),
                      this, SLOT(accountAuthenticated()));
+    QObject::connect(&(this->_service), SIGNAL(credentialsFound(const Token&)),
+                     this, SLOT(openUrlAndFinish(Token)));
+
     QObject::connect(&(this->_service), SIGNAL(requestFailed(const ErrorResponse&)),
                      this, SLOT(serviceFailed(const ErrorResponse&)));
     QObject::connect(this->ui->pageLogin, SIGNAL(newCustomerSelected(QString,QString)),
@@ -140,7 +144,18 @@ void SSOWizard::loginAndBuy(QString email, QString password)
 
 void SSOWizard::accountAuthenticated()
 {
-    QDesktopServices::openUrl(this->purchaseUrl);
+    this->_service.getCredentials();
+}
+
+void SSOWizard::openUrlAndFinish(Token token)
+{
+    if (this->purchaseUrl.startsWith("http")) {
+        static const QString apiUrl = QStringLiteral("https://one.ubuntu.com/api/1.0/from_oauth/");
+        QString urlToSign = apiUrl + "?next=" + this->purchaseUrl;
+        QString params = token.signUrl(urlToSign, QStringLiteral("GET"), true);
+        QString realUrl = apiUrl + "?" + params + "&next=" + this->purchaseUrl;
+        QDesktopServices::openUrl(realUrl);
+    }
     this->_overlay->hide();
     emit this->aboutToClose();
 }

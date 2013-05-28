@@ -20,12 +20,16 @@ FILE (GLOB HEADERS *.h sso_api/*.h)
 
 find_package (PkgConfig REQUIRED)
 pkg_check_modules(LIBSECRET REQUIRED libsecret-1)
+pkg_check_modules(OAUTH REQUIRED oauth)
 add_definitions(${LIBSECRET_CFLAGS} ${LIBSECRET_CFLAGS_OTHER})
+add_definitions(${OAUTH_CFLAGS} ${OAUTH_CFLAGS_OTHER})
 
 add_library (${AUTH_LIB_NAME} ${LIB_TYPE} ${SOURCES})
 qt5_use_modules (${AUTH_LIB_NAME} Core DBus Xml Network)
 target_link_libraries (${AUTH_LIB_NAME}
-  ${LIBSECRET_LDFLAGS})
+  ${LIBSECRET_LDFLAGS}
+  ${OAUTH_LDFLAGS}
+)
 
 SET_TARGET_PROPERTIES(${AUTH_LIB_NAME} PROPERTIES
   VERSION ${AUTH_LIB_VERSION}
