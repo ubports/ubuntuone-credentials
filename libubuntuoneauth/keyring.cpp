@@ -22,7 +22,8 @@
 #include "keyring.h"
 
 #define TOKEN_KEY_TYPE "Ubuntu SSO credentials"
-
+#define TOKEN_ATTR_TYPE_KEY "key-type"
+#define TOKEN_ATTR_NAME_KEY "token-name"
 
 namespace UbuntuOne {
 
@@ -36,8 +37,8 @@ namespace UbuntuOne {
         static const SecretSchema schema = {
             "com.ubuntu.one.Token", SECRET_SCHEMA_DONT_MATCH_NAME,
             {
-                { "key-type", SECRET_SCHEMA_ATTRIBUTE_STRING },
-                { "token-name", SECRET_SCHEMA_ATTRIBUTE_STRING },
+                { TOKEN_ATTR_TYPE_KEY, SECRET_SCHEMA_ATTRIBUTE_STRING },
+                { TOKEN_ATTR_NAME_KEY, SECRET_SCHEMA_ATTRIBUTE_STRING },
             }
         };
 
@@ -77,8 +78,8 @@ namespace UbuntuOne {
     {
         secret_password_lookup(_getTokenSchema(), NULL,
                                (GAsyncReadyCallback)_onPasswordLookup, this,
-                               "key-type", TOKEN_KEY_TYPE,
-                               "token-name", Token::buildTokenName().toUtf8().data(),
+                               TOKEN_ATTR_TYPE_KEY, TOKEN_KEY_TYPE,
+                               TOKEN_ATTR_NAME_KEY, Token::buildTokenName().toUtf8().data(),
                                NULL);
     }
 
@@ -103,8 +104,8 @@ namespace UbuntuOne {
         secret_password_store(_getTokenSchema(), SECRET_COLLECTION_DEFAULT,
                               TOKEN_ID, token.toQuery().toUtf8().data(), NULL,
                               (GAsyncReadyCallback)_onPasswordStored, this,
-                              "key-type", TOKEN_KEY_TYPE,
-                              "token-name", Token::buildTokenName().toUtf8().data(),
+                              TOKEN_ATTR_TYPE_KEY, TOKEN_KEY_TYPE,
+                              TOKEN_ATTR_NAME_KEY, Token::buildTokenName().toUtf8().data(),
                               NULL);
     }
 
@@ -127,8 +128,8 @@ namespace UbuntuOne {
     {
         secret_password_clear(_getTokenSchema(), NULL,
                               (GAsyncReadyCallback)_onPasswordCleared, this,
-                              "key-type", TOKEN_KEY_TYPE,
-                              "tokne-name", Token::buildTokenName().toUtf8().data(),
+                              TOKEN_ATTR_TYPE_KEY, TOKEN_KEY_TYPE,
+                              TOKEN_ATTR_NAME_KEY, Token::buildTokenName().toUtf8().data(),
                               NULL);
     }
 
