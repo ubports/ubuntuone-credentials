@@ -15,20 +15,29 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
+#include <QHostInfo>
+#include <QUuid>
 
-#include "user.h"
+#include <keyring.h>
 
-namespace SSO {
+#include "test_keyring.h"
 
-User::User(SSOService *parent) :
-    QObject(parent)
+
+TestKeyring::TestKeyring()
 {
-    this->_service = parent;
 }
 
-bool User::sessionOpened()
+void TestKeyring::testFindToken()
 {
-    return this->_service->sessionOpened();
+    // Need to figure out how to fake the keyring/dbus
 }
 
+void TestKeyring::testStoreToken()
+{
+    // Need to figure out how to fake the keyring/dbus
+}
+
+void TestKeyring::testDeleteToken()
+{
+    // Need to figure out how to fake the keyring/dbus
 }

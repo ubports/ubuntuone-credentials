@@ -24,7 +24,7 @@
 #include <QString>
 #include <QStringList>
 
-namespace SSO {
+namespace UbuntuOne {
 
 class ErrorResponse
 {

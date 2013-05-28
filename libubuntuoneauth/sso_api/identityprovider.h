@@ -25,7 +25,7 @@
 
 #include <QObject>
 
-namespace SSO { /* TODO: is this a good/correct name? */
+namespace UbuntuOne {
 
 class IdentityProvider : public QObject
 {

@@ -21,48 +21,48 @@
 
 #include <QObject>
 #include <QString>
-#include "keyring/keyring.h"
+
+#include "keyring.h"
+#include "token.h"
+
 #include "sso_api/identityprovider.h"
 #include "sso_api/responses.h"
 
-namespace SSO {
+namespace UbuntuOne {
 
-class SSOService : public QObject
-{
-    Q_OBJECT
-public:
-    explicit SSOService(QObject *parent = 0);
+    class SSOService : public QObject
+    {
+        Q_OBJECT
+    public:
+        explicit SSOService(QObject *parent = 0);
 
-    void init_service();
-    bool sessionOpened();
-    void invalidateCredentials();
-    void getCredentials();
-    void login(QString email, QString password);
-    void registerUser(QString email, QString password, QString display_name);
+        void invalidateCredentials();
+        void getCredentials();
+        void login(QString email, QString password);
+        void registerUser(QString email, QString password,
+                          QString display_name);
 
-signals:
-    void sessionActivated();
-    void credentialsDeleted();
+    signals:
+        void credentialsDeleted();
+        void credentialsStored();
+        void credentialsFound(const Token& token);
+        void credentialsNotFound(QString id);
+        void requestFailed(const ErrorResponse& error);
 
-    void credentialsFound(QString id, QString token, QString tokenSecret, QString consumer, QString consumerSecret);
-    void credentialsNotFound(QString id);
-    void requestFailed(const ErrorResponse& error);
+        private slots:
+            void credentialsSet() { emit credentialsStored(); };
+            void credentialsCleared() { emit credentialsDeleted(); };
+            void credentialsAcquired(const Token& token);
+            void tokenReceived(const OAuthTokenResponse& token);
+            void accountRegistered(const AccountResponse& account);
+            void errorOcurred(const ErrorResponse&);
 
-private slots:
-    void sessionDetected();
-    void credentialsSet(QString id, bool stored);
-    void credentialsAcquired(QString id, QString token, QString secret, QString consumer, QString consumerSecret, bool found);
-    void tokenReceived(const OAuthTokenResponse& token);
-    void accountRegistered(const AccountResponse& account);
-    void errorOcurred(const ErrorResponse&);
+    private:
+            Keyring *_keyring;
 
-private:
-    bool _serviceEnabled = false;
-    QString _tempPassword;
-    QDBusConnection _conn;
-    keyring::Keyring* _keyring;
-    IdentityProvider provider;
-};
+            QString _tempPassword;
+            IdentityProvider _provider;
+    };
 
 }
 

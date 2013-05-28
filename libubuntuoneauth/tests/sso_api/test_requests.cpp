@@ -22,6 +22,9 @@
 
 #include "sso_api/requests.h"
 
+using namespace UbuntuOne;
+
+
 TestOAuthTokenRequests::TestOAuthTokenRequests()
     : test_email(QUuid::createUuid().toString()),
       test_password(QUuid::createUuid().toString()),
@@ -32,7 +35,7 @@ TestOAuthTokenRequests::TestOAuthTokenRequests()
 
 void TestOAuthTokenRequests::testDefaults()
 {
-    SSO::OAuthTokenRequest request;
+    OAuthTokenRequest request;
 
     QString empty("");
 
@@ -44,7 +47,7 @@ void TestOAuthTokenRequests::testDefaults()
 
 void TestOAuthTokenRequests::testValues()
 {
-    SSO::OAuthTokenRequest request;
+    OAuthTokenRequest request;
 
     request.email(this->test_email);
     request.password(this->test_password);
@@ -69,7 +72,7 @@ TestAccountRequests::TestAccountRequests()
 
 void TestAccountRequests::testDefaults()
 {
-    SSO::AccountRequest request;
+    AccountRequest request;
 
     QString empty("");
 
@@ -83,7 +86,7 @@ void TestAccountRequests::testDefaults()
 
 void TestAccountRequests::testValues()
 {
-    SSO::AccountRequest request;
+    AccountRequest request;
     bool create = false;
 
     request.email(this->test_email);
@@ -108,7 +111,7 @@ TestPasswordTokenRequests::TestPasswordTokenRequests()
 
 void TestPasswordTokenRequests::testDefaults()
 {
-    SSO::PasswordTokenRequest request;
+    PasswordTokenRequest request;
 
     QString empty("");
 
@@ -117,7 +120,7 @@ void TestPasswordTokenRequests::testDefaults()
 
 void TestPasswordTokenRequests::testValues()
 {
-    SSO::PasswordTokenRequest request;
+    PasswordTokenRequest request;
 
     request.email(this->test_email);
 

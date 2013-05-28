@@ -19,7 +19,8 @@
 #include <QtTest/QtTest>
 
 #include "test_logging.h"
-#include "keyring/test_keyring.h"
+#include "test_keyring.h"
+#include "test_token.h"
 #include "sso_api/test_requests.h"
 #include "sso_api/test_responses.h"
 
@@ -37,6 +38,9 @@ int main()
     /* Keyring tests */
     TestKeyring test_keyring;
 
+    /* Token tests */
+    TestToken test_token;
+
     /* Request tests */
     TestOAuthTokenRequests test_oauth_token_requests;
     TestPasswordTokenRequests test_password_token_requests;
@@ -51,6 +55,7 @@ int main()
 
     result += QTest::qExec(&test_auth_logger);
     result += QTest::qExec(&test_keyring);
+    result += QTest::qExec(&test_token);
     result += QTest::qExec(&test_oauth_token_requests);
     result += QTest::qExec(&test_password_token_requests);
     result += QTest::qExec(&test_account_requests);

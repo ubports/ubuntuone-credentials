@@ -28,7 +28,7 @@
 #include "requests.h"
 
 
-namespace SSO {
+namespace UbuntuOne {
 
 Network::Network(QObject *parent)
     : QObject(parent)

@@ -22,7 +22,7 @@
 #include <QString>
 #include <QUrl>
 
-namespace SSO {
+namespace UbuntuOne {
 
 static QString API_BASE = "https://login.ubuntu.com/api/v2/";
 static QString OAUTH_API = API_BASE + "tokens/oauth";

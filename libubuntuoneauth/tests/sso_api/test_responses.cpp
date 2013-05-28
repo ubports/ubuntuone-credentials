@@ -23,6 +23,8 @@
 #include "sso_api/responses.h"
 #include "sso_api/errormessages.h"
 
+using namespace UbuntuOne;
+
 TestErrorResponses::TestErrorResponses()
     : test_httpStatus(123),
       test_httpReason(QUuid::createUuid().toString()),
@@ -37,7 +39,7 @@ TestErrorResponses::TestErrorResponses()
 
 void TestErrorResponses::testDefaults()
 {
-    SSO::ErrorResponse response;
+    ErrorResponse response;
 
     QString empty("");
 
@@ -53,7 +55,7 @@ void TestErrorResponses::testDefaults()
 
 void TestErrorResponses::testValues()
 {
-    SSO::ErrorResponse response;
+    ErrorResponse response;
 
     response.httpStatus(this->test_httpStatus);
     response.httpReason(this->test_httpReason);
@@ -76,7 +78,7 @@ void TestErrorResponses::testValues()
 
 void TestErrorResponses::testErrorMessage()
 {
-    SSO::ErrorResponse response;
+    ErrorResponse response;
 
     response.code(CAPTCHA_REQUIRED);
     QCOMPARE(response.code(), int(ErrorCodes::CODE_CAPTCHA_REQUIRED));
@@ -96,7 +98,7 @@ TestOAuthTokenResponses::TestOAuthTokenResponses()
 
 void TestOAuthTokenResponses::testDefaults()
 {
-    SSO::OAuthTokenResponse response;
+    OAuthTokenResponse response;
 
     QString empty("");
 
@@ -112,7 +114,7 @@ void TestOAuthTokenResponses::testDefaults()
 
 void TestOAuthTokenResponses::testValues()
 {
-    SSO::OAuthTokenResponse response;
+    OAuthTokenResponse response;
 
     response.token_name(this->test_token_name);
     response.token_secret(this->test_token_secret);
@@ -140,7 +142,7 @@ TestPasswordTokenResponses::TestPasswordTokenResponses()
 
 void TestPasswordTokenResponses::testDefaults()
 {
-    SSO::PasswordTokenResponse response;
+    PasswordTokenResponse response;
 
     QString empty("");
 
@@ -149,7 +151,7 @@ void TestPasswordTokenResponses::testDefaults()
 
 void TestPasswordTokenResponses::testValues()
 {
-    SSO::PasswordTokenResponse response;
+    PasswordTokenResponse response;
 
     response.email(this->test_email);
 
@@ -167,7 +169,7 @@ TestAccountResponses::TestAccountResponses()
 
 void TestAccountResponses::testDefaults()
 {
-    SSO::AccountResponse response;
+    AccountResponse response;
 
     QString empty("");
 
@@ -181,7 +183,7 @@ void TestAccountResponses::testDefaults()
 
 void TestAccountResponses::testValues()
 {
-    SSO::AccountResponse response;
+    AccountResponse response;
 
     response.status(this->test_status);
     response.openid(this->test_openid);

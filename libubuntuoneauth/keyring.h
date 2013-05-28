@@ -15,27 +15,35 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
+#ifndef _U1_KEYRING_H_
+#define _U1_KEYRING_H_
 
-#include "dbus_helper.h"
+#include <QObject>
 
-namespace dbus
-{
-
-// required for the init
-int DBusHelper::DBUS_STRING_MAP_ID = 0;
-int DBusHelper::DBUS_OBJECTPATH_MAP_ID = 1;
-
-DBusHelper::_init DBusHelper::_initializer;
-
-DBusHelper::DBusHelper(QObject *parent) :
-    QObject(parent)
-{
-}
+#include "token.h"
 
 
-QVariant DBusHelper::getVariant(DBusStringHash hash)
-{
-    return QVariant(DBUS_STRING_MAP_ID, &hash);
-}
+namespace UbuntuOne {
 
-} // dbus
+    class Keyring : public QObject
+    {
+        Q_OBJECT
+    public:
+        explicit Keyring(QObject *parent=NULL);
+
+        void findToken();
+        void storeToken(Token token);
+        void deleteToken();
+
+    Q_SIGNALS:
+        void tokenFound(const Token& token);
+        void tokenNotFound();
+        void tokenStored();
+        void tokenDeleted();
+
+        void keyringError(QString message);
+    };
+
+} /* namespace UbuntuOne */
+
+#endif /* _U1_KEYRING_H_ */

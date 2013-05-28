@@ -21,7 +21,7 @@
 #include <QJsonObject>
 #include "errormessages.h"
 
-namespace SSO {
+namespace UbuntuOne {
 
 ErrorResponse::ErrorResponse()
     : _httpStatus(-1), _httpReason(""), _message(""),

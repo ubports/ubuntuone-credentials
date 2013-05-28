@@ -15,28 +15,36 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
-#include "keyring_manager.h"
+#ifndef _U1_TOKEN_H_
+#define _U1_TOKEN_H_
 
-KeyringManager::KeyringManager(QObject *parent) :
-    QObject(parent),
-  _conn(QDBusConnection::sessionBus())
-{
-    // create the keyring that will be used to store and retrieve the different
-    // tokens
-    _keyring = new keyring::Keyring(_conn);
-    this->connect(_keyring, SIGNAL(sessionOpened()), this, SLOT(sessionDetected()));
-    this->connect(_keyring, SIGNAL(credentialsFound(QString,QString,QString,bool)), this, SLOT(credentialsFound(QString,QString,QString)));
-}
+#include <QHash>
+#include <QString>
 
-void KeyringManager::start()
-{
-    _keyring->openSession();
-}
 
-void KeyringManager::sessionDetected()
-{
-}
+namespace UbuntuOne {
 
-void KeyringManager::credentialsFound(QString id, QString token, QString secret)
-{
-}
+#define TOKEN_ID "Ubuntu One"
+#define TOKEN_SEP " @ "
+#define TOKEN_SEP_REPLACEMENT " AT "
+
+    class Token
+    {
+    public:
+        Token() {};
+        Token(QString token_key, QString token_secret,
+              QString consumer_key, QString consumer_secret);
+
+        QString toQuery();
+        bool isValid();
+
+        static Token *fromQuery(const QString query);
+        static QString buildTokenName();
+
+    private:
+        QHash<QString, QString> _tokenHash;
+    };
+
+} /* namespace UbuntuOne */
+
+#endif /* _U1_KEYRING_H_ */
