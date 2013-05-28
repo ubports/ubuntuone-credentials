@@ -19,8 +19,8 @@
 
 #include <QDebug>
 #include <QtGlobal>
-#include <QNetworkAccessManager>
 #include <QNetworkRequest>
+#include <QUrlQuery>
 
 #include "logging.h"
 #include "ssoservice.h"
@@ -45,6 +45,8 @@ namespace UbuntuOne {
 
         // create the keyring that will be used to store and retrieve the different tokens
         _keyring = new Keyring(this);
+        _nam = new QNetworkAccessManager(this);
+
         connect(_keyring, SIGNAL(tokenFound(const Token&)),
                 this, SLOT(credentialsAcquired(const Token&)));
         connect(_keyring, SIGNAL(tokenStored()),
@@ -101,20 +103,22 @@ namespace UbuntuOne {
     {
         struct utsname _platData;
         uname(&_platData);
-        QStringList params;
-        params.prepend(QStringLiteral("platform") + "=" + _platData.sysname);
-        params.prepend(QStringLiteral("platform_version") + "=" + _platData.release);
-        params.prepend(QStringLiteral("platform_arch") + "=" + _platData.machine);
-        params.prepend(QStringLiteral("client_version") + "=" + PROJECT_VERSION);
 
-        qDebug() << params.join("&");
-        return params.join("&");
+        QUrlQuery *params = new QUrlQuery();
+        params->addQueryItem("platform", _platData.sysname);
+        params->addQueryItem("platform_version", _platData.release);
+        params->addQueryItem("platform_arch", _platData.machine);
+        params->addQueryItem("client_version", PROJECT_VERSION);
+
+        QString result = params->toString();
+        qDebug() << "Ping parameters:" << result;
+        return result;
     }
 
     QString SSOService::getAuthBaseUrl()
     {
         QString baseUrl = qgetenv("SSO_AUTH_BASE_URL");
-        if (baseUrl == "")
+        if (baseUrl.isEmpty())
             baseUrl = QStringLiteral("https://login.ubuntu.com/");
         return baseUrl;
     }
@@ -122,7 +126,7 @@ namespace UbuntuOne {
     QString SSOService::getUOneBaseUrl()
     {
         QString baseUrl = qgetenv("SSO_UONE_BASE_URL");
-        if (baseUrl == "")
+        if (baseUrl.isEmpty())
             baseUrl = QStringLiteral("https://one.ubuntu.com/");
         return baseUrl;
     }
@@ -134,7 +138,6 @@ namespace UbuntuOne {
         QString urlToSign = getUOneBaseUrl() + "oauth/sso-finished-so-get-tokens/" + _tempEmail + "?" + _getPlatformDataParams();
         QString authHeader = realToken.signUrl(urlToSign,
                                                QStringLiteral("GET"));
-        QNetworkAccessManager *_nam = new QNetworkAccessManager(this);
         QNetworkRequest *_request = new QNetworkRequest();
 
         QObject::connect(_nam, SIGNAL(finished(QNetworkReply*)),
@@ -154,17 +157,16 @@ namespace UbuntuOne {
         QVariant statusAttr = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
         int httpStatus = statusAttr.toInt();
 
-        if (httpStatus != 200 && httpStatus != 201) {
+        if (reply->error() != QNetworkReply::NoError) {
             QVariant phraseAttr = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute);
             QString reason = phraseAttr.toString();
 
             qCritical() << "Ping to Ubuntu One failed: " + httpStatus + reason;
             ErrorResponse error(httpStatus, reason, "", "");
             emit requestFailed(error);
-            goto endAccountPing;
-        }
-        _keyring->storeToken(_pendingPing);
-    endAccountPing:
+        } else
+            _keyring->storeToken(_pendingPing);
+
         _pendingPing = Token();
     }
 

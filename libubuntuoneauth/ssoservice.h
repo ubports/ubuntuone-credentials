@@ -19,6 +19,7 @@
 #ifndef SSOSERVICE_H
 #define SSOSERVICE_H
 
+#include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QObject>
 #include <QString>
@@ -68,6 +69,7 @@ namespace UbuntuOne {
             QString _tempPassword;
             QString _tempEmail;
             IdentityProvider _provider;
+            QNetworkAccessManager *_nam;
     };
 
 }
