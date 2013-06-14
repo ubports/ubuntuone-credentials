@@ -193,4 +193,4 @@ void Network::ProcessOAuthTokenReply(const QJsonObject& object)
     emit OAuthTokenGranted(response);
 }
 
-} /* end SSO namespace */
+} /* end UbuntuOne namespace */

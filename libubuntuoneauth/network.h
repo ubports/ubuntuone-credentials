@@ -65,6 +65,6 @@ private:
     static const QString _tokensApi, _accountsApi;
 };
 
-} /* end SSO namespace */
+} /* end UbuntuOne namespace */
 
 #endif /* _NETWORK_H_ */

@@ -55,6 +55,6 @@ private:
     Network* network;
 };
 
-} /* end SSO namespace */
+} /* end UbuntuOne namespace */
 
 #endif // _IDENTITYPROVIDER_H_

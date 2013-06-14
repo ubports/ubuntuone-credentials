@@ -84,4 +84,4 @@ AccountResponse::AccountResponse()
 {
 }
 
-} /* end SSO namespace */
+} /* end UbuntuOne namespace */
