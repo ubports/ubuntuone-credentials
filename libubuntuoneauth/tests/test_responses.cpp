@@ -20,8 +20,8 @@
 
 #include "test_responses.h"
 
-#include "sso_api/responses.h"
-#include "sso_api/errormessages.h"
+#include "responses.h"
+#include "errormessages.h"
 
 using namespace UbuntuOne;
 
