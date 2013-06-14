@@ -21,8 +21,8 @@
 #include "test_logging.h"
 #include "test_keyring.h"
 #include "test_token.h"
-#include "sso_api/test_requests.h"
-#include "sso_api/test_responses.h"
+#include "test_requests.h"
+#include "test_responses.h"
 
 int main()
 {

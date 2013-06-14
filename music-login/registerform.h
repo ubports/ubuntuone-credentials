@@ -31,7 +31,7 @@
 #define REGISTERFORM_H
 
 #include <QWidget>
-#include <sso_api/responses.h>
+#include "responses.h"
 
 using namespace UbuntuOne;
 

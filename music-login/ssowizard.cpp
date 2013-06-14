@@ -34,7 +34,7 @@
 #include <QDebug>
 #include <QDesktopServices>
 #include <QResizeEvent>
-#include "sso_api/errormessages.h"
+#include "errormessages.h"
 
 #define GENERAL_ERROR_MESSAGE "We apologize, but we cannot process your request right now. Please try again later."
 

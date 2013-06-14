@@ -30,7 +30,7 @@
 #include "testssowizard.h"
 #include <QtTest/QtTest>
 #include "ui_ssowizard.h"
-#include <sso_api/responses.h>
+#include "responses.h"
 #include "ssowizard.cpp"
 
 TestSSOWizard::TestSSOWizard(QObject *parent) :

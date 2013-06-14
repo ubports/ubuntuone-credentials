@@ -27,8 +27,8 @@
 #include "keyring.h"
 #include "token.h"
 
-#include "sso_api/identityprovider.h"
-#include "sso_api/responses.h"
+#include "identityprovider.h"
+#include "responses.h"
 
 namespace UbuntuOne {
 
