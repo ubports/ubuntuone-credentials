@@ -54,7 +54,7 @@ namespace UbuntuOne {
 
         if (error != NULL) {
             QString message(error->message);
-            qCritical() << message;
+            qCritical() << "Error in secret_password_lookup: " <<  message;
             emit keyring->keyringError(message);
             g_error_free(error);
         } else if (password == NULL) {
