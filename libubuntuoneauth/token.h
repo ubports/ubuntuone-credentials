@@ -36,9 +36,9 @@ namespace UbuntuOne {
               QString consumer_key, QString consumer_secret);
 
         QString toQuery();
-        bool isValid();
+        bool isValid() const;
 
-        QString signUrl(const QString url, const QString method, bool asQuery = false);
+        QString signUrl(const QString url, const QString method, bool asQuery = false) const;
 
         static Token *fromQuery(const QString query);
         static QString buildTokenName();
