@@ -57,6 +57,9 @@ namespace UbuntuOne {
         connect(_keyring, SIGNAL(tokenDeleted()),
                 this, SLOT(handleTokenDeleted()));
 
+        connect(_nam, SIGNAL(finished(QNetworkReply*)),
+                this, SLOT(accountPinged(QNetworkReply*)));
+
         connect(&(_provider),
                 SIGNAL(OAuthTokenGranted(const OAuthTokenResponse&)),
                 this, SLOT(tokenReceived(const OAuthTokenResponse&)));
@@ -95,13 +98,13 @@ namespace UbuntuOne {
         AccountRequest request(email, password, display_name, NULL, NULL);
 
         _tempPassword = password;
+        _tempEmail = email;
         _provider.CreateAccount(request);
     }
 
     void SSOService::accountRegistered(const AccountResponse& account)
     {
-        login(account.email(), _tempPassword);
-        _tempEmail = account.email();
+        login(_tempEmail, _tempPassword);
         _tempPassword = "";
     }
 
@@ -153,9 +156,6 @@ namespace UbuntuOne {
         QString authHeader = realToken.signUrl(urlToSign,
                                                QStringLiteral("GET"));
         QNetworkRequest *_request = new QNetworkRequest();
-
-        QObject::connect(_nam, SIGNAL(finished(QNetworkReply*)),
-                         this, SLOT(accountPinged(QNetworkReply*)));
 
         _request->setRawHeader(QStringLiteral("Authorization").toUtf8(),
                               authHeader.toUtf8());
