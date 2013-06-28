@@ -175,9 +175,7 @@ namespace UbuntuOne {
             QVariant phraseAttr = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute);
             QString reason = phraseAttr.toString();
 
-            qCritical() << "Ping to Ubuntu One failed: " <<  httpStatus << reason;
-            qCritical() << reply->readAll();
-            qCritical() << reply->rawHeaderPairs();
+            qCritical() << "Ping to Ubuntu One failed:" << httpStatus << reason;
             ErrorResponse error(httpStatus, reason, "", "");
             emit requestFailed(error);
         } else

@@ -92,6 +92,10 @@ namespace UbuntuOne {
         char *req_hdr = NULL;
 
         argc = oauth_split_url_parameters(url.toUtf8().data(), &argv);
+        // Fixup the URL as liboauth is escaping '+' to ' ' in it, incorrectly.
+        for (int a = 0; argv[0][a] != 0; a++)
+            argv[0][a] = argv[0][a] == ' ' ? '+' : argv[0][a];
+
         oauth_sign_array2_process(&argc, &argv, NULL,
                                   OA_HMAC, method.toUtf8().data(),
                                   _tokenHash[TOKEN_CONSUMER_KEY].toUtf8().data(),
