@@ -88,7 +88,7 @@ namespace UbuntuOne {
 
     void SSOService::handleTokenStored()
     {
-        emit credentialsStored(_pendingPing); 
+        emit credentialsStored(); 
         _pendingPing = Token();
     }
 

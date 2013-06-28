@@ -1,0 +1,3 @@
+module @QML_MODULE_NAME@
+plugin @PLUGIN_NAME@
+typeinfo UbuntuOneCredentials.qmltypes
