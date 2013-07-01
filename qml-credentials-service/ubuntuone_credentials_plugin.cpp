@@ -5,7 +5,6 @@
 
 void UbuntuOneCredentialsPlugin::registerTypes(const char *uri)
 {
-    // @uri Ubuntu.One.Components
     qmlRegisterType<UbuntuOneCredentialsService>(uri, 1, 0, "UbuntuOneCredentialsService");
 }
 
