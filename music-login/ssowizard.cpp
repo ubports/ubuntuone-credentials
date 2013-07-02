@@ -81,8 +81,8 @@ SSOWizard::SSOWizard(QWidget *parent) :
     QObject::connect(&(this->downloader), SIGNAL(fileDownloaded(QString&)),
                      this, SLOT(imageDownloaded(QString&)));
 
-    QObject::connect(&(this->_service), SIGNAL(credentialsStored()),
-                     this, SLOT(accountAuthenticated()));
+    QObject::connect(&(this->_service), SIGNAL(credentialsStored(const Token&)),
+                     this, SLOT(accountAuthenticated(Token)));
     QObject::connect(&(this->_service), SIGNAL(credentialsFound(const Token&)),
                      this, SLOT(openUrlAndFinish(Token)));
 
@@ -142,7 +142,7 @@ void SSOWizard::loginAndBuy(QString email, QString password)
     this->_service.login(email, password);
 }
 
-void SSOWizard::accountAuthenticated()
+void SSOWizard::accountAuthenticated(Token token)
 {
     this->_service.getCredentials();
 }
