@@ -82,7 +82,7 @@ Rectangle {
             checked: false
 
             onCheckedChanged: {
-                main.switch_form();
+                main.toggleNewUser();
             }
         }
 

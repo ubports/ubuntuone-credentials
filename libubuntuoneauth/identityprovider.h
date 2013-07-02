@@ -42,6 +42,7 @@ signals:
     void PasswordTokenGranted(const PasswordTokenResponse& token);
     void AccountGranted(const AccountResponse& account);
     void ErrorOccurred(const ErrorResponse& error);
+    void TwoFactorAuthRequired();
 
 public slots:
     void OnOAuthTokenGranted(const OAuthTokenResponse& token);

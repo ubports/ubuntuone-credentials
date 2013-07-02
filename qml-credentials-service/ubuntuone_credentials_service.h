@@ -24,7 +24,7 @@ public:
     ~UbuntuOneCredentialsService();
 
     Q_INVOKABLE void checkCredentials();
-    Q_INVOKABLE void login(QString email, QString password);
+    Q_INVOKABLE void login(QString email, QString password, QString twoFactorCode = QString());
     Q_INVOKABLE void registerUser(QString email, QString password, QString name);
     Q_INVOKABLE void signUrl(QString url, QString method, bool asQuery = false);
 
@@ -33,6 +33,7 @@ signals:
     void credentialsNotFound();
     void loginOrRegisterSuccess();
     void loginOrRegisterError(QString errorMessage);
+    void twoFactorAuthRequired();
     void urlSigned(QString signedUrl);
     void urlSigningError(QString errorMessage);
 
@@ -40,6 +41,7 @@ private slots:
     void handleCredentialsFound(const Token&);
     void handleCredentialsNotFound();
     void handleCredentialsStored();
+    void handleTwoFactorAuthRequired();
     void handleError(const ErrorResponse&);
 
 private:

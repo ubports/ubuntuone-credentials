@@ -34,21 +34,13 @@ Rectangle {
         TextField {
             id: txtEmail
             placeholderText: "Your email"
+            focus: true;
+            KeyNavigation.tab: txtPassword
+            KeyNavigation.backtab: txtPassword
         }
 
         Label{
-            text: " "
-        }
-        Label{
-            text: "Enter the email address you use to log into your Ubuntu One account. If you don't have an account yet, don't worry we'll create one for you."
-            color: "white"
-            fontSize: "small"
-            width: txtEmail.width
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
-
-        Label{
-            text: "New Customer"
+            text: "I am a new\nUbuntu One user"
             color: "white"
             fontSize: "large"
         }
@@ -57,7 +49,7 @@ Rectangle {
             checked: false
 
             onCheckedChanged: {
-                main.switch_form();
+                main.toggleNewUser();
             }
         }
 
@@ -70,6 +62,9 @@ Rectangle {
             id: txtPassword
             placeholderText: "Your password"
             echoMode: TextInput.Password
+            KeyNavigation.backtab: txtEmail
+            KeyNavigation.tab: txtEmail
+            Keys.onReturnPressed: main.process_form();
         }
 
         Label{

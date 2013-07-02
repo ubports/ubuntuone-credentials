@@ -11,6 +11,9 @@ UbuntuOneCredentialsService::UbuntuOneCredentialsService(QQuickItem *parent):
     QObject::connect(&(this->_service), SIGNAL(credentialsStored()),
                      this, SLOT(handleCredentialsStored()));
 
+    QObject::connect(&(this->_service), SIGNAL(twoFactorAuthRequired()),
+                     this, SLOT(handleTwoFactorAuthRequired()));
+
     QObject::connect(&(this->_service), SIGNAL(requestFailed(ErrorResponse)),
                      this, SLOT(handleError(ErrorResponse)));
 }
@@ -29,11 +32,11 @@ void UbuntuOneCredentialsService::checkCredentials()
     _service.getCredentials();
 }
 
-void UbuntuOneCredentialsService::login(QString email, QString password)
+void UbuntuOneCredentialsService::login(QString email, QString password, QString twoFactorCode)
 {
     Q_ASSERT(_state == IDLE);
     _state = LOGIN;
-    _service.login(email, password);
+    _service.login(email, password, twoFactorCode);
 }
 
 void UbuntuOneCredentialsService::registerUser(QString email, QString password, QString name)
@@ -117,9 +120,13 @@ void UbuntuOneCredentialsService::handleCredentialsStored()
     }
 }
 
+void UbuntuOneCredentialsService::handleTwoFactorAuthRequired(){
+    _state = IDLE;
+    emit twoFactorAuthRequired();
+}
+
 void UbuntuOneCredentialsService::handleError(const ErrorResponse& error)
 {
-    qDebug() << "in handleError\n";
     _state = IDLE;
     emit loginOrRegisterError(error.message());
 }
