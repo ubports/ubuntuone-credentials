@@ -67,7 +67,7 @@ private slots:
     void registerAndBuy(QString email, QString password, QString name);
     void showPageLogin();
 
-    void accountAuthenticated(Token);
+    void accountAuthenticated();
     void openUrlAndFinish(Token);
     void serviceFailed(const ErrorResponse&);
 
