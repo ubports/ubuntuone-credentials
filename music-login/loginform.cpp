@@ -31,7 +31,7 @@
 #include "ui_loginform.h"
 #include <QRegExp>
 #include <QDebug>
-#include "sso_api/errormessages.h"
+#include "errormessages.h"
 
 LoginForm::LoginForm(QWidget *parent) :
     QWidget(parent),

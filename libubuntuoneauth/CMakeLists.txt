@@ -14,9 +14,9 @@ IF (BUILD_STATIC_LIBS)
 ENDIF (BUILD_STATIC_LIBS)
 
 # The sources for building the library
-FILE (GLOB SOURCES *.cpp sso_api/*.cpp)
+FILE (GLOB SOURCES *.cpp)
 # HEADERS only includes the public headers for installation.
-FILE (GLOB HEADERS *.h sso_api/*.h)
+FILE (GLOB HEADERS *.h)
 
 find_package (PkgConfig REQUIRED)
 pkg_check_modules(LIBSECRET REQUIRED libsecret-1)

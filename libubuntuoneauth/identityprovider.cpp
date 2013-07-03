@@ -87,4 +87,4 @@ void IdentityProvider::OnErrorOccurred(const ErrorResponse& error)
              error.code(), error.message().toUtf8().data());
 }
 
-} /* end SSO namespace */
+} /* end UbuntuOne namespace */

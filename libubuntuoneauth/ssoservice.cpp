@@ -24,8 +24,8 @@
 
 #include "logging.h"
 #include "ssoservice.h"
-#include "sso_api/requests.h"
-#include "sso_api/errormessages.h"
+#include "requests.h"
+#include "errormessages.h"
 
 namespace UbuntuOne {
 

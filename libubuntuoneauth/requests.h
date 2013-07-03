@@ -108,6 +108,6 @@ private:
     QString _email;
 };
 
-} /* end SSO namespace */
+} /* end UbuntuOne namespace */
 
 #endif /* _REQUESTS_H_ */

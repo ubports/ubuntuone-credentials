@@ -16,55 +16,45 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef _NETWORK_H_
-#define _NETWORK_H_
+#ifndef _IDENTITYPROVIDER_H_
+#define _IDENTITYPROVIDER_H_
 
+#include "network.h"
+#include "requests.h"
 #include "responses.h"
 
 #include <QObject>
-#include <QString>
-#include <QtNetwork/QNetworkAccessManager>
-#include <QtNetwork/QNetworkReply>
 
 namespace UbuntuOne {
 
-//static QString API_BASE = "https://login.ubuntu.com/api/v2/";
-
-class Network : public QObject
+class IdentityProvider : public QObject
 {
     Q_OBJECT
 public:
-    explicit Network(QObject *parent = 0);
+    explicit IdentityProvider(QObject *parent = 0);
 
-    template <class T>
-    void Post(const T& request)
-    {
-        this->_request->setUrl(request.url());
-        this->_nam->post(*this->_request, request.serialize());
-    }
+    void GetOAuthToken(const OAuthTokenRequest& token);
+    void GetPasswordToken(const PasswordTokenRequest& token);
+    void CreateAccount(const AccountRequest& account);
 
 signals:
     void OAuthTokenGranted(const OAuthTokenResponse& token);
     void PasswordTokenGranted(const PasswordTokenResponse& token);
     void AccountGranted(const AccountResponse& account);
     void ErrorOccurred(const ErrorResponse& error);
-    
+
 public slots:
+    void OnOAuthTokenGranted(const OAuthTokenResponse& token);
+    void OnPasswordTokenGranted(const PasswordTokenResponse& token);
+    void OnAccountGranted(const AccountResponse& account);
+    void OnErrorOccurred(const ErrorResponse& error);
 
 private slots:
-    void OnReply(QNetworkReply*);
 
 private:
-    void ProcessOAuthTokenReply(const QJsonObject& object);
-    void ProcessPasswordTokenReply(const QJsonObject& object);
-    void ProcessAccountsReply(const QJsonObject& object);
-
-    QNetworkAccessManager* _nam;
-    QNetworkRequest* _request;
-
-    static const QString _tokensApi, _accountsApi;
+    Network* network;
 };
 
-} /* end SSO namespace */
+} /* end UbuntuOne namespace */
 
-#endif /* _NETWORK_H_ */
+#endif // _IDENTITYPROVIDER_H_

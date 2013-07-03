@@ -20,7 +20,7 @@
 
 #include "test_requests.h"
 
-#include "sso_api/requests.h"
+#include "requests.h"
 
 using namespace UbuntuOne;
 

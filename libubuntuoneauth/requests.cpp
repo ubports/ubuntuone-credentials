@@ -106,4 +106,4 @@ QByteArray PasswordTokenRequest::serialize() const
     return doc.toJson();
 }
 
-} /* end SSO namespace */
+} /* end UbuntuOne namespace */

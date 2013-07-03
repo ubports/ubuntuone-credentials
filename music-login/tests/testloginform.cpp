@@ -31,8 +31,8 @@
 #include "ui_loginform.h"
 #include <QtTest/QtTest>
 #include <QDebug>
-#include <sso_api/responses.h>
-#include "sso_api/errormessages.h"
+#include "responses.h"
+#include "errormessages.h"
 
 TestLoginForm::TestLoginForm(QObject *parent) :
     QObject(parent)
