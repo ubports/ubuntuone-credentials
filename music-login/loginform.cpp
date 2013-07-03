@@ -123,6 +123,7 @@ void LoginForm::on_radioNewCustomer_clicked()
 {
     this->ui->btnProceed->setText(tr("Continue"));
     this->validateForm();
+    this->ui->lblPasswordError->setVisible(false);
 }
 
 void LoginForm::on_radioReturningCustomer_clicked()
