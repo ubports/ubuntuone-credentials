@@ -87,7 +87,10 @@ bool LoginForm::checkEmail()
 
 bool LoginForm::checkPassword()
 {
-    bool value = this->ui->linePassword->text().length() > 7;
+    bool value = true;
+    if(this->ui->radioReturningCustomer->isChecked()){
+        value = this->ui->linePassword->text().length() > 7;
+    }
     this->ui->linePassword->setProperty("error", !value);
     this->style()->unpolish(this->ui->linePassword);
     this->style()->polish(this->ui->linePassword);
@@ -123,6 +126,7 @@ void LoginForm::on_radioNewCustomer_clicked()
 {
     this->ui->btnProceed->setText(tr("Continue"));
     this->validateForm();
+    this->checkPassword();
     this->ui->lblPasswordError->setVisible(false);
 }
 
