@@ -47,7 +47,8 @@ private slots:
     void init();
     void testCheckEmail();
     void testCheckPassword();
-    void testValidateForm();
+    void testValidateFormWithPassword();
+    void testValidateFormWithoutPassword();
     void testCheckEmailWarnings();
     void testCheckPasswordWarnings();
     void testButtonProceed();

@@ -71,7 +71,8 @@ LoginForm::~LoginForm()
 
 void LoginForm::validateForm()
 {
-    bool value = this->checkEmail() && this->checkPassword() && this->_sessionActive;
+    bool passwordCheck = this->ui->radioNewCustomer->isChecked() || this->checkPassword();
+    bool value = this->checkEmail() && passwordCheck && this->_sessionActive;
     this->ui->btnProceed->setEnabled(value);
 }
 
@@ -121,6 +122,7 @@ void LoginForm::on_linePassword_returnPressed()
 void LoginForm::on_radioNewCustomer_clicked()
 {
     this->ui->btnProceed->setText(tr("Continue"));
+    this->validateForm();
 }
 
 void LoginForm::on_radioReturningCustomer_clicked()
