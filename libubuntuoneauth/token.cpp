@@ -68,7 +68,7 @@ namespace UbuntuOne {
      *
      * Check that the token is valid.
      **/
-    bool Token::isValid()
+    bool Token::isValid() const
     {
         return (_tokenHash.contains(TOKEN_NAME_KEY) &&
                 _tokenHash.contains(TOKEN_TOKEN_KEY) &&
@@ -83,12 +83,13 @@ namespace UbuntuOne {
      *
      * Sign a URL with the token.
      */
-    QString Token::signUrl(const QString url, const QString method, bool asQuery)
+    QString Token::signUrl(const QString url, const QString method, bool asQuery) const
     {
         static const QString hdrPrefix("OAuth ");
         QString result;
         int argc = 0;
         char **argv = NULL;
+        char *req_hdr = NULL;
 
         argc = oauth_split_url_parameters(url.toUtf8().data(), &argv);
         // Fixup the URL as liboauth is escaping '+' to ' ' in it, incorrectly.
@@ -103,9 +104,12 @@ namespace UbuntuOne {
                                   _tokenHash[TOKEN_TOKEN_SEC_KEY].toUtf8().data());
         if (asQuery)
             result = oauth_serialize_url_parameters(argc, argv);
-        else
-            result = hdrPrefix + oauth_serialize_url_sep(argc, 1, argv, (char *)", ", 6);
+        else{
+            req_hdr = oauth_serialize_url_sep(argc, 1, argv, (char *)", ", 6);
+            result = hdrPrefix + QString(req_hdr);
+        }
         oauth_free_array(&argc, &argv);
+        free(req_hdr);
 
         return result;
     }
