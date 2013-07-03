@@ -60,31 +60,32 @@ void IdentityProvider::CreateAccount(const AccountRequest& account)
 
 void IdentityProvider::OnOAuthTokenGranted(const OAuthTokenResponse& token)
 {
-    emit OAuthTokenGranted(token);
-
     qWarning() << "OAuth token received for " << token.token_name();
+
+    emit OAuthTokenGranted(token);
 }
 
 void IdentityProvider::OnPasswordTokenGranted(const PasswordTokenResponse& token)
 {
-    emit PasswordTokenGranted(token);
-
     qWarning() << "Password token received for " << token.email();
+
+    emit PasswordTokenGranted(token);
 }
 
 void IdentityProvider::OnAccountGranted(const AccountResponse& account)
 {
-    emit AccountGranted(account);
+    qWarning() << "Account created for " << account.email(); 
 
-    qWarning() << "Account created for " << account.email();
+    emit AccountGranted(account);
 }
 
 void IdentityProvider::OnErrorOccurred(const ErrorResponse& error)
 {
-    emit ErrorOccurred(error);
-
     qWarning("Error occurred creating account: %d (%s)",
              error.code(), error.message().toUtf8().data());
+
+    emit ErrorOccurred(error);
+
 }
 
 } /* end UbuntuOne namespace */

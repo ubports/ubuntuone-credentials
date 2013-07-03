@@ -48,11 +48,14 @@ namespace UbuntuOne {
         _nam = new QNetworkAccessManager(this);
 
         connect(_keyring, SIGNAL(tokenFound(const Token&)),
-                this, SLOT(credentialsAcquired(const Token&)));
+                this, SLOT(handleCredentialsFound(const Token&)));
+        connect(_keyring, SIGNAL(tokenNotFound()),
+                this, SLOT(handleCredentialsNotFound()));
+
         connect(_keyring, SIGNAL(tokenStored()),
-                this, SLOT(credentialsSet()));
+                this, SLOT(handleTokenStored()));
         connect(_keyring, SIGNAL(tokenDeleted()),
-                this, SLOT(credentialsCleared()));
+                this, SLOT(handleTokenDeleted()));
 
         connect(&(_provider),
                 SIGNAL(OAuthTokenGranted(const OAuthTokenResponse&)),
@@ -70,9 +73,20 @@ namespace UbuntuOne {
         _keyring->findToken();
     }
 
-    void SSOService::credentialsAcquired(const Token& token)
+    void SSOService::handleCredentialsNotFound()
     {
-        emit this->credentialsFound(token);
+        emit credentialsNotFound();
+    }
+    
+    void SSOService::handleCredentialsFound(const Token& token)
+    {
+        emit credentialsFound(token);
+    }
+
+    void SSOService::handleTokenStored()
+    {
+        emit credentialsStored(_pendingPing); 
+        _pendingPing = Token();
     }
 
     void SSOService::registerUser(QString email, QString password,
@@ -168,7 +182,6 @@ namespace UbuntuOne {
             _keyring->storeToken(_pendingPing);
 
         reply->deleteLater();
-        _pendingPing = Token();
     }
 
     void SSOService::invalidateCredentials()

@@ -49,16 +49,17 @@ namespace UbuntuOne {
 
     signals:
         void credentialsDeleted();
-        void credentialsStored();
+        void credentialsStored(const Token& token);
         void credentialsFound(const Token& token);
-        void credentialsNotFound(QString id);
+        void credentialsNotFound();
         void requestFailed(const ErrorResponse& error);
 
         private slots:
             void accountPinged(QNetworkReply*);
-            void credentialsSet() { emit credentialsStored(); };
-            void credentialsCleared() { emit credentialsDeleted(); };
-            void credentialsAcquired(const Token& token);
+            void handleTokenStored();
+            void handleTokenDeleted() { emit credentialsDeleted(); };
+            void handleCredentialsFound(const Token& token);
+            void handleCredentialsNotFound();
             void tokenReceived(const OAuthTokenResponse& token);
             void accountRegistered(const AccountResponse& account);
             void errorOcurred(const ErrorResponse&);
