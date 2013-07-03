@@ -114,13 +114,27 @@ void TestLoginForm::testCheckEmailWarnings()
     QVERIFY(!this->loginForm.ui->lblEmailError->isVisible());
 }
 
-void TestLoginForm::testCheckPasswordWarnings()
+void TestLoginForm::testCheckPasswordWarningsReturningCustomer()
 {
     this->loginForm.show();
+    this->loginForm.ui->radioReturningCustomer->setChecked(true);
     QVERIFY(!this->loginForm.ui->lblPasswordError->isVisible());
     this->loginForm.ui->linePassword->setText("pass");
     this->loginForm.ui->linePassword->editingFinished();
     QVERIFY(this->loginForm.ui->lblPasswordError->isVisible());
+    this->loginForm.ui->linePassword->setText("password");
+    this->loginForm.ui->linePassword->editingFinished();
+    QVERIFY(!this->loginForm.ui->lblPasswordError->isVisible());
+}
+
+void TestLoginForm::testCheckPasswordWarningsNewCustomer()
+{
+    this->loginForm.show();
+    this->loginForm.ui->radioNewCustomer->setChecked(true);
+    QVERIFY(!this->loginForm.ui->lblPasswordError->isVisible());
+    this->loginForm.ui->linePassword->setText("pass");
+    this->loginForm.ui->linePassword->editingFinished();
+    QVERIFY(!this->loginForm.ui->lblPasswordError->isVisible());
     this->loginForm.ui->linePassword->setText("password");
     this->loginForm.ui->linePassword->editingFinished();
     QVERIFY(!this->loginForm.ui->lblPasswordError->isVisible());
