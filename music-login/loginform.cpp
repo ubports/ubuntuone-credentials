@@ -128,6 +128,7 @@ void LoginForm::on_radioNewCustomer_clicked()
 void LoginForm::on_radioReturningCustomer_clicked()
 {
     this->ui->btnProceed->setText(tr("Proceed to Checkout"));
+    this->validateForm();
 }
 
 void LoginForm::showEmailWarning()
