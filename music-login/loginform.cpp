@@ -138,5 +138,7 @@ void LoginForm::showEmailWarning()
 
 void LoginForm::showPasswordWarning()
 {
-    this->ui->lblPasswordError->setVisible(!this->checkPassword());
+    if(this->ui->radioReturningCustomer->isChecked()){
+        this->ui->lblPasswordError->setVisible(!this->checkPassword());
+    }
 }
