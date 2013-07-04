@@ -23,6 +23,7 @@
 
 #include <QStringList>
 
+#include "errormessages.h"
 #include "network.h"
 #include "responses.h"
 #include "requests.h"
@@ -51,30 +52,35 @@ void Network::OnReply(QNetworkReply* reply)
     /* TODO: see if we really need to do this check, we could just operate
        on a bad value as being an error rather than the extra check? */
     if (!statusAttr.isValid()) {
-        qDebug() << "Invalid status received!";
+        qDebug() << "Invalid status attribute in Network::OnReply";
+        // Use login failed code, which results in generic error message:
+        emit ErrorOccurred(ErrorResponse(0, QString(), LOGIN_FAILED, QString()));
         return;
     }
 
     int httpStatus = statusAttr.toInt();
 
-    qDebug() << "Network::OnReply from " << reply->url();
-    qDebug() << "Network::OnReply status: " << httpStatus;
+    qDebug() << "Network::OnReply from " << reply->url()
+             << " status: " << httpStatus;
     
     QByteArray payload = reply->readAll();
     if (payload.isEmpty()) {
-        qDebug() << "empty payload";
-        return; /* TODO: Do something to signal we're having a bad time. */
+        qDebug() << "Network::OnReply: empty payload, giving up.";
+        emit ErrorOccurred(ErrorResponse(0, QString(), LOGIN_FAILED, QString()));
+        return;
     }
  
     QJsonDocument document = QJsonDocument::fromJson(payload);
-    /* TODO: add logging or raise some type of error signal? */
+
     if (document.isEmpty()) {
-        qDebug() << "oops, received empty document";
+        emit ErrorOccurred(ErrorResponse(0, QString(), LOGIN_FAILED, QString()));
+        qDebug() << "Network::OnReply received empty document";
         return;
     }
 
     if (!document.isObject()) {
-        qDebug() << "uh oh, this isn't good.";
+        emit ErrorOccurred(ErrorResponse(0, QString(), LOGIN_FAILED, QString()));
+        qDebug() << "Network::OnReply received invalid QJsonDocument";
         return;
     }
     
