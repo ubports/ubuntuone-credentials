@@ -71,12 +71,13 @@ Rectangle {
             text: " "
         }
         Label{
-            text: '<a href="http://google.com"><span style="color: #dd4814;">Forgotten your password?</span></a>'
+            text: '<a href="https://login.ubuntu.com/+forgot_password"><span style="color: #dd4814;">Forgotten your password?</span></a>'
             textFormat: Text.RichText
             color: "white"
             fontSize: "small"
             width: txtEmail.width
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            onLinkActivated: { Qt.openUrlExternally(link); }
         }
 
     }
