@@ -71,7 +71,8 @@ LoginForm::~LoginForm()
 
 void LoginForm::validateForm()
 {
-    bool value = this->checkEmail() && this->checkPassword() && this->_sessionActive;
+    bool passwordCheck = this->ui->radioNewCustomer->isChecked() || this->checkPassword();
+    bool value = this->checkEmail() && passwordCheck && this->_sessionActive;
     this->ui->btnProceed->setEnabled(value);
 }
 
@@ -86,7 +87,10 @@ bool LoginForm::checkEmail()
 
 bool LoginForm::checkPassword()
 {
-    bool value = this->ui->linePassword->text().length() > 7;
+    bool value = true;
+    if(this->ui->radioReturningCustomer->isChecked()){
+        value = this->ui->linePassword->text().length() > 7;
+    }
     this->ui->linePassword->setProperty("error", !value);
     this->style()->unpolish(this->ui->linePassword);
     this->style()->polish(this->ui->linePassword);
@@ -121,11 +125,15 @@ void LoginForm::on_linePassword_returnPressed()
 void LoginForm::on_radioNewCustomer_clicked()
 {
     this->ui->btnProceed->setText(tr("Continue"));
+    this->validateForm();
+    this->checkPassword();
+    this->ui->lblPasswordError->setVisible(false);
 }
 
 void LoginForm::on_radioReturningCustomer_clicked()
 {
     this->ui->btnProceed->setText(tr("Proceed to Checkout"));
+    this->validateForm();
 }
 
 void LoginForm::showEmailWarning()
@@ -135,5 +143,7 @@ void LoginForm::showEmailWarning()
 
 void LoginForm::showPasswordWarning()
 {
-    this->ui->lblPasswordError->setVisible(!this->checkPassword());
+    if(this->ui->radioReturningCustomer->isChecked()){
+        this->ui->lblPasswordError->setVisible(!this->checkPassword());
+    }
 }
