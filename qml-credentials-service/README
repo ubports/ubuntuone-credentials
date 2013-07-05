@@ -1,0 +1,15 @@
+
+Ubuntu One Credentials QML Plugin
+
+This plugin provides the module UbuntuOne, which exposes the CredentialsService 
+
+
+HACKING
+
+NOTE: if you are making changes to QML files in the plugin, remember
+that they are copied over during the cmake configuration phase, and
+the makefiles do not check for updated versions. If you change a QML
+file, you must re-run cmake.
+
+An example for embedding the UI provided by the plugin is in examples/embedding.qml
+
