@@ -51,6 +51,7 @@ void TestLoginForm::init()
     this->loginForm.ui->btnProceed->setEnabled(false);
     this->loginForm.ui->lblEmailError->setVisible(false);
     this->loginForm.ui->lblPasswordError->setVisible(false);
+    this->loginForm.ui->btnProceed->setText(QString("Proceed to Checkout"));
 }
 
 void TestLoginForm::cleanup()
@@ -83,12 +84,21 @@ void TestLoginForm::testCheckPassword()
     QVERIFY(this->loginForm.checkPassword());
 }
 
-void TestLoginForm::testValidateForm()
+void TestLoginForm::testValidateFormWithPassword()
 {
     QVERIFY(!this->loginForm.ui->btnProceed->isEnabled());
     this->loginForm.ui->lineEmail->setText("mail@ubuntu.com");
     QVERIFY(!this->loginForm.ui->btnProceed->isEnabled());
     this->loginForm.ui->linePassword->setText("password");
+    QVERIFY(this->loginForm.ui->btnProceed->isEnabled());
+}
+
+void TestLoginForm::testValidateFormWithoutPassword()
+{
+    QVERIFY(!this->loginForm.ui->btnProceed->isEnabled());
+    this->loginForm.ui->lineEmail->setText("mail@ubuntu.com");
+    QVERIFY(!this->loginForm.ui->btnProceed->isEnabled());
+    this->loginForm.ui->radioNewCustomer->click();
     QVERIFY(this->loginForm.ui->btnProceed->isEnabled());
 }
 
@@ -104,13 +114,27 @@ void TestLoginForm::testCheckEmailWarnings()
     QVERIFY(!this->loginForm.ui->lblEmailError->isVisible());
 }
 
-void TestLoginForm::testCheckPasswordWarnings()
+void TestLoginForm::testCheckPasswordWarningsReturningCustomer()
 {
     this->loginForm.show();
+    this->loginForm.ui->radioReturningCustomer->setChecked(true);
     QVERIFY(!this->loginForm.ui->lblPasswordError->isVisible());
     this->loginForm.ui->linePassword->setText("pass");
     this->loginForm.ui->linePassword->editingFinished();
     QVERIFY(this->loginForm.ui->lblPasswordError->isVisible());
+    this->loginForm.ui->linePassword->setText("password");
+    this->loginForm.ui->linePassword->editingFinished();
+    QVERIFY(!this->loginForm.ui->lblPasswordError->isVisible());
+}
+
+void TestLoginForm::testCheckPasswordWarningsNewCustomer()
+{
+    this->loginForm.show();
+    this->loginForm.ui->radioNewCustomer->setChecked(true);
+    QVERIFY(!this->loginForm.ui->lblPasswordError->isVisible());
+    this->loginForm.ui->linePassword->setText("pass");
+    this->loginForm.ui->linePassword->editingFinished();
+    QVERIFY(!this->loginForm.ui->lblPasswordError->isVisible());
     this->loginForm.ui->linePassword->setText("password");
     this->loginForm.ui->linePassword->editingFinished();
     QVERIFY(!this->loginForm.ui->lblPasswordError->isVisible());
