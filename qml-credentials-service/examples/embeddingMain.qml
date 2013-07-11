@@ -27,7 +27,6 @@ Rectangle {
 
             Switch {
                 id: showCredsUISwitch
-
                 checked: true
             }
         }
