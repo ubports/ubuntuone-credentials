@@ -14,14 +14,12 @@ Rectangle {
 
 
     Column {
-        // anchors.fill: parent
         spacing: units.gu(2)
 
         Label {
             id: subtitle
             fontSize: "large"
             text: "Please tell us your name and choose a password."
-            wrapMode: Text.WordWrap// WrapAtWordBoundary
         }
         
         TextField {

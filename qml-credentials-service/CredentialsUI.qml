@@ -182,9 +182,9 @@ Rectangle{
         id: u1credservice
 
         /* NOTE: if you are reading this as example code, see
-           examples/embeddingMain for handing querying for presence of
-           creds and signing URLs without showing UI. This is not an
-           exhaustive list of supported signals. */
+           examples/embeddingMain for an example of querying for
+           presence of creds and signing URLs without showing UI. This
+           is not an exhaustive list of supported signals. */
 
         onLoginOrRegisterSuccess: {
             console.log(" login success.");
@@ -254,11 +254,13 @@ Rectangle{
         loadingOverlay.visible = false;
         if(state != "login"){
             console.log("Error: did not expect two factor request from register");
+            showError("An internal error occurred. Please try again later.");
             return;
         }
+        errorLabel.visible = false;
         state = "twofactor";
         loginForm.twoFactorVisible = true;
-            // todo: text focus?
+
     }
 
 }
