@@ -17,7 +17,15 @@ Rectangle {
         }
 
         Row {
+            anchors.left: parent.left
+            anchors.margins: units.gu(2)
             spacing: units.gu(2)
+
+            Switch {
+                id: showCredsUISwitch
+                checked: true
+            }
+
             Label {
                 id: label
                 color: "white"
@@ -25,9 +33,11 @@ Rectangle {
                 anchors.verticalCenter: showCredsUISwitch.verticalCenter
             }
 
-            Switch {
-                id: showCredsUISwitch
-                checked: true
+            Label {
+                id: statusLabel
+                color: "white"
+                text: ""
+                anchors.verticalCenter: showCredsUISwitch.verticalCenter
             }
         }
 
@@ -41,6 +51,18 @@ Rectangle {
             height: (parent.height - showCredsUISwitch.height) * 0.80
             anchors.horizontalCenter: parent.horizontalCenter 
             visible: showCredsUISwitch.checked
+
+            onUserCancelled: {
+                showCredsUISwitch.checked = false;
+                statusLabel.text = "Login/Register cancelled by user";
+                credsUI.resetUI();
+            }
+
+            onSucceeded: {
+                showCredsUISwitch.checked = false;
+                statusLabel.text = "Login/Register succeeded";
+                credsUI.resetUI();
+            }
         }
 
         Label {
@@ -54,7 +76,6 @@ Rectangle {
             text: "Check existing creds"
             color: "#1c091a"
             onClicked: {
-                console.debug("checking for creds in keyring:");
                 u1credservice.checkCredentials();
             }
         }

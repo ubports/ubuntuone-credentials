@@ -57,4 +57,11 @@ Rectangle {
         }        
     }
 
+    function resetUI(){
+        termsAndConditionsCheckBox.checked = false;
+        txtName.text = "";
+        txtPassword.text = "";
+        txtConfirmPassword.text = "";
+    }
+
 }

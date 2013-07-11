@@ -69,8 +69,7 @@ Rectangle {
                 text: '<a href="https://login.ubuntu.com/+device-help"><span style="color: #dd4814;">Authentication Device Help</span></a>'
                 textFormat: Text.RichText
                 fontSize: "small"
-
-                wrapMode: Text.WordWrap
+                onLinkActivated: { Qt.openUrlExternally(link); }
             }
 
         } // Rectangle : twoFactorUI
@@ -78,4 +77,9 @@ Rectangle {
 
     }// Column
 
+    function resetUI(){
+        twoFactorUI.visible = false;
+        twoFactorTextField.text = "";
+        passwordTextField.text = "";
+    }
 }

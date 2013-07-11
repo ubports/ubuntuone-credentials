@@ -13,10 +13,12 @@ Rectangle{
 
     color: "white"
 
+    signal userCancelled()
+    signal succeeded()
 
     Column{
         id: mainColumn
-        spacing: units.gu(4)
+        spacing: parent.anchors.margins
         width: parent.width
         anchors.margins: parent.anchors.margins
 
@@ -126,7 +128,7 @@ Rectangle{
             height: parent.height
             width: (parent.width / 2) - parent.anchors.margins - parent.spacing
             onClicked: {
-                // todo
+                main.userCancelled();
             }
         }
         Button {
@@ -147,35 +149,17 @@ Rectangle{
     Rectangle {
         id: loadingOverlay
         opacity: 0.6
+        color: "white"
         visible: false
+        width: main.width
+        height: main.height
+        anchors.centerIn: main
 
         ActivityIndicator {
             id: activity
             anchors.centerIn: parent
             running: true
         }
-        Button { 
-            id: cancelLoadingButton
-            text: "Cancel"
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.top: activity.bottom
-            onClicked: {console.log("Cancel clicked, does nothing");}
-        }
-    }
-
-    Rectangle {
-        id: successOverlay
-        opacity: 0.6
-        visible: false
-
-        Label { id: successLabel
-
-                anchors.centerIn: parent
-                font.bold: true
-                fontSize: "x-large"
-                color: "#dd4814"
-                text: "Login Successful!"
-              }
     }
 
     UbuntuOneCredentialsService {
@@ -187,7 +171,6 @@ Rectangle{
            is not an exhaustive list of supported signals. */
 
         onLoginOrRegisterSuccess: {
-            console.log(" login success.");
             login_successful();
         }
 
@@ -201,8 +184,17 @@ Rectangle{
     }
     
     Component.onCompleted: { 
+        resetUI();
+    }
+
+    function resetUI(){
+        errorLabel.visible = false;
+        emailTextField.text = "";
+        loginForm.resetUI()
+        registerForm.resetUI();
+        newUserToggleSwitch.checked = false;
+        state = "login";
         switchTo(loginForm);
-        console.log("main width:" + width);
     }
 
     function showError(message){
@@ -244,10 +236,10 @@ Rectangle{
     }
 
     function login_successful(){
-        btnContinue.visible = false;
         loadingOverlay.visible = false;
-        successOverlay.visible = true;
         errorLabel.visible = false;
+        resetUI();
+        main.succeeded();
     }
 
     function showTwoFactorUI(){
