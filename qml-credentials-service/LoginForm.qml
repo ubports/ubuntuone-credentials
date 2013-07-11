@@ -20,7 +20,6 @@ Rectangle {
         Label{
             text: "I am a returning user and my password is:"
             fontSize: "large"
-            wrapMode: Text.WordWrap// WrapAtWordBoundary
         }
         TextField {
             id: passwordTextField
@@ -39,6 +38,7 @@ Rectangle {
             text: '<a href="https://login.ubuntu.com/+forgot_password"><span style="color: #dd4814;">Forgotten your password?</span></a>'
             textFormat: Text.RichText
             fontSize: "small"
+            onLinkActivated: { Qt.openUrlExternally(link); }
         }
 
         

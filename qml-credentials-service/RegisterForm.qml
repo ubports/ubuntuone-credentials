@@ -27,21 +27,21 @@ Rectangle {
         TextField {
             id: txtName
             placeholderText: "Your name"
-            width: main.width - 2 * mainColumn.spacing
+            width: main.width - (2 * main.anchors.margins)
         }
 
         TextField {
             id: txtPassword
             placeholderText: "Password with at least 8 characters"
             echoMode: TextInput.Password
-            width: main.width - 2 * mainColumn.spacing
+            width: main.width - (2 * main.anchors.margins)
         }
 
         TextField {
             id: txtConfirmPassword
             placeholderText: "Re-type password"
             echoMode: TextInput.Password
-            width: main.width - 2 * mainColumn.spacing
+            width: main.width - (2 * main.anchors.margins)
         }
         Row{
             spacing: units.gu(2)
@@ -54,6 +54,7 @@ Rectangle {
                 anchors.verticalCenter: termsAndConditionsCheckBox.verticalCenter
                 text: "I agree to the <a href='http://one.ubuntu.com/terms/'>Ubuntu One Terms and Conditions</a>"
                 fontSize: "medium"
+                onLinkActivated: { Qt.openUrlExternally(link); }
             }
         }        
     }
