@@ -2,17 +2,12 @@
 set (CMAKE_INCLUDE_CURRENT_DIR ON)
 set (CMAKE_AUTOMOC ON)
 find_package(Qt5Core REQUIRED)
-find_package(Qt5Widgets REQUIRED)
 
 file (GLOB CPP_SOURCES *.cpp)
 file (GLOB QML_SOURCES *.qml)
 
 add_library (${PLUGIN_NAME} MODULE ${CPP_SOURCES})
 qt5_use_modules (${PLUGIN_NAME} Core Widgets Quick Qml )
-set_target_properties (${PLUGIN_NAME} PROPERTIES
-  VERSION ${PLUGIN_VERSION}
-  SOVERSION ${PLUGIN_SOVERSION}
-)
 
 configure_file (qmldir.template ${QML_MODULE_NAME}/qmldir)
 
