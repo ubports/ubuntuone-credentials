@@ -19,7 +19,6 @@ SET (AUTHUI_LIB_NAME ubuntuoneauthui-${AUTHUI_LIB_API_VERSION})
 set (QML_MODULE_NAME UbuntuOne)
 set (PLUGIN_API_VERSION 1.0)
 set (PLUGIN_NAME UbuntuOneCredentialsPlugin-${PLUGIN_API_VERSION})
-set (QML_MODULE_INSTALL_DIR ${QML_MODULE_NAME} ) # TODO
 
 # Some default CFLAGS
 SET (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O2 -g -Wall -Werror -fPIC")
@@ -28,6 +27,8 @@ SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -O2 -g -Wall -Werror -fPIC")
 # Allow specifying the libdir to use for the C library
 SET (LIB_SUFFIX "" CACHE STRING "Define suffix of library directory name.")
 SET (LIB_INSTALL_DIR "lib${LIB_SUFFIX}")
+
+set (QML_MODULE_INSTALL_DIR ${LIB_INSTALL_DIR}/qt5/qml/${QML_MODULE_NAME} )
 
 include_directories(${CMAKE_SOURCE_DIR}/libubuntuoneauth
   ${CMAKE_SOURCE_DIR}/libubuntuoneauthui)
