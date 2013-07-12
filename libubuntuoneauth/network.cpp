@@ -23,10 +23,12 @@
 
 #include <QStringList>
 
+#include "errormessages.h"
 #include "network.h"
 #include "responses.h"
 #include "requests.h"
 
+#define NO_HTTP_REASON QString("No HTTP error reason")
 
 namespace UbuntuOne {
 
@@ -51,30 +53,35 @@ void Network::OnReply(QNetworkReply* reply)
     /* TODO: see if we really need to do this check, we could just operate
        on a bad value as being an error rather than the extra check? */
     if (!statusAttr.isValid()) {
-        qDebug() << "Invalid status received!";
+        QString errmsg = QString("Invalid status attribute in Network::OnReply");
+        // Use login failed code, which results in generic error message:
+        emit ErrorOccurred(ErrorResponse(0, NO_HTTP_REASON, LOGIN_FAILED, errmsg));
         return;
     }
 
     int httpStatus = statusAttr.toInt();
 
-    qDebug() << "Network::OnReply from " << reply->url();
-    qDebug() << "Network::OnReply status: " << httpStatus;
+    qDebug() << "Network::OnReply from " << reply->url()
+             << " status: " << httpStatus;
     
     QByteArray payload = reply->readAll();
     if (payload.isEmpty()) {
-        qDebug() << "empty payload";
-        return; /* TODO: Do something to signal we're having a bad time. */
+        QString errmsg = QString("Network::OnReply: empty payload, giving up.");
+        emit ErrorOccurred(ErrorResponse(0, NO_HTTP_REASON, LOGIN_FAILED, errmsg));
+        return;
     }
  
     QJsonDocument document = QJsonDocument::fromJson(payload);
-    /* TODO: add logging or raise some type of error signal? */
+
     if (document.isEmpty()) {
-        qDebug() << "oops, received empty document";
+        QString errmsg = QString("Network::OnReply received empty document");
+        emit ErrorOccurred(ErrorResponse(0, NO_HTTP_REASON, LOGIN_FAILED, errmsg));
         return;
     }
 
     if (!document.isObject()) {
-        qDebug() << "uh oh, this isn't good.";
+        QString errmsg = QString("Network::OnReply received invalid QJsonDocument");
+        emit ErrorOccurred(ErrorResponse(0, NO_HTTP_REASON, LOGIN_FAILED, errmsg));
         return;
     }
     
@@ -92,7 +99,8 @@ void Network::OnReply(QNetworkReply* reply)
         QVariant phraseAttr = reply->attribute(
                             QNetworkRequest::HttpReasonPhraseAttribute);
         if (!phraseAttr.isValid()) {
-            qDebug() << "got a bad HTTP reason";
+            QString errmsg = QString("HTTP reason phrase is invalid");
+            emit ErrorOccurred(ErrorResponse(httpStatus, NO_HTTP_REASON, LOGIN_FAILED, errmsg));
             return;
         }
         QString httpReason = phraseAttr.toString();

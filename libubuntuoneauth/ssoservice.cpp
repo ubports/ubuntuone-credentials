@@ -71,7 +71,7 @@ namespace UbuntuOne {
                 this, SLOT(handleTwoFactorAuthRequired()));
         connect(&(_provider),
                 SIGNAL(ErrorOccurred(const ErrorResponse&)),
-                this, SLOT(errorOcurred(const ErrorResponse&)));
+                this, SLOT(errorOccurred(const ErrorResponse&)));
     }
 
     void SSOService::getCredentials()
@@ -197,7 +197,7 @@ namespace UbuntuOne {
         _keyring->deleteToken();
     }
 
-    void SSOService::errorOcurred(const ErrorResponse& error)
+    void SSOService::errorOccurred(const ErrorResponse& error)
     {
         _tempPassword = "";
         emit requestFailed(error);

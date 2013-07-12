@@ -63,7 +63,7 @@ namespace UbuntuOne {
             void handleCredentialsNotFound();
             void tokenReceived(const OAuthTokenResponse& token);
             void accountRegistered(const AccountResponse& account);
-            void errorOcurred(const ErrorResponse&);
+            void errorOccurred(const ErrorResponse&);
             void handleTwoFactorAuthRequired();
 
     private:
