@@ -11,7 +11,8 @@ enum CredentialsServiceState{
     CHECK,
     LOGIN,
     REGISTER,
-    SIGN
+    SIGN,
+    DELETE
 };
 
 class UbuntuOneCredentialsService : public QQuickItem
@@ -24,6 +25,7 @@ public:
     ~UbuntuOneCredentialsService();
 
     Q_INVOKABLE void checkCredentials();
+    Q_INVOKABLE void invalidateCredentials();
     Q_INVOKABLE void login(QString email, QString password, QString twoFactorCode = QString());
     Q_INVOKABLE void registerUser(QString email, QString password, QString name);
     Q_INVOKABLE void signUrl(QString url, QString method, bool asQuery = false);
@@ -31,6 +33,7 @@ public:
 signals:
     void credentialsFound();
     void credentialsNotFound();
+    void credentialsDeleted();
     void loginOrRegisterSuccess();
     void loginOrRegisterError(QString errorMessage);
     void twoFactorAuthRequired();
@@ -41,6 +44,7 @@ private slots:
     void handleCredentialsFound(const Token&);
     void handleCredentialsNotFound();
     void handleCredentialsStored();
+    void handleCredentialsDeleted();
     void handleTwoFactorAuthRequired();
     void handleError(const ErrorResponse&);
 

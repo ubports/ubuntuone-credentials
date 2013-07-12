@@ -114,14 +114,16 @@ namespace UbuntuOne {
     {
         GError *error = NULL;
 
-        secret_password_store_finish (result, &error);
+        gboolean removed = secret_password_clear_finish (result, &error);
         if (error != NULL) {
             QString message(error->message);
             qDebug() << message;
             emit keyring->keyringError(message);
             g_error_free(error);
         }
-        emit keyring->tokenDeleted();
+        if (removed) {
+            emit keyring->tokenDeleted();
+        }
     }
 
     void Keyring::deleteToken()

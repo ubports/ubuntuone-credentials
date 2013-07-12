@@ -10,6 +10,8 @@ UbuntuOneCredentialsService::UbuntuOneCredentialsService(QQuickItem *parent):
                      this, SLOT(handleCredentialsNotFound()));
     QObject::connect(&(this->_service), SIGNAL(credentialsStored()),
                      this, SLOT(handleCredentialsStored()));
+    QObject::connect(&(this->_service), SIGNAL(credentialsDeleted()),
+                     this, SLOT(handleCredentialsDeleted()));
 
     QObject::connect(&(this->_service), SIGNAL(twoFactorAuthRequired()),
                      this, SLOT(handleTwoFactorAuthRequired()));
@@ -30,6 +32,13 @@ void UbuntuOneCredentialsService::checkCredentials()
     Q_ASSERT(_state == IDLE);
     _state = CHECK;
     _service.getCredentials();
+}
+
+void UbuntuOneCredentialsService::invalidateCredentials()
+{
+    Q_ASSERT(_state == IDLE);
+    _state = DELETE;
+    _service.invalidateCredentials();
 }
 
 void UbuntuOneCredentialsService::login(QString email, QString password, QString twoFactorCode)
@@ -117,6 +126,21 @@ void UbuntuOneCredentialsService::handleCredentialsStored()
         emit loginOrRegisterSuccess();
     }else{
         qDebug() << "UbuntuOneCredentialsService did not expect credentialsStored in state " << calledState;
+    }
+}
+
+void UbuntuOneCredentialsService::handleCredentialsDeleted()
+{
+    qDebug() << "in UbuntuOneCredentialsService::handleCredentialsDeleted";
+
+    // set state before emitting any signals, as signals happen 'after' transition
+    CredentialsServiceState calledState = _state;
+    _state = IDLE;
+
+    if (calledState == DELETE){
+        emit credentialsDeleted();
+    }else{
+        qDebug() << "UbuntuOneCredentialsService did not expect credentialsDeleted in state " << calledState;
     }
 }
 

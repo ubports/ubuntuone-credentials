@@ -5,7 +5,7 @@ import UbuntuOne 1.0
 Rectangle {
     id: exampleMain
     width: units.gu(100)
-    height: units.gu(100)
+    height: units.gu(120)
     color: UbuntuColors.coolGrey
 
     Column {
@@ -80,6 +80,21 @@ Rectangle {
             }
         }
 
+        Label {
+            id: revokeLabel
+            text: "Press this button to delete the credentials in local keyring:"
+            color: "white"
+        }
+
+        Button {
+            id: btnRevoke
+            text: "Invalidate existing creds"
+            color: "#1c091a"
+            onClicked: {
+                u1credservice.invalidateCredentials();
+            }
+        }
+
     } // Column
 
     /* Below, an example of how to use the service without showing UI,
@@ -105,6 +120,10 @@ Rectangle {
         onCredentialsNotFound: {
             infoLabel.text = "No Credentials Found.";
             signUrl("http://server", "GET"); // xfail
+        }
+        
+        onCredentialsDeleted: {
+            revokeLabel.text = "Deleted Credentials successfully";
         }
     }
 } // UbuntuShape
