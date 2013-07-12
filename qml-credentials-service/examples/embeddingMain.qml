@@ -12,7 +12,7 @@ Rectangle {
         spacing: units.gu(2)
         anchors.fill: parent
 
-        add: Transition{
+        add: Transition {
             NumberAnimation { properties: "opacity"; easing.type: Easing.OutQuad; duration: 1000}
         }
 
