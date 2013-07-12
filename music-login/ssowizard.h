@@ -69,6 +69,7 @@ private slots:
 
     void accountAuthenticated();
     void openUrlAndFinish(Token);
+    void handleTwoFactorAuthRequired();
     void serviceFailed(const ErrorResponse&);
 
 private:

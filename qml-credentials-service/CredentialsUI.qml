@@ -12,7 +12,7 @@ Rectangle {
          GradientStop { position: 1.0; color: "#2b0f21" }
      }
 
-    property bool loginActive: true
+    property string state: "login" // or "register" or "twofactor"
 
      UbuntuOneCredentialsService {
          id: u1credservice
@@ -41,6 +41,11 @@ Rectangle {
          onCredentialsNotFound: {
              console.log("\nCredentials NOT FOUND");
                      signUrl("http://server", "GET"); // xfail
+         }
+
+         onTwoFactorAuthRequired: {
+                 console.log("Account requires two-factor code.");
+                 showTwoFactorForm();
          }
 
          onLoginOrRegisterError: {
@@ -84,6 +89,16 @@ Rectangle {
 
             Behavior on x { PropertyAnimation { duration: 300 } }
         }
+
+        TwoFactorForm {
+                id: twoFactorForm
+                x: parent.width
+                anchors.top: parent.top
+                width: parent.width
+
+                Behavior on x { PropertyAnimation { duration: 300 } }
+        }
+
 
         SuccessScreen {
             id: successScreen
@@ -143,50 +158,69 @@ Rectangle {
         }
     }
 
-    function switch_form(){
-        if(loginActive){
+    function toggleNewUser(){
+        if(state == "login"){
             registerForm.new_switch.checked = loginForm.new_switch.checked;
             loginForm.x = -main.width;
             registerForm.x = 0;
-            loginActive = false;
-        }else{
+            state = "register";
+        }else if(state == "register"){
             loginForm.new_switch.checked = registerForm.new_switch.checked;
             loginForm.x = 0;
             registerForm.x = main.width;
-            loginActive = true;
+            state = "login";
+        }else{
+            console.debug("unexpected state" + state + "in toggleNewUser");
         }
+
     }
 
     function process_form(){
-        if(loginActive){
+        if(state == "login"){
             loading.visible = true;
             var email = loginForm.email;
             var password = loginForm.password;
             u1credservice.login(email, password);
-        }else{
+        }else if(state == "register"){
             loading.visible = true;
             var email = registerForm.email;
             var password = registerForm.password;
             var display_name = registerForm.display_name;
             u1credservice.registerUser(email, password, display_name);
+        }else if(state == "twofactor"){
+            u1credservice.login(loginForm.email, loginForm.password, twoFactorForm.twoFactorCode);
         }
     }
 
     function login_successful(){
-        if(loginActive){
+        if(state == "login"){
             loginForm.x = -main.width;
-            successScreen.x = 0;
-            btnContinue.visible = false;
-            loading.visible = false;
-        }else{
+        }else if(state == "register"){
             registerForm.x = -main.width;
-            successScreen.x = 0;
-            btnContinue.visible = false;
-            loading.visible = false;
+        }else if(state == "twofactor"){
+            twoFactorForm.x = -main.width
+        }else{
+            console.debug("unexpected state " + state + " in login_successful");
         }
+        successScreen.x = 0;
+        btnContinue.visible = false;
+        loading.visible = false;
+    }
+
+    function showTwoFactorForm(){
+        loading.visible = false;
+        if(state != "login"){
+            console.log("Error: did not expect two factor request from register");
+            return;
+        }
+        state = "twofactor";
+        twoFactorForm.twoFactorTextField.focus = true;
+        loginForm.x = -main.width;
+        twoFactorForm.x = 0;
     }
 
     function error(){
+        
         loading.visible = false;
     }
 }

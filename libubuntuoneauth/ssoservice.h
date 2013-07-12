@@ -40,7 +40,7 @@ namespace UbuntuOne {
 
         void invalidateCredentials();
         void getCredentials();
-        void login(QString email, QString password);
+        void login(QString email, QString password, QString twoFactorCode = QString());
         void registerUser(QString email, QString password,
                           QString display_name);
 
@@ -53,6 +53,7 @@ namespace UbuntuOne {
         void credentialsFound(const Token& token);
         void credentialsNotFound();
         void requestFailed(const ErrorResponse& error);
+        void twoFactorAuthRequired();
 
         private slots:
             void accountPinged(QNetworkReply*);
@@ -63,6 +64,7 @@ namespace UbuntuOne {
             void tokenReceived(const OAuthTokenResponse& token);
             void accountRegistered(const AccountResponse& account);
             void errorOcurred(const ErrorResponse&);
+            void handleTwoFactorAuthRequired();
 
     private:
             Keyring *_keyring;

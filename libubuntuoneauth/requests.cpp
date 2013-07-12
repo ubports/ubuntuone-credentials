@@ -46,7 +46,6 @@ QByteArray OAuthTokenRequest::serialize() const
     serializer.insert("email", this->email());
     serializer.insert("password", this->password());
     serializer.insert("token_name", this->name());
-    /* TODO: check for null */
     if (!this->otp().isEmpty())
         serializer.insert("otp", this->otp());
 

@@ -86,6 +86,9 @@ SSOWizard::SSOWizard(QWidget *parent) :
     QObject::connect(&(this->_service), SIGNAL(credentialsFound(const Token&)),
                      this, SLOT(openUrlAndFinish(Token)));
 
+    QObject::connect(&(this->_service), SIGNAL(twoFactorAuthRequired()),
+                     this, SLOT(handleTwoFactorAuthRequired()));
+
     QObject::connect(&(this->_service), SIGNAL(requestFailed(const ErrorResponse&)),
                      this, SLOT(serviceFailed(const ErrorResponse&)));
     QObject::connect(this->ui->pageLogin, SIGNAL(newCustomerSelected(QString,QString)),
@@ -170,6 +173,12 @@ void SSOWizard::registerAndBuy(QString email, QString password, QString name)
 void SSOWizard::showPageLogin()
 {
     this->ui->stackedWidget->setCurrentIndex(0);
+}
+
+void SSOWizard::handleTwoFactorAuthRequired()
+{
+    this->_overlay->hide();
+    this->showError(ErrorResponse(401, QString(), TWOFACTOR_REQUIRED, QString()));
 }
 
 void SSOWizard::serviceFailed(const ErrorResponse& error)

@@ -19,6 +19,7 @@
 
 #include "identityprovider.h"
 #include "responses.h"
+#include "errormessages.h"
 
 
 namespace UbuntuOne {
@@ -81,10 +82,16 @@ void IdentityProvider::OnAccountGranted(const AccountResponse& account)
 
 void IdentityProvider::OnErrorOccurred(const ErrorResponse& error)
 {
-    qWarning("Error occurred creating account: %d (%s)",
-             error.code(), error.message().toUtf8().data());
+    if (error.code() == CODE_TWOFACTOR_REQUIRED){
+        emit TwoFactorAuthRequired();
 
-    emit ErrorOccurred(error);
+    }else{
+
+        qWarning("Error occurred creating token: %d (%s)",
+                 error.code(), error.message().toUtf8().data());
+
+        emit ErrorOccurred(error);
+    }
 
 }
 

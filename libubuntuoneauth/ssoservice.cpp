@@ -67,6 +67,9 @@ namespace UbuntuOne {
                 SIGNAL(AccountGranted(const AccountResponse&)),
                 this, SLOT(accountRegistered(const AccountResponse&)));
         connect(&(_provider),
+                SIGNAL(TwoFactorAuthRequired()),
+                this, SLOT(handleTwoFactorAuthRequired()));
+        connect(&(_provider),
                 SIGNAL(ErrorOccurred(const ErrorResponse&)),
                 this, SLOT(errorOcurred(const ErrorResponse&)));
     }
@@ -108,12 +111,17 @@ namespace UbuntuOne {
         _tempPassword = "";
     }
 
-    void SSOService::login(QString email, QString password)
+    void SSOService::login(QString email, QString password, QString twoFactorCode)
     {
-        OAuthTokenRequest request(email, password, Token::buildTokenName(), NULL);
+        OAuthTokenRequest request(email, password, Token::buildTokenName(), twoFactorCode);
         _tempEmail = email;
 
         _provider.GetOAuthToken(request);
+    }
+
+    void SSOService::handleTwoFactorAuthRequired()
+    {
+        emit twoFactorAuthRequired();
     }
 
     static QString _getPlatformDataParams()
@@ -128,7 +136,7 @@ namespace UbuntuOne {
         params->addQueryItem("client_version", PROJECT_VERSION);
 
         QString result = params->toString();
-        qDebug() << "Ping parameters:" << result;
+
         return result;
     }
 
