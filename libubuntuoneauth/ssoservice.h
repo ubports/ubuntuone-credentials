@@ -49,7 +49,7 @@ namespace UbuntuOne {
 
     signals:
         void credentialsDeleted();
-        void credentialsStored(const Token& token);
+        void credentialsStored();
         void credentialsFound(const Token& token);
         void credentialsNotFound();
         void requestFailed(const ErrorResponse& error);

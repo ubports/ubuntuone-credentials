@@ -15,6 +15,11 @@ SET (AUTHUI_LIB_SOVERSION 0)
 SET (AUTHUI_LIB_API_VERSION 2.0)
 SET (AUTHUI_LIB_NAME ubuntuoneauthui-${AUTHUI_LIB_API_VERSION})
 
+# these names are also used in qml-credentials-service/qmldir, be sure to change them in both places
+set (QML_MODULE_NAME UbuntuOne)
+set (PLUGIN_API_VERSION 1.0)
+set (PLUGIN_NAME UbuntuOneCredentialsPlugin-${PLUGIN_API_VERSION})
+
 # Some default CFLAGS
 SET (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O2 -g -Wall -Werror -fPIC")
 SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -O2 -g -Wall -Werror -fPIC")
@@ -22,6 +27,8 @@ SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -O2 -g -Wall -Werror -fPIC")
 # Allow specifying the libdir to use for the C library
 SET (LIB_SUFFIX "" CACHE STRING "Define suffix of library directory name.")
 SET (LIB_INSTALL_DIR "lib${LIB_SUFFIX}")
+
+set (QML_MODULE_INSTALL_DIR ${LIB_INSTALL_DIR}/qt5/qml/${QML_MODULE_NAME} )
 
 include_directories(${CMAKE_SOURCE_DIR}/libubuntuoneauth
   ${CMAKE_SOURCE_DIR}/libubuntuoneauthui)
@@ -38,6 +45,7 @@ add_custom_target(dist
 add_subdirectory(libubuntuoneauth)
 add_subdirectory(libubuntuoneauthui)
 add_subdirectory(music-login)
+add_subdirectory(qml-credentials-service)
 
 # We need to add these here which simply depend on other test rules, as
 # CMake doesn't allow defining a "check" rule in multiple places.
