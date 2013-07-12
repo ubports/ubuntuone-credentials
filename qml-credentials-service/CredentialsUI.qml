@@ -3,7 +3,7 @@ import Ubuntu.Components 0.1
 import UbuntuOne 1.0
 
 
-Rectangle{ 
+Rectangle { 
     id: main
     width: parent.width
     anchors.margins: units.gu(2)
@@ -16,13 +16,13 @@ Rectangle{
     signal userCancelled()
     signal succeeded()
 
-    Column{
+    Column {
         id: mainColumn
         spacing: parent.anchors.margins
         width: parent.width
         anchors.margins: parent.anchors.margins
 
-        add: Transition{
+        add: Transition {
             NumberAnimation { properties: "opacity"; easing.type: Easing.OutQuad; duration: 1000}
         }
 
@@ -36,7 +36,7 @@ Rectangle{
             anchors.margins: parent.anchors.margins
         }
 
-        Label{
+        Label {
             id: errorLabel
             text: ""
             font.bold: true
@@ -49,7 +49,7 @@ Rectangle{
 
         }
 
-        Label{
+        Label {
             text: "Please type your email:"
             fontSize: "large"
 
@@ -69,7 +69,7 @@ Rectangle{
             anchors.margins: parent.anchors.margins
         }
 
-        Row{
+        Row {
             spacing: units.gu(2)
             Switch {
                 id: newUserToggleSwitch
@@ -79,7 +79,7 @@ Rectangle{
                     toggleNewUser();
                 }
             }
-            Label{
+            Label {
                 anchors.verticalCenter: newUserToggleSwitch.verticalCenter
                 text: "I am a new Ubuntu One user"
                 fontSize: "large"
@@ -91,7 +91,7 @@ Rectangle{
         } // Row
 
 
-        LoginForm{
+        LoginForm {
             id: loginForm
             visible: true
             
@@ -100,7 +100,7 @@ Rectangle{
             anchors.margins: parent.anchors.margins
         }
         
-        RegisterForm{ 
+        RegisterForm { 
             id: registerForm
             visible: false
             
@@ -187,7 +187,7 @@ Rectangle{
         resetUI();
     }
 
-    function resetUI(){
+    function resetUI() {
         errorLabel.visible = false;
         emailTextField.text = "";
         loginForm.resetUI()
@@ -197,54 +197,54 @@ Rectangle{
         switchTo(loginForm);
     }
 
-    function showError(message){
+    function showError(message) {
         errorLabel.text = message;
         errorLabel.visible = true;
         loadingOverlay.visible = false;
     }
 
-    function switchTo(newVisible){
+    function switchTo(newVisible) {
         currentVisible.visible = false;
         newVisible.visible = true;
         currentVisible = newVisible;
     }
 
-    function toggleNewUser(){
-        if(state == "login"){
+    function toggleNewUser() {
+        if(state == "login") {
             switchTo(registerForm)
             state = "register";
-        }else if(state == "register"){
+        } else if(state == "register") {
             switchTo(loginForm)
             state = "login";
-        }else{
+        } else {
             console.debug("unexpected state" + state + "in toggleNewUser");
         }
     }
 
-    function process_form(){
+    function process_form() {
         loadingOverlay.visible = true;
-        if(state == "login"){
+        if(state == "login") {
             var password = loginForm.password;
             u1credservice.login(emailTextField.text, password);
-        }else if(state == "register"){
+        } else if(state == "register") {
             var password = registerForm.password;
             var display_name = registerForm.display_name;
             u1credservice.registerUser(emailTextField.text, password, display_name);
-        }else if(state == "twofactor"){
+        } else if(state == "twofactor") {
            u1credservice.login(emailTextField.text, loginForm.password, loginForm.twoFactorCode);
         }
     }
 
-    function login_successful(){
+    function login_successful() {
         loadingOverlay.visible = false;
         errorLabel.visible = false;
         resetUI();
         main.succeeded();
     }
 
-    function showTwoFactorUI(){
+    function showTwoFactorUI() {
         loadingOverlay.visible = false;
-        if(state != "login"){
+        if(state != "login") {
             console.log("Error: did not expect two factor request from register");
             showError("An internal error occurred. Please try again later.");
             return;

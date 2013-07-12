@@ -17,7 +17,7 @@ Rectangle {
     Column {
         spacing: units.gu(2)
 
-        Label{
+        Label {
             text: "I am a returning user and my password is:"
             fontSize: "large"
         }
@@ -34,7 +34,7 @@ Rectangle {
             Keys.onReturnPressed: main.process_form();
         }
 
-        Label{
+        Label {
             text: '<a href="https://login.ubuntu.com/+forgot_password"><span style="color: #dd4814;">Forgotten your password?</span></a>'
             textFormat: Text.RichText
             fontSize: "small"
@@ -42,14 +42,14 @@ Rectangle {
         }
 
         
-        Column{
+        Column {
             id: twoFactorUI
             spacing: units.gu(2)
             height: 1
             width: parent.width
             visible: false
 
-            Label{
+            Label {
                 text: "Type your verification code:"
                 fontSize: "large"
             }
@@ -65,7 +65,7 @@ Rectangle {
                 }
             }
 
-            Label{
+            Label {
                 text: '<a href="https://login.ubuntu.com/+device-help"><span style="color: #dd4814;">Authentication Device Help</span></a>'
                 textFormat: Text.RichText
                 fontSize: "small"
@@ -77,7 +77,7 @@ Rectangle {
 
     }// Column
 
-    function resetUI(){
+    function resetUI() {
         twoFactorUI.visible = false;
         twoFactorTextField.text = "";
         passwordTextField.text = "";

@@ -41,14 +41,14 @@ Rectangle {
             echoMode: TextInput.Password
             width: main.width - (2 * main.anchors.margins)
         }
-        Row{
+        Row {
             spacing: units.gu(2)
             CheckBox {
                 id: termsAndConditionsCheckBox
                 checked: false
             }
 
-            Label{
+            Label {
                 anchors.verticalCenter: termsAndConditionsCheckBox.verticalCenter
                 text: "I agree to the <a href='http://one.ubuntu.com/terms/'>Ubuntu One Terms and Conditions</a>"
                 fontSize: "medium"
@@ -57,7 +57,7 @@ Rectangle {
         }        
     }
 
-    function resetUI(){
+    function resetUI() {
         termsAndConditionsCheckBox.checked = false;
         txtName.text = "";
         txtPassword.text = "";
