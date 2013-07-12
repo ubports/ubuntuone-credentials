@@ -2,7 +2,7 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import UbuntuOne 1.0
 
-Rectangle { 
+Rectangle {
     id: main
     width: parent.width
     anchors.margins: units.gu(2)
@@ -99,7 +99,7 @@ Rectangle {
             anchors.margins: parent.anchors.margins
         }
 
-        RegisterForm { 
+        RegisterForm {
             id: registerForm
             visible: false
             
@@ -137,7 +137,7 @@ Rectangle {
             height: parent.height
             width: (parent.width / 2) - parent.anchors.margins - parent.spacing
 
-            onClicked: { 
+            onClicked: {
                 process_form();
             }
 
@@ -182,7 +182,7 @@ Rectangle {
         }
     }
     
-    Component.onCompleted: { 
+    Component.onCompleted: {
         resetUI();
     }
 
