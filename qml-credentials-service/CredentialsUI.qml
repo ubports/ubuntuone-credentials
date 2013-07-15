@@ -4,111 +4,112 @@ import UbuntuOne 1.0
 
 Rectangle {
     id: main
-    width: 400
-    height: 600
-    gradient: Gradient {
-         GradientStop { position: 0.0; color: "#863636" }
-         GradientStop { position: 0.5; color: "#5b2235" }
-         GradientStop { position: 1.0; color: "#2b0f21" }
-     }
+    width: parent.width
+    anchors.margins: units.gu(2)
 
-    property string state: "login" // or "register" or "twofactor"
+    state: "login" // or "register" or "twofactor"
+    property var currentVisible: loginForm
 
-     UbuntuOneCredentialsService {
-         id: u1credservice
- 
-         onCredentialsFound: {
-             console.log("Credentials Found");
-             signUrl("http://server", "GET");
-         }
+    color: "white"
 
-         onLoginOrRegisterSuccess: {
-             console.log(" login success.");
-             signUrl("http://server", "GET");
-             login_successful();
-         }
+    signal userCancelled()
+    signal succeeded()
 
+    Column {
+        id: mainColumn
+        spacing: parent.anchors.margins
+        width: parent.width
+        anchors.margins: parent.anchors.margins
 
-        onUrlSigned: {
-                console.log("signed url is "+ signedUrl);
+        add: Transition {
+            NumberAnimation { properties: "opacity"; easing.type: Easing.OutQuad; duration: 1000}
         }
 
-        onUrlSigningError: {
-                console.log("signing error.");
-                console.log(errorMessage);
-         }
+        Label {
+            id: title
+            text: "One account to log in to\neverything on Ubuntu"
+            fontSize: "x-large"
+            color: UbuntuColors.coolGrey
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.margins: parent.anchors.margins
+        }
 
-         onCredentialsNotFound: {
-             console.log("\nCredentials NOT FOUND");
-                     signUrl("http://server", "GET"); // xfail
-         }
+        Label {
+            id: errorLabel
+            text: ""
+            font.bold: true
+            color: "red"
+            visible: false
 
-         onTwoFactorAuthRequired: {
-                 console.log("Account requires two-factor code.");
-                 showTwoFactorForm();
-         }
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.margins: parent.anchors.margins
 
-         onLoginOrRegisterError: {
-             console.log("getting credentials failed");
-                 console.log(errorMessage);
-             error();
-         }
-     }
- 
-    Label {
-        id: title
-        anchors.left: parent.left
-        anchors.top: parent.top
-        anchors.margins: units.gu(1)
-        fontSize: "x-large"
-        color: "#e5d8ce"
-        text: "Ubuntu Sign In"
-    }
+        }
 
-    UbuntuShape {
-        anchors.left: parent.left
-        anchors.top: title.bottom
-        anchors.topMargin: units.gu(3)
-        width: parent.width
-        height: parent.height - y - buttons.height - units.gu(2)
+        Label {
+            text: "Please type your email:"
+            fontSize: "large"
+
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.margins: parent.anchors.margins
+        }
+
+        TextField {
+            id: emailTextField
+            
+            placeholderText: "Your email"
+            focus: true;
+
+            width: main.width - (2 * main.anchors.margins)
+            anchors.left: parent.left
+            anchors.margins: parent.anchors.margins
+        }
+
+        Row {
+            spacing: units.gu(2)
+            Switch {
+                id: newUserToggleSwitch
+                checked: false
+
+                onCheckedChanged: {
+                    toggleNewUser();
+                }
+            }
+            Label {
+                anchors.verticalCenter: newUserToggleSwitch.verticalCenter
+                text: "I am a new Ubuntu One user"
+                fontSize: "large"
+            }
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.margins: parent.anchors.margins
+
+        } // Row
+
 
         LoginForm {
             id: loginForm
-            x: 0
-            anchors.top: parent.top
-            width: parent.width
-
-            Behavior on x { PropertyAnimation { duration: 300 } }
+            visible: true
+            
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.margins: parent.anchors.margins
         }
 
         RegisterForm {
             id: registerForm
-            x: parent.width
-            anchors.top: parent.top
-            width: parent.width
-
-            Behavior on x { PropertyAnimation { duration: 300 } }
-        }
-
-        TwoFactorForm {
-                id: twoFactorForm
-                x: parent.width
-                anchors.top: parent.top
-                width: parent.width
-
-                Behavior on x { PropertyAnimation { duration: 300 } }
+            visible: false
+            
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.margins: parent.anchors.margins
         }
 
 
-        SuccessScreen {
-            id: successScreen
-            x: parent.width
-            anchors.top: parent.top
-            width: parent.width
-
-            Behavior on x { PropertyAnimation { duration: 300 } }
-        }
-    }
+    } // Column
 
     Row {
         id: buttons
@@ -121,14 +122,13 @@ Rectangle {
 
         Button {
             id: btnCancel
-            text: "Check existing creds"
+            text: "Cancel"
             color: "#1c091a"
             height: parent.height
             width: (parent.width / 2) - parent.anchors.margins - parent.spacing
             onClicked: {
-                    console.debug("checking for creds in keyring:");
-                    u1credservice.checkCredentials();
-                }
+                main.userCancelled();
+            }
         }
         Button {
             id: btnContinue
@@ -137,19 +137,22 @@ Rectangle {
             height: parent.height
             width: (parent.width / 2) - parent.anchors.margins - parent.spacing
 
-            onClicked: { 
-                    console.log("Continue clicked")
-                    process_form();
-                }
+            onClicked: {
+                process_form();
+            }
 
         }
     }
 
+
     Rectangle {
-        id: loading
-        anchors.fill: parent
+        id: loadingOverlay
         opacity: 0.6
+        color: "white"
         visible: false
+        width: main.width
+        height: main.height
+        anchors.centerIn: main
 
         ActivityIndicator {
             id: activity
@@ -158,69 +161,97 @@ Rectangle {
         }
     }
 
-    function toggleNewUser(){
-        if(state == "login"){
-            registerForm.new_switch.checked = loginForm.new_switch.checked;
-            loginForm.x = -main.width;
-            registerForm.x = 0;
+    UbuntuOneCredentialsService {
+        id: u1credservice
+
+        /* NOTE: if you are reading this as example code, see
+           examples/embeddingMain for an example of querying for
+           presence of creds and signing URLs without showing UI. This
+           is not an exhaustive list of supported signals. */
+
+        onLoginOrRegisterSuccess: {
+            login_successful();
+        }
+
+        onTwoFactorAuthRequired: {
+            showTwoFactorUI();
+        }
+
+        onLoginOrRegisterError: {
+            showError(errorMessage);
+        }
+    }
+    
+    Component.onCompleted: {
+        resetUI();
+    }
+
+    function resetUI() {
+        errorLabel.visible = false;
+        emailTextField.text = "";
+        loginForm.resetUI()
+        registerForm.resetUI();
+        newUserToggleSwitch.checked = false;
+        state = "login";
+        switchTo(loginForm);
+    }
+
+    function showError(message) {
+        errorLabel.text = message;
+        errorLabel.visible = true;
+        loadingOverlay.visible = false;
+    }
+
+    function switchTo(newVisible) {
+        currentVisible.visible = false;
+        newVisible.visible = true;
+        currentVisible = newVisible;
+    }
+
+    function toggleNewUser() {
+        if(state == "login") {
+            switchTo(registerForm)
             state = "register";
-        }else if(state == "register"){
-            loginForm.new_switch.checked = registerForm.new_switch.checked;
-            loginForm.x = 0;
-            registerForm.x = main.width;
+        } else if(state == "register") {
+            switchTo(loginForm)
             state = "login";
-        }else{
+        } else {
             console.debug("unexpected state" + state + "in toggleNewUser");
         }
-
     }
 
-    function process_form(){
-        if(state == "login"){
-            loading.visible = true;
-            var email = loginForm.email;
+    function process_form() {
+        loadingOverlay.visible = true;
+        if(state == "login") {
             var password = loginForm.password;
-            u1credservice.login(email, password);
-        }else if(state == "register"){
-            loading.visible = true;
-            var email = registerForm.email;
+            u1credservice.login(emailTextField.text, password);
+        } else if(state == "register") {
             var password = registerForm.password;
             var display_name = registerForm.display_name;
-            u1credservice.registerUser(email, password, display_name);
-        }else if(state == "twofactor"){
-            u1credservice.login(loginForm.email, loginForm.password, twoFactorForm.twoFactorCode);
+            u1credservice.registerUser(emailTextField.text, password, display_name);
+        } else if(state == "twofactor") {
+           u1credservice.login(emailTextField.text, loginForm.password, loginForm.twoFactorCode);
         }
     }
 
-    function login_successful(){
-        if(state == "login"){
-            loginForm.x = -main.width;
-        }else if(state == "register"){
-            registerForm.x = -main.width;
-        }else if(state == "twofactor"){
-            twoFactorForm.x = -main.width
-        }else{
-            console.debug("unexpected state " + state + " in login_successful");
-        }
-        successScreen.x = 0;
-        btnContinue.visible = false;
-        loading.visible = false;
+    function login_successful() {
+        loadingOverlay.visible = false;
+        errorLabel.visible = false;
+        resetUI();
+        main.succeeded();
     }
 
-    function showTwoFactorForm(){
-        loading.visible = false;
-        if(state != "login"){
+    function showTwoFactorUI() {
+        loadingOverlay.visible = false;
+        if(state != "login") {
             console.log("Error: did not expect two factor request from register");
+            showError("An internal error occurred. Please try again later.");
             return;
         }
+        errorLabel.visible = false;
         state = "twofactor";
-        twoFactorForm.twoFactorTextField.focus = true;
-        loginForm.x = -main.width;
-        twoFactorForm.x = 0;
+        loginForm.twoFactorVisible = true;
+
     }
 
-    function error(){
-        
-        loading.visible = false;
-    }
 }

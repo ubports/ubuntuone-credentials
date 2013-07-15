@@ -1,0 +1,30 @@
+
+Ubuntu One Credentials QML Plugin
+
+This plugin provides the UbuntuOne QML Component, which exposes the
+CredentialsService plugin, allowing you to display login/register UI
+and check for credentials and sign URLs.
+
+
+HACKING
+
+An example for embedding the UI provided by the plugin is in examples/embedding.qml
+
+The CMake setup only builds the complete QML component at install, so
+to test without installing to a system location, you will need to do
+something like the following:
+
+mkdir -p build 
+cd build
+cmake -D .. -DCMAKE_INSTALL_PREFIX:PATH=/tmp/installtemp .. 
+make all install
+
+Then, when running, point LD_LIBRARY_PATH to the install lib dir so
+that libubuntuonecredentials is discoverable. Here's an example of running qmlscene to try the example code:
+
+LD_LIBRARY_PATH=/tmp/installtemp/lib/ qmlscene -I /tmp/installtemp/lib/qt5/qml/ qml-credentials-service/examples/embeddingMain.qml
+
+
+
+
+

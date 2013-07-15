@@ -2,101 +2,66 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 
 Rectangle {
-    color: "transparent"
+    // Set a non-zero height and width so that the parent Column in
+    // CredentialsUI lays out correctly. Set matching color so we
+    // don't see a 1px line.
+    height: 0.001
+    width: main.width
+    color: main.color
 
-    property alias new_switch: newSwitch
-    property alias email: txtEmail.text
     property alias password: txtPassword.text
     property alias display_name: txtName.text
 
-    Label {
-        id: subtitle
-        anchors.left: parent.left
-        anchors.top: parent.top
-        anchors.topMargin: units.gu(1)
-        anchors.leftMargin: units.gu(2)
-        fontSize: "large"
-        color: "white"
-        text: "Please tell us your name and choose a password"
-        width: parent.width
-        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-    }
 
-    Grid {
-        anchors.fill: parent
-        anchors.topMargin: units.gu(10)
-        anchors.margins: units.gu(1)
-        columns: 2
-        spacing: units.gu(1)
+    Column {
+        spacing: units.gu(2)
 
-        Label{
-            text: "Your email"
-            color: "white"
+        Label {
+            id: subtitle
             fontSize: "large"
+            text: "Please tell us your name and choose a password."
         }
-        TextField {
-            id: txtEmail
-            placeholderText: "Your email"
-        }
-
-        Label{
-            text: "Your name"
-            color: "white"
-            fontSize: "large"
-        }
+        
         TextField {
             id: txtName
             placeholderText: "Your name"
+            width: main.width - (2 * main.anchors.margins)
         }
 
-        Label{
-            id: lblChoose
-            text: "Choose a password"
-            color: "white"
-            fontSize: "large"
-        }
         TextField {
             id: txtPassword
-            placeholderText: "At list 8 characters"
+            placeholderText: "Password with at least 8 characters"
             echoMode: TextInput.Password
+            width: main.width - (2 * main.anchors.margins)
         }
 
-        Label{
-            text: "Confirm password"
-            color: "white"
-            fontSize: "large"
-        }
         TextField {
             id: txtConfirmPassword
-            placeholderText: "Re-type your password"
+            placeholderText: "Re-type password"
             echoMode: TextInput.Password
+            width: main.width - (2 * main.anchors.margins)
         }
-
-        Label{
-            text: "New Customer"
-            color: "white"
-            fontSize: "large"
-        }
-        Switch {
-            id: newSwitch
-            checked: false
-
-            onCheckedChanged: {
-                main.toggleNewUser();
+        Row {
+            spacing: units.gu(2)
+            CheckBox {
+                id: termsAndConditionsCheckBox
+                checked: false
             }
-        }
 
-        Label{
-            text: "I agree to the Ubuntu One Terms and Conditions"
-            color: "white"
-            fontSize: "medium"
-            width: lblChoose.width
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
-        CheckBox {
-            checked: true
-        }
+            Label {
+                anchors.verticalCenter: termsAndConditionsCheckBox.verticalCenter
+                text: "I agree to the <a href='http://one.ubuntu.com/terms/'>Ubuntu One Terms and Conditions</a>"
+                fontSize: "medium"
+                onLinkActivated: { Qt.openUrlExternally(link); }
+            }
+        }        
+    }
 
+    function resetUI() {
+        termsAndConditionsCheckBox.checked = false;
+        txtName.text = "";
+        txtPassword.text = "";
+        txtConfirmPassword.text = "";
     }
 
 }
