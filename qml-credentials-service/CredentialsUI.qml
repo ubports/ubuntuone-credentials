@@ -9,6 +9,7 @@ Rectangle {
 
     state: "login" // or "register" or "twofactor"
     property var currentVisible: loginForm
+    property var formValid: false;
 
     color: "white"
 
@@ -66,6 +67,7 @@ Rectangle {
             width: main.width - (2 * main.anchors.margins)
             anchors.left: parent.left
             anchors.margins: parent.anchors.margins
+            validator: RegExpValidator{ regExp: /.*@.*/ }
         }
 
         Row {
@@ -136,11 +138,9 @@ Rectangle {
             color: "#cc3300"
             height: parent.height
             width: (parent.width / 2) - parent.anchors.margins - parent.spacing
-
             onClicked: {
-                process_form();
+                processForm();
             }
-
         }
     }
 
@@ -170,7 +170,7 @@ Rectangle {
            is not an exhaustive list of supported signals. */
 
         onLoginOrRegisterSuccess: {
-            login_successful();
+            handleSuccess();
         }
 
         onTwoFactorAuthRequired: {
@@ -178,6 +178,9 @@ Rectangle {
         }
 
         onLoginOrRegisterError: {
+            if (errorMessage == "Invalid request data") {
+                errorMessage = "Please check your input and try again.";
+            }
             showError(errorMessage);
         }
     }
@@ -194,6 +197,7 @@ Rectangle {
         newUserToggleSwitch.checked = false;
         state = "login";
         switchTo(loginForm);
+        formValid = false;
     }
 
     function showError(message) {
@@ -220,7 +224,11 @@ Rectangle {
         }
     }
 
-    function process_form() {
+    function processForm() {
+        validateInput();
+        if (!formValid) {
+            return;
+        }
         loadingOverlay.visible = true;
         if(state == "login") {
             var password = loginForm.password;
@@ -230,11 +238,11 @@ Rectangle {
             var display_name = registerForm.display_name;
             u1credservice.registerUser(emailTextField.text, password, display_name);
         } else if(state == "twofactor") {
-           u1credservice.login(emailTextField.text, loginForm.password, loginForm.twoFactorCode);
+            u1credservice.login(emailTextField.text, loginForm.password, loginForm.twoFactorCode);
         }
     }
 
-    function login_successful() {
+    function handleSuccess() {
         loadingOverlay.visible = false;
         errorLabel.visible = false;
         resetUI();
@@ -251,7 +259,25 @@ Rectangle {
         errorLabel.visible = false;
         state = "twofactor";
         loginForm.twoFactorVisible = true;
+        formValid = false;
+    }
 
+    function validateInput() {
+        formValid = emailTextField.acceptableInput;
+        if(!formValid) {
+            showError("Please enter a valid email address.");
+            return;
+        }
+
+        if(state == "login" || state == "twofactor") {
+            formValid &= loginForm.validateInput();
+        } else {
+            formValid &= registerForm.validateInput();
+        }
+        
+        if(formValid) {
+            errorLabel.visible = false;
+        }
     }
 
 }
