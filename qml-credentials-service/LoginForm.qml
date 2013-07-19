@@ -99,6 +99,6 @@ Rectangle {
         if(!twoFactorLongEnough){
             main.showError("Please enter your two-factor device code.");
         }
-        return passwordLongEnough && twofactorLongEnough;
+        return passwordLongEnough && twoFactorLongEnough;
     }
 }
