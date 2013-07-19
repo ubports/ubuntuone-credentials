@@ -20,8 +20,8 @@ add_executable (${UI_TESTS_TARGET} ${SOURCES} ${HEADERS})
 qt5_use_modules (${UI_TESTS_TARGET} Test DBus Network Widgets)
 add_dependencies (${UI_TESTS_TARGET} ${MUSIC_LOGIN_LIB})
 target_link_libraries (${UI_TESTS_TARGET}
-  -Wl,-rpath,${CMAKE_BINARY_DIR}/lib
-  -L${CMAKE_BINARY_DIR}/lib
+  -Wl,-rpath,${CMAKE_BINARY_DIR}/libubuntuoneauth
+  -L${CMAKE_BINARY_DIR}/libubuntuoneauth
   ${AUTH_LIB_NAME}
   ${MUSIC_LOGIN_LIB}
 )
