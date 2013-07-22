@@ -46,8 +46,8 @@ add_executable (${MUSIC_LOGIN_EXE}
 qt5_use_modules (${MUSIC_LOGIN_LIB} Core DBus Gui Widgets Network)
 qt5_use_modules (${MUSIC_LOGIN_EXE} DBus Widgets Network)
 target_link_libraries (${MUSIC_LOGIN_EXE}
-  -Wl,-rpath,${CMAKE_BINARY_DIR}/lib
-  -L${CMAKE_BINARY_DIR}/lib
+  -Wl,-rpath,${CMAKE_BINARY_DIR}/libubuntuoneauth
+  -L${CMAKE_BINARY_DIR}/libubuntuoneauth
   ${AUTH_LIB_NAME}
   ${MUSIC_LIB_NAME}
 )
