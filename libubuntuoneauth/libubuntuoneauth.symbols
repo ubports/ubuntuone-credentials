@@ -3,6 +3,7 @@
     extern "C++" {
       *UbuntuOne::*;
     };
+    qt_*;
   local:
     *;
 };
