@@ -32,6 +32,7 @@ qt5_use_modules (${AUTH_LIB_NAME} Core DBus Xml Network)
 target_link_libraries (${AUTH_LIB_NAME}
   ${LIBSECRET_LDFLAGS}
   ${OAUTH_LDFLAGS}
+  -Wl,--version-script -Wl,${CMAKE_CURRENT_SOURCE_DIR}/libubuntuoneauth.symbols
 )
 
 SET_TARGET_PROPERTIES(${AUTH_LIB_NAME} PROPERTIES

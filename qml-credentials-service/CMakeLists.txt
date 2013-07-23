@@ -9,12 +9,12 @@ file (GLOB QML_SOURCES *.qml)
 configure_file (qmldir.template qmldir)
 
 add_library (${PLUGIN_NAME} MODULE ${CPP_SOURCES})
-
-target_link_libraries (${PLUGIN_NAME} 
+qt5_use_modules (${PLUGIN_NAME} Core Widgets Quick Qml )
+target_link_libraries (${PLUGIN_NAME}
+  -Wl,-rpath,${CMAKE_BINARY_DIR}/libubuntuoneauth
+  -L${CMAKE_BINARY_DIR}/libubuntuoneauth
   ${AUTH_LIB_NAME}
 )
-
-qt5_use_modules (${PLUGIN_NAME} Core Widgets Quick Qml )
 
 install (FILES ${CMAKE_CURRENT_BINARY_DIR}/qmldir DESTINATION ${QML_MODULE_INSTALL_DIR}/${QML_MODULE_NAME} )
 

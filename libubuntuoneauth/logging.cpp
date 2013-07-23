@@ -114,7 +114,23 @@ namespace UbuntuOne {
         if (type < _logLevel)
             return;
 
-        _logStream << QDateTime::currentDateTime().toString(_datetimeFormat).toUtf8().data() << " - " << getMessageTypeString(type).toUtf8().data() << " - " << message.toUtf8().data() << "\n";
+        QString logMessage;
+        QTextStream _logMessage(&logMessage);
+        _logMessage << QDateTime::currentDateTime().toString(_datetimeFormat).toUtf8().data() << " - " << getMessageTypeString(type).toUtf8().data() << " - " << message.toUtf8().data() << "\n";
+
+        QTextStream _stdErr(stderr, QIODevice::WriteOnly);
+        switch (type) {
+        case QtDebugMsg:
+        case QtCriticalMsg:
+        case QtFatalMsg:
+            _stdErr << logMessage;
+            break;
+        default:
+            break;
+        }
+        _stdErr.device()->close();
+
+        _logStream << logMessage;
         _logStream.flush();
 
         if (type == QtFatalMsg)
