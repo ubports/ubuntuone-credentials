@@ -1,0 +1,9 @@
+{
+  global:
+    extern "C++" {
+      *UbuntuOne::*;
+    };
+    qt_*;
+  local:
+    *;
+};
