@@ -67,7 +67,7 @@ Rectangle {
             width: main.width - (2 * main.anchors.margins)
             anchors.left: parent.left
             anchors.margins: parent.anchors.margins
-            validator: RegExpValidator{ regExp: /.*@.*/ }
+            validator: RegExpValidator{ regExp: /.+@.+/ }
         }
 
         Row {
@@ -179,7 +179,7 @@ Rectangle {
 
         onLoginOrRegisterError: {
             if (errorMessage == "Invalid request data") {
-                errorMessage = "Please check your input and try again.";
+                errorMessage = "Please enter a valid email address.";
             }
             showError(errorMessage);
         }
