@@ -28,8 +28,6 @@
 
 namespace UbuntuOne {
 
-//static QString API_BASE = "https://login.ubuntu.com/api/v2/";
-
 class Network : public QObject
 {
     Q_OBJECT

@@ -89,11 +89,11 @@ void Network::OnReply(QNetworkReply* reply)
 
     /* TODO: map out urls to reply parsers */
     if (httpStatus == 200 || httpStatus == 201) {
-        if (reply->url() == OAUTH_API)
+        if (reply->url().path() == OAUTH_PATH)
             ProcessOAuthTokenReply(object);
-        else if (reply->url() == PASSWORD_API)
+        else if (reply->url().path() == PASSWORD_PATH)
             ProcessPasswordTokenReply(object);
-        else if (reply->url() == ACCOUNTS_API)
+        else if (reply->url().path() == ACCOUNTS_PATH)
             ProcessAccountsReply(object);
     } else /* Statuses outside 200, 201 are fails */ {
         QVariant phraseAttr = reply->attribute(
