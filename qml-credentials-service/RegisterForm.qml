@@ -68,7 +68,9 @@ Rectangle {
         var valid = termsAndConditionsCheckBox.checked;
         if (!valid) {
             main.showError("Please accept the terms and conditions by checking the box.");
+            return false;
         }
+
         var nameOK = (nameTextField.text != "");
         nameTextField.errorHighlight = !nameOK;
         if (!nameOK) {
@@ -90,7 +92,6 @@ Rectangle {
             return false;
         }
 
-        valid &= nameOK && passwordsMatch && passwordLongEnough;
-        return valid;
+        return true;
     }
 }

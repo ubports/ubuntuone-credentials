@@ -27,9 +27,6 @@ Rectangle {
             echoMode: TextInput.Password
             width: main.width - (2 * main.anchors.margins)
 
-            //todo: fix tab nav?
-            // KeyNavigation.backtab: txtEmail
-            // KeyNavigation.tab: txtEmail
             Keys.onReturnPressed: main.processForm();
         }
 
@@ -87,7 +84,6 @@ Rectangle {
         passwordTextField.errorHighlight = !passwordLongEnough;
         if (!passwordLongEnough) {
             main.showError("Password must be at least 8 characters long.");
-            return;
         }
 
         if (!twoFactorUI.visible) {
