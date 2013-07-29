@@ -10,9 +10,10 @@ HACKING
 
 An example for embedding the UI provided by the plugin is in examples/embedding.qml
 
-The CMake setup only builds the complete QML component at install, so
-to test without installing to a system location, you will need to do
-something like the following:
+The CMake setup only builds the complete QML component at install, and
+the qmltypes file required by qtcreator is also only built at install,
+so to test without installing to a system location, you will need to
+do something like the following:
 
 mkdir -p build 
 cd build
