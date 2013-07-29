@@ -1,4 +1,4 @@
 module @QML_MODULE_NAME@
 plugin @PLUGIN_NAME@
 CredentialsUI 1.0 CredentialsUI.qml
-typeinfo UbuntuOneCredentials.qmltypes
+typeinfo @QML_MODULE_NAME@.qmltypes
