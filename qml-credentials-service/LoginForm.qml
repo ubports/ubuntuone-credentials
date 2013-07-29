@@ -13,7 +13,6 @@ Rectangle {
     property alias twoFactorVisible: twoFactorUI.visible
     property alias twoFactorCode: twoFactorTextField.text
 
-
     Column {
         spacing: units.gu(2)
 
@@ -28,10 +27,7 @@ Rectangle {
             echoMode: TextInput.Password
             width: main.width - (2 * main.anchors.margins)
 
-            //todo: fix tab nav?
-            // KeyNavigation.backtab: txtEmail
-            // KeyNavigation.tab: txtEmail
-            Keys.onReturnPressed: main.process_form();
+            Keys.onReturnPressed: main.processForm();
         }
 
         Label {
@@ -61,7 +57,7 @@ Rectangle {
                 focus: true
                 width: main.width - (2 * main.anchors.margins)
                 Keys.onReturnPressed: {
-                    main.process_form();
+                    main.processForm();
                 }
             }
 
@@ -81,5 +77,24 @@ Rectangle {
         twoFactorUI.visible = false;
         twoFactorTextField.text = "";
         passwordTextField.text = "";
+    }
+
+    function validateInput() {
+        var passwordLongEnough = passwordTextField.text.length > 7;
+        passwordTextField.errorHighlight = !passwordLongEnough;
+        if (!passwordLongEnough) {
+            main.showError("Password must be at least 8 characters long.");
+        }
+
+        if (!twoFactorUI.visible) {
+            return passwordLongEnough;
+        }
+        
+        var twoFactorLongEnough = twoFactorTextField.text.length > 0;
+        twoFactorTextField.errorHighlight = !twoFactorLongEnough;
+        if(!twoFactorLongEnough){
+            main.showError("Please enter your two-factor device code.");
+        }
+        return passwordLongEnough && twoFactorLongEnough;
     }
 }
