@@ -18,7 +18,7 @@ Rectangle {
 
         Label {
             text: "I am a returning user and my password is:"
-            fontSize: "large"
+            fontSize: "small"
         }
         TextField {
             id: passwordTextField
@@ -47,7 +47,7 @@ Rectangle {
 
             Label {
                 text: "Type your verification code:"
-                fontSize: "large"
+                fontSize: "small"
             }
 
             TextField {

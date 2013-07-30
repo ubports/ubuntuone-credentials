@@ -11,7 +11,7 @@ Rectangle {
     property var currentVisible: loginForm
     property var formValid: false;
 
-    color: "white"
+    color: "transparent"
 
     signal userCancelled()
     signal succeeded()
@@ -28,8 +28,8 @@ Rectangle {
 
         Label {
             id: title
-            text: "One account to log in to\neverything on Ubuntu"
-            fontSize: "x-large"
+            text: "One account to log in to everything on Ubuntu"
+            fontSize: "large"
             color: UbuntuColors.coolGrey
             anchors.left: parent.left
             anchors.right: parent.right
@@ -51,7 +51,7 @@ Rectangle {
 
         Label {
             text: "Please type your email:"
-            fontSize: "large"
+            fontSize: "small"
 
             anchors.left: parent.left
             anchors.right: parent.right
@@ -83,7 +83,7 @@ Rectangle {
             Label {
                 anchors.verticalCenter: newUserToggleSwitch.verticalCenter
                 text: "I am a new Ubuntu One user"
-                fontSize: "large"
+                fontSize: "small"
             }
             anchors.left: parent.left
             anchors.right: parent.right
