@@ -16,9 +16,12 @@ SET (AUTHUI_LIB_API_VERSION 2.0)
 SET (AUTHUI_LIB_NAME ubuntuoneauthui-${AUTHUI_LIB_API_VERSION})
 
 # these names are also used in qml-credentials-service/qmldir, be sure to change them in both places
-set (QML_MODULE_NAME UbuntuOne)
-set (PLUGIN_API_VERSION 1.0)
-set (PLUGIN_NAME UbuntuOneCredentialsPlugin-${PLUGIN_API_VERSION})
+SET (QML_MODULE_NAME UbuntuOne)
+SET (QML_PLUGIN_API_VERSION 1.0)
+SET (QML_PLUGIN_NAME UbuntuOneCredentialsPlugin-${PLUGIN_API_VERSION})
+
+# For the signon plug-in module
+SET (SIGNON_PLUGIN_NAME ubuntuone)
 
 # Some default CFLAGS
 SET (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O2 -g -Wall -Werror -fPIC")
@@ -45,6 +48,7 @@ add_custom_target(dist
 add_subdirectory(libubuntuoneauth)
 add_subdirectory(libubuntuoneauthui)
 add_subdirectory(music-login)
+add_subdirectory(signon-plugin)
 add_subdirectory(qml-credentials-service)
 
 # We need to add these here which simply depend on other test rules, as

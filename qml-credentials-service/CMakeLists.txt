@@ -8,9 +8,9 @@ file (GLOB QML_SOURCES *.qml)
 
 configure_file (qmldir.template qmldir)
 
-add_library (${PLUGIN_NAME} MODULE ${CPP_SOURCES})
-qt5_use_modules (${PLUGIN_NAME} Core Widgets Quick Qml )
-target_link_libraries (${PLUGIN_NAME}
+add_library (${QML_PLUGIN_NAME} MODULE ${CPP_SOURCES})
+qt5_use_modules (${QML_PLUGIN_NAME} Core Widgets Quick Qml )
+target_link_libraries (${QML_PLUGIN_NAME}
   -Wl,-rpath,${CMAKE_BINARY_DIR}/libubuntuoneauth
   -L${CMAKE_BINARY_DIR}/libubuntuoneauth
   ${AUTH_LIB_NAME}
@@ -18,11 +18,11 @@ target_link_libraries (${PLUGIN_NAME}
 
 install (FILES ${CMAKE_CURRENT_BINARY_DIR}/qmldir DESTINATION ${QML_MODULE_INSTALL_DIR}/${QML_MODULE_NAME} )
 
-install (TARGETS ${PLUGIN_NAME} 
+install (TARGETS ${QML_PLUGIN_NAME} 
   LIBRARY DESTINATION ${QML_MODULE_INSTALL_DIR}/${QML_MODULE_NAME}
   NAMELINK_SKIP
 )
 
 install (FILES ${QML_SOURCES} DESTINATION ${QML_MODULE_INSTALL_DIR}/${QML_MODULE_NAME} )
 
-install (CODE "execute_process(COMMAND qmlplugindump ${QML_MODULE_NAME} ${PLUGIN_API_VERSION} ${CMAKE_INSTALL_PREFIX}/${QML_MODULE_INSTALL_DIR} OUTPUT_FILE ${CMAKE_INSTALL_PREFIX}/${QML_MODULE_INSTALL_DIR}/${QML_MODULE_NAME}/${QML_MODULE_NAME}.qmltypes)")
+install (CODE "execute_process(COMMAND qmlplugindump ${QML_MODULE_NAME} ${QML_PLUGIN_API_VERSION} ${CMAKE_INSTALL_PREFIX}/${QML_MODULE_INSTALL_DIR} OUTPUT_FILE ${CMAKE_INSTALL_PREFIX}/${QML_MODULE_INSTALL_DIR}/${QML_MODULE_NAME}/${QML_MODULE_NAME}.qmltypes)")
