@@ -28,7 +28,7 @@ SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -O2 -g -Wall -Werror -fPIC")
 SET (LIB_SUFFIX "" CACHE STRING "Define suffix of library directory name.")
 SET (LIB_INSTALL_DIR "lib${LIB_SUFFIX}")
 
-set (QML_MODULE_INSTALL_DIR ${LIB_INSTALL_DIR}/qt5/qml/${QML_MODULE_NAME} )
+set (QML_MODULE_INSTALL_DIR ${LIB_INSTALL_DIR}/qt5/qml )
 
 include_directories(${CMAKE_SOURCE_DIR}/libubuntuoneauth
   ${CMAKE_SOURCE_DIR}/libubuntuoneauthui)

@@ -9,8 +9,8 @@ Rectangle {
     width: main.width
     color: main.color
 
-    property alias password: txtPassword.text
-    property alias display_name: txtName.text
+    property alias password: passwordTextField.text
+    property alias display_name: nameTextField.text
 
 
     Column {
@@ -18,25 +18,25 @@ Rectangle {
 
         Label {
             id: subtitle
-            fontSize: "large"
+            fontSize: "small"
             text: "Please tell us your name and choose a password."
         }
         
         TextField {
-            id: txtName
+            id: nameTextField
             placeholderText: "Your name"
             width: main.width - (2 * main.anchors.margins)
         }
 
         TextField {
-            id: txtPassword
+            id: passwordTextField
             placeholderText: "Password with at least 8 characters"
             echoMode: TextInput.Password
             width: main.width - (2 * main.anchors.margins)
         }
 
         TextField {
-            id: txtConfirmPassword
+            id: confirmPasswordTextField
             placeholderText: "Re-type password"
             echoMode: TextInput.Password
             width: main.width - (2 * main.anchors.margins)
@@ -51,17 +51,47 @@ Rectangle {
             Label {
                 anchors.verticalCenter: termsAndConditionsCheckBox.verticalCenter
                 text: "I agree to the <a href='http://one.ubuntu.com/terms/'>Ubuntu One Terms and Conditions</a>"
-                fontSize: "medium"
+                fontSize: "small"
                 onLinkActivated: { Qt.openUrlExternally(link); }
             }
-        }        
+        }
     }
 
     function resetUI() {
         termsAndConditionsCheckBox.checked = false;
-        txtName.text = "";
-        txtPassword.text = "";
-        txtConfirmPassword.text = "";
+        nameTextField.text = "";
+        passwordTextField.text = "";
+        confirmPasswordTextField.text = "";
     }
+    
+    function validateInput() {
+        var valid = termsAndConditionsCheckBox.checked;
+        if (!valid) {
+            main.showError("Please accept the terms and conditions by checking the box.");
+            return false;
+        }
 
+        var nameOK = (nameTextField.text != "");
+        nameTextField.errorHighlight = !nameOK;
+        if (!nameOK) {
+            main.showError("Please enter a name.");
+            return false;
+        }
+
+        var passwordLongEnough = passwordTextField.length > 7;
+        passwordTextField.errorHighlight = !passwordLongEnough;
+        if (!passwordLongEnough) {
+            main.showError("Your password must be at least 8 characters long.");
+            return false;
+        }
+
+        var passwordsMatch = (passwordTextField.text == confirmPasswordTextField.text);
+        confirmPasswordTextField.errorHighlight = !passwordsMatch;
+        if (!passwordsMatch) {
+            main.showError("The passwords do not match.");
+            return false;
+        }
+
+        return true;
+    }
 }

@@ -98,7 +98,8 @@ namespace UbuntuOne {
     void SSOService::registerUser(QString email, QString password,
                                   QString display_name)
     {
-        AccountRequest request(email, password, display_name, NULL, NULL);
+        AccountRequest request(getAuthBaseUrl(),
+                               email, password, display_name, NULL, NULL);
 
         _tempPassword = password;
         _tempEmail = email;
@@ -113,7 +114,9 @@ namespace UbuntuOne {
 
     void SSOService::login(QString email, QString password, QString twoFactorCode)
     {
-        OAuthTokenRequest request(email, password, Token::buildTokenName(), twoFactorCode);
+        OAuthTokenRequest request(getAuthBaseUrl(),
+                                  email, password,
+                                  Token::buildTokenName(), twoFactorCode);
         _tempEmail = email;
 
         _provider.GetOAuthToken(request);
@@ -144,7 +147,7 @@ namespace UbuntuOne {
     {
         QString baseUrl = qgetenv("SSO_AUTH_BASE_URL");
         if (baseUrl.isEmpty())
-            baseUrl = QStringLiteral("https://login.ubuntu.com/");
+            baseUrl = QStringLiteral("https://login.ubuntu.com");
         return baseUrl;
     }
 
@@ -152,7 +155,7 @@ namespace UbuntuOne {
     {
         QString baseUrl = qgetenv("SSO_UONE_BASE_URL");
         if (baseUrl.isEmpty())
-            baseUrl = QStringLiteral("https://one.ubuntu.com/");
+            baseUrl = QStringLiteral("https://one.ubuntu.com");
         return baseUrl;
     }
 
@@ -160,7 +163,7 @@ namespace UbuntuOne {
     {
         Token realToken = Token(token.token_key(), token.token_secret(),
                                 token.consumer_key(), token.consumer_secret());
-        QString urlToSign = getUOneBaseUrl() + "oauth/sso-finished-so-get-tokens/" + _tempEmail + "?" + _getPlatformDataParams();
+        QString urlToSign = getUOneBaseUrl() + "/oauth/sso-finished-so-get-tokens/" + _tempEmail + "?" + _getPlatformDataParams();
         QString authHeader = realToken.signUrl(urlToSign,
                                                QStringLiteral("GET"));
         QNetworkRequest *_request = new QNetworkRequest();

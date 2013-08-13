@@ -104,7 +104,8 @@ void RegisterForm::validateForm()
 
 bool RegisterForm::checkEmail()
 {
-    bool value = !this->ui->lineEmail->text().isEmpty() && this->ui->lineEmail->text().contains("@");
+    QRegExp mailRE(".+@.+");
+    bool value = mailRE.exactMatch(this->ui->lineEmail->text());
     this->ui->lineEmail->setProperty("error", !value);
     this->style()->unpolish(this->ui->lineEmail);
     this->style()->polish(this->ui->lineEmail);

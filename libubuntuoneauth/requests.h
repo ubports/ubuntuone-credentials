@@ -24,10 +24,14 @@
 
 namespace UbuntuOne {
 
-static QString API_BASE = "https://login.ubuntu.com/api/v2/";
-static QString OAUTH_API = API_BASE + "tokens/oauth";
-static QString PASSWORD_API = API_BASE + "tokens/password";
-static QString ACCOUNTS_API = API_BASE + "accounts";
+static QString API_VERSION = "/api/v2";
+static QString API_BASE = "https://login.ubuntu.com/";
+static QString OAUTH_PATH = API_VERSION + "/tokens/oauth";
+static QString OAUTH_API = API_BASE + OAUTH_PATH;
+static QString PASSWORD_PATH = API_VERSION + "/tokens/password";
+static QString PASSWORD_API = API_BASE + PASSWORD_PATH;
+static QString ACCOUNTS_PATH = API_VERSION + "/accounts";
+static QString ACCOUNTS_API = API_BASE + ACCOUNTS_PATH;
 
 class RequestInterface
 {
@@ -46,6 +50,9 @@ class OAuthTokenRequest : public RequestInterface
 public:
     OAuthTokenRequest();
     OAuthTokenRequest(QString email, QString password,
+                      QString token, QString otp);
+    OAuthTokenRequest(QString base_url,
+                      QString email, QString password,
                       QString token, QString otp);
 
     QByteArray serialize() const;
@@ -71,6 +78,10 @@ public:
     AccountRequest(QString email, QString password, QString name,
                    QString captchaId, QString captchaSolution,
                    bool createCaptcha = true);
+    AccountRequest(QString base_url,
+                   QString email, QString password, QString name,
+                   QString captchaId, QString captchaSolution,
+                   bool createCaptcha);
 
     QByteArray serialize() const;
 
@@ -98,6 +109,7 @@ class PasswordTokenRequest : public RequestInterface
 public:
     PasswordTokenRequest();
     PasswordTokenRequest(QString email);
+    PasswordTokenRequest(QString base_url, QString email);
 
     QByteArray serialize() const;
 

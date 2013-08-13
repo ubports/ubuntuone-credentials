@@ -40,6 +40,14 @@ OAuthTokenRequest::OAuthTokenRequest(QString email, QString password,
 {
 }
 
+OAuthTokenRequest::OAuthTokenRequest(QString base_url,
+                                     QString email, QString password,
+                                     QString name, QString otp)
+    : RequestInterface(base_url + OAUTH_PATH),
+      _email(email), _password(password), _name(name), _otp(otp)
+{
+}
+
 QByteArray OAuthTokenRequest::serialize() const
 {
     QJsonObject serializer;
@@ -72,6 +80,17 @@ AccountRequest::AccountRequest(QString email, QString password, QString name,
 {
 }
 
+AccountRequest::AccountRequest(QString base_url,
+                               QString email, QString password, QString name,
+                               QString captchaId, QString captchaSolution,
+                               bool createCaptcha)
+    : RequestInterface(base_url + ACCOUNTS_PATH),
+      _email(email), _password(password), _name(name),
+      _captchaId(captchaId), _captchaSolution(captchaSolution),
+      _createCaptcha(createCaptcha)
+{
+}
+
 QByteArray AccountRequest::serialize() const
 {
     QJsonObject data;
@@ -93,6 +112,11 @@ PasswordTokenRequest::PasswordTokenRequest()
 
 PasswordTokenRequest::PasswordTokenRequest(QString email)
     : RequestInterface(PASSWORD_API), _email(email)
+{
+}
+
+PasswordTokenRequest::PasswordTokenRequest(QString base_url, QString email)
+    : RequestInterface(base_url + PASSWORD_PATH), _email(email)
 {
 }
 
