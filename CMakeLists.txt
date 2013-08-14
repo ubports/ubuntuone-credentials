@@ -18,7 +18,7 @@ SET (AUTHUI_LIB_NAME ubuntuoneauthui-${AUTHUI_LIB_API_VERSION})
 # these names are also used in qml-credentials-service/qmldir, be sure to change them in both places
 SET (QML_MODULE_NAME UbuntuOne)
 SET (QML_PLUGIN_API_VERSION 1.0)
-SET (QML_PLUGIN_NAME UbuntuOneCredentialsPlugin-${PLUGIN_API_VERSION})
+SET (QML_PLUGIN_NAME UbuntuOneCredentialsPlugin-${QML_PLUGIN_API_VERSION})
 
 # For the signon plug-in module
 SET (SIGNON_PLUGIN_NAME ubuntuone)
