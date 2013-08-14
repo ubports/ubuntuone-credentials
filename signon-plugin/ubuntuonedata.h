@@ -15,38 +15,28 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
-#ifndef _U1_TOKEN_H_
-#define _U1_TOKEN_H_
+#ifndef _UBUNTUONE_DATA_H_
+#define _UBUNTUONE_DATA_H_
 
-#include <QHash>
-#include <QString>
-
+#include <sessiondata.h>
 
 namespace UbuntuOne {
 
-#define TOKEN_ID "Ubuntu One"
-#define TOKEN_SEP " @ "
-#define TOKEN_SEP_REPLACEMENT " AT "
-
-    class Token
+    class PluginData : public SignOn::SessionData
     {
     public:
-        Token() {};
-        Token(QString token_key, QString token_secret,
-              QString consumer_key, QString consumer_secret);
+        // The name of the token
+        SIGNON_SESSION_DECLARE_PROPERTY(QString, Name);
 
-        QString toQuery();
-        bool isValid() const;
+        // The consumer key and secret for signing
+        SIGNON_SESSION_DECLARE_PROPERTY(QString, Consumer);
+        SIGNON_SESSION_DECLARE_PROPERTY(QString, ConsumerSecret);
 
-        QString signUrl(const QString url, const QString method, bool asQuery = false) const;
-
-        static Token *fromQuery(const QString query);
-        static QString buildTokenName();
-
-    private:
-        QHash<QString, QString> _tokenHash;
+        // The access token and secret for signing
+        SIGNON_SESSION_DECLARE_PROPERTY(QString, Token);
+        SIGNON_SESSION_DECLARE_PROPERTY(QString, TokenSecret);
     };
 
-} /* namespace UbuntuOne */
+} // namespace UbuntuOne
 
-#endif /* _U1_TOKEN_H_ */
+#endif
