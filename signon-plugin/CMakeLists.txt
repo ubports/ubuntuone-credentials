@@ -12,6 +12,9 @@ find_package (PkgConfig REQUIRED)
 pkg_check_modules(SIGNON REQUIRED signon-plugins)
 add_definitions(${SIGNON_CFLAGS} ${SIGNON_CFLAGS_OTHER})
 
+# Workaround for cmake not adding these to automoc properly
+SET (CMAKE_AUTOMOC_MOC_OPTIONS "${SIGNON_CFLAGS} ${CMAKE_AUTOMOC_MOC_OPTIONS}")
+
 # Need the project version here
 add_definitions("-DPROJECT_VERSION=\"${PROJECT_VERSION}\"")
 
