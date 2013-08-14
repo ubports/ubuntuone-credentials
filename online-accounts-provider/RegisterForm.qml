@@ -7,7 +7,7 @@ Rectangle {
     // don't see a 1px line.
     height: 0.001
     width: main.width
-    color: main.parent.color
+    color: main.color
 
     property alias password: passwordTextField.text
     property alias display_name: nameTextField.text
