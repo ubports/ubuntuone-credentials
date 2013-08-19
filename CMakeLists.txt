@@ -21,7 +21,7 @@ SET (QML_PLUGIN_API_VERSION 1.0)
 SET (QML_PLUGIN_NAME UbuntuOneCredentialsPlugin-${QML_PLUGIN_API_VERSION})
 
 # For the signon plug-in module
-SET (SIGNON_PLUGIN_NAME ubuntuone)
+SET (SIGNON_PLUGIN_NAME ubuntuoneplugin)
 
 # Some default CFLAGS
 SET (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O2 -g -Wall -Werror -fPIC")
