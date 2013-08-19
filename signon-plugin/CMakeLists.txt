@@ -24,7 +24,7 @@ target_link_libraries (${SIGNON_PLUGIN_NAME}
   -Wl,-rpath,${CMAKE_BINARY_DIR}/libubuntuoneauth
   -L${CMAKE_BINARY_DIR}/libubuntuoneauth
   ${AUTH_LIB_NAME}
-  ${SIGNON_PLUGIN_LDFLAGS}
+  ${SIGNON_LDFLAGS}
 )
 
 SET (SIGNON_PLUGIN_INSTALL_DIR lib/signon)
