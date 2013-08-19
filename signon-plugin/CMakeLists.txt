@@ -34,4 +34,4 @@ INSTALL (
   LIBRARY DESTINATION ${SIGNON_PLUGIN_INSTALL_DIR}
 )
 
-#add_subdirectory(tests)
+add_subdirectory(tests)
