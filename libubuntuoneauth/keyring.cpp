@@ -25,10 +25,6 @@
 
 #include "keyring.h"
 
-#define TOKEN_KEY_TYPE "Ubuntu SSO credentials"
-#define TOKEN_ATTR_TYPE_KEY "key-type"
-#define TOKEN_ATTR_NAME_KEY "token-name"
-
 using namespace Accounts;
 using namespace SignOn;
 
@@ -77,7 +73,11 @@ namespace UbuntuOne {
         Account *account;
 
         if (_ids.length() > 0) {
+            if (_ids.length() > 1) {
+                qDebug() << "findToken(): Found '" << _ids.length() << "' accounts. Using first.";
+            }
             account = _manager.account(_ids[0]);
+            qDebug() << "findToken(): Using Ubuntu One account '" << _ids[0] << "'.";
             identity = Identity::existingIdentity(account->credentialsId());
             AuthSession *session = identity->createSession(QStringLiteral("password"));
             if (session != NULL) {
@@ -88,6 +88,7 @@ namespace UbuntuOne {
                 session->process(SessionData(), QStringLiteral("password"));
                 return;
             }
+            qCritical() << "Unable to create AuthSession.";
         }
         emit tokenNotFound();
     }
@@ -99,7 +100,11 @@ namespace UbuntuOne {
         Account *account;
 
         if (_ids.length() > 0) {
+            if (_ids.length() > 1) {
+                qDebug() << "handleCredentialsStored(): Found '" << _ids.length() << "' accounts. Using first.";
+            }
             account = _manager.account(_ids[0]);
+            qDebug() << "handleCredentialsStored(): Using Ubuntu One account '" << _ids[0] << "'.";
             account->selectService();
             account->setCredentialsId(id);
 
@@ -126,7 +131,11 @@ namespace UbuntuOne {
         Account *account;
 
         if (_ids.length() > 0) {
+            if (_ids.length() > 1) {
+                qDebug() << "storeToken(): Found '" << _ids.length() << "' accounts. Using first.";
+            }
             account = _manager.account(_ids[0]);
+            qDebug() << "storeToken(): Using Ubuntu One account '" << _ids[0] << "'.";
             identity = Identity::existingIdentity(account->credentialsId());
         } else {
             account = _manager.createAccount(_acctName);
@@ -160,7 +169,11 @@ namespace UbuntuOne {
         QString _acctName("ubuntuone");
         AccountIdList _ids = _manager.accountList(_acctName);
         if (_ids.length() > 0) {
+            if (_ids.length() > 1) {
+                qDebug() << "deleteToken(): Found '" << _ids.length() << "' accounts. Using first.";
+            }
             Account *account = _manager.account(_ids[0]);
+            qDebug() << "deleteToken(): Using Ubuntu One account '" << _ids[0] << "'.";
             Identity *identity = Identity::existingIdentity(account->credentialsId());
             connect(account, SIGNAL(removed()),
                     this, SLOT(tokenDeleted()));

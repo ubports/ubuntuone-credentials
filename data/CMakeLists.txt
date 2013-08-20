@@ -1,5 +1,3 @@
-# Qt5 bits
-
 file (GLOB PROVIDER_FILES *.provider)
 file (GLOB SERVICE_FILES *.service)
 file (GLOB SERVICE_TYPE_FILES *.service-type)
