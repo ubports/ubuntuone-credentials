@@ -164,6 +164,11 @@ namespace UbuntuOne {
         identity->storeCredentials(info);
     }
 
+    void Keyring::handleAccountRemoved()
+    {
+        emit tokenDeleted();
+    }
+
     void Keyring::deleteToken()
     {
         QString _acctName("ubuntuone");
@@ -176,7 +181,7 @@ namespace UbuntuOne {
             qDebug() << "deleteToken(): Using Ubuntu One account '" << _ids[0] << "'.";
             Identity *identity = Identity::existingIdentity(account->credentialsId());
             connect(account, SIGNAL(removed()),
-                    this, SLOT(tokenDeleted()));
+                    this, SLOT(handleAccountRemoved()));
             connect(identity, SIGNAL(error(const SignOn::Error&)),
                     this, SLOT(handleError(const SignOn::Error&)));
 
