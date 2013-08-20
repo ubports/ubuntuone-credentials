@@ -23,6 +23,11 @@ SET (QML_PLUGIN_NAME UbuntuOneCredentialsPlugin-${QML_PLUGIN_API_VERSION})
 # For the signon plug-in module
 SET (SIGNON_PLUGIN_NAME ubuntuone)
 
+# Need to get libsignon/accounts here, as they get exposed in headers
+find_package (PkgConfig REQUIRED)
+pkg_check_modules(LIBSIGNON REQUIRED libsignon-qt5 accounts-qt5)
+add_definitions(${LIBSIGNON_CFLAGS} ${LIBSIGNON_CFLAGS_OTHER})
+
 # Some default CFLAGS
 SET (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O2 -g -Wall -Werror -fPIC")
 SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -O2 -g -Wall -Werror -fPIC")
@@ -45,6 +50,7 @@ add_custom_target(dist
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
 
+add_subdirectory(data)
 add_subdirectory(libubuntuoneauth)
 add_subdirectory(libubuntuoneauthui)
 add_subdirectory(music-login)

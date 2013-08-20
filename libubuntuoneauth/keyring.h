@@ -18,6 +18,9 @@
 #ifndef _U1_KEYRING_H_
 #define _U1_KEYRING_H_
 
+#include <Accounts/Manager>
+#include <SignOn/Identity>
+
 #include <QObject>
 
 #include "token.h"
@@ -42,6 +45,14 @@ namespace UbuntuOne {
         void tokenDeleted();
 
         void keyringError(QString message);
+
+    private Q_SLOTS:
+        void handleError(const SignOn::Error &error);
+        void handleSessionData(const SignOn::SessionData &data);
+        void handleCredentialsStored(const quint32 id);
+
+    private:
+        Accounts::Manager _manager;
     };
 
 } /* namespace UbuntuOne */

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-type id="ubuntuone">
+  <name>Ubuntu One</name>
+  <description>Integrate with Ubuntu One</description>
+  <icon>ubuntuone</icon>
+  <translations>ubuntuone-credentials</translations>
+</service-type>
