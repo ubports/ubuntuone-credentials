@@ -15,123 +15,182 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
-#include <libsecret/secret.h>
+#include <Accounts/Account>
+#include <Accounts/AccountService>
+#include <Accounts/Service>
+#include <Accounts/ServiceType>
+#include <SignOn/Identity>
 
 #include <QDebug>
 
 #include "keyring.h"
 
-#define TOKEN_KEY_TYPE "Ubuntu SSO credentials"
-#define TOKEN_ATTR_TYPE_KEY "key-type"
-#define TOKEN_ATTR_NAME_KEY "token-name"
+using namespace Accounts;
+using namespace SignOn;
+
 
 namespace UbuntuOne {
 
     Keyring::Keyring(QObject *parent)
-        : QObject(parent)
+        : QObject(parent),
+          _manager()
     {
     }
 
-    static const SecretSchema *_getTokenSchema()
+    void Keyring::handleError(const SignOn::Error &error)
     {
-        static const SecretSchema schema = {
-            "com.ubuntu.one.Token", SECRET_SCHEMA_DONT_MATCH_NAME,
-            {
-                { TOKEN_ATTR_TYPE_KEY, SECRET_SCHEMA_ATTRIBUTE_STRING },
-                { TOKEN_ATTR_NAME_KEY, SECRET_SCHEMA_ATTRIBUTE_STRING },
-            }
-        };
-
-        return &schema;
+        qCritical() << "Error:" << error.message();
+        emit keyringError(error.message());
     }
 
-    static void _onPasswordLookup(GObject *source, GAsyncResult *result,
-                                  Keyring *keyring)
+    void Keyring::handleSessionData(const SignOn::SessionData &data)
     {
-        GError *error = NULL;
+        QString secret = data.Secret();
 
-        gchar *password = secret_password_lookup_finish(result, &error);
-
-        if (error != NULL) {
-            QString message(error->message);
-            qCritical() << "Error in secret_password_lookup: " <<  message;
-            emit keyring->keyringError(message);
-            g_error_free(error);
-        } else if (password == NULL) {
-            emit keyring->tokenNotFound();
-        } else {
-            QString query(password);
-            Token *token = Token::fromQuery(query);
-            if (token->isValid()) {
-                emit keyring->tokenFound(*token);
-            } else {
-                QString message("Faild to convert result to Token object.");
-                qCritical() << message;
-                emit keyring->keyringError(message);
-            }
-            delete token;
-            secret_password_free(password);
+        if (secret.length() == 0) {
+            QString msg("Could not read credentials secret value.");
+            qCritical() << msg;
+            emit keyringError(msg);
+            return;
         }
+
+        Token *token = Token::fromQuery(secret);
+        if (token->isValid()) {
+            emit tokenFound(*token);
+        } else {
+            QString message("Failed to convert result to Token object.");
+            qCritical() << message;
+            emit keyringError(message);
+        }
+        delete token;
     }
 
     void Keyring::findToken()
     {
-        secret_password_lookup(_getTokenSchema(), NULL,
-                               (GAsyncReadyCallback)_onPasswordLookup, this,
-                               TOKEN_ATTR_TYPE_KEY, TOKEN_KEY_TYPE,
-                               TOKEN_ATTR_NAME_KEY, Token::buildTokenName().toUtf8().data(),
-                               NULL);
+        QString _acctName("ubuntuone");
+        AccountIdList _ids = _manager.accountList(_acctName);
+        Identity *identity;
+        Account *account;
+
+        if (_ids.length() > 0) {
+            if (_ids.length() > 1) {
+                qDebug() << "findToken(): Found '" << _ids.length() << "' accounts. Using first.";
+            }
+            account = _manager.account(_ids[0]);
+            qDebug() << "findToken(): Using Ubuntu One account '" << _ids[0] << "'.";
+            identity = Identity::existingIdentity(account->credentialsId());
+            AuthSession *session = identity->createSession(QStringLiteral("password"));
+            if (session != NULL) {
+                connect(session, SIGNAL(response(const SignOn::SessionData&)),
+                        this, SLOT(handleSessionData(const SignOn::SessionData&)));
+                connect(session, SIGNAL(error(const SignOn::Error&)),
+                        this, SLOT(handleError(const SignOn::Error&)));
+                session->process(SessionData(), QStringLiteral("password"));
+                return;
+            }
+            qCritical() << "Unable to create AuthSession.";
+        }
+        emit tokenNotFound();
     }
 
-    static void _onPasswordStored(GObject *source, GAsyncResult *result,
-                                  Keyring *keyring)
+    void Keyring::handleCredentialsStored(const quint32 id)
     {
-        GError *error = NULL;
+        QString _acctName("ubuntuone");
+        AccountIdList _ids = _manager.accountList(_acctName);
+        Account *account;
 
-        secret_password_store_finish (result, &error);
-        if (error != NULL) {
-            QString message(error->message);
-            qCritical() << "Error storing token: " << message;
-            emit keyring->keyringError(message);
-            g_error_free(error);
+        if (_ids.length() > 0) {
+            if (_ids.length() > 1) {
+                qDebug() << "handleCredentialsStored(): Found '" << _ids.length() << "' accounts. Using first.";
+            }
+            account = _manager.account(_ids[0]);
+            qDebug() << "handleCredentialsStored(): Using Ubuntu One account '" << _ids[0] << "'.";
+            account->selectService();
+            account->setCredentialsId(id);
+
+            ServiceList services = account->services(_acctName);
+            if (services.length() > 0) {
+                account->selectService(services[0]);
+            } else {
+                QString errMsg("Unable to enable 'ubuntuone' service.");
+                emit keyringError(errMsg);
+            }
+            account->setEnabled(true);
+            account->sync();
+            emit tokenStored();
             return;
         }
-        emit keyring->tokenStored();
+        emit keyringError(QStringLiteral("Could not sync credentials ID."));
     }
 
     void Keyring::storeToken(Token token)
     {
-        secret_password_store(_getTokenSchema(), SECRET_COLLECTION_DEFAULT,
-                              TOKEN_ID, token.toQuery().toUtf8().data(), NULL,
-                              (GAsyncReadyCallback)_onPasswordStored, this,
-                              TOKEN_ATTR_TYPE_KEY, TOKEN_KEY_TYPE,
-                              TOKEN_ATTR_NAME_KEY, Token::buildTokenName().toUtf8().data(),
-                              NULL);
+        QString _acctName("ubuntuone");
+        AccountIdList _ids = _manager.accountList(_acctName);
+        Identity *identity;
+        Account *account;
+
+        if (_ids.length() > 0) {
+            if (_ids.length() > 1) {
+                qDebug() << "storeToken(): Found '" << _ids.length() << "' accounts. Using first.";
+            }
+            account = _manager.account(_ids[0]);
+            qDebug() << "storeToken(): Using Ubuntu One account '" << _ids[0] << "'.";
+            identity = Identity::existingIdentity(account->credentialsId());
+        } else {
+            account = _manager.createAccount(_acctName);
+
+            ServiceList services = account->services(_acctName);
+            if (services.length() > 0) {
+                account->selectService(services[0]);
+            } else {
+                QString errMsg("Unable to enable 'ubuntuone' service.");
+                emit keyringError(errMsg);
+            }
+
+            identity = Identity::newIdentity();
+            account->setEnabled(true);
+            account->sync();
+        }
+
+        connect(identity, SIGNAL(error(const SignOn::Error&)),
+                this, SLOT(handleError(const SignOn::Error&)));
+        connect(identity, SIGNAL(credentialsStored(const quint32)),
+                this, SLOT(handleCredentialsStored(const quint32)));
+
+        IdentityInfo info = IdentityInfo();
+
+        info.setSecret(token.toQuery(), true);
+        identity->storeCredentials(info);
     }
 
-    static void _onPasswordCleared(GObject *source, GAsyncResult *result,
-                                   Keyring *keyring)
+    void Keyring::handleAccountRemoved()
     {
-        GError *error = NULL;
-
-        secret_password_clear_finish (result, &error);
-        if (error != NULL) {
-            QString message(error->message);
-            qDebug() << message;
-            emit keyring->keyringError(message);
-            g_error_free(error);
-        } else {
-            emit keyring->tokenDeleted();
-        }
+        emit tokenDeleted();
     }
 
     void Keyring::deleteToken()
     {
-        secret_password_clear(_getTokenSchema(), NULL,
-                              (GAsyncReadyCallback)_onPasswordCleared, this,
-                              TOKEN_ATTR_TYPE_KEY, TOKEN_KEY_TYPE,
-                              TOKEN_ATTR_NAME_KEY, Token::buildTokenName().toUtf8().data(),
-                              NULL);
+        QString _acctName("ubuntuone");
+        AccountIdList _ids = _manager.accountList(_acctName);
+        if (_ids.length() > 0) {
+            if (_ids.length() > 1) {
+                qDebug() << "deleteToken(): Found '" << _ids.length() << "' accounts. Using first.";
+            }
+            Account *account = _manager.account(_ids[0]);
+            qDebug() << "deleteToken(): Using Ubuntu One account '" << _ids[0] << "'.";
+            Identity *identity = Identity::existingIdentity(account->credentialsId());
+            connect(account, SIGNAL(removed()),
+                    this, SLOT(handleAccountRemoved()));
+            connect(identity, SIGNAL(error(const SignOn::Error&)),
+                    this, SLOT(handleError(const SignOn::Error&)));
+
+            identity->remove();
+            account->remove();
+            account->sync();
+            return;
+        }
+        emit tokenNotFound();
     }
 
 } // namespace UbuntuOne
