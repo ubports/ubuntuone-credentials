@@ -5,7 +5,6 @@ UbuntuOneCredentialsService::UbuntuOneCredentialsService(QQuickItem *parent):
     QQuickItem(parent)
 {
     _state = IDLE;
-
     QObject::connect(&(this->_service), SIGNAL(credentialsFound(Token)),
                      this, SLOT(handleCredentialsFound(Token)));
     QObject::connect(&(this->_service), SIGNAL(credentialsNotFound()),
