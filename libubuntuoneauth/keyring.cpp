@@ -154,7 +154,7 @@ namespace UbuntuOne {
         }
 
         connect(identity, SIGNAL(error(const SignOn::Error&)),
-                this, SLOT(handlError(const SignOn::Error&)));
+                this, SLOT(handleError(const SignOn::Error&)));
         connect(identity, SIGNAL(credentialsStored(const quint32)),
                 this, SLOT(handleCredentialsStored(const quint32)));
 
