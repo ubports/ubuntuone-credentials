@@ -18,10 +18,7 @@ FILE (GLOB SOURCES *.cpp)
 # HEADERS only includes the public headers for installation.
 FILE (GLOB HEADERS *.h)
 
-find_package (PkgConfig REQUIRED)
-pkg_check_modules(LIBSECRET REQUIRED libsecret-1)
 pkg_check_modules(OAUTH REQUIRED oauth)
-add_definitions(${LIBSECRET_CFLAGS} ${LIBSECRET_CFLAGS_OTHER})
 add_definitions(${OAUTH_CFLAGS} ${OAUTH_CFLAGS_OTHER})
 
 # Need the project version here
@@ -30,7 +27,7 @@ add_definitions("-DPROJECT_VERSION=\"${PROJECT_VERSION}\"")
 add_library (${AUTH_LIB_NAME} ${LIB_TYPE} ${SOURCES})
 qt5_use_modules (${AUTH_LIB_NAME} Core DBus Xml Network)
 target_link_libraries (${AUTH_LIB_NAME}
-  ${LIBSECRET_LDFLAGS}
+  ${LIBSIGNON_LDFLAGS}
   ${OAUTH_LDFLAGS}
   -Wl,--version-script -Wl,${CMAKE_CURRENT_SOURCE_DIR}/libubuntuoneauth.symbols
 )
