@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <provider id="ubuntuone">
   <name>Ubuntu One</name>
-  <icon>ubuntu</icon>
-  <translations>account-plugins</translations>
-  <domains>.*ubuntu\.com</domains>
+  <icon>ubuntuone</icon>
   <plugin>ubuntuone</plugin>
+  <translations>ubuntuone-credentials</translations>
 
   <template>
     <group name="auth">
-      <setting name="method">ubuntuone</setting>
-      <setting name="mechanism">ubuntuone</setting>
-      <group name="ubuntuone">
-	<setting name="TEST">WHEE</setting>
-      </group>
+      <setting name="method">password</setting>
+      <setting name="mechanism">password</setting>
     </group>
   </template>
 </provider>
