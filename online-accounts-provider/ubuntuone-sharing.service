@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<service id="ubuntuone-sharing">
-  <type>sharing</type>
-  <name>Ubuntu One</name>
-  <icon>ubuntu</icon>
-  <provider>ubuntuone</provider>
-  <translations>account-plugins</translations>
-</service>
