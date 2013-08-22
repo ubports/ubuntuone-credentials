@@ -79,9 +79,6 @@ Column {
 
     TextField {
         id: emailTextField
-        /*TODO TEMP DELETE THIS LINE *****************************/ 
-        text: "michael.mccracken@gmail.com"
-        /* ********************* */
         placeholderText: "Your email"
         focus: true;
 
@@ -168,7 +165,7 @@ Column {
 
     function resetUI() {
         errorLabel.visible = false;
-        emailTextField.text = "michael.mccracken@gmail.com"; /* TMEP TEMP */
+        emailTextField.text = "";
         loginForm.resetUI()
         registerForm.resetUI();
         newUserToggleSwitch.checked = false;
