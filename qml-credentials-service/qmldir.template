@@ -1,4 +1,3 @@
 module @QML_MODULE_NAME@
 plugin @QML_PLUGIN_NAME@
-CredentialsUI 1.0 CredentialsUI.qml
 typeinfo @QML_MODULE_NAME@.qmltypes

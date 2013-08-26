@@ -56,6 +56,7 @@ add_subdirectory(libubuntuoneauthui)
 add_subdirectory(music-login)
 add_subdirectory(signon-plugin)
 add_subdirectory(qml-credentials-service)
+add_subdirectory(online-accounts-provider)
 
 # We need to add these here which simply depend on other test rules, as
 # CMake doesn't allow defining a "check" rule in multiple places.
