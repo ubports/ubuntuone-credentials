@@ -7,7 +7,6 @@ Makefile
 cmake_install.cmake
 test-music-login
 test-ubuntuoneauth
-test-ubuntuoneauthui
 ubuntuone-music-login
 moc_*.cpp
 qmldir
