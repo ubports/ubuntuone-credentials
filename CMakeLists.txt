@@ -10,11 +10,6 @@ SET (AUTH_LIB_SOVERSION 0)
 SET (AUTH_LIB_API_VERSION 2.0)
 SET (AUTH_LIB_NAME ubuntuoneauth-${AUTH_LIB_API_VERSION})
 
-SET (AUTHUI_LIB_VERSION 0.1.0)
-SET (AUTHUI_LIB_SOVERSION 0)
-SET (AUTHUI_LIB_API_VERSION 2.0)
-SET (AUTHUI_LIB_NAME ubuntuoneauthui-${AUTHUI_LIB_API_VERSION})
-
 # these names are also used in qml-credentials-service/qmldir, be sure to change them in both places
 SET (QML_MODULE_NAME UbuntuOne)
 SET (QML_PLUGIN_API_VERSION 1.0)
@@ -38,8 +33,7 @@ SET (LIB_INSTALL_DIR "lib${LIB_SUFFIX}")
 
 set (QML_MODULE_INSTALL_DIR ${LIB_INSTALL_DIR}/qt5/qml )
 
-include_directories(${CMAKE_SOURCE_DIR}/libubuntuoneauth
-  ${CMAKE_SOURCE_DIR}/libubuntuoneauthui)
+include_directories(${CMAKE_SOURCE_DIR}/libubuntuoneauth)
 
 # A rule and variables for creating a tarball distribution
 SET (ARCHIVE_NAME ${CMAKE_PROJECT_NAME}-${PROJECT_VERSION})
@@ -52,7 +46,6 @@ add_custom_target(dist
 
 add_subdirectory(data)
 add_subdirectory(libubuntuoneauth)
-add_subdirectory(libubuntuoneauthui)
 add_subdirectory(music-login)
 add_subdirectory(signon-plugin)
 add_subdirectory(qml-credentials-service)
@@ -63,13 +56,13 @@ add_subdirectory(online-accounts-provider)
 # We use $namespace-tests[-valgrind[-leaks]] for the test names in subdirs,
 # and depend on them here, so that 'make check' will run them all.
 add_custom_target(check
-  DEPENDS ubuntuoneauth-tests ubuntuoneauthui-tests music-login-tests
+  DEPENDS ubuntuoneauth-tests music-login-tests
 )
 
 add_custom_target(check-valgrind
-  DEPENDS ubuntuoneauth-tests-valgrind ubuntuoneauthui-tests-valgrind music-login-tests-valgrind
+  DEPENDS ubuntuoneauth-tests-valgrind music-login-tests-valgrind
 )
 
 add_custom_target(check-valgrind-leaks
-  DEPENDS ubuntuoneauth-tests-valgrind-leaks ubuntuoneauthui-tests-valgrind-leaks music-login-tests-valgrind-leaks
+  DEPENDS ubuntuoneauth-tests-valgrind-leaks music-login-tests-valgrind-leaks
 )
