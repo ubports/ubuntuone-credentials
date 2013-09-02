@@ -1,0 +1,26 @@
+libubuntuoneauth/examples
+
+This directory contains example code for accessing a user's ubuntuone
+credentials and signing URLs using them in Qt/C++ code.
+
+The basic flow is to use an SSOService object to get the credentials,
+by calling getCredentials. It will respond with either
+credentialsNotFound or credentialsFound. The credentialsFound signal
+has a Token object that has a signURL method that takes a URL and HTTP
+scheme, and returns a properly signed OAuth header string. This string
+can then be used with the usual Qt network stack.
+
+The file signing-main.cpp has a minimal Qt application that attempts
+to get credentials from the online accounts DB and use them to sign a
+request for account info from the one.ubuntu.com account API.
+
+Run it with U1_DEBUG=1 in the environment to see the output.
+
+If you have valid credentials, it will print a bunch of progress info
+followed by a JSON dict with some
+account info.
+
+If you don't have valid credentials, it will simply mention that.
+
+To get valid credentials for testing, use the ubuntuone-music-login
+app from the music-login directory at the top level of this project.

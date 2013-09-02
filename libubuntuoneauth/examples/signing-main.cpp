@@ -27,61 +27,95 @@
  * files in the program, then also delete it here.
  */
 
+#include <QCoreApplication>
+#include <QDebug>
 #include <QObject>
 #include <QString>
+#include <QTimer> 
 
 #include "ssoservice.h"
 #include "token.h"
 
+#include "signing.h"
 
-class SigningExample : public QObject
-{
-    Q_OBJECT
+namespace UbuntuOne {
 
-public:
-    explicit SigningExample(QObject *parent = 0);
-    ~SigningExample();
+    SigningExample::SigningExample(QObject *parent) :
+        QObject(parent)
+    {
+        QObject::connect(&service, SIGNAL(credentialsFound(const Token&)),
+                         this, SLOT(handleCredentialsFound(Token)));
+        QObject::connect(&service, SIGNAL(credentialsNotFound()),
+                         this, SLOT(handleCredentialsNotFound()));
+        QObject::connect(&nam, SIGNAL(finished(QNetworkReply*)),
+                         this, SLOT(handleNetworkFinished(QNetworkReply*)));
 
-    void doExample();
+    }
 
-private slots:
-    void handleCredentialsFound(Token);
-    void handleCredentialsNotFound();
-private:
-    SSOService service;
-};
+    SigningExample::~SigningExample(){
+    }
 
-SigningExample::SigningExample(QObject *parent):
-    QObject(parent)
-{
-    QObject::connect(service, SIGNAL(credentialsFound(const Token&)),
-                     this, SLOT(handleCredentialsFound));
-    QObject::connect(service, SIGNAL(credentialsNotFound()),
-                     this, SLOT(handleCredentialsNotFound));
+    void SigningExample::doExample()
+    {
+        service.getCredentials();
+    }
 
-}
+    void SigningExample::handleCredentialsFound(Token token)
+    {
+        qDebug() << "Credentials found, signing url.";
 
-void SigningExample::doExample()
-{
-    service.getCredentials();
-}
+        QString url = "https://one.ubuntu.com/api/account/";
+        QString authHeader = token.signUrl(url, QStringLiteral("GET"));
 
-void handleCredentialsFound(Token)
-{
+        qDebug() << "URL Signed, authHeader is:" << authHeader;
 
-}
+        QNetworkRequest req;
+        req.setRawHeader(QStringLiteral("Authorization").toUtf8(),
+                          authHeader.toUtf8());
+        req.setUrl(url);
+        nam.get(req);
+    }
  
-void handleCredentialsNotFound(){
-    qDebug() << "No credentials were found.\n";
-}
+    void SigningExample::handleCredentialsNotFound()
+    {
+        qDebug() << "No credentials were found.";
+    }
+
+    void SigningExample::handleNetworkFinished(QNetworkReply *reply)
+    {
+        QVariant statusAttr = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+        if(!statusAttr.isValid()) {
+            qDebug() << "Invalid HTTP response.";
+            return;
+        }
+
+        int status = statusAttr.toInt();
+        qDebug() << "HTTP Status " << status;
+
+        if (status != 200){
+            qDebug() << reply->rawHeaderPairs();
+        }
+
+        qDebug() << reply->readAll();
+        
+        emit finished();
+    }
+
+} // namespace UbuntuOne
+
 
 int main(int argc, char *argv[])
 {
 
-    // Step 1: get a Token from the credentials service:
+    QCoreApplication a(argc, argv);
     
+    UbuntuOne::SigningExample *example = new UbuntuOne::SigningExample(&a);
 
-    return 0;
+    QObject::connect(example, SIGNAL(finished()), &a, SLOT(quit()));
+
+    QTimer::singleShot(0, example, SLOT(doExample()));
+
+    return a.exec();
 }
 
 
