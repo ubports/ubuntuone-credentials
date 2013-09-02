@@ -12,59 +12,6 @@ Rectangle {
         spacing: units.gu(2)
         anchors.fill: parent
 
-        add: Transition {
-            NumberAnimation { properties: "opacity"; easing.type: Easing.OutQuad; duration: 1000}
-        }
-
-        Row {
-            anchors.left: parent.left
-            anchors.margins: units.gu(2)
-            spacing: units.gu(2)
-
-            Switch {
-                id: showCredsUISwitch
-                checked: true
-            }
-
-            Label {
-                id: label
-                color: "white"
-                text: "Show Creds UI"
-                anchors.verticalCenter: showCredsUISwitch.verticalCenter
-            }
-
-            Label {
-                id: statusLabel
-                color: "white"
-                text: ""
-                anchors.verticalCenter: showCredsUISwitch.verticalCenter
-            }
-        }
-
-        // Here is where we've embedded the UI for UbuntuOne login and register.
-        // Note that you must declare some width and height for the layout to work.
-
-        CredentialsUI {
-            id: credsUI
-
-            width: parent.width * 0.80
-            height: (parent.height - showCredsUISwitch.height) * 0.80
-            anchors.horizontalCenter: parent.horizontalCenter 
-            visible: showCredsUISwitch.checked
-
-            onUserCancelled: {
-                showCredsUISwitch.checked = false;
-                statusLabel.text = "Login/Register cancelled by user";
-                credsUI.resetUI();
-            }
-
-            onSucceeded: {
-                showCredsUISwitch.checked = false;
-                statusLabel.text = "Login/Register succeeded";
-                credsUI.resetUI();
-            }
-        }
-
         Label {
             id: infoLabel
             text: "Press this button to check for credentials in local keyring:"
@@ -97,8 +44,8 @@ Rectangle {
 
     } // Column
 
-    /* Below, an example of how to use the service without showing UI,
-       just to test if there is a local credential already, and sign a
+    /* Here is the component that exposes the credentials API.
+       You can use it to test if there is a local credential already, and sign a
        url with it, if it does exist.*/
 
     UbuntuOneCredentialsService {
@@ -118,8 +65,15 @@ Rectangle {
         }
 
         onCredentialsNotFound: {
-            infoLabel.text = "No Credentials Found.";
-            signUrl("http://server", "GET"); // xfail
+            /* We could just report a generic error here, but to show what happens
+               if you don't bother checking before you sign a URL, we
+               sign a URL here, expecting it to fail. We'll then get
+               onUrlSigningError(), with an error message saying
+               something like "attempt to sign with no credentials in
+               keyring". Note that "Keyring" is vestigial, we are not
+               using the system keyring. */
+
+            signUrl("http://server", "GET");
         }
         
         onCredentialsDeleted: {
