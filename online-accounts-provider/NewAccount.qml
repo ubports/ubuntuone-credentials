@@ -24,12 +24,8 @@ import Ubuntu.OnlineAccounts 0.1
 Column {
     id: main
 
-    //property variant authenticationParameters: null
-
     property bool isNewAccount: false
     property variant __account: account
-// unneeded:?    property alias globalAccountService: globalAccountSettings
-
 
     state: "login" // or "register" or "twofactor"
     property var currentVisible: loginForm
@@ -37,8 +33,12 @@ Column {
 
     signal finished
 
+    anchors.top: parent.top
     anchors.left: parent.left
     anchors.right: parent.right
+    anchors.margins: units.gu(1)
+
+    spacing: units.gu(2)
 
     Component.onCompleted: {
         isNewAccount = (account.accountId === 0);
@@ -48,7 +48,6 @@ Column {
     Label {
         id: title
         text: "One account to log in to everything on Ubuntu"
-        fontSize: "medium"
         color: UbuntuColors.coolGrey
         anchors.left: parent.left
         anchors.right: parent.right
@@ -70,7 +69,6 @@ Column {
 
     Label {
         text: "Please type your email:"
-        fontSize: "large"
 
         anchors.left: parent.left
         anchors.right: parent.right
@@ -100,7 +98,6 @@ Column {
         Label {
             anchors.verticalCenter: newUserToggleSwitch.verticalCenter
             text: "I am a new Ubuntu One user"
-            fontSize: "large"
         }
         anchors.left: parent.left
         anchors.right: parent.right

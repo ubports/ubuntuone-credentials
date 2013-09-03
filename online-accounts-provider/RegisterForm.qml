@@ -18,7 +18,6 @@ Rectangle {
 
         Label {
             id: subtitle
-            fontSize: "small"
             text: "Please tell us your name and choose a password."
         }
         
@@ -51,7 +50,6 @@ Rectangle {
             Label {
                 anchors.verticalCenter: termsAndConditionsCheckBox.verticalCenter
                 text: "I agree to the <a href='http://one.ubuntu.com/terms/'>Ubuntu One Terms and Conditions</a>"
-                fontSize: "small"
                 onLinkActivated: { Qt.openUrlExternally(link); }
             }
         }
