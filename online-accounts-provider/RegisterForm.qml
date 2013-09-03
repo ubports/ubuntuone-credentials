@@ -2,9 +2,9 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 
 Rectangle {
-    // Set a non-zero height and width so that the parent Column in
-    // CredentialsUI lays out correctly. Set matching color so we
-    // don't see a 1px line.
+    /* Set a non-zero height and width so that the parent Column lays out
+       correctly. Set matching color so we don't see a 1px line. */
+
     height: 0.001
     width: main.width
     color: main.parent.color
@@ -55,6 +55,12 @@ Rectangle {
                 onLinkActivated: { Qt.openUrlExternally(link); }
             }
         }
+
+        ButtonRow {
+            anchors.left: parent.left
+            anchors.right: parent.right
+        }
+
     }
 
     function resetUI() {
