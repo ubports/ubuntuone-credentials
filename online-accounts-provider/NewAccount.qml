@@ -123,22 +123,6 @@ Column {
         anchors.margins: parent.anchors.margins
     }
 
-    Rectangle {
-        id: loadingOverlay
-        opacity: 0.6
-        color: "white"
-        visible: false
-        width: main.width
-        height: main.height
-        //TODO: anchors.centerIn: main.parent
-
-        ActivityIndicator {
-            id: activity
-          //TODO:  anchors.centerIn: parent
-            running: true
-        }
-    }
-
     // -------------------------------------------------
 
     UbuntuOneCredentialsService {
@@ -195,12 +179,24 @@ Column {
         }
     }
 
+    Timer {
+        id: formSubmitTimer;
+        interval: 0;
+        onTriggered: submitFormFromTimer();
+    }
+
     function processForm() {
+        loadingOverlay.visible = true;
+        formSubmitTimer.running = true;
+    }
+    
+    function submitFormFromTimer() {
         validateInput();
         if (!formValid) {
+            loadingOverlay.visible = false;
             return;
         }
-        loadingOverlay.visible = true;
+
         if(state == "login") {
             var password = loginForm.password;
             u1credservice.login(emailTextField.text, password);
