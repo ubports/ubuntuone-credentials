@@ -18,7 +18,6 @@ Rectangle {
 
         Label {
             text: "I am a returning user and my password is:"
-            fontSize: "small"
         }
         TextField {
             id: passwordTextField
@@ -33,7 +32,6 @@ Rectangle {
         Label {
             text: '<a href="https://login.ubuntu.com/+forgot_password"><span style="color: #dd4814;">Forgotten your password?</span></a>'
             textFormat: Text.RichText
-            fontSize: "small"
             onLinkActivated: { Qt.openUrlExternally(link); }
         }
 
@@ -53,7 +51,6 @@ Rectangle {
 
             Label {
                 text: "Type your verification code:"
-                fontSize: "small"
             }
 
             TextField {
@@ -70,7 +67,6 @@ Rectangle {
             Label {
                 text: '<a href="https://login.ubuntu.com/+device-help"><span style="color: #dd4814;">Authentication Device Help</span></a>'
                 textFormat: Text.RichText
-                fontSize: "small"
                 onLinkActivated: { Qt.openUrlExternally(link); }
             }
 
