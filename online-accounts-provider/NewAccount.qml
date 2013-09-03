@@ -85,6 +85,7 @@ Column {
         width: main.width - (2 * main.anchors.margins)
         anchors.left: parent.left
         anchors.margins: parent.anchors.margins
+        validator: RegExpValidator { regExp: /.+@.+/ }
     }
 
     Row {
