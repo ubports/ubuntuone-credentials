@@ -37,7 +37,13 @@ Rectangle {
             onLinkActivated: { Qt.openUrlExternally(link); }
         }
 
-        
+        ButtonRow {
+            anchors.left: parent.left
+            anchors.right: parent.right
+
+            visible: !twoFactorUI.visible
+        }
+
         Column {
             id: twoFactorUI
             spacing: units.gu(2)
@@ -66,6 +72,11 @@ Rectangle {
                 textFormat: Text.RichText
                 fontSize: "small"
                 onLinkActivated: { Qt.openUrlExternally(link); }
+            }
+
+            ButtonRow {
+                anchors.left: parent.left
+                anchors.right: parent.right
             }
 
         } // Rectangle : twoFactorUI
