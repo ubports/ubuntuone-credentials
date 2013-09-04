@@ -60,7 +60,7 @@ Flickable {
         ActivityIndicator {
             id: activity
             anchors.centerIn: parent
-            running: true
+            running: parent.visible
         }
     }
 
