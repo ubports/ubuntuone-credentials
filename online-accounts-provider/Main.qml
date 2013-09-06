@@ -55,7 +55,6 @@ Flickable {
         visible: false
         width: parent.width
         height: parent.height
-        anchors.centerIn: parent
 
         ActivityIndicator {
             id: activity

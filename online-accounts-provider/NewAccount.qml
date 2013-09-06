@@ -179,15 +179,19 @@ Column {
         }
     }
 
+    /* processForm uses a timer to delay calling u1credservice, which can
+       take a while, to ensure that the loadingOverlay is shown
+       immediately.
+       */
+    function processForm() {
+        loadingOverlay.visible = true;
+        formSubmitTimer.running = true;
+    }
+
     Timer {
         id: formSubmitTimer;
         interval: 0;
         onTriggered: submitFormFromTimer();
-    }
-
-    function processForm() {
-        loadingOverlay.visible = true;
-        formSubmitTimer.running = true;
     }
     
     function submitFormFromTimer() {
