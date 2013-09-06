@@ -41,7 +41,14 @@ Flickable {
         sourceComponent: account.accountId != 0 ? existingAccountComponent : newAccountComponent
 
         onLoaded: {
-            // NOTE: dirty hack to work around UOA not setting an id for its Page so we can set flickable manually
+            /* NOTE: dirty hack to work around out grandparent Page (from
+               AccountCreationPage.qml in
+               ubuntu-system-settings-online-accounts) not being able
+               to find our Flickable, and not having an id set for us
+               to set flickable directly.
+
+               This will not be necessary once Bug #1221845 is fixed.
+             */
             rootFlickable.parent.parent.flickable = rootFlickable;
         }
         
