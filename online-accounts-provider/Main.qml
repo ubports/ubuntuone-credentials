@@ -20,31 +20,34 @@ import Ubuntu.Components 0.1
 import Ubuntu.OnlineAccounts 0.1
 
 Flickable {
-    id: root
+    id: rootFlickable
+
+    property int keyboardSize: Qt.inputMethod.visible ? Qt.inputMethod.keyboardRectangle.height : 0
+    contentHeight: editPageLoader.item.height + keyboardSize
 
     property url newAccountUrl: "NewAccount.qml"
     property url existingAccountUrl: "ExistingAccount.qml"
     property Component newAccountComponent: null
     property Component existingAccountComponent: null
 
-    property alias source: loader.source
-
     signal finished
 
-    anchors.left: parent.left
-    anchors.right: parent.right
-    contentHeight: contentItem.childrenRect.height
-
     Loader {
-        id: loader
+        id: editPageLoader
         anchors.left: parent.left
         anchors.right: parent.right
+        anchors.top: parent.top
         source: sourceComponent === null ? (account.accountId != 0 ? existingAccountUrl : newAccountUrl) : ""
         sourceComponent: account.accountId != 0 ? existingAccountComponent : newAccountComponent
 
+        onLoaded: {
+            // NOTE: dirty hack to work around UOA not setting an id for its Page so we can set flickable manually
+            rootFlickable.parent.parent.flickable = rootFlickable;
+        }
+        
         Connections {
-            target: loader.item
-            onFinished: root.finished()
+            target: editPageLoader.item
+            onFinished: rootFlickable.finished()
         }
     }
 
@@ -53,8 +56,7 @@ Flickable {
         opacity: 0.7
         color: "white"
         visible: false
-        width: parent.width
-        height: parent.height
+        anchors.fill: parent
 
         ActivityIndicator {
             id: activity

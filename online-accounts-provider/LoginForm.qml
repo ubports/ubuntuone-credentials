@@ -1,36 +1,64 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 
-Rectangle {
-    // Set a non-zero height and width so that the parent Column in
-    // CredentialsUI lays out correctly. Set matching color so we
-    // don't see a line.
-    height: 0.001
-    width: main.width
-    color: main.parent.color 
+Column {
+    id: loginFormColumn
+    spacing: units.gu(2)
 
     property alias password: passwordTextField.text
     property alias twoFactorVisible: twoFactorUI.visible
     property alias twoFactorCode: twoFactorTextField.text
+    
+    Label {
+        text: "I am a returning user and my password is:"
+    }
+
+    TextField {
+        id: passwordTextField
+
+        placeholderText: "Your password"
+        echoMode: TextInput.Password
+        width: main.width - (2 * main.anchors.margins)
+
+        Keys.onReturnPressed: main.processForm();
+    }
+
+    Label {
+        text: '<a href="https://login.ubuntu.com/+forgot_password"><span style="color: #dd4814;">Forgotten your password?</span></a>'
+        textFormat: Text.RichText
+        onLinkActivated: { Qt.openUrlExternally(link); }
+    }
+
+    ButtonRow {
+        anchors.left: parent.left
+        anchors.right: parent.right
+
+        visible: !twoFactorUI.visible
+    }
 
     Column {
+        id: twoFactorUI
         spacing: units.gu(2)
+        width: parent.width
+        visible: false
 
         Label {
-            text: "I am a returning user and my password is:"
+            text: "Type your verification code:"
         }
+
         TextField {
-            id: passwordTextField
-
-            placeholderText: "Your password"
+            id: twoFactorTextField
+            placeholderText: "2-factor device code"
             echoMode: TextInput.Password
+            focus: true
             width: main.width - (2 * main.anchors.margins)
-
-            Keys.onReturnPressed: main.processForm();
+            Keys.onReturnPressed: {
+                main.processForm();
+            }
         }
 
         Label {
-            text: '<a href="https://login.ubuntu.com/+forgot_password"><span style="color: #dd4814;">Forgotten your password?</span></a>'
+            text: '<a href="https://login.ubuntu.com/+device-help"><span style="color: #dd4814;">Authentication Device Help</span></a>'
             textFormat: Text.RichText
             onLinkActivated: { Qt.openUrlExternally(link); }
         }
@@ -38,47 +66,9 @@ Rectangle {
         ButtonRow {
             anchors.left: parent.left
             anchors.right: parent.right
-
-            visible: !twoFactorUI.visible
         }
 
-        Column {
-            id: twoFactorUI
-            spacing: units.gu(2)
-            height: 1
-            width: parent.width
-            visible: false
-
-            Label {
-                text: "Type your verification code:"
-            }
-
-            TextField {
-                id: twoFactorTextField
-                placeholderText: "2-factor device code"
-                echoMode: TextInput.Password
-                focus: true
-                width: main.width - (2 * main.anchors.margins)
-                Keys.onReturnPressed: {
-                    main.processForm();
-                }
-            }
-
-            Label {
-                text: '<a href="https://login.ubuntu.com/+device-help"><span style="color: #dd4814;">Authentication Device Help</span></a>'
-                textFormat: Text.RichText
-                onLinkActivated: { Qt.openUrlExternally(link); }
-            }
-
-            ButtonRow {
-                anchors.left: parent.left
-                anchors.right: parent.right
-            }
-
-        } // Rectangle : twoFactorUI
-
-
-    }// Column
+    }
 
     function resetUI() {
         twoFactorUI.visible = false;
