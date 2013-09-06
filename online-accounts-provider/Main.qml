@@ -47,4 +47,20 @@ Flickable {
             onFinished: root.finished()
         }
     }
+
+    Rectangle {
+        id: loadingOverlay
+        opacity: 0.7
+        color: "white"
+        visible: false
+        width: parent.width
+        height: parent.height
+
+        ActivityIndicator {
+            id: activity
+            anchors.centerIn: parent
+            running: parent.visible
+        }
+    }
+
 }
