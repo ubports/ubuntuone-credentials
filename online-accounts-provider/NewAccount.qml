@@ -33,9 +33,6 @@ Column {
 
     signal finished
 
-    anchors.top: parent.top
-    anchors.left: parent.left
-    anchors.right: parent.right
     anchors.margins: units.gu(1)
 
     spacing: units.gu(2)
@@ -64,7 +61,6 @@ Column {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.margins: parent.anchors.margins
-
     }
 
     Label {
@@ -88,6 +84,10 @@ Column {
 
     Row {
         spacing: units.gu(2)
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.margins: parent.anchors.margins
+
         Switch {
             id: newUserToggleSwitch
             checked: false
@@ -96,13 +96,11 @@ Column {
                 toggleNewUser();
             }
         }
+
         Label {
             anchors.verticalCenter: newUserToggleSwitch.verticalCenter
             text: "I am a new Ubuntu One user"
         }
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.margins: parent.anchors.margins
 
     } // Row
 
@@ -194,7 +192,7 @@ Column {
         interval: 0;
         onTriggered: submitFormFromTimer();
     }
-    
+
     function submitFormFromTimer() {
         validateInput();
         if (!formValid) {
