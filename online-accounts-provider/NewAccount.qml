@@ -38,7 +38,9 @@ Column {
     spacing: units.gu(2)
 
     Component.onCompleted: {
-        isNewAccount = (account.accountId === 0);
+        isNewAccount = (__account.accountId === 0);
+        enableAccount();
+        __account.sync()
         resetUI();
     }
 
@@ -215,8 +217,11 @@ Column {
     function handleSuccess() {
         loadingOverlay.visible = false;
         errorLabel.visible = false;
+        account.updateDisplayName(emailTextField.text);
+        account.updateEnabled(true);
+        account.synced.connect(main.finished);
+        account.sync();
         resetUI();
-        finished();
     }
 
     function showTwoFactorUI() {
@@ -247,6 +252,29 @@ Column {
         
         if(formValid) {
             errorLabel.visible = false;
+        }
+    }
+
+    Component {
+        id: accountServiceComponent
+        AccountService {
+            autoSync: false
+        }
+    }
+
+    AccountServiceModel {
+        id: accountServices
+        includeDisabled: true
+        account: __account.objectHandle
+    }
+
+    function enableAccount() {
+        for (var i = 0; i < accountServices.count; i++) {
+            var accountServiceHandle = accountServices.get(i, "accountService")
+            var accountService = accountServiceComponent.createObject(null,
+                                     { "objectHandle": accountServiceHandle })
+            accountService.updateServiceEnabled(true)
+            accountService.destroy(1000)
         }
     }
 

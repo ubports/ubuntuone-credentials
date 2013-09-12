@@ -12,7 +12,7 @@ Row {
         height: parent.height
         width: (parent.width / 2) - 0.5 * parent.spacing
         onClicked: {
-            root.finished();
+            finished();
         }
     }
     Button {
