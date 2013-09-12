@@ -90,6 +90,7 @@ namespace UbuntuOne {
             }
             qCritical() << "Unable to create AuthSession.";
         }
+        qDebug() << "findToken(): No accounts found matching " << _acctName;
         emit tokenNotFound();
     }
 
@@ -127,8 +128,8 @@ namespace UbuntuOne {
     {
         QString _acctName("ubuntuone");
         AccountIdList _ids = _manager.accountList(_acctName);
-        Identity *identity;
-        Account *account;
+        Identity *identity = NULL;
+        Account *account = NULL;
 
         if (_ids.length() > 0) {
             if (_ids.length() > 1) {
@@ -136,8 +137,8 @@ namespace UbuntuOne {
             }
             account = _manager.account(_ids[0]);
             qDebug() << "storeToken(): Using Ubuntu One account '" << _ids[0] << "'.";
-            identity = Identity::existingIdentity(account->credentialsId());
         } else {
+            qDebug() << "in storeToken(): no accounts found in accountList, creating new";
             account = _manager.createAccount(_acctName);
 
             ServiceList services = account->services(_acctName);
@@ -148,10 +149,19 @@ namespace UbuntuOne {
                 emit keyringError(errMsg);
             }
 
-            identity = Identity::newIdentity();
             account->setEnabled(true);
             account->sync();
         }
+
+        if(account->credentialsId() == 0){
+            qDebug() << "storeToken() : creating new Identity for account " << account->id() ;
+            identity = Identity::newIdentity();
+        }else{
+            qDebug() << "storeToken(): identity found.";
+            identity = Identity::existingIdentity(account->credentialsId());
+        }
+
+        Q_ASSERT(identity != NULL);
 
         connect(identity, SIGNAL(error(const SignOn::Error&)),
                 this, SLOT(handleError(const SignOn::Error&)));

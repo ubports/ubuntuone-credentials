@@ -33,12 +33,7 @@ Column {
     anchors.right: parent.right
 
     ListItem.SingleValue {
-        text: "User Name"
-        value: account.displayName
-    }
-
-    ListItem.SingleValue {
-        text: "Token Name"
+        text: "Email"
         value: account.displayName
     }
 
@@ -48,21 +43,16 @@ Column {
         opacity: enabled ? 1 : 0.5
     }
 
-    // TOFIX: use ListItem.SingleControl when lp #1194844 is fixed
-    ListItem.Base {
-        Button {
-            anchors {
-                verticalCenter: parent.verticalCenter
-                right: parent.right
-                left: parent.left
-            }
+    ListItem.SingleControl {
+        control: Button {
             text: "Remove account…"
-            onClicked: PopupUtils.open(removalConfirmationComponent); // huh? , removeBtn)
+            width: parent.width - units.gu(4)
+            onClicked: PopupUtils.open(removalConfirmationComponent);
         }
         showDivider: false
     }
 
-   Component {
+    Component {
         id: removalConfirmationComponent  
         Dialog {
             id: dialog
@@ -76,9 +66,10 @@ Column {
                 text: "Remove"
                 onClicked: {
                     PopupUtils.close(dialog);
-                    console.log("Removing account: " + __account);
+                    console.debug("Removing account ID: " + account.accountId);
                     account.removed.connect(root.finished);
                     account.remove(Account.RemoveCredentials);
+                    console.debug("removed account ID: " + account.accountId);
                 }
 
             }
@@ -91,5 +82,5 @@ Column {
                 }
             }
         } // Dialog
-   } //Component
+    } //Component
 }

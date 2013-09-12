@@ -50,6 +50,14 @@ Flickable {
                This will not be necessary once Bug #1221845 is fixed.
              */
             rootFlickable.parent.parent.flickable = rootFlickable;
+
+        }
+
+        Connections {
+            target: account
+            onSynced: {
+                console.debug("Account id " + account.accountId + "synced. account.displayName: " + account.displayName)
+            }
         }
         
         Connections {
