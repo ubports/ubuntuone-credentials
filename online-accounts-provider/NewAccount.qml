@@ -184,6 +184,13 @@ Column {
         }
     }
 
+    function userCancelled() {
+        console.debug("Removing account ID: " + account.accountId);
+        account.removed.connect(finished);
+        account.remove(Account.RemoveCredentials);
+        resetUI();
+    }
+
     /* processForm uses a timer to delay calling u1credservice, which can
        take a while, to ensure that the loadingOverlay is shown
        immediately.
