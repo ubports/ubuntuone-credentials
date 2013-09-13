@@ -5,6 +5,10 @@ Column {
     id: registerFormColumn
     spacing: units.gu(2)
 
+    /* export two aliases for KeyNavigation access*/
+    property alias nameTextField: nameTextField
+    property alias confirmPasswordTextField: confirmPasswordTextField
+
     property alias password: passwordTextField.text
     property alias display_name: nameTextField.text
 
@@ -17,6 +21,8 @@ Column {
         id: nameTextField
         placeholderText: "Your name"
         width: main.width - (2 * main.anchors.margins)
+        KeyNavigation.tab: passwordTextField
+        KeyNavigation.backtab: emailTextField /* from main */
     }
 
     TextField {
@@ -24,6 +30,8 @@ Column {
         placeholderText: "Password with at least 8 characters"
         echoMode: TextInput.Password
         width: main.width - (2 * main.anchors.margins)
+        KeyNavigation.tab: confirmPasswordTextField
+        KeyNavigation.backtab: nameTextField
     }
 
     TextField {
@@ -31,6 +39,8 @@ Column {
         placeholderText: "Re-type password"
         echoMode: TextInput.Password
         width: main.width - (2 * main.anchors.margins)
+        KeyNavigation.tab: emailTextField /* from main */
+        KeyNavigation.backtab: passwordTextField
     }
 
     Row {

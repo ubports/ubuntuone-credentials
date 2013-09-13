@@ -76,12 +76,13 @@ Column {
     TextField {
         id: emailTextField
         placeholderText: "Your email"
-        focus: true;
-
         width: main.width - (2 * main.anchors.margins)
         anchors.left: parent.left
         anchors.margins: parent.anchors.margins
         validator: RegExpValidator { regExp: /.+@.+/ }
+        focus: true
+        KeyNavigation.tab: loginForm.visible ? loginForm.passwordTextField : registerForm.nameTextField
+        KeyNavigation.backtab: loginForm.visible ? ( loginForm.twoFactorVisible ? loginForm.twoFactorTextField : loginForm.passwordTextField) : registerForm.confirmPasswordTextField
     }
 
     Row {
@@ -154,6 +155,7 @@ Column {
         state = "login";
         switchTo(loginForm);
         formValid = false;
+        emailTextField.forceActiveFocus();
     }
 
     function showError(message) {
@@ -172,9 +174,11 @@ Column {
         if(state == "login") {
             switchTo(registerForm)
             state = "register";
+            registerForm.nameTextField.focus = true;
         } else if(state == "register") {
             switchTo(loginForm)
             state = "login";
+            loginForm.passwordTextField.focus = true;
         } else {
             console.debug("unexpected state" + state + "in toggleNewUser");
         }

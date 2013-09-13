@@ -5,6 +5,10 @@ Column {
     id: loginFormColumn
     spacing: units.gu(2)
 
+    /* export two aliases for KeyNavigation access*/
+    property alias passwordTextField: passwordTextField  
+    property alias twoFactorTextField: twoFactorTextField
+
     property alias password: passwordTextField.text
     property alias twoFactorVisible: twoFactorUI.visible
     property alias twoFactorCode: twoFactorTextField.text
@@ -21,6 +25,8 @@ Column {
         width: main.width - (2 * main.anchors.margins)
 
         Keys.onReturnPressed: main.processForm();
+        KeyNavigation.tab: twoFactorUI.visible ? twoFactorTextField : emailTextField /* from main */
+        KeyNavigation.backtab: emailTextField /* from main */
     }
 
     Label {
@@ -50,11 +56,12 @@ Column {
             id: twoFactorTextField
             placeholderText: "2-factor device code"
             echoMode: TextInput.Password
-            focus: true
             width: main.width - (2 * main.anchors.margins)
             Keys.onReturnPressed: {
                 main.processForm();
             }
+            KeyNavigation.tab: emailTextField
+            KeyNavigation.backtab: passwordTextField
         }
 
         Label {
