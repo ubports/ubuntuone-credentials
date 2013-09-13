@@ -171,7 +171,7 @@ Column {
     }
 
     function toggleNewUser() {
-        if(state == "login") {
+        if(state == "login" || state == "twofactor") {
             switchTo(registerForm)
             state = "register";
             registerForm.nameTextField.focus = true;
