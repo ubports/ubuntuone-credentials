@@ -82,6 +82,8 @@ public:
                    QString email, QString password, QString name,
                    QString captchaId, QString captchaSolution,
                    bool createCaptcha);
+    AccountRequest(QString base_url,
+                   QString email, QString password, QString name);
 
     QByteArray serialize() const;
 

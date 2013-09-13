@@ -91,6 +91,15 @@ AccountRequest::AccountRequest(QString base_url,
 {
 }
 
+AccountRequest::AccountRequest(QString base_url,
+                               QString email, QString password, QString name)
+    : RequestInterface(base_url + ACCOUNTS_PATH),
+      _email(email), _password(password), _name(name),
+      _captchaId(QString()), _captchaSolution(QString()),
+      _createCaptcha(false)
+{
+}
+
 QByteArray AccountRequest::serialize() const
 {
     QJsonObject data;

@@ -99,7 +99,7 @@ namespace UbuntuOne {
                                   QString display_name)
     {
         AccountRequest request(getAuthBaseUrl(),
-                               email, password, display_name, NULL, NULL);
+                               email, password, display_name);
 
         _tempPassword = password;
         _tempEmail = email;
