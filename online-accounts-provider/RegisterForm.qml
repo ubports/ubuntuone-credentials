@@ -19,6 +19,7 @@ Column {
     
     TextField {
         id: nameTextField
+        objectName: "nameTextField"
         placeholderText: "Your name"
         width: main.width - (2 * main.anchors.margins)
         KeyNavigation.tab: passwordTextField
@@ -27,6 +28,7 @@ Column {
 
     TextField {
         id: passwordTextField
+        objectName: "passwordTextField"
         placeholderText: "Password with at least 8 characters"
         echoMode: TextInput.Password
         width: main.width - (2 * main.anchors.margins)
@@ -36,6 +38,7 @@ Column {
 
     TextField {
         id: confirmPasswordTextField
+        objectName: "confirmPasswordTextField"
         placeholderText: "Re-type password"
         echoMode: TextInput.Password
         width: main.width - (2 * main.anchors.margins)
@@ -47,6 +50,7 @@ Column {
         spacing: units.gu(2)
         CheckBox {
             id: termsAndConditionsCheckBox
+            objectName: "termsAndConditionsCheckBox"
             checked: false
         }
 
@@ -58,6 +62,7 @@ Column {
     }
 
     ButtonRow {
+        objectName: "buttonRow-RegisterForm"
         anchors.left: parent.left
         anchors.right: parent.right
     }

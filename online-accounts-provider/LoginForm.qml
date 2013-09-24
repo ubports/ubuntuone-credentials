@@ -19,7 +19,7 @@ Column {
 
     TextField {
         id: passwordTextField
-
+        objectName: "loginFormPasswordTextField"
         placeholderText: "Your password"
         echoMode: TextInput.Password
         width: main.width - (2 * main.anchors.margins)
@@ -36,6 +36,7 @@ Column {
     }
 
     ButtonRow {
+        objectName: "buttonRow-LoginForm-noTwoFactor"
         anchors.left: parent.left
         anchors.right: parent.right
 
@@ -54,6 +55,7 @@ Column {
 
         TextField {
             id: twoFactorTextField
+            objectName: "twoFactorTextField"
             placeholderText: "2-factor device code"
             echoMode: TextInput.Password
             width: main.width - (2 * main.anchors.margins)

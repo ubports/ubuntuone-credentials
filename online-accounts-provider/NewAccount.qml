@@ -55,6 +55,7 @@ Column {
 
     Label {
         id: errorLabel
+        objectName: "errorLabel"
         text: ""
         font.bold: true
         color: "red"
@@ -75,6 +76,7 @@ Column {
 
     TextField {
         id: emailTextField
+        objectName: "emailTextField"
         placeholderText: "Your email"
         width: main.width - (2 * main.anchors.margins)
         anchors.left: parent.left
@@ -93,6 +95,7 @@ Column {
 
         Switch {
             id: newUserToggleSwitch
+            objectName: "newUserToggleSwitch"
             checked: false
 
             onCheckedChanged: {
@@ -249,6 +252,7 @@ Column {
     }
 
     function validateInput() {
+        console.debug("in validateInput, emailTextField.text = " + emailTextField.text); 
         formValid = emailTextField.acceptableInput;
         if(!formValid) {
             showError("Please enter a valid email address.");
