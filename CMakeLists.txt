@@ -10,7 +10,7 @@ SET (AUTH_LIB_SOVERSION 0)
 SET (AUTH_LIB_API_VERSION 2.0)
 SET (AUTH_LIB_NAME ubuntuoneauth-${AUTH_LIB_API_VERSION})
 
-# these names are also used in qml-credentials-service/qmldir, be sure to change them in both places
+# these names are used in qml-credentials-service/qmldir.template
 SET (QML_MODULE_NAME UbuntuOne)
 SET (QML_PLUGIN_API_VERSION 1.0)
 SET (QML_PLUGIN_NAME UbuntuOneCredentialsPlugin-${QML_PLUGIN_API_VERSION})

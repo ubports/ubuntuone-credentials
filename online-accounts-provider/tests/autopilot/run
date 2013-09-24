@@ -7,6 +7,6 @@ fi
 
 SCRIPTPATH=`dirname $0`
 pushd ${SCRIPTPATH}
-export QML2_IMPORT_PATH=$QML2_IMPORT_PATH:/usr/lib/i386-linux-gnu/ubuntu-system-settings/private
+export QML2_IMPORT_PATH=/usr/lib/i386-linux-gnu/ubuntu-system-settings/private:$1/../../qml-credentials-service
 autopilot run UbuntuOneCredentialsProviderAutopilotTests
 popd
