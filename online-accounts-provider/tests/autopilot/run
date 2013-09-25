@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [[ -z `which autopilot` ]]; then
+  echo "Autopilot is not installed. Skip"
+  exit
+fi
+
+SCRIPTPATH=`dirname $0`
+pushd ${SCRIPTPATH}
+export QML2_IMPORT_PATH=/usr/lib/i386-linux-gnu/ubuntu-system-settings/private:$1/../../qml-credentials-service
+autopilot run UbuntuOneCredentialsProviderAutopilotTests
+popd

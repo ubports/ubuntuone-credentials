@@ -33,6 +33,7 @@ Column {
     anchors.right: parent.right
 
     ListItem.SingleValue {
+        objectName: "emailListItem"
         text: "Email"
         value: account.displayName
     }
@@ -45,6 +46,7 @@ Column {
 
     ListItem.SingleControl {
         control: Button {
+            objectName: "removeAccountButton"
             text: "Remove account…"
             width: parent.width - units.gu(4)
             onClicked: PopupUtils.open(removalConfirmationComponent);
@@ -64,6 +66,7 @@ Column {
 
             Button {
                 text: "Remove"
+                objectName: "confirmRemoveAccountButton"
                 onClicked: {
                     PopupUtils.close(dialog);
                     console.debug("Removing account ID: " + account.accountId);
@@ -76,6 +79,7 @@ Column {
 
             Button {
                 text: "Cancel"
+                objectName: "cancelRemoveAccountButton"
                 onClicked: {
                     console.log("User cancelled account removal");
                     PopupUtils.close(dialog);

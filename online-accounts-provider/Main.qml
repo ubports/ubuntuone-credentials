@@ -67,6 +67,7 @@ Flickable {
 
     Rectangle {
         id: loadingOverlay
+        objectName: "loadingOverlay"
         opacity: 0.7
         color: "white"
         visible: false
