@@ -112,6 +112,7 @@ Column {
 
     LoginForm {
         id: loginForm
+        objectName: "loginForm"
         visible: true
         
         anchors.left: parent.left
@@ -121,6 +122,7 @@ Column {
 
     RegisterForm {
         id: registerForm
+        objectName: "registerForm"
         visible: false
         
         anchors.left: parent.left
@@ -151,6 +153,7 @@ Column {
 
     function resetUI() {
         errorLabel.visible = false;
+        errorLabel.text = "";
         emailTextField.text = "";
         loginForm.resetUI()
         registerForm.resetUI();
@@ -252,7 +255,6 @@ Column {
     }
 
     function validateInput() {
-        console.debug("in validateInput, emailTextField.text = " + emailTextField.text); 
         formValid = emailTextField.acceptableInput;
         if(!formValid) {
             showError("Please enter a valid email address.");
