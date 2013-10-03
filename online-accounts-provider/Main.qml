@@ -53,6 +53,17 @@ Flickable {
         }
 
         Connections {
+            target: rootFlickable.parent.parent.tools.back;
+            onTriggered: {
+                console.debug("page back button clicked, deleting incomplete account.");
+                if(account.accountId != 0) {
+                    account.remove(Account.RemoveCredentials);
+                    editPageLoader.item.resetUI();
+                }
+            }
+        }
+
+        Connections {
             target: account
             onSynced: {
                 console.debug("Account id " + account.accountId + " synced. account.displayName: " + account.displayName)
