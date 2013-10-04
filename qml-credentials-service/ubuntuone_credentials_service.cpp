@@ -1,4 +1,5 @@
 #include "ubuntuone_credentials_service.h"
+#include "errormessages.h"
 #include <QDebug>
 
 UbuntuOneCredentialsService::UbuntuOneCredentialsService(QQuickItem *parent):
@@ -153,5 +154,9 @@ void UbuntuOneCredentialsService::handleTwoFactorAuthRequired(){
 void UbuntuOneCredentialsService::handleError(const ErrorResponse& error)
 {
     _state = IDLE;
-    emit loginOrRegisterError(error.message());
+    if (error.httpStatus() == 0 || error.httpReason() == NO_HTTP_REASON) {
+        emit loginOrRegisterError("Network error - please retry.");
+    } else {
+        emit loginOrRegisterError(error.message());
+    }
 }
