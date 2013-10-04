@@ -85,6 +85,7 @@ Column {
         focus: true
         KeyNavigation.tab: loginForm.visible ? loginForm.passwordTextField : registerForm.nameTextField
         KeyNavigation.backtab: loginForm.visible ? ( loginForm.twoFactorVisible ? loginForm.twoFactorTextField : loginForm.passwordTextField) : registerForm.confirmPasswordTextField
+        inputMethodHints: Qt.ImhEmailCharactersOnly
     }
 
     Row {
