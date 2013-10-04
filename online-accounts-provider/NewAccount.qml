@@ -199,6 +199,7 @@ Column {
        immediately.
        */
     function processForm() {
+        Qt.inputMethod.hide();
         loadingOverlay.visible = true;
         formSubmitTimer.running = true;
     }
