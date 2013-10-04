@@ -27,6 +27,7 @@ Column {
         Keys.onReturnPressed: main.processForm();
         KeyNavigation.tab: twoFactorUI.visible ? twoFactorTextField : emailTextField /* from main */
         KeyNavigation.backtab: emailTextField /* from main */
+        inputMethodHints: Qt.ImhSensitiveData
     }
 
     Label {

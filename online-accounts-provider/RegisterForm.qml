@@ -34,6 +34,7 @@ Column {
         width: main.width - (2 * main.anchors.margins)
         KeyNavigation.tab: confirmPasswordTextField
         KeyNavigation.backtab: nameTextField
+        inputMethodHints: Qt.ImhSensitiveData
     }
 
     TextField {
@@ -44,6 +45,7 @@ Column {
         width: main.width - (2 * main.anchors.margins)
         KeyNavigation.tab: emailTextField /* from main */
         KeyNavigation.backtab: passwordTextField
+        inputMethodHints: Qt.ImhSensitiveData
     }
 
     Row {
