@@ -131,4 +131,4 @@ private:
 
 } /* end UbuntuOne namespace */
 
-#endif /* _REQUESTS_H_ */
+#endif /* _RESPONSES_H_ */

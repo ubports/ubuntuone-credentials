@@ -28,8 +28,6 @@
 #include "responses.h"
 #include "requests.h"
 
-#define NO_HTTP_REASON QString("No HTTP error reason")
-
 namespace UbuntuOne {
 
 Network::Network(QObject *parent)
