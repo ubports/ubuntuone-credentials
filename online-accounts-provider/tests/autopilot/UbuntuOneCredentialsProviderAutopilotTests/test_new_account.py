@@ -14,8 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-"""Tests for launching the plugin"""
-
 from autopilot.matchers import Eventually
 from testtools.matchers import Equals
 from ubuntuuitoolkit import emulators
@@ -162,30 +160,3 @@ class NewUbuntuOneOnlineAccountTestCase(
         self._click_continue_button_from('buttonRow-RegisterForm')
         self.assertThat(
             self.error_label.visible, Eventually(Equals(True)))
-
-
-class ExistingUOAAccountTests(
-        UbuntuOneCredentialsProviderAutopilotTests.TestCaseWithQMLWrapper):
-
-    test_qml_wrapper_file_name = 'TestWrapperExisting.qml'
-
-    def test_show_remove_account_dialog(self):
-        remove_account_button = self.main_view.select_single(
-            objectName='removeAccountButton')
-        self.pointing_device.click_object(remove_account_button)
-
-        confirm_button = self.main_view.select_single(
-            objectName='confirmRemoveAccountButton')
-
-        self.assertThat(
-            confirm_button.visible, Eventually(Equals(True)))
-
-        cancel_button = self.main_view.select_single(
-            objectName='cancelRemoveAccountButton')
-        self.pointing_device.click_object(cancel_button)
-
-    def test_shows_expected_email(self):
-        email_list_item = self.main_view.select_single(
-            objectName='emailListItem')
-        self.assertThat(
-            email_list_item.value, Eventually(Equals("my@email.com")))
