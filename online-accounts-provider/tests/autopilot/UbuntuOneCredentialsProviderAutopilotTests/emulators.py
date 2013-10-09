@@ -98,7 +98,7 @@ class TextField(toolkit_emulators.UbuntuUIToolkitEmulatorBase):
         super(TextField, self).__init__(*args)
         self.keyboard = input.Keyboard.create()
 
-    def write(self, text, clear=True):
+    def write(self, text):
         """Write into the text field.
 
         :parameter text: The text to write.
