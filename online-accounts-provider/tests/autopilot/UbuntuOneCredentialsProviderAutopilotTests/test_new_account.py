@@ -88,80 +88,31 @@ class NewUbuntuOneOnlineAccountTestCase(
             self.new_account.is_error_label_visible(),
             Eventually(Equals(True)))
 
-    def test_new_user_error_on_no_name(self):
-        self._setup_new_user_errors()
-        self._click_continue_button_from("buttonRow-RegisterForm")
+
+_VALID_USER = dict(
+    email='valid@example.com', name='Name', password='password',
+    password_confirmation='password', agree_to_terms=True)
+
+        
+class NewUbuntuOneOnlineAccountErrorsTestCase(
+        UbuntuOneCredentialsProviderAutopilotTests.TestCaseWithQMLWrapper):
+
+    scenarios = [
+        ('no name', dict(_VALID_USER, name='')),
+        ('no password', dict(_VALID_USER, password='')),
+        ('password mismatch', dict(
+            _VALID_USER, password_confirmation='different password')),
+        ('short password', dict(
+            _VALID_USER, password='short', password_confirmation='short'))
+    ]
+    
+    test_qml_wrapper_file_name = 'TestWrapperNew.qml'
+
+    def test_new_user_error(self):
+        new_account = self.main_view.select_single(emulators.NewAccount)
+        new_account.register_new_account(
+            self.email, self.name, self.password, self.password_confirmation,
+            self.agree_to_terms)
+
         self.assertThat(
-            self.error_label.visible, Eventually(Equals(True)))
-
-    def _setup_new_user_errors(self):
-        self.email_text_field = self.main_view.select_single(
-            objectName='emailTextField')
-        self.pointing_device.click_object(self.email_text_field)
-        self.keyboard.type('valid@email.com')
-        self.assertThat(
-            self.email_text_field.acceptableInput, Eventually(Equals(True)))
-        self.error_label = self.main_view.select_single(
-            objectName='errorLabel')
-        new_user_switch = self.main_view.select_single(
-            emulators.CheckBox, objectName='newUserToggleSwitch')
-        new_user_switch.check()
-
-    def test_new_user_error_on_no_password(self):
-        self._setup_new_user_errors()
-        name_text_field = self.main_view.select_single(
-            objectName='nameTextField')
-        self.pointing_device.click_object(name_text_field)
-        self.keyboard.type('A Name')
-        self._click_continue_button_from('buttonRow-RegisterForm')
-        self.assertThat(
-            self.error_label.visible, Eventually(Equals(True)))
-
-    def test_new_user_error_on_no_password_match(self):
-        self._setup_new_user_errors()
-        name_text_field = self.main_view.select_single(
-            objectName='nameTextField')
-        self.pointing_device.click_object(name_text_field)
-        self.keyboard.type('A Name')
-
-        password_text_field = self.main_view.select_single(
-            objectName='passwordTextField')
-        self.pointing_device.click_object(password_text_field)
-        self.keyboard.type('12345678910111213141516')
-
-        confirm_password_text_field = self.main_view.select_single(
-            objectName='confirmPasswordTextField')
-        self.pointing_device.click_object(confirm_password_text_field)
-        self.keyboard.type('123456789ABCDEF')
-
-        terms_and_conditions_check_box = self.main_view.select_single(
-            emulators.CheckBox, objectName='termsAndConditionsCheckBox')
-        terms_and_conditions_check_box.check()
-        self._click_continue_button_from('buttonRow-RegisterForm')
-        self.assertThat(
-            self.error_label.visible, Eventually(Equals(True)))
-
-    def test_new_user_error_on_short_password(self):
-        self._setup_new_user_errors()
-
-        name_text_field = self.main_view.select_single(
-            objectName='nameTextField')
-        self.pointing_device.click_object(name_text_field)
-        self.keyboard.type('A Name')
-
-        password_text_field = self.main_view.select_single(
-            objectName='passwordTextField')
-        self.pointing_device.click_object(password_text_field)
-        self.keyboard.type('123')
-
-        confirm_password_text_field = self.main_view.select_single(
-            objectName='confirmPasswordTextField')
-        self.pointing_device.click_object(confirm_password_text_field)
-        self.keyboard.type('123')
-
-        terms_and_conditions_check_box = self.main_view.select_single(
-            emulators.CheckBox, objectName='termsAndConditionsCheckBox')
-        terms_and_conditions_check_box.check()
-        self._click_continue_button_from('buttonRow-RegisterForm')
-        self.assertThat(
-            self.error_label.visible, Eventually(Equals(True)))
+            new_account.is_error_label_visible(), Eventually(Equals(True)))

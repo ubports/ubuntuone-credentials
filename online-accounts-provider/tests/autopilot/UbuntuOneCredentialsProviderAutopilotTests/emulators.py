@@ -49,6 +49,45 @@ class NewAccount(toolkit_emulators.UbuntuUIToolkitEmulatorBase):
             objectName='continueButton', visible=True)
         self.pointing_device.click_object(continue_button)
 
+    def register_new_account(self, email, name, password,
+                             password_confirmation, agree_to_terms):
+        self._switch_to_new_account()
+        self._enter_email(email)
+        self._enter_name(name)
+        self._enter_password_new_user(password)
+        self._enter_password_confirmation(password_confirmation)
+        self._agree_to_terms(agree_to_terms)
+        self._click_continue()
+
+    def _switch_to_new_account(self):
+        new_user_switch = self.select_single(
+            toolkit_emulators.CheckBox, objectName='newUserToggleSwitch')
+        new_user_switch.check()
+
+    def _enter_name(self, name):
+        name_text_field = self.select_single(
+            TextField, objectName='nameTextField')
+        name_text_field.write(name)
+
+    def _enter_password_new_user(self, password):
+        password_text_field = self.select_single(
+            TextField, objectName='passwordTextField')
+        password_text_field.write(password)
+
+    def _enter_password_confirmation(self, password_confirmation):
+        confirm_password_text_field = self.select_single(
+            TextField, objectName='confirmPasswordTextField')
+        confirm_password_text_field.write(password_confirmation)
+
+    def _agree_to_terms(self, agree):
+        terms_and_conditions_check_box = self.select_single(
+            toolkit_emulators.CheckBox,
+            objectName='termsAndConditionsCheckBox')
+        if agree:
+            terms_and_conditions_check_box.check()
+        else:
+            terms_and_conditions_check_box.uncheck()
+
 
 class TextField(toolkit_emulators.UbuntuUIToolkitEmulatorBase):
     """TextField Autopilot emulator."""
