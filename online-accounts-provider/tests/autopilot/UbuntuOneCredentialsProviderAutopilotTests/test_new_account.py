@@ -16,15 +16,20 @@
 
 from autopilot.matchers import Eventually
 from testtools.matchers import Equals
-from ubuntuuitoolkit import emulators
+from ubuntuuitoolkit import emulators as toolkit_emulators
 
 import UbuntuOneCredentialsProviderAutopilotTests
+from UbuntuOneCredentialsProviderAutopilotTests import emulators
 
                                         
 class NewUbuntuOneOnlineAccountTestCase(
         UbuntuOneCredentialsProviderAutopilotTests.TestCaseWithQMLWrapper):
 
     test_qml_wrapper_file_name = 'TestWrapperNew.qml'
+
+    def setUp(self):
+        super(NewUbuntuOneOnlineAccountTestCase, self).setUp()
+        self.new_account = self.main_view.select_single(emulators.NewAccount)
 
     def test_loading_overlay_starts_invisible(self):
         overlay = self.main_view.select_single(objectName='loadingOverlay')
@@ -45,9 +50,9 @@ class NewUbuntuOneOnlineAccountTestCase(
         self.assertThat(
             two_factor_text_field.visible, Eventually(Equals(False)))
 
-    def test_switch_to_newuser(self):
+    def test_switch_to_new_user(self):
         new_user_switch = self.main_view.select_single(
-            emulators.CheckBox, objectName='newUserToggleSwitch')
+            toolkit_emulators.CheckBox, objectName='newUserToggleSwitch')
         new_user_switch.check()
 
         password_text_field = self.main_view.select_single(
@@ -59,29 +64,29 @@ class NewUbuntuOneOnlineAccountTestCase(
         self.assertThat(name_text_field.visible, Eventually(Equals(True)))
 
     def test_error_label_starts_invisible(self):
-        error_label = self.main_view.select_single(objectName="errorLabel")
-        self.assertThat(error_label.visible, Eventually(Equals(False)))
+        self.assertThat(
+            self.new_account.is_error_label_visible(),
+            Eventually(Equals(False)))
 
     def test_login_error_on_no_input(self):
-        self._click_continue_button_from("buttonRow-LoginForm-noTwoFactor")
+        self.new_account.log_in(email='', password='')
 
-        error_label = self.main_view.select_single(objectName="errorLabel")
-        self.assertThat(error_label.visible, Eventually(Equals(True)))
-
+        self.assertThat(
+            self.new_account.is_error_label_visible(),
+            Eventually(Equals(True)))
+        
     def _click_continue_button_from(self, parent_object_name):
         parent = self.main_view.select_single(objectName=parent_object_name)
         continue_button = parent.select_single(objectName='continueButton')
         self.pointing_device.click_object(continue_button)
 
     def test_login_error_on_bad_email(self):
-        email_text_field = self.main_view.select_single(
-            objectName='emailTextField')
-        self.pointing_device.click_object(email_text_field)
-        self.keyboard.type("this isn't a valid email")
-        self._click_continue_button_from('buttonRow-LoginForm-noTwoFactor')
-        
-        error_label = self.main_view.select_single(objectName="errorLabel")
-        self.assertThat(error_label.visible, Eventually(Equals(True)))
+        self.new_account.log_in(
+            email='invalid email', password='password')
+
+        self.assertThat(
+            self.new_account.is_error_label_visible(),
+            Eventually(Equals(True)))
 
     def test_new_user_error_on_no_name(self):
         self._setup_new_user_errors()

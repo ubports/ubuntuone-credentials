@@ -12,7 +12,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program. If not, see <http://www.gnu.org/licenses/>.  
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """UbuntuOne Credentials Online-Accounts provider plugin autopilot tests."""
 
@@ -23,7 +23,10 @@ import tempfile
 from autopilot import input
 from autopilot.matchers import Eventually
 from testtools.matchers import Equals
-from ubuntuuitoolkit import base, emulators
+from ubuntuuitoolkit import (
+    base,
+    emulators as toolkit_emulators,
+)
 
 
 def _get_module_include_path():
@@ -77,7 +80,7 @@ Icon=Not important
             '-I' + _get_module_include_path(),
             qml_file_path,
             '--desktop_file_hint={0}'.format(desktop_file_path),
-        emulator_base=emulators.UbuntuUIToolkitEmulatorBase,
+        emulator_base=toolkit_emulators.UbuntuUIToolkitEmulatorBase,
         app_type='qt')
 
         self.assertThat(
@@ -95,4 +98,4 @@ Icon=Not important
 
     @property
     def main_view(self):
-        return self.app.select_single(emulators.MainView)
+        return self.app.select_single(toolkit_emulators.MainView)
