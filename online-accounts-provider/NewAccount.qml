@@ -250,6 +250,7 @@ Column {
         errorLabel.visible = false;
         state = "twofactor";
         loginForm.twoFactorVisible = true;
+        loginForm.twoFactorTextField.focus = true;
         formValid = false;
     }
 
