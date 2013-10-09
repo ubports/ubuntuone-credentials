@@ -21,7 +21,12 @@ from ubuntuuitoolkit import emulators as toolkit_emulators
 import UbuntuOneCredentialsProviderAutopilotTests
 from UbuntuOneCredentialsProviderAutopilotTests import emulators
 
-                                        
+
+_VALID_NEW_USER = dict(
+    email='valid@example.com', name='Name', password='password',
+    password_confirmation='password', agree_to_terms=True)
+
+
 class NewUbuntuOneOnlineAccountTestCase(
         UbuntuOneCredentialsProviderAutopilotTests.TestCaseWithQMLWrapper):
 
@@ -68,42 +73,36 @@ class NewUbuntuOneOnlineAccountTestCase(
             self.new_account.is_error_label_visible(),
             Eventually(Equals(False)))
 
-    def test_login_error_on_no_input(self):
-        self.new_account.log_in(email='', password='')
+
+class LogInUbuntuOneOnlineAccountErrorsTestCase(
+        UbuntuOneCredentialsProviderAutopilotTests.TestCaseWithQMLWrapper):
+
+    scenarios = [
+        ('no input', dict(email='', password='')),
+        ('invalid email', dict(email='invalid', password='password'))
+    ]
+
+    test_qml_wrapper_file_name = 'TestWrapperNew.qml'
+
+    def test_log_in_error(self):
+        new_account = self.main_view.select_single(emulators.NewAccount)
+        new_account.log_in(self.email, self.password)
 
         self.assertThat(
-            self.new_account.is_error_label_visible(),
-            Eventually(Equals(True)))
-        
-    def _click_continue_button_from(self, parent_object_name):
-        parent = self.main_view.select_single(objectName=parent_object_name)
-        continue_button = parent.select_single(objectName='continueButton')
-        self.pointing_device.click_object(continue_button)
-
-    def test_login_error_on_bad_email(self):
-        self.new_account.log_in(
-            email='invalid email', password='password')
-
-        self.assertThat(
-            self.new_account.is_error_label_visible(),
+            new_account.is_error_label_visible(),
             Eventually(Equals(True)))
 
 
-_VALID_USER = dict(
-    email='valid@example.com', name='Name', password='password',
-    password_confirmation='password', agree_to_terms=True)
-
-        
 class NewUbuntuOneOnlineAccountErrorsTestCase(
         UbuntuOneCredentialsProviderAutopilotTests.TestCaseWithQMLWrapper):
 
     scenarios = [
-        ('no name', dict(_VALID_USER, name='')),
-        ('no password', dict(_VALID_USER, password='')),
+        ('no name', dict(_VALID_NEW_USER, name='')),
+        ('no password', dict(_VALID_NEW_USER, password='')),
         ('password mismatch', dict(
-            _VALID_USER, password_confirmation='different password')),
+            _VALID_NEW_USER, password_confirmation='different password')),
         ('short password', dict(
-            _VALID_USER, password='short', password_confirmation='short'))
+            _VALID_NEW_USER, password='short', password_confirmation='short'))
     ]
     
     test_qml_wrapper_file_name = 'TestWrapperNew.qml'
