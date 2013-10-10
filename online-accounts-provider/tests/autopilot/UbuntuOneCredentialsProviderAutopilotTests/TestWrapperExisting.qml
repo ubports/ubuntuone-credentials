@@ -15,23 +15,17 @@ MainView {
 
     Page {
         title: "testing"
-        id: testingPage
         objectName: "testingPage"
 
         Rectangle {
             id: fakeAccount
-            objectName: "FakeNewUOAAccount"
-            property var accountId: 0
+            objectName: "FakeExistingUOAAccount"
+            property var accountId: 47
             signal synced
-
-            property string displayName: "" 
-            function sync() {
+            
+            property string displayName: "my@email.com"
+            function remove(){
             }
-
-            /* fake to avoid creating a UOA account */
-            property var objectHandle: Qt.createQmlObject('import QtQuick 2.0; Rectangle {}',
-                                                         testingPage, 
-                                                         "dynamically-created-fakerect");
         }
 
         Loader {
@@ -40,7 +34,7 @@ MainView {
 
             anchors.fill: parent
 
-            source: "../../Main.qml"
+            source: "../../../Main.qml"
 
         }
 

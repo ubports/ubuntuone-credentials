@@ -1,124 +1,100 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
+#
+# Copyright (C) 2013 Canonical Ltd.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License version 3, as published
+# by the Free Software Foundation.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """UbuntuOne Credentials Online-Accounts provider plugin autopilot tests."""
 
-from os import remove
-import os.path
-from tempfile import mktemp
+import os
 import subprocess
+import tempfile
 
-from autopilot.input import Mouse, Touch, Pointer
+from autopilot import input
 from autopilot.matchers import Eventually
-from autopilot.platform import model
-from testtools.matchers import Is, Not, Equals
-from autopilot.testcase import AutopilotTestCase
+from testtools.matchers import Equals
+from ubuntuuitoolkit import (
+    base,
+    emulators as toolkit_emulators,
+)
 
 
-def get_module_include_path():
+def _get_module_include_path():
+    return _get_path_to_source_root()
+
+
+def _get_path_to_source_root():
     return os.path.abspath(
         os.path.join(
-            os.path.dirname(__file__),
-            '..',
-            '..',
-            '..',
-            '..',
-            'modules')
-        )
+            os.path.dirname(__file__), '..', '..', '..'))
 
 
-class UbuntuTouchAppTestCase(AutopilotTestCase):
-    """Provides several useful methods for the tests."""
+def _get_local_desktop_file_directory():
+    return os.path.join(os.environ['HOME'], '.local', 'share', 'applications')
 
-    if model() == 'Desktop':
-        scenarios = [
-            ('with mouse', dict(input_device_class=Mouse))
-        ]
-    else:
-        scenarios = [
-            ('with touch', dict(input_device_class=Touch))
-        ]
 
-    @property
-    def main_window(self):
-        return MainWindow(self.app)
+def _get_qmlscene_launch_command():
+    """Return the command to launch qmlscene for autopilot tests."""
+    # TODO replace this with the one from the ubuntu-ui-toolkit, that has just
+    # been merged to trunk. --elopio - 2013-10-08
+    arch = subprocess.check_output(
+        ["dpkg-architecture", "-qDEB_HOST_MULTIARCH"]).strip()
+    return '/usr/lib/' + arch + '/qt5/bin/qmlscene'
+
+
+class TestCaseWithQMLWrapper(base.UbuntuUIToolkitAppTestCase):
+
+    _DESKTOP_FILE_CONTENTS = ("""[Desktop Entry]
+Type=Application
+Exec=Not important
+Path=Not important
+Name=Test app
+Icon=Not important
+""")
+
+    test_qml_wrapper_file_name = None
 
     def setUp(self):
-        self.pointing_device = Pointer(self.input_device_class.create())
-        super(UbuntuTouchAppTestCase, self).setUp()
-        self.launch_test_qml()
+        super(TestCaseWithQMLWrapper, self).setUp()
+        self.pointing_device = input.Pointer(self.input_device_class.create())
+        self.launch_application()
 
-    def launch_test_qml(self):
-        # If the test class has defined a 'test_qml' class attribute then we
-        # write it to disk and launch it inside the QML Scene. If not, then we
-        # silently do nothing (presumably the test has something else planned).
-        arch = subprocess.check_output(["dpkg-architecture",
-                                        "-qDEB_HOST_MULTIARCH"]).strip()
+    def launch_application(self):
+        qml_file_path = os.path.join(
+            os.path.dirname(__file__), self.test_qml_wrapper_file_name)
+        desktop_file_path = self._write_test_desktop_file()
+        self.addCleanup(os.remove, desktop_file_path)
+        self.app = self.launch_test_application(
+            _get_qmlscene_launch_command(),
+            '-I' + _get_module_include_path(),
+            qml_file_path,
+            '--desktop_file_hint={0}'.format(desktop_file_path),
+            emulator_base=toolkit_emulators.UbuntuUIToolkitEmulatorBase,
+            app_type='qt')
 
-        if hasattr(self, 'test_qml') and isinstance(self.test_qml, basestring):
-            qml_path = mktemp(suffix='.qml')
-            open(qml_path, 'w').write(self.test_qml)
-            self.addCleanup(remove, qml_path)
+        self.assertThat(
+            self.main_view.visible, Eventually(Equals(True)))
 
-            self.app = self.launch_test_application(
-                "/usr/lib/" + arch + "/qt5/bin/qmlscene",
-                "-I", get_module_include_path(),
-                qml_path,
-                app_type='qt')
+    def _write_test_desktop_file(self):
+        desktop_file_dir = _get_local_desktop_file_directory()
+        if not os.path.exists(desktop_file_dir):
+            os.makedirs(desktop_file_dir)
+        desktop_file = tempfile.NamedTemporaryFile(
+            suffix='.desktop', dir=desktop_file_dir, delete=False)
+        desktop_file.write(self._DESKTOP_FILE_CONTENTS)
+        desktop_file.close()
+        return desktop_file.name
 
-        if hasattr(self, 'test_qml_file') and isinstance(self.test_qml_file, basestring):
-            qml_path = self.test_qml_file
-            self.app = self.launch_test_application(
-                "/usr/lib/" + arch + "/qt5/bin/qmlscene",
-                "-I", get_module_include_path(),
-                qml_path,
-                app_type='qt')
-
-        self.assertThat(self.get_qml_view().visible, Eventually(Equals(True)))
-
-    def get_qml_view(self):
-        """Get the main QML view"""
-
-        return self.app.select_single("QQuickView")
-
-    def get_mainview(self):
-        """Get the QML MainView"""
-
-        mainView = self.app.select_single("MainView")
-        self.assertThat(mainView, Not(Is(None)))
-        return mainView
-
-    def get_object(self, objectName):
-        """Get a object based on the objectName"""
-
-        obj = self.app.select_single(objectName=objectName)
-        self.assertThat(obj, Not(Is(None)))
-        return obj
-
-    def mouse_click(self, objectName):
-        """Move mouse on top of the object and click on it"""
-
-        obj = self.get_object(objectName)
-        self.pointing_device.move_to_object(obj)
-        self.pointing_device.click()
-
-    def mouse_press(self, objectName):
-        """Move mouse on top of the object and press and hold mouse button"""
-
-        obj = self.get_object(objectName)
-        self.pointing_device.move_to_object(obj)
-        self.pointing_device.press()
-
-    def mouse_release(self):
-        """Release mouse button"""
-
-        self.pointing_device.release()
-
-    def type_string(self, string):
-        """Type a string with keyboard"""
-
-        self.keyboard.type(string)
-
-    def type_key(self, key):
-        """Type a single key with keyboard"""
-
-        self.keyboard.key(key)
+    @property
+    def main_view(self):
+        return self.app.select_single(toolkit_emulators.MainView)
