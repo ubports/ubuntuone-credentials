@@ -104,7 +104,7 @@ class NewUbuntuOneOnlineAccountErrorsTestCase(
         ('short password', dict(
             _VALID_NEW_USER, password='short', password_confirmation='short'))
     ]
-    
+
     test_qml_wrapper_file_name = 'TestWrapperNew.qml'
 
     def test_new_user_error(self):

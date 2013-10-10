@@ -61,13 +61,12 @@ Path=Not important
 Name=Test app
 Icon=Not important
 """)
-    
+
     test_qml_wrapper_file_name = None
 
     def setUp(self):
         super(TestCaseWithQMLWrapper, self).setUp()
         self.pointing_device = input.Pointer(self.input_device_class.create())
-        self.keyboard_ = input.Keyboard.create()
         self.launch_application()
 
     def launch_application(self):
@@ -80,8 +79,8 @@ Icon=Not important
             '-I' + _get_module_include_path(),
             qml_file_path,
             '--desktop_file_hint={0}'.format(desktop_file_path),
-        emulator_base=toolkit_emulators.UbuntuUIToolkitEmulatorBase,
-        app_type='qt')
+            emulator_base=toolkit_emulators.UbuntuUIToolkitEmulatorBase,
+            app_type='qt')
 
         self.assertThat(
             self.main_view.visible, Eventually(Equals(True)))

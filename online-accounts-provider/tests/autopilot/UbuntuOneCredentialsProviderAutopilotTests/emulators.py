@@ -27,14 +27,14 @@ class NewAccount(toolkit_emulators.UbuntuUIToolkitEmulatorBase):
         return error_label.visible
 
     def log_in(self, email, password):
-       self._fill_log_in(email, password)
-       self._click_continue()
+        self._fill_log_in(email, password)
+        self._click_continue()
 
     def _fill_log_in(self, email, password):
         self._enter_email(email)
         self._enter_login_password(password)
 
-    def _enter_email(self, email):        
+    def _enter_email(self, email):
         email_text_field = self.select_single(
             TextField, objectName='emailTextField')
         email_text_field.write(email)
