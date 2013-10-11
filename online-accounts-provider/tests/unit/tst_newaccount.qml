@@ -91,7 +91,7 @@ Item {
             compare(loginForm.twoFactorVisible, true);
         }
 
-        function test_login_validity_data() {
+        function test_loginValidateInput_data() {
             var invalidEmail = "invalid email";
             var validEmail = "valid@email.com";
             var validPassword = "123456789";
@@ -109,7 +109,7 @@ Item {
             ]
         }
 
-        function test_login_validity(data) {
+        function test_loginValidateInput(data) {
             newAccount.resetUI();
             emailTextField.text = data.email;
             var passwordTextField = Utils.findChild(loginForm, "loginFormPasswordTextField");            
@@ -124,7 +124,7 @@ Item {
             compare(errorLabel.visible, data.shouldShowError);
         }
 
-        function test_register_validity_data() {
+        function test_registerValidateInput_data() {
             var invalidEmail = "invalid email";
             var validEmail = "valid@email.com";
             var invalidName = "";
@@ -140,7 +140,7 @@ Item {
             ]
         }
 
-        function test_register_validity(data) {
+        function test_registerValidateInput(data) {
             newAccount.resetUI();
             newAccount.toggleNewUser();
             emailTextField.text = data.email;
