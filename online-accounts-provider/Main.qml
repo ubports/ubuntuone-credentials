@@ -41,7 +41,7 @@ Flickable {
         sourceComponent: account.accountId != 0 ? existingAccountComponent : newAccountComponent
 
         onLoaded: {
-            /* NOTE: dirty hack to work around out grandparent Page (from
+            /* NOTE: dirty hack to work around our grandparent Page (from
                AccountCreationPage.qml in
                ubuntu-system-settings-online-accounts) not being able
                to find our Flickable, and not having an id set for us
@@ -55,8 +55,8 @@ Flickable {
         Connections {
             target: rootFlickable.parent.parent.tools.back;
             onTriggered: {
-                console.debug("page back button clicked, deleting incomplete account.");
-                if(account.accountId != 0) {
+                if(editPageLoader.source == newAccountUrl) {
+                    console.debug("back button clicked while creating account, removing incomplete account.");
                     account.remove(Account.RemoveCredentials);
                     editPageLoader.item.resetUI();
                 }

@@ -24,7 +24,6 @@ import Ubuntu.OnlineAccounts 0.1
 Column {
     id: main
 
-    property bool isNewAccount: false
     property variant __account: account
 
     state: "login" // or "register" or "twofactor"
@@ -38,7 +37,6 @@ Column {
     spacing: units.gu(2)
 
     Component.onCompleted: {
-        isNewAccount = (__account.accountId === 0);
         enableAccount();
         __account.sync()
         resetUI();
@@ -253,6 +251,7 @@ Column {
         errorLabel.visible = false;
         state = "twofactor";
         loginForm.twoFactorVisible = true;
+        loginForm.twoFactorTextField.focus = true;
         formValid = false;
     }
 
