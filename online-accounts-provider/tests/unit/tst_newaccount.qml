@@ -48,17 +48,11 @@ Item {
             newAccount.resetUI();
         }
         
-        function cleanup() {
-        }
-        
         function initTestCase() {
             loginForm = Utils.findChild(newAccount, "loginForm")
             registerForm = Utils.findChild(newAccount, "registerForm")
             errorLabel = Utils.findChild(newAccount, "errorLabel")
             emailTextField = Utils.findChild(newAccount, "emailTextField")
-        }
-        
-        function cleanupTestCase() {
         }
         
         function test_resetUI() {
