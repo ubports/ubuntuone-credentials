@@ -4,6 +4,7 @@
   <icon>ubuntuone</icon>
   <plugin>ubuntuone</plugin>
   <translations>ubuntuone-credentials</translations>
+  <single-account>true</single-account>
 
   <template>
     <group name="auth">
