@@ -87,8 +87,8 @@ void IdentityProvider::OnErrorOccurred(const ErrorResponse& error)
 
     }else{
 
-        qWarning("Error occurred creating token: %d (%s)",
-                 error.code(), error.message().toUtf8().data());
+        qCritical("Error occurred creating token: %d (%s)",
+                  error.code(), error.message().toUtf8().data());
 
         emit ErrorOccurred(error);
     }
