@@ -69,16 +69,24 @@ void Network::OnReply(QNetworkReply* reply)
         return;
     }
  
-    QJsonDocument document = QJsonDocument::fromJson(payload);
+    QJsonParseError jsonParseError;
+    QJsonDocument document = QJsonDocument::fromJson(payload, &jsonParseError);
 
-    if (document.isEmpty()) {
-        QString errmsg = QString("Network::OnReply received empty document");
+    if(jsonParseError.error != QJsonParseError::NoError){
+        QString errmsg = QString ("Network::OnReply: error parsing JSON reply: ");
+        errmsg += jsonParseError.errorString();
+        emit ErrorOccurred(ErrorResponse(0, NO_HTTP_REASON, LOGIN_FAILED, errmsg));
+        return;
+    }
+
+    if (document.isEmpty() || document.isNull()) {
+        QString errmsg = QString("Network::OnReply: received empty or Null document");
         emit ErrorOccurred(ErrorResponse(0, NO_HTTP_REASON, LOGIN_FAILED, errmsg));
         return;
     }
 
     if (!document.isObject()) {
-        QString errmsg = QString("Network::OnReply received invalid QJsonDocument");
+        QString errmsg = QString("Network::OnReply: received JSON document that isn't an object.");
         emit ErrorOccurred(ErrorResponse(0, NO_HTTP_REASON, LOGIN_FAILED, errmsg));
         return;
     }
