@@ -13,10 +13,33 @@ MainView {
     width: units.gu(100)    
     height: units.gu(100)
 
+    PageStack {
+        id: pageStack
+        Component.onCompleted: {
+            push(dummyPage);
+            push(testingPage);
+        }
+    }
+    
+    Page {
+        id: dummyPage
+        objectName: "dummyPage"
+        title: i18n.tr("Root page")
+        visible: false
+        /* property var success: false */
+
+        Rectangle {
+            anchors.fill: parent
+            color: "green"
+        }
+        
+    }
+
     Page {
         title: "testing"
         id: testingPage
         objectName: "testingPage"
+        visible: false
 
         Rectangle {
             id: fakeAccount
@@ -26,6 +49,15 @@ MainView {
 
             property string displayName: "" 
             function sync() {
+                /* synced() signal is connected to finished on success, so we
+                  need to just forward it here */
+                synced();
+            }
+
+            function updateDisplayName() {
+            }
+            
+            function updateEnabled() {
             }
 
             /* fake to avoid creating a UOA account */
@@ -41,6 +73,14 @@ MainView {
             anchors.fill: parent
 
             source: "../../../Main.qml"
+
+            Connections {
+                target: loader.item
+                onFinished: {
+                    /* dummyPage.success = true; */
+                    pageStack.pop();
+                }
+            }
 
         }
 
