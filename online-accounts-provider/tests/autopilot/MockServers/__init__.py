@@ -188,14 +188,6 @@ class MockSSOAndUOneRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
         self.sendJSONReply(201, REGISTER_CREATED_RESPONSE)
 
-# plan:
-# SSO_AUTH_BASE_URL
-#  POST to /accounts for register
-
-# SSO_UONE_BASE_URL
-# /oauth/sso-finished-so-get-tokens/email?platform
-# - 200
-# - err?
 
 if __name__ == '__main__':
     print "Mock server running at ", 8880
