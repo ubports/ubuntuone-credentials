@@ -24,7 +24,7 @@ SSO_API_PATH = '/api/v2'
 UONE_API_PATH = '/oauth/sso-finished-so-get-tokens/'
 
 
-def runMockServer(port):
+def run_mock_server(port):
     server_address = ('', port)
     httpd = BaseHTTPServer.HTTPServer(server_address,
                                       MockSSOAndUOneRequestHandler)
@@ -143,52 +143,52 @@ class MockSSOAndUOneRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             return
 
         if self.path == SSO_API_PATH + '/tokens/oauth':
-            self.handleLogin(bodyDict)
+            self.handle_login(bodyDict)
         elif self.path == SSO_API_PATH + '/accounts':
-            self.handleRegister(bodyDict)
+            self.handle_register(bodyDict)
         else:
             print "unknown -- self.path is ", self.path
             self.send_error(404, 'unknown')
 
-    def sendJSONReply(self, code, replyJSON):
+    def send_JSON_reply(self, code, replyJSON):
         self.send_response(code)
         self.send_header("Content-Type", "application/json")
         self.end_headers()
         self.wfile.write(replyJSON)
 
-    def handleLogin(self, bodyDict):
+    def handle_login(self, bodyDict):
 
         if 'email' not in bodyDict \
                 or 'password' not in bodyDict or 'token_name' not in bodyDict:
-            self.sendJSONReply(400, INVALID_DATA_RESPONSE)
+            self.send_JSON_reply(400, INVALID_DATA_RESPONSE)
             return
 
         email = bodyDict['email']
 
         if email == "ok@te.st":
-            self.sendJSONReply(201, LOGIN_OK_RESPONSE)
+            self.send_JSON_reply(201, LOGIN_OK_RESPONSE)
 
         elif email == "2fa@te.st":
             if 'otp' not in bodyDict:
-                self.sendJSONReply(401, TWOFACTOR_REQUIRED_RESPONSE)
+                self.send_JSON_reply(401, TWOFACTOR_REQUIRED_RESPONSE)
             else:
                 if len(bodyDict['otp']) != 6:
-                    self.sendJSONReply(403, TWOFACTOR_ERR_RESPONSE)
+                    self.send_JSON_reply(403, TWOFACTOR_ERR_RESPONSE)
                 else:
-                    self.sendJSONReply(201, LOGIN_OK_RESPONSE)
+                    self.send_JSON_reply(201, LOGIN_OK_RESPONSE)
 
         else:
-            self.sendJSONReply(401, LOGIN_ERR_RESPONSE)
+            self.send_JSON_reply(401, LOGIN_ERR_RESPONSE)
 
-    def handleRegister(self, bodyDict):
+    def handle_register(self, bodyDict):
         if 'email' not in bodyDict \
                 or 'password' not in bodyDict or 'token_name' not in bodyDict:
-            self.sendJSONReply(400, INVALID_DATA_RESPONSE)
+            self.send_JSON_reply(400, INVALID_DATA_RESPONSE)
             return
 
-        self.sendJSONReply(201, REGISTER_CREATED_RESPONSE)
+        self.send_JSON_reply(201, REGISTER_CREATED_RESPONSE)
 
 
 if __name__ == '__main__':
     print "Mock server running at ", 8880
-    runMockServer(8880)
+    run_mock_server(8880)
