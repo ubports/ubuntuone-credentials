@@ -5,8 +5,15 @@ if [[ -z `which autopilot` ]]; then
   exit
 fi
 
+if [ "x$2" == "xlocal" ]; then
+  echo "Using server at localhost:8880"
+  export SSO_AUTH_BASE_URL=http://localhost:8880
+  export SSO_UONE_BASE_URL=http://localhost:8880
+fi
+
 SCRIPTPATH=`dirname $0`
 pushd ${SCRIPTPATH}
 export QML2_IMPORT_PATH=/usr/lib/i386-linux-gnu/ubuntu-system-settings/private:$1/../../qml-credentials-service
+export U1_DEBUG=1
 autopilot run UbuntuOneCredentialsProviderAutopilotTests
 popd
