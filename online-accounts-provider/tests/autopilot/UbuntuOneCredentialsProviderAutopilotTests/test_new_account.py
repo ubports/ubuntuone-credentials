@@ -18,17 +18,11 @@ from autopilot.matchers import Eventually
 from testtools.matchers import Equals
 from ubuntuuitoolkit import emulators as toolkit_emulators
 
-import UbuntuOneCredentialsProviderAutopilotTests
-from UbuntuOneCredentialsProviderAutopilotTests import emulators
+from UbuntuOneCredentialsProviderAutopilotTests import (emulators,
+                                                        TestCaseWithQMLWrapper)
 
 
-_VALID_NEW_USER = dict(
-    email='valid@example.com', name='Name', password='password',
-    password_confirmation='password', agree_to_terms=True)
-
-
-class NewUbuntuOneOnlineAccountTestCase(
-        UbuntuOneCredentialsProviderAutopilotTests.TestCaseWithQMLWrapper):
+class NewUbuntuOneOnlineAccountTestCase(TestCaseWithQMLWrapper):
 
     test_qml_wrapper_file_name = 'TestWrapperNew.qml'
 
@@ -74,44 +68,52 @@ class NewUbuntuOneOnlineAccountTestCase(
             Eventually(Equals(False)))
 
 
-class LogInUbuntuOneOnlineAccountErrorsTestCase(
-        UbuntuOneCredentialsProviderAutopilotTests.TestCaseWithQMLWrapper):
-
-    scenarios = [
-        ('no input', dict(email='', password='')),
-        ('invalid email', dict(email='invalid', password='password'))
-    ]
+class SimpleLogInTestCase(TestCaseWithQMLWrapper):
 
     test_qml_wrapper_file_name = 'TestWrapperNew.qml'
 
-    def test_log_in_error(self):
-        new_account = self.main_view.select_single(emulators.NewAccount)
-        new_account.log_in(self.email, self.password)
-
-        self.assertThat(
-            new_account.is_error_label_visible(),
-            Eventually(Equals(True)))
-
-
-class NewUbuntuOneOnlineAccountErrorsTestCase(
-        UbuntuOneCredentialsProviderAutopilotTests.TestCaseWithQMLWrapper):
-
     scenarios = [
-        ('no name', dict(_VALID_NEW_USER, name='')),
-        ('no password', dict(_VALID_NEW_USER, password='')),
-        ('password mismatch', dict(
-            _VALID_NEW_USER, password_confirmation='different password')),
-        ('short password', dict(
-            _VALID_NEW_USER, password='short', password_confirmation='short'))
-    ]
+        ('success',
+         dict(email='ok@te.st', password='password', success=True)),
+        ('failure',
+         dict(email='not-ok@te.st', password='password', success=False))]
+
+    def test_simple_login(self):
+        """Test that success pops the NewAccount main page, and
+        failure shows the error label.
+        """
+        new_account = self.main_view.select_single(emulators.NewAccount)
+        new_account.log_in(email=self.email, password=self.password)
+        dummyPage = self.main_view.select_single(objectName="dummyPage")
+        self.assertThat(dummyPage.visible, Eventually(Equals(self.success)))
+        self.assertThat(new_account.is_error_label_visible(),
+                        Eventually(Equals(not self.success)))
+
+
+class TwoFactorLogInTestCase(TestCaseWithQMLWrapper):
 
     test_qml_wrapper_file_name = 'TestWrapperNew.qml'
 
-    def test_new_user_error(self):
-        new_account = self.main_view.select_single(emulators.NewAccount)
-        new_account.register_new_account(
-            self.email, self.name, self.password, self.password_confirmation,
-            self.agree_to_terms)
+    scenarios = [
+        ('success',
+         dict(email='2fa@te.st', password='password',
+              twoFactorCode='123456', success=True)),
+        ('failure',
+         dict(email='2fa@te.st', password='password',
+              twoFactorCode='bad', success=False))
+        ]
 
-        self.assertThat(
-            new_account.is_error_label_visible(), Eventually(Equals(True)))
+    def test_twofactor_login(self):
+        "Test that success pops the NewAccount main page."
+        new_account = self.main_view.select_single(emulators.NewAccount)
+        new_account.log_in(email=self.email, password=self.password)
+
+        self.assertThat(new_account.is_two_factor_field_ready(),
+                        Eventually(Equals(True)))
+
+        new_account.enter_twofactor_code(self.twoFactorCode)
+
+        dummyPage = self.main_view.select_single(objectName="dummyPage")
+        self.assertThat(dummyPage.visible, Eventually(Equals(self.success)))
+        self.assertThat(new_account.is_error_label_visible(),
+                        Eventually(Equals(not self.success)))
