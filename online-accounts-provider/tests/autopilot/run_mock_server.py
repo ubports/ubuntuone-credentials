@@ -18,17 +18,14 @@
 
 import BaseHTTPServer
 import json
+import signal
+import sys
+
 from urlparse import urlparse, parse_qs
 
 SSO_API_PATH = '/api/v2'
 UONE_API_PATH = '/oauth/sso-finished-so-get-tokens/'
 
-
-def run_mock_server(port):
-    server_address = ('', port)
-    httpd = BaseHTTPServer.HTTPServer(server_address,
-                                      MockSSOAndUOneRequestHandler)
-    httpd.serve_forever()
 
 LOGIN_OK_RESPONSE = """
 {
@@ -190,5 +187,21 @@ class MockSSOAndUOneRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
 
 if __name__ == '__main__':
-    print "Mock server running at ", 8880
-    run_mock_server(8880)
+
+    server_address = ('', 8080)
+    httpd = BaseHTTPServer.HTTPServer(server_address,
+                                      MockSSOAndUOneRequestHandler)
+
+    def stop_immediately(signum, frame):
+        print "Got signal ", signum, ", stopping server."
+        httpd.socket.close()
+
+    signal.signal(signal.SIGINT, stop_immediately)
+    signal.signal(signal.SIGHUP, stop_immediately)
+
+    print "Mock server running at ", 8080
+
+    try:
+        httpd.serve_forever()
+    except:
+        pass
