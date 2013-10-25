@@ -103,14 +103,11 @@ class MockSSOAndUOneRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         """
         parsedPath = urlparse(self.path)
         queryDict = parse_qs(parsedPath.query)
-        print "IN GET:"
-        print " path: ", self.path
-        print " headers: ", self.headers
 
         if parsedPath.path.startswith('/oauth/sso-finished-so-get-tokens/'):
             for k in ['platform', 'platform_version', 'platform_arch']:
                 if k not in queryDict:
-                    print "****** MISSING ", k, " IN ", queryDict , "bailing"
+                    print "****** MISSING ", k, " IN ", queryDict, "bailing"
                     self.send_error(401)
                     return
             self.send_response(200)
@@ -127,10 +124,6 @@ class MockSSOAndUOneRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         if postdata == '':
             print "NOTE: empty postdata, just dropping the request"
             return
-        print "IN POST:"
-        print " path:", self.path
-        print " headers:", self.headers
-        print " postdata: '%s'" % postdata
 
         try:
             bodyDict = json.loads(postdata)
