@@ -15,7 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 from autopilot.matchers import Eventually
-from testtools.matchers import Equals
+from testtools.matchers import Equals, Not
 from ubuntuuitoolkit import emulators as toolkit_emulators
 
 from UbuntuOneCredentialsProviderAutopilotTests import (emulators,
@@ -105,11 +105,33 @@ class TwoFactorLogInTestCase(TestCaseWithQMLWrapper):
 
     def test_twofactor_login(self):
         "Test that success pops the NewAccount main page."
+
+        # Layout change workaround: Here we have to save the initial
+        # globalRect of the twoFactorTextField because we know it will
+        # move, but not necessarily before we are notified that the
+        # visible flag is set - so we need to be able to wait for it
+        # to move so that the call to enter_twofactor_code() below
+        # clicks on the right text field. If we don't do this,
+        # depending on the timing of those update signals,
+        # enter_twofactor_code() may end up writing the code into the
+        # password field, which is always at the location that the
+        # hidden two-factor field starts out at.
+        tfn = 'twoFactorTextField'
+        two_factor_field = self.main_view.select_single(emulators.TextField,
+                                                        objectName=tfn)
+        saved_rect = two_factor_field.globalRect
+
         new_account = self.main_view.select_single(emulators.NewAccount)
         new_account.log_in(email=self.email, password=self.password)
 
-        self.assertThat(new_account.is_two_factor_field_ready(),
-                        Eventually(Equals(True)))
+        # Here we wait for both visible and focus, to ensure that the
+        # field is ready for input, then we also wait for the rect to
+        # change, so we know that autopilot will have the right
+        # coordinates to click on it.
+        self.assertThat(two_factor_field.visible, Eventually(Equals(True)))
+        self.assertThat(two_factor_field.focus, Eventually(Equals(True)))
+        self.assertThat(two_factor_field.globalRect,
+                        Eventually(Not(Equals(saved_rect))))
 
         new_account.enter_twofactor_code(self.twoFactorCode)
 

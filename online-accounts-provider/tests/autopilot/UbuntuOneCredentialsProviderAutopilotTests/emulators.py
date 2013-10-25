@@ -26,10 +26,6 @@ class NewAccount(toolkit_emulators.UbuntuUIToolkitEmulatorBase):
         error_label = self.select_single(objectName='errorLabel')
         return error_label.visible
 
-    def is_two_factor_field_ready(self):
-        two_factor_field = self.select_single(objectName='twoFactorTextField')
-        return two_factor_field.visible and two_factor_field.focus
-
     def log_in(self, email, password):
         self._fill_log_in(email, password)
         self._click_continue()
