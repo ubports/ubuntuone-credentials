@@ -15,20 +15,14 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 from autopilot.matchers import Eventually
-from testtools.matchers import Equals
+from testtools.matchers import Equals, Not
 from ubuntuuitoolkit import emulators as toolkit_emulators
 
-import UbuntuOneCredentialsProviderAutopilotTests
-from UbuntuOneCredentialsProviderAutopilotTests import emulators
+from UbuntuOneCredentialsProviderAutopilotTests import (emulators,
+                                                        TestCaseWithQMLWrapper)
 
 
-_VALID_NEW_USER = dict(
-    email='valid@example.com', name='Name', password='password',
-    password_confirmation='password', agree_to_terms=True)
-
-
-class NewUbuntuOneOnlineAccountTestCase(
-        UbuntuOneCredentialsProviderAutopilotTests.TestCaseWithQMLWrapper):
+class NewUbuntuOneOnlineAccountTestCase(TestCaseWithQMLWrapper):
 
     test_qml_wrapper_file_name = 'TestWrapperNew.qml'
 
@@ -74,44 +68,74 @@ class NewUbuntuOneOnlineAccountTestCase(
             Eventually(Equals(False)))
 
 
-class LogInUbuntuOneOnlineAccountErrorsTestCase(
-        UbuntuOneCredentialsProviderAutopilotTests.TestCaseWithQMLWrapper):
-
-    scenarios = [
-        ('no input', dict(email='', password='')),
-        ('invalid email', dict(email='invalid', password='password'))
-    ]
+class SimpleLogInTestCase(TestCaseWithQMLWrapper):
 
     test_qml_wrapper_file_name = 'TestWrapperNew.qml'
 
-    def test_log_in_error(self):
-        new_account = self.main_view.select_single(emulators.NewAccount)
-        new_account.log_in(self.email, self.password)
-
-        self.assertThat(
-            new_account.is_error_label_visible(),
-            Eventually(Equals(True)))
-
-
-class NewUbuntuOneOnlineAccountErrorsTestCase(
-        UbuntuOneCredentialsProviderAutopilotTests.TestCaseWithQMLWrapper):
-
     scenarios = [
-        ('no name', dict(_VALID_NEW_USER, name='')),
-        ('no password', dict(_VALID_NEW_USER, password='')),
-        ('password mismatch', dict(
-            _VALID_NEW_USER, password_confirmation='different password')),
-        ('short password', dict(
-            _VALID_NEW_USER, password='short', password_confirmation='short'))
-    ]
+        ('success',
+         dict(email='ok@te.st', password='password', success=True)),
+        ('failure',
+         dict(email='not-ok@te.st', password='password', success=False))]
+
+    def test_simple_login(self):
+        """Test that success pops the NewAccount main page, and
+        failure shows the error label.
+        """
+        new_account = self.main_view.select_single(emulators.NewAccount)
+        new_account.log_in(email=self.email, password=self.password)
+        dummyPage = self.main_view.select_single(objectName="dummyPage")
+        self.assertThat(dummyPage.visible, Eventually(Equals(self.success)))
+        self.assertThat(new_account.is_error_label_visible(),
+                        Eventually(Equals(not self.success)))
+
+
+class TwoFactorLogInTestCase(TestCaseWithQMLWrapper):
 
     test_qml_wrapper_file_name = 'TestWrapperNew.qml'
 
-    def test_new_user_error(self):
-        new_account = self.main_view.select_single(emulators.NewAccount)
-        new_account.register_new_account(
-            self.email, self.name, self.password, self.password_confirmation,
-            self.agree_to_terms)
+    scenarios = [
+        ('success',
+         dict(email='2fa@te.st', password='password',
+              twoFactorCode='123456', success=True)),
+        ('failure',
+         dict(email='2fa@te.st', password='password',
+              twoFactorCode='bad', success=False))
+        ]
 
-        self.assertThat(
-            new_account.is_error_label_visible(), Eventually(Equals(True)))
+    def test_twofactor_login(self):
+        "Test that success pops the NewAccount main page."
+
+        # Layout change workaround: Here we have to save the initial
+        # globalRect of the twoFactorTextField because we know it will
+        # move, but not necessarily before we are notified that the
+        # visible flag is set - so we need to be able to wait for it
+        # to move so that the call to enter_twofactor_code() below
+        # clicks on the right text field. If we don't do this,
+        # depending on the timing of those update signals,
+        # enter_twofactor_code() may end up writing the code into the
+        # password field, which is always at the location that the
+        # hidden two-factor field starts out at.
+        tfn = 'twoFactorTextField'
+        two_factor_field = self.main_view.select_single(emulators.TextField,
+                                                        objectName=tfn)
+        saved_rect = two_factor_field.globalRect
+
+        new_account = self.main_view.select_single(emulators.NewAccount)
+        new_account.log_in(email=self.email, password=self.password)
+
+        # Here we wait for both visible and focus, to ensure that the
+        # field is ready for input, then we also wait for the rect to
+        # change, so we know that autopilot will have the right
+        # coordinates to click on it.
+        self.assertThat(two_factor_field.visible, Eventually(Equals(True)))
+        self.assertThat(two_factor_field.focus, Eventually(Equals(True)))
+        self.assertThat(two_factor_field.globalRect,
+                        Eventually(Not(Equals(saved_rect))))
+
+        new_account.enter_twofactor_code(self.twoFactorCode)
+
+        dummyPage = self.main_view.select_single(objectName="dummyPage")
+        self.assertThat(dummyPage.visible, Eventually(Equals(self.success)))
+        self.assertThat(new_account.is_error_label_visible(),
+                        Eventually(Equals(not self.success)))

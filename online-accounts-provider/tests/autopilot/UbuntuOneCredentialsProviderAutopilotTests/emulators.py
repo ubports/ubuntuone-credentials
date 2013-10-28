@@ -30,6 +30,12 @@ class NewAccount(toolkit_emulators.UbuntuUIToolkitEmulatorBase):
         self._fill_log_in(email, password)
         self._click_continue()
 
+    def enter_twofactor_code(self, twoFactorCode):
+        two_factor_text_field = self.select_single(
+            TextField, objectName='twoFactorTextField')
+        two_factor_text_field.write(twoFactorCode)
+        self._click_continue()
+
     def _fill_log_in(self, email, password):
         self._enter_email(email)
         self._enter_login_password(password)
