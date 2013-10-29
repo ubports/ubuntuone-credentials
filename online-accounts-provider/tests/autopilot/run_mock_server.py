@@ -81,17 +81,19 @@ INVALID_DATA_RESPONSE = """
 
 REGISTER_CREATED_RESPONSE = """
 {
-    "href": "https://login.ubuntu.com/api/v2/accounts/openid123",
-    "openid": "https://login.ubuntu.com/+id/openid123",
-    "preferredemail": "newaccount@te.st",
-    "displayname": "New Test Mock Account",
-    "status": "NEW",
-    "verified": False,
+    "status": "Active",
+    "openid": "fFcTeSt",
+    "verified": false,
     "emails": [
         {
-            "href": "https://login.ubuntu.com/api/v2/emails/newaccount@te.st",
+            "href": "/api/v2/emails/new@te.st",
+            "verified": false
         }
-    ]
+    ],
+    "tokens": [],
+    "href": "/api/v2/accounts/fFcTeSt",
+    "displayname": "Test",
+    "email": "new@te.st"
 }
 """
 
@@ -155,7 +157,7 @@ class MockSSOAndUOneRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
         email = bodyDict['email']
 
-        if email == "ok@te.st":
+        if email in ["ok@te.st", "new@te.st"]:
             self.send_JSON_reply(201, LOGIN_OK_RESPONSE)
 
         elif email == "2fa@te.st":
@@ -172,7 +174,10 @@ class MockSSOAndUOneRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
     def handle_register(self, bodyDict):
         if 'email' not in bodyDict \
-                or 'password' not in bodyDict or 'token_name' not in bodyDict:
+                or 'password' not in bodyDict \
+                or 'displayname' not in bodyDict \
+                or bodyDict['email'] == 'bad-new@te.st':
+
             self.send_JSON_reply(400, INVALID_DATA_RESPONSE)
             return
 
