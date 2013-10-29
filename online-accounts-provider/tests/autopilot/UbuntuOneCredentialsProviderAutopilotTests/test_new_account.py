@@ -139,3 +139,34 @@ class TwoFactorLogInTestCase(TestCaseWithQMLWrapper):
         self.assertThat(dummyPage.visible, Eventually(Equals(self.success)))
         self.assertThat(new_account.is_error_label_visible(),
                         Eventually(Equals(not self.success)))
+
+
+VALID_NEW_ACCOUNT = dict(email='new@te.st', name='test name',
+                         password='password',
+                         password_confirmation='password',
+                         agree_to_terms=True,
+                         success=True)
+
+
+class RegisterNewU1AccountTestCase(TestCaseWithQMLWrapper):
+
+    test_qml_wrapper_file_name = 'TestWrapperNew.qml'
+
+    scenarios = [
+        ('success', VALID_NEW_ACCOUNT),
+        ('bad request', dict(VALID_NEW_ACCOUNT, email='bad-new@te.st',
+                             success=False))
+        ]
+
+    def test_register_new_account(self):
+        "Test that registering a new account pops the main page."
+
+        new_account = self.main_view.select_single(emulators.NewAccount)
+        new_account.register_new_account(self.email, self.name, self.password,
+                                         self.password_confirmation,
+                                         self.agree_to_terms)
+
+        dummyPage = self.main_view.select_single(objectName="dummyPage")
+        self.assertThat(dummyPage.visible, Eventually(Equals(self.success)))
+        self.assertThat(new_account.is_error_label_visible(),
+                        Eventually(Equals(not self.success)))
