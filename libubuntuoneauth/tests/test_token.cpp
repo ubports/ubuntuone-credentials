@@ -56,7 +56,7 @@ void TestToken::testToQuery()
 {
     Token *token = new Token("token", "t_secret", "consumer", "c_secret");
     QString query = token->toQuery();
-    QString expected("consumer_key=consumer&consumer_secret=c_secret&name=Ubuntu+One+%40+" + this->test_hostname + "&token=token&token_secret=t_secret");
+    QString expected("consumer_key=consumer&consumer_secret=c_secret&name=Ubuntu+One+%40+" + test_hostname + "&token=token&token_secret=t_secret");
     QCOMPARE(query, expected);
     delete token;
 }
@@ -70,6 +70,6 @@ void TestToken::testFromQuery()
 
 void TestToken::testTokenName()
 {
-    QString expected = QStringLiteral(TOKEN_ID) + " @ " + this->test_hostname;
+    QString expected = QStringLiteral(TOKEN_ID) + " @ " + test_hostname;
     QCOMPARE(Token::buildTokenName(), expected);
 }

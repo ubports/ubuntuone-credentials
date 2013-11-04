@@ -28,33 +28,33 @@ IdentityProvider::IdentityProvider(QObject *parent) :
     QObject(parent)
 {
     /* TODO: either shared pointer or delete this */
-    this->network = new Network(this);
+    network = new Network(this);
 
-    QObject::connect(this->network,
+    QObject::connect(network,
                      SIGNAL(OAuthTokenGranted(const OAuthTokenResponse&)),
                      this, SLOT(OnOAuthTokenGranted(const OAuthTokenResponse&)));
-    QObject::connect(this->network,
+    QObject::connect(network,
                      SIGNAL(PasswordTokenGranted(const PasswordTokenResponse&)),
                      this, SLOT(OnPasswordTokenGranted(const PasswordTokenResponse&)));
-    QObject::connect(this->network, SIGNAL(AccountGranted(const AccountResponse&)),
+    QObject::connect(network, SIGNAL(AccountGranted(const AccountResponse&)),
                      this, SLOT(OnAccountGranted(const AccountResponse&)));
-    QObject::connect(this->network, SIGNAL(ErrorOccurred(const ErrorResponse&)),
+    QObject::connect(network, SIGNAL(ErrorOccurred(const ErrorResponse&)),
                      this, SLOT(OnErrorOccurred(const ErrorResponse&)));
     }
 
 void IdentityProvider::GetOAuthToken(const OAuthTokenRequest& token)
 {
-    this->network->Post(token);
+    network->Post(token);
 }
 
 void IdentityProvider::GetPasswordToken(const PasswordTokenRequest& token)
 {
-    this->network->Post(token);
+    network->Post(token);
 }
 
 void IdentityProvider::CreateAccount(const AccountRequest& account)
 {
-    this->network->Post(account);
+    network->Post(account);
 }
 
 /* Token API slots */

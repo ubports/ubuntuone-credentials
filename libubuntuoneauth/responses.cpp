@@ -27,8 +27,8 @@ ErrorResponse::ErrorResponse()
     : _httpStatus(-1), _httpReason(""), _message(""),
       _imageUrl(""), _captchaId(""), _captchaMessage(""), _email("")
 {
-    this->initializeMap();
-    this->_code = -1;
+    initializeMap();
+    _code = -1;
 }
 
 ErrorResponse::ErrorResponse(const int& httpStatus, const QString& httpReason,
@@ -37,32 +37,32 @@ ErrorResponse::ErrorResponse(const int& httpStatus, const QString& httpReason,
       _message(message), _imageUrl(""),
       _captchaId(""), _captchaMessage(""), _email("")
 {
-    this->initializeMap();
+    initializeMap();
     this->code(code);
 }
 
 void ErrorResponse::initializeMap()
 {
-    this->_mapErrorEnum[LOGIN_FAILED] = CODE_LOGIN_FAILED;
-    this->_mapErrorEnum[CAPTCHA_REQUIRED] = CODE_CAPTCHA_REQUIRED;
-    this->_mapErrorEnum[INVALID_CREDENTIALS] = CODE_INVALID_CREDENTIALS;
-    this->_mapErrorEnum[TWOFACTOR_REQUIRED] = CODE_TWOFACTOR_REQUIRED;
-    this->_mapErrorEnum[ACCOUNT_SUSPENDED] = CODE_ACCOUNT_SUSPENDED;
-    this->_mapErrorEnum[ACCOUNT_DEACTIVATED] = CODE_ACCOUNT_DEACTIVATED;
-    this->_mapErrorEnum[EMAIL_INVALIDATED] = CODE_EMAIL_INVALIDATED;
-    this->_mapErrorEnum[CAN_NOT_RESET_PASSWORD] = CODE_CAN_NOT_RESET_PASSWORD;
-    this->_mapErrorEnum[ALREADY_REGISTERED] = CODE_ALREADY_REGISTERED;
+    _mapErrorEnum[LOGIN_FAILED] = CODE_LOGIN_FAILED;
+    _mapErrorEnum[CAPTCHA_REQUIRED] = CODE_CAPTCHA_REQUIRED;
+    _mapErrorEnum[INVALID_CREDENTIALS] = CODE_INVALID_CREDENTIALS;
+    _mapErrorEnum[TWOFACTOR_REQUIRED] = CODE_TWOFACTOR_REQUIRED;
+    _mapErrorEnum[ACCOUNT_SUSPENDED] = CODE_ACCOUNT_SUSPENDED;
+    _mapErrorEnum[ACCOUNT_DEACTIVATED] = CODE_ACCOUNT_DEACTIVATED;
+    _mapErrorEnum[EMAIL_INVALIDATED] = CODE_EMAIL_INVALIDATED;
+    _mapErrorEnum[CAN_NOT_RESET_PASSWORD] = CODE_CAN_NOT_RESET_PASSWORD;
+    _mapErrorEnum[ALREADY_REGISTERED] = CODE_ALREADY_REGISTERED;
 }
 
 void ErrorResponse::code(QString val)
 {
     std::string code = val.toStdString();
     std::map<std::string, int>::iterator it;
-    it = this->_mapErrorEnum.find(code);
-    if(it != this->_mapErrorEnum.end()){
-        this->_code = this->_mapErrorEnum[code];
+    it = _mapErrorEnum.find(code);
+    if(it != _mapErrorEnum.end()){
+        _code = _mapErrorEnum[code];
     }else{
-       this->_code = -1;
+       _code = -1;
     }
 }
 

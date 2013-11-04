@@ -51,11 +51,11 @@ OAuthTokenRequest::OAuthTokenRequest(QString base_url,
 QByteArray OAuthTokenRequest::serialize() const
 {
     QJsonObject serializer;
-    serializer.insert("email", this->email());
-    serializer.insert("password", this->password());
-    serializer.insert("token_name", this->name());
-    if (!this->otp().isEmpty())
-        serializer.insert("otp", this->otp());
+    serializer.insert("email", email());
+    serializer.insert("password", password());
+    serializer.insert("token_name", name());
+    if (!otp().isEmpty())
+        serializer.insert("otp", otp());
 
     QJsonDocument doc(serializer);
 
@@ -103,12 +103,12 @@ AccountRequest::AccountRequest(QString base_url,
 QByteArray AccountRequest::serialize() const
 {
     QJsonObject data;
-    data.insert("email", this->email());
-    data.insert("password", this->password());
-    data.insert("displayname", this->name());
-    data.insert("captcha_id", this->captchaId());
-    data.insert("captcha_solution", this->captchaSolution());
-    data.insert("create_captcha", this->createCaptcha());
+    data.insert("email", email());
+    data.insert("password", password());
+    data.insert("displayname", name());
+    data.insert("captcha_id", captchaId());
+    data.insert("captcha_solution", captchaSolution());
+    data.insert("create_captcha", createCaptcha());
 
     QJsonDocument doc(data);
     return doc.toJson();
@@ -132,7 +132,7 @@ PasswordTokenRequest::PasswordTokenRequest(QString base_url, QString email)
 QByteArray PasswordTokenRequest::serialize() const
 {
     QJsonObject data;
-    data.insert("email", this->email());
+    data.insert("email", email());
 
     QJsonDocument doc(data);
     return doc.toJson();
