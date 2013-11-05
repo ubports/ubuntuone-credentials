@@ -36,27 +36,27 @@ RegisterForm::RegisterForm(QWidget *parent) :
     ui(new Ui::RegisterForm)
 {
     ui->setupUi(this);
-    this->_sessionActive = false;
-    this->ui->lblNameError->setVisible(false);
-    this->ui->lblPasswordError->setVisible(false);
-    this->ui->lblConfirmError->setVisible(false);
-    this->ui->btnCheckout->setDefault(true);
+    _sessionActive = false;
+    ui->lblNameError->setVisible(false);
+    ui->lblPasswordError->setVisible(false);
+    ui->lblConfirmError->setVisible(false);
+    ui->btnCheckout->setDefault(true);
 
-    QObject::connect(this->ui->lineEmail, SIGNAL(textChanged(QString)),
+    QObject::connect(ui->lineEmail, SIGNAL(textChanged(QString)),
                      this, SLOT(validateForm()));
-    QObject::connect(this->ui->lineName, SIGNAL(textChanged(QString)),
+    QObject::connect(ui->lineName, SIGNAL(textChanged(QString)),
                      this, SLOT(validateForm()));
-    QObject::connect(this->ui->linePassword, SIGNAL(textChanged(QString)),
+    QObject::connect(ui->linePassword, SIGNAL(textChanged(QString)),
                      this, SLOT(validateForm()));
-    QObject::connect(this->ui->lineConfirm, SIGNAL(textChanged(QString)),
+    QObject::connect(ui->lineConfirm, SIGNAL(textChanged(QString)),
                      this, SLOT(validateForm()));
-    QObject::connect(this->ui->checkBox, SIGNAL(clicked()),
+    QObject::connect(ui->checkBox, SIGNAL(clicked()),
                      this, SLOT(validateForm()));
-    QObject::connect(this->ui->lineName, SIGNAL(editingFinished()),
+    QObject::connect(ui->lineName, SIGNAL(editingFinished()),
                      this, SLOT(showNameWarning()));
-    QObject::connect(this->ui->linePassword, SIGNAL(editingFinished()),
+    QObject::connect(ui->linePassword, SIGNAL(editingFinished()),
                      this, SLOT(showPasswordWarning()));
-    QObject::connect(this->ui->lineConfirm, SIGNAL(editingFinished()),
+    QObject::connect(ui->lineConfirm, SIGNAL(editingFinished()),
                      this, SLOT(showConfirmWarning()));
 }
 
@@ -69,113 +69,113 @@ void RegisterForm::showErrorTips(const ErrorResponse& error)
 {
     if(error.code() == ErrorCodes::CODE_ALREADY_REGISTERED ||
             error.code() == ErrorCodes::CODE_EMAIL_INVALIDATED){
-        this->ui->lineEmail->setProperty("error", true);
+        ui->lineEmail->setProperty("error", true);
     }else if(error.code() == ErrorCodes::CODE_INVALID_CREDENTIALS){
-        this->ui->lineEmail->setProperty("error", true);
-        this->ui->linePassword->setProperty("error", true);
+        ui->lineEmail->setProperty("error", true);
+        ui->linePassword->setProperty("error", true);
     }
 
-    this->style()->unpolish(this);
-    this->style()->polish(this);
+    style()->unpolish(this);
+    style()->polish(this);
 }
 
 void RegisterForm::setEmail(QString email)
 {
-    this->ui->lineEmail->setText(email);
+    ui->lineEmail->setText(email);
 }
 
 void RegisterForm::setPassword(QString password)
 {
-    this->ui->linePassword->setText(password);
+    ui->linePassword->setText(password);
 }
 
 void RegisterForm::on_btnBack_clicked()
 {
-    emit this->goBack();
+    emit goBack();
 }
 
 void RegisterForm::validateForm()
 {
-    bool value = (this->checkEmail() && this->checkName() &&
-                  this->checkPassword() && this->checkConfirmPassword() &&
-                  this->ui->checkBox->isChecked() && this->_sessionActive);
-    this->ui->btnCheckout->setEnabled(value);
+    bool value = (checkEmail() && checkName() &&
+                  checkPassword() && checkConfirmPassword() &&
+                  ui->checkBox->isChecked() && _sessionActive);
+    ui->btnCheckout->setEnabled(value);
 }
 
 bool RegisterForm::checkEmail()
 {
     QRegExp mailRE(".+@.+");
-    bool value = mailRE.exactMatch(this->ui->lineEmail->text());
-    this->ui->lineEmail->setProperty("error", !value);
-    this->style()->unpolish(this->ui->lineEmail);
-    this->style()->polish(this->ui->lineEmail);
+    bool value = mailRE.exactMatch(ui->lineEmail->text());
+    ui->lineEmail->setProperty("error", !value);
+    style()->unpolish(ui->lineEmail);
+    style()->polish(ui->lineEmail);
     return value;
 }
 
 bool RegisterForm::checkPassword()
 {
-    bool value = this->ui->linePassword->text().length() > 7;
-    this->ui->linePassword->setProperty("error", !value);
-    this->style()->unpolish(this->ui->linePassword);
-    this->style()->polish(this->ui->linePassword);
+    bool value = ui->linePassword->text().length() > 7;
+    ui->linePassword->setProperty("error", !value);
+    style()->unpolish(ui->linePassword);
+    style()->polish(ui->linePassword);
 
     return value;
 }
 
 bool RegisterForm::checkName()
 {
-    return !this->ui->lineName->text().isEmpty();
+    return !ui->lineName->text().isEmpty();
 }
 
 bool RegisterForm::checkConfirmPassword()
 {
-    return this->ui->linePassword->text() == this->ui->lineConfirm->text();
+    return ui->linePassword->text() == ui->lineConfirm->text();
 }
 
 void RegisterForm::on_btnCheckout_clicked()
 {
-    QString name = this->ui->lineName->text();
-    QString email = this->ui->lineEmail->text();
-    QString password = this->ui->linePassword->text();
-    emit this->registerCheckout(email, password, name);
+    QString name = ui->lineName->text();
+    QString email = ui->lineEmail->text();
+    QString password = ui->linePassword->text();
+    emit registerCheckout(email, password, name);
 }
 
 void RegisterForm::setSessionState(bool value)
 {
-    this->_sessionActive = value;
+    _sessionActive = value;
 }
 
 void RegisterForm::on_lineEmail_returnPressed()
 {
-    this->ui->lineName->setFocus();
+    ui->lineName->setFocus();
 }
 
 void RegisterForm::on_lineName_returnPressed()
 {
-    this->ui->linePassword->setFocus();
+    ui->linePassword->setFocus();
 }
 
 void RegisterForm::on_linePassword_returnPressed()
 {
-    this->ui->lineConfirm->setFocus();
+    ui->lineConfirm->setFocus();
 }
 
 void RegisterForm::on_lineConfirm_returnPressed()
 {
-    this->ui->btnCheckout->click();
+    ui->btnCheckout->click();
 }
 
 void RegisterForm::showNameWarning()
 {
-    this->ui->lblNameError->setVisible(!this->checkName());
+    ui->lblNameError->setVisible(!checkName());
 }
 
 void RegisterForm::showPasswordWarning()
 {
-    this->ui->lblPasswordError->setVisible(!this->checkPassword());
+    ui->lblPasswordError->setVisible(!checkPassword());
 }
 
 void RegisterForm::showConfirmWarning()
 {
-    this->ui->lblConfirmError->setVisible(!this->checkConfirmPassword());
+    ui->lblConfirmError->setVisible(!checkConfirmPassword());
 }

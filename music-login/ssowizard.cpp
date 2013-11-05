@@ -43,9 +43,9 @@ SSOWizard::SSOWizard(QWidget *parent) :
     ui(new Ui::SSOWizard)
 {
     ui->setupUi(this);
-    this->_overlay = new LoadingOverlay(this);
-    this->_overlay->hide();
-    this->ui->lblError->setEnabled(false);
+    _overlay = new LoadingOverlay(this);
+    _overlay->hide();
+    ui->lblError->setEnabled(false);
 
     QStringList cmdline_args = QCoreApplication::arguments();
 
@@ -57,60 +57,60 @@ SSOWizard::SSOWizard(QWidget *parent) :
     foreach(item, cmdline_args){
         if(item.startsWith("--album=")){
             item.remove(0, 8);
-            album = this->cleanArgument(item);
+            album = cleanArgument(item);
         }else if(item.startsWith("--artist=")){
             item.remove(0, 9);
-            artist = this->cleanArgument(item);
+            artist = cleanArgument(item);
         }else if(item.startsWith("--price=")){
             item.remove(0, 8);
-            price = this->cleanArgument(item);
+            price = cleanArgument(item);
         }else if(item.startsWith("--picture=")){
             item.remove(0, 10);
-            picture = this->cleanArgument(item);
+            picture = cleanArgument(item);
         }else if(item.startsWith("--url=")){
             item.remove(0, 6);
-            this->purchaseUrl = this->cleanArgument(item);
+            purchaseUrl = cleanArgument(item);
         }
     }
 
-    this->setHeader(artist, album, price);
-    this->ui->pageLogin->setSessionState(true);
-    this->ui->pageRegister->setSessionState(true);
+    setHeader(artist, album, price);
+    ui->pageLogin->setSessionState(true);
+    ui->pageRegister->setSessionState(true);
 
     // Connect signals
-    QObject::connect(&(this->downloader), SIGNAL(fileDownloaded(QString&)),
+    QObject::connect(&downloader, SIGNAL(fileDownloaded(QString&)),
                      this, SLOT(imageDownloaded(QString&)));
 
-    QObject::connect(&(this->_service), SIGNAL(credentialsStored()),
+    QObject::connect(&_service, SIGNAL(credentialsStored()),
                      this, SLOT(accountAuthenticated()));
-    QObject::connect(&(this->_service), SIGNAL(credentialsFound(const Token&)),
+    QObject::connect(&_service, SIGNAL(credentialsFound(const Token&)),
                      this, SLOT(openUrlAndFinish(Token)));
 
-    QObject::connect(&(this->_service), SIGNAL(twoFactorAuthRequired()),
+    QObject::connect(&_service, SIGNAL(twoFactorAuthRequired()),
                      this, SLOT(handleTwoFactorAuthRequired()));
 
-    QObject::connect(&(this->_service), SIGNAL(requestFailed(const ErrorResponse&)),
+    QObject::connect(&_service, SIGNAL(requestFailed(const ErrorResponse&)),
                      this, SLOT(serviceFailed(const ErrorResponse&)));
-    QObject::connect(this->ui->pageLogin, SIGNAL(newCustomerSelected(QString,QString)),
+    QObject::connect(ui->pageLogin, SIGNAL(newCustomerSelected(QString,QString)),
                      this, SLOT(showRegisterPage(QString,QString)));
-    QObject::connect(this->ui->pageLogin, SIGNAL(loginCheckout(QString,QString)),
+    QObject::connect(ui->pageLogin, SIGNAL(loginCheckout(QString,QString)),
                      this, SLOT(loginAndBuy(QString,QString)));
-    QObject::connect(this->ui->pageRegister, SIGNAL(goBack()),
+    QObject::connect(ui->pageRegister, SIGNAL(goBack()),
                      this, SLOT(showPageLogin()));
-    QObject::connect(this->ui->pageRegister, SIGNAL(registerCheckout(QString,QString,QString)),
+    QObject::connect(ui->pageRegister, SIGNAL(registerCheckout(QString,QString,QString)),
                      this, SLOT(registerAndBuy(QString, QString, QString)));
 
-    this->downloader.startDownload(picture);
+    downloader.startDownload(picture);
 
     // Set the error messages depending the code.
-    this->_codeMessages[ErrorCodes::CODE_CAPTCHA_REQUIRED] = "A captcha challenge is required to complete the request.";
-    this->_codeMessages[ErrorCodes::CODE_INVALID_CREDENTIALS] = "That's not your password. Please try again.";
-    this->_codeMessages[ErrorCodes::CODE_TWOFACTOR_REQUIRED] = "2-factor authentication required.";
-    this->_codeMessages[ErrorCodes::CODE_ACCOUNT_SUSPENDED] = "Your account has been suspended. Please contact login support to re-enable it.";
-    this->_codeMessages[ErrorCodes::CODE_ACCOUNT_DEACTIVATED] = "Your account has been deactivated. To reactivate it, please reset your password.";
-    this->_codeMessages[ErrorCodes::CODE_EMAIL_INVALIDATED] = "This email address has been invalidated. Please contact login support.";
-    this->_codeMessages[ErrorCodes::CODE_CAN_NOT_RESET_PASSWORD] = "Can not reset password. Please contact login support.";
-    this->_codeMessages[ErrorCodes::CODE_ALREADY_REGISTERED] = "The email address is already registered.";
+    _codeMessages[ErrorCodes::CODE_CAPTCHA_REQUIRED] = "A captcha challenge is required to complete the request.";
+    _codeMessages[ErrorCodes::CODE_INVALID_CREDENTIALS] = "That's not your password. Please try again.";
+    _codeMessages[ErrorCodes::CODE_TWOFACTOR_REQUIRED] = "2-factor authentication required.";
+    _codeMessages[ErrorCodes::CODE_ACCOUNT_SUSPENDED] = "Your account has been suspended. Please contact login support to re-enable it.";
+    _codeMessages[ErrorCodes::CODE_ACCOUNT_DEACTIVATED] = "Your account has been deactivated. To reactivate it, please reset your password.";
+    _codeMessages[ErrorCodes::CODE_EMAIL_INVALIDATED] = "This email address has been invalidated. Please contact login support.";
+    _codeMessages[ErrorCodes::CODE_CAN_NOT_RESET_PASSWORD] = "Can not reset password. Please contact login support.";
+    _codeMessages[ErrorCodes::CODE_ALREADY_REGISTERED] = "The email address is already registered.";
 }
 
 QString SSOWizard::cleanArgument(QString& arg)
@@ -132,90 +132,90 @@ SSOWizard::~SSOWizard()
 
 void SSOWizard::showRegisterPage(QString email, QString password)
 {
-    this->ui->pageRegister->setEmail(email);
-    this->ui->pageRegister->setPassword(password);
+    ui->pageRegister->setEmail(email);
+    ui->pageRegister->setPassword(password);
 
-    this->ui->stackedWidget->setCurrentIndex(1);
+    ui->stackedWidget->setCurrentIndex(1);
 }
 
 void SSOWizard::loginAndBuy(QString email, QString password)
 {
-    this->hideError();
-    this->_overlay->show();
-    this->_service.login(email, password);
+    hideError();
+    _overlay->show();
+    _service.login(email, password);
 }
 
 void SSOWizard::accountAuthenticated()
 {
-    this->_service.getCredentials();
+    _service.getCredentials();
 }
 
 void SSOWizard::openUrlAndFinish(Token token)
 {
-    if (this->purchaseUrl.startsWith("http")) {
+    if (purchaseUrl.startsWith("http")) {
         static const QString apiUrl = QStringLiteral("https://one.ubuntu.com/api/1.0/from_oauth/");
-        QString urlToSign = apiUrl + "?next=" + this->purchaseUrl;
+        QString urlToSign = apiUrl + "?next=" + purchaseUrl;
         QString params = token.signUrl(urlToSign, QStringLiteral("GET"), true);
-        QString realUrl = apiUrl + "?" + params + "&next=" + this->purchaseUrl;
+        QString realUrl = apiUrl + "?" + params + "&next=" + purchaseUrl;
         QDesktopServices::openUrl(realUrl);
     }
-    this->_overlay->hide();
-    emit this->aboutToClose();
+    _overlay->hide();
+    emit aboutToClose();
 }
 
 void SSOWizard::registerAndBuy(QString email, QString password, QString name)
 {
-    this->hideError();
-    this->_overlay->show();
-    this->_service.registerUser(email, password, name);
+    hideError();
+    _overlay->show();
+    _service.registerUser(email, password, name);
 }
 
 void SSOWizard::showPageLogin()
 {
-    this->ui->stackedWidget->setCurrentIndex(0);
+    ui->stackedWidget->setCurrentIndex(0);
 }
 
 void SSOWizard::handleTwoFactorAuthRequired()
 {
-    this->_overlay->hide();
-    this->showError(ErrorResponse(401, QString(), TWOFACTOR_REQUIRED, QString()));
+    _overlay->hide();
+    showError(ErrorResponse(401, QString(), TWOFACTOR_REQUIRED, QString()));
 }
 
 void SSOWizard::serviceFailed(const ErrorResponse& error)
 {
-    this->_overlay->hide();
-    this->showError(error);
+    _overlay->hide();
+    showError(error);
 }
 
 void SSOWizard::showError(const ErrorResponse& error)
 {
-    this->ui->lblError->setText(this->_codeMessages.value(error.code(), GENERAL_ERROR_MESSAGE));
-    this->ui->lblError->setEnabled(true);
+    ui->lblError->setText(_codeMessages.value(error.code(), GENERAL_ERROR_MESSAGE));
+    ui->lblError->setEnabled(true);
 
-    this->ui->pageLogin->showErrorTips(error);
-    this->ui->pageRegister->showErrorTips(error);
+    ui->pageLogin->showErrorTips(error);
+    ui->pageRegister->showErrorTips(error);
 }
 
 void SSOWizard::hideError()
 {
-    this->ui->lblError->setText("");
-    this->ui->lblError->setEnabled(false);
+    ui->lblError->setText("");
+    ui->lblError->setEnabled(false);
 }
 
 void SSOWizard::setHeader(QString artist, QString album, QString price)
 {
-    this->ui->header->setAlbum(album);
-    this->ui->header->setArtist(artist);
-    this->ui->header->setPrice(price);
+    ui->header->setAlbum(album);
+    ui->header->setArtist(artist);
+    ui->header->setPrice(price);
 }
 
 void SSOWizard::imageDownloaded(QString& path)
 {
-    this->ui->header->setPicture(path);
+    ui->header->setPicture(path);
 }
 
 void SSOWizard::resizeEvent(QResizeEvent * event)
 {
     QWidget::resizeEvent(event);
-    this->_overlay->resize(event->size());
+    _overlay->resize(event->size());
 }

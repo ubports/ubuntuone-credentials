@@ -47,22 +47,22 @@ Header::~Header()
 
 void Header::setAlbum(QString album)
 {
-    this->ui->lblAlbum->setText(album);
+    ui->lblAlbum->setText(album);
 }
 
 void Header::setArtist(QString artist)
 {
-    this->ui->lblArtist->setText(artist);
+    ui->lblArtist->setText(artist);
 }
 
 void Header::setPrice(QString price)
 {
-    this->ui->lblPrice->setText(price);
+    ui->lblPrice->setText(price);
 }
 
 void Header::setPicture(QString picture_path)
 {
     QPixmap pixmap(picture_path);
     pixmap = pixmap.scaledToWidth(75, Qt::SmoothTransformation);
-    this->ui->lblImage->setPixmap(pixmap);
+    ui->lblImage->setPixmap(pixmap);
 }

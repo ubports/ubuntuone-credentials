@@ -47,9 +47,9 @@ LoadingOverlay::LoadingOverlay(QWidget *parent) :
     ui(new Ui::LoadingOverlay)
 {
     ui->setupUi(this);
-    this->counter = 0;
-    this->timer = 0;
-    this->orientation = false;
+    counter = 0;
+    timer = 0;
+    orientation = false;
 }
 
 LoadingOverlay::~LoadingOverlay()
@@ -71,20 +71,20 @@ void LoadingOverlay::paintEvent(QPaintEvent * event)
 
 bool LoadingOverlay::eventFilter(QObject * watched, QEvent * event)
 {
-    if((this->ui != NULL) && (watched == this->ui->frm_box) && (event->type() == QEvent::Paint)){
+    if((ui != NULL) && (watched == ui->frm_box) && (event->type() == QEvent::Paint)){
         QPainter painter;
-        painter.begin(this->ui->frm_box);
+        painter.begin(ui->frm_box);
         painter.setRenderHint(QPainter::Antialiasing, true);
-        int posx = this->ui->frm_box->width() / 3;
+        int posx = ui->frm_box->width() / 3;
         int paddingx = posx / 5;
         int i;
         for(i = 0; i < 5; i++){
             QLinearGradient linearGradient(
                             posx + (paddingx * i),
-                            this->ui->frm_box->height() / 2 + 10,
+                            ui->frm_box->height() / 2 + 10,
                             posx + (paddingx * i) + 15,
-                            this->ui->frm_box->height() / 2 + 25);
-            if(this->counter != i){
+                            ui->frm_box->height() / 2 + 25);
+            if(counter != i){
                 linearGradient.setColorAt(0, QColor(205, 200, 198));
                 linearGradient.setColorAt(1, QColor(237, 237, 237));
             }else{
@@ -93,7 +93,7 @@ bool LoadingOverlay::eventFilter(QObject * watched, QEvent * event)
             }
             painter.setBrush(QBrush(linearGradient));
             painter.drawEllipse(posx + (paddingx * i),
-                                this->ui->frm_box->height() / 2 + 10, 15, 15);
+                                ui->frm_box->height() / 2 + 10, 15, 15);
         }
         painter.end();
     }
@@ -104,29 +104,29 @@ bool LoadingOverlay::eventFilter(QObject * watched, QEvent * event)
 void LoadingOverlay::showEvent(QShowEvent * event)
 {
     QFrame::showEvent(event);
-    this->ui->frm_box->installEventFilter(this);
-    QPalette palette(this->palette());
-    palette.setColor(QPalette::Background, Qt::transparent);
-    this->setPalette(palette);
+    ui->frm_box->installEventFilter(this);
+    QPalette transparent_palette(palette());
+    transparent_palette.setColor(QPalette::Background, Qt::transparent);
+    setPalette(transparent_palette);
 
-    if(this->timer == 0){
-        this->timer = this->startTimer(200);
+    if(timer == 0){
+        timer = startTimer(200);
     }
 }
 
 void LoadingOverlay::timerEvent(QTimerEvent *)
 {
-    if(this->counter == 0){
-        this->orientation = true;
-    }else if(this->counter == 4){
-        this->orientation = false;
+    if(counter == 0){
+        orientation = true;
+    }else if(counter == 4){
+        orientation = false;
     }
 
-    if(this->orientation){
-        this->counter++;
+    if(orientation){
+        counter++;
     }else{
-        this->counter--;
+        counter--;
     }
 
-    this->update();
+    update();
 }

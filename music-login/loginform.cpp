@@ -38,30 +38,30 @@ LoginForm::LoginForm(QWidget *parent) :
     ui(new Ui::LoginForm)
 {
     ui->setupUi(this);
-    this->_sessionActive = false;
-    this->ui->lblEmailError->setVisible(false);
-    this->ui->lblPasswordError->setVisible(false);
-    this->ui->btnProceed->setDefault(true);
+    _sessionActive = false;
+    ui->lblEmailError->setVisible(false);
+    ui->lblPasswordError->setVisible(false);
+    ui->btnProceed->setDefault(true);
 
     // Connect Signals
-    QObject::connect(this->ui->lineEmail, SIGNAL(textChanged(QString)), this, SLOT(validateForm()));
-    QObject::connect(this->ui->linePassword, SIGNAL(textChanged(QString)), this, SLOT(validateForm()));
-    QObject::connect(this->ui->lineEmail, SIGNAL(editingFinished()), this, SLOT(showEmailWarning()));
-    QObject::connect(this->ui->linePassword, SIGNAL(editingFinished()), this, SLOT(showPasswordWarning()));
+    QObject::connect(ui->lineEmail, SIGNAL(textChanged(QString)), this, SLOT(validateForm()));
+    QObject::connect(ui->linePassword, SIGNAL(textChanged(QString)), this, SLOT(validateForm()));
+    QObject::connect(ui->lineEmail, SIGNAL(editingFinished()), this, SLOT(showEmailWarning()));
+    QObject::connect(ui->linePassword, SIGNAL(editingFinished()), this, SLOT(showPasswordWarning()));
 }
 
 void LoginForm::showErrorTips(const ErrorResponse& error)
 {
     if(error.code() == ErrorCodes::CODE_ALREADY_REGISTERED ||
             error.code() == ErrorCodes::CODE_EMAIL_INVALIDATED){
-        this->ui->lineEmail->setProperty("error", true);
+        ui->lineEmail->setProperty("error", true);
     }else if(error.code() == ErrorCodes::CODE_INVALID_CREDENTIALS){
-        this->ui->lineEmail->setProperty("error", true);
-        this->ui->linePassword->setProperty("error", true);
+        ui->lineEmail->setProperty("error", true);
+        ui->linePassword->setProperty("error", true);
     }
 
-    this->style()->unpolish(this);
-    this->style()->polish(this);
+    style()->unpolish(this);
+    style()->polish(this);
 }
 
 LoginForm::~LoginForm()
@@ -71,80 +71,80 @@ LoginForm::~LoginForm()
 
 void LoginForm::validateForm()
 {
-    bool passwordCheck = this->ui->radioNewCustomer->isChecked() || this->checkPassword();
-    bool value = this->checkEmail() && passwordCheck && this->_sessionActive;
-    this->ui->btnProceed->setEnabled(value);
+    bool passwordCheck = ui->radioNewCustomer->isChecked() || checkPassword();
+    bool value = checkEmail() && passwordCheck && _sessionActive;
+    ui->btnProceed->setEnabled(value);
 }
 
 bool LoginForm::checkEmail()
 {
     QRegExp mailRE(".+@.+");
-    bool value = mailRE.exactMatch(this->ui->lineEmail->text());
-    this->ui->lineEmail->setProperty("error", !value);
-    this->style()->unpolish(this->ui->lineEmail);
-    this->style()->polish(this->ui->lineEmail);
+    bool value = mailRE.exactMatch(ui->lineEmail->text());
+    ui->lineEmail->setProperty("error", !value);
+    style()->unpolish(ui->lineEmail);
+    style()->polish(ui->lineEmail);
     return value;
 }
 
 bool LoginForm::checkPassword()
 {
     bool value = true;
-    if(this->ui->radioReturningCustomer->isChecked()){
-        value = this->ui->linePassword->text().length() > 7;
+    if(ui->radioReturningCustomer->isChecked()){
+        value = ui->linePassword->text().length() > 7;
     }
-    this->ui->linePassword->setProperty("error", !value);
-    this->style()->unpolish(this->ui->linePassword);
-    this->style()->polish(this->ui->linePassword);
+    ui->linePassword->setProperty("error", !value);
+    style()->unpolish(ui->linePassword);
+    style()->polish(ui->linePassword);
 
     return value;
 }
 
 void LoginForm::on_btnProceed_clicked()
 {
-    if(this->ui->radioNewCustomer->isChecked()){
-        emit this->newCustomerSelected(this->ui->lineEmail->text(), this->ui->linePassword->text());
+    if(ui->radioNewCustomer->isChecked()){
+        emit newCustomerSelected(ui->lineEmail->text(), ui->linePassword->text());
     }else{
-        emit this->loginCheckout(this->ui->lineEmail->text(), this->ui->linePassword->text());
+        emit loginCheckout(ui->lineEmail->text(), ui->linePassword->text());
     }
 }
 
 void LoginForm::setSessionState(bool value)
 {
-    this->_sessionActive = value;
+    _sessionActive = value;
 }
 
 void LoginForm::on_lineEmail_returnPressed()
 {
-    this->ui->linePassword->setFocus();
+    ui->linePassword->setFocus();
 }
 
 void LoginForm::on_linePassword_returnPressed()
 {
-    this->ui->btnProceed->click();
+    ui->btnProceed->click();
 }
 
 void LoginForm::on_radioNewCustomer_clicked()
 {
-    this->ui->btnProceed->setText(tr("Continue"));
-    this->validateForm();
-    this->checkPassword();
-    this->ui->lblPasswordError->setVisible(false);
+    ui->btnProceed->setText(tr("Continue"));
+    validateForm();
+    checkPassword();
+    ui->lblPasswordError->setVisible(false);
 }
 
 void LoginForm::on_radioReturningCustomer_clicked()
 {
-    this->ui->btnProceed->setText(tr("Proceed to Checkout"));
-    this->validateForm();
+    ui->btnProceed->setText(tr("Proceed to Checkout"));
+    validateForm();
 }
 
 void LoginForm::showEmailWarning()
 {
-    this->ui->lblEmailError->setVisible(!this->checkEmail());
+    ui->lblEmailError->setVisible(!checkEmail());
 }
 
 void LoginForm::showPasswordWarning()
 {
-    if(this->ui->radioReturningCustomer->isChecked()){
-        this->ui->lblPasswordError->setVisible(!this->checkPassword());
+    if(ui->radioReturningCustomer->isChecked()){
+        ui->lblPasswordError->setVisible(!checkPassword());
     }
 }
