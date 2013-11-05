@@ -49,15 +49,15 @@ void TestOAuthTokenRequests::testValues()
 {
     OAuthTokenRequest request;
 
-    request.email(this->test_email);
-    request.password(this->test_password);
-    request.name(this->test_name);
-    request.otp(this->test_otp);
+    request.email(test_email);
+    request.password(test_password);
+    request.name(test_name);
+    request.otp(test_otp);
 
-    QCOMPARE(request.email(), this->test_email);
-    QCOMPARE(request.password(), this->test_password);
-    QCOMPARE(request.name(), this->test_name);
-    QCOMPARE(request.otp(), this->test_otp);
+    QCOMPARE(request.email(), test_email);
+    QCOMPARE(request.password(), test_password);
+    QCOMPARE(request.name(), test_name);
+    QCOMPARE(request.otp(), test_otp);
 
 }
 
@@ -89,18 +89,18 @@ void TestAccountRequests::testValues()
     AccountRequest request;
     bool create = false;
 
-    request.email(this->test_email);
-    request.password(this->test_password);
-    request.name(this->test_name);
-    request.captchaId(this->test_captchaId);
-    request.captchaSolution(this->test_captchaSolution);
+    request.email(test_email);
+    request.password(test_password);
+    request.name(test_name);
+    request.captchaId(test_captchaId);
+    request.captchaSolution(test_captchaSolution);
     request.createCaptcha(create);
 
-    QCOMPARE(request.email(), this->test_email);
-    QCOMPARE(request.password(), this->test_password);
-    QCOMPARE(request.name(), this->test_name);
-    QCOMPARE(request.captchaId(), this->test_captchaId);
-    QCOMPARE(request.captchaSolution(), this->test_captchaSolution);
+    QCOMPARE(request.email(), test_email);
+    QCOMPARE(request.password(), test_password);
+    QCOMPARE(request.name(), test_name);
+    QCOMPARE(request.captchaId(), test_captchaId);
+    QCOMPARE(request.captchaSolution(), test_captchaSolution);
     QCOMPARE(request.createCaptcha(), create);
 }
 
@@ -122,8 +122,8 @@ void TestPasswordTokenRequests::testValues()
 {
     PasswordTokenRequest request;
 
-    request.email(this->test_email);
+    request.email(test_email);
 
-    QCOMPARE(request.email(), this->test_email);
+    QCOMPARE(request.email(), test_email);
 }
 

@@ -31,10 +31,10 @@ TestAuthLogger::TestAuthLogger()
 
 void TestAuthLogger::testLogPath()
 {
-    QString expected = this->test_cache_path + "/ubuntuone/log";
+    QString expected = test_cache_path + "/ubuntuone/log";
     QByteArray old_home = qgetenv("XDG_CACHE_HOME");
 
-    qputenv("XDG_CACHE_HOME", this->test_cache_path.toUtf8());
+    qputenv("XDG_CACHE_HOME", test_cache_path.toUtf8());
 
     QCOMPARE(AuthLogger::getLogDirectory(), expected);
 

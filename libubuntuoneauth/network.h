@@ -37,8 +37,8 @@ public:
     template <class T>
     void Post(const T& request)
     {
-        this->_request->setUrl(request.url());
-        this->_nam->post(*this->_request, request.serialize());
+        _request->setUrl(request.url());
+        _nam->post(*_request, request.serialize());
     }
 
 signals:

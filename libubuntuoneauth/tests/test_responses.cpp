@@ -57,23 +57,23 @@ void TestErrorResponses::testValues()
 {
     ErrorResponse response;
 
-    response.httpStatus(this->test_httpStatus);
-    response.httpReason(this->test_httpReason);
-    response.code(this->test_code);
-    response.message(this->test_message);
-    response.imageUrl(this->test_imageUrl);
-    response.captchaId(this->test_captchaId);
-    response.captchaMessage(this->test_captchaMessage);
-    response.email(this->test_email);
+    response.httpStatus(test_httpStatus);
+    response.httpReason(test_httpReason);
+    response.code(test_code);
+    response.message(test_message);
+    response.imageUrl(test_imageUrl);
+    response.captchaId(test_captchaId);
+    response.captchaMessage(test_captchaMessage);
+    response.email(test_email);
 
-    QCOMPARE(response.httpStatus(), this->test_httpStatus);
-    QCOMPARE(response.httpReason(), this->test_httpReason);
+    QCOMPARE(response.httpStatus(), test_httpStatus);
+    QCOMPARE(response.httpReason(), test_httpReason);
     QCOMPARE(response.code(), -1);
-    QCOMPARE(response.message(), this->test_message);
-    QCOMPARE(response.imageUrl(), this->test_imageUrl);
-    QCOMPARE(response.captchaId(), this->test_captchaId);
-    QCOMPARE(response.captchaMessage(), this->test_captchaMessage);
-    QCOMPARE(response.email(), this->test_email);
+    QCOMPARE(response.message(), test_message);
+    QCOMPARE(response.imageUrl(), test_imageUrl);
+    QCOMPARE(response.captchaId(), test_captchaId);
+    QCOMPARE(response.captchaMessage(), test_captchaMessage);
+    QCOMPARE(response.email(), test_email);
 }
 
 void TestErrorResponses::testErrorMessage()
@@ -116,23 +116,23 @@ void TestOAuthTokenResponses::testValues()
 {
     OAuthTokenResponse response;
 
-    response.token_name(this->test_token_name);
-    response.token_secret(this->test_token_secret);
-    response.token_key(this->test_token_key);
-    response.date_created(this->test_date_created);
-    response.date_updated(this->test_date_updated);
-    response.consumer_secret(this->test_consumer_secret);
-    response.consumer_key(this->test_consumer_key);
-    response.href(this->test_href);
+    response.token_name(test_token_name);
+    response.token_secret(test_token_secret);
+    response.token_key(test_token_key);
+    response.date_created(test_date_created);
+    response.date_updated(test_date_updated);
+    response.consumer_secret(test_consumer_secret);
+    response.consumer_key(test_consumer_key);
+    response.href(test_href);
 
-    QCOMPARE(response.token_name(), this->test_token_name);
-    QCOMPARE(response.token_secret(), this->test_token_secret);
-    QCOMPARE(response.token_key(), this->test_token_key);
-    QCOMPARE(response.date_created(), this->test_date_created);
-    QCOMPARE(response.date_updated(), this->test_date_updated);
-    QCOMPARE(response.consumer_secret(), this->test_consumer_secret);
-    QCOMPARE(response.consumer_key(), this->test_consumer_key);
-    QCOMPARE(response.href(), this->test_href);
+    QCOMPARE(response.token_name(), test_token_name);
+    QCOMPARE(response.token_secret(), test_token_secret);
+    QCOMPARE(response.token_key(), test_token_key);
+    QCOMPARE(response.date_created(), test_date_created);
+    QCOMPARE(response.date_updated(), test_date_updated);
+    QCOMPARE(response.consumer_secret(), test_consumer_secret);
+    QCOMPARE(response.consumer_key(), test_consumer_key);
+    QCOMPARE(response.href(), test_href);
 }
 
 TestPasswordTokenResponses::TestPasswordTokenResponses()
@@ -153,9 +153,9 @@ void TestPasswordTokenResponses::testValues()
 {
     PasswordTokenResponse response;
 
-    response.email(this->test_email);
+    response.email(test_email);
 
-    QCOMPARE(response.email(), this->test_email);
+    QCOMPARE(response.email(), test_email);
 }
 
 TestAccountResponses::TestAccountResponses()
@@ -185,17 +185,17 @@ void TestAccountResponses::testValues()
 {
     AccountResponse response;
 
-    response.status(this->test_status);
-    response.openid(this->test_openid);
-    response.displayname(this->test_displayname);
-    response.href(this->test_href);
-    response.email(this->test_email);
-    /*response.emails(this->test_emails);*/
+    response.status(test_status);
+    response.openid(test_openid);
+    response.displayname(test_displayname);
+    response.href(test_href);
+    response.email(test_email);
+    /*response.emails(test_emails);*/
 
-    QCOMPARE(response.status(), this->test_status);
-    QCOMPARE(response.openid(), this->test_openid);
-    QCOMPARE(response.displayname(), this->test_displayname);
-    QCOMPARE(response.href(), this->test_href);
-    QCOMPARE(response.email(), this->test_email);
-    /*QCOMPARE(response.emails(), this->test_emails);*/
+    QCOMPARE(response.status(), test_status);
+    QCOMPARE(response.openid(), test_openid);
+    QCOMPARE(response.displayname(), test_displayname);
+    QCOMPARE(response.href(), test_href);
+    QCOMPARE(response.email(), test_email);
+    /*QCOMPARE(response.emails(), test_emails);*/
 }

@@ -34,13 +34,13 @@ Network::Network(QObject *parent)
     : QObject(parent)
 {
     /* either shared pointer or delete this */
-    this->_nam = new QNetworkAccessManager(this);
-    this->_request = new QNetworkRequest();
+    _nam = new QNetworkAccessManager(this);
+    _request = new QNetworkRequest();
 
-    this->_request->setHeader(QNetworkRequest::ContentTypeHeader,
+    _request->setHeader(QNetworkRequest::ContentTypeHeader,
                               "application/json");
 
-    QObject::connect(this->_nam, SIGNAL(finished(QNetworkReply*)),
+    QObject::connect(_nam, SIGNAL(finished(QNetworkReply*)),
                      this, SLOT(OnReply(QNetworkReply*)));
 }
 
