@@ -36,7 +36,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    SSOWizard* wizard = qobject_cast<SSOWizard*>(this->centralWidget());
+    SSOWizard* wizard = qobject_cast<SSOWizard*>(centralWidget());
     QObject::connect(wizard, SIGNAL(aboutToClose()), this, SLOT(close()));
 }
 

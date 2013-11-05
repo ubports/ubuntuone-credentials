@@ -40,150 +40,150 @@ TestRegisterForm::TestRegisterForm(QObject *parent) :
 
 void TestRegisterForm::init()
 {
-    this->_goBackEmitted = false;
-    this->_registerCheckoutEmitted = false;
-    this->registerForm._sessionActive = true;
-    this->registerForm.ui->lineEmail->setProperty("error", false);
-    this->registerForm.ui->linePassword->setProperty("error", false);
-    this->registerForm.ui->lineEmail->setText("");
-    this->registerForm.ui->linePassword->setText("");
-    this->registerForm.ui->lineName->setText("");
-    this->registerForm.ui->lineConfirm->setText("");
-    this->registerForm.ui->btnCheckout->setEnabled(false);
-    this->registerForm.ui->lblNameError->setVisible(false);
-    this->registerForm.ui->lblPasswordError->setVisible(false);
-    this->registerForm.ui->lblConfirmError->setVisible(false);
+    _goBackEmitted = false;
+    _registerCheckoutEmitted = false;
+    registerForm._sessionActive = true;
+    registerForm.ui->lineEmail->setProperty("error", false);
+    registerForm.ui->linePassword->setProperty("error", false);
+    registerForm.ui->lineEmail->setText("");
+    registerForm.ui->linePassword->setText("");
+    registerForm.ui->lineName->setText("");
+    registerForm.ui->lineConfirm->setText("");
+    registerForm.ui->btnCheckout->setEnabled(false);
+    registerForm.ui->lblNameError->setVisible(false);
+    registerForm.ui->lblPasswordError->setVisible(false);
+    registerForm.ui->lblConfirmError->setVisible(false);
 }
 
 void TestRegisterForm::cleanup()
 {
-    this->registerForm.hide();
+    registerForm.hide();
 }
 
 void TestRegisterForm::testSetEmail()
 {
     QString email = "mail@ubuntu.com";
-    this->registerForm.setEmail(email);
-    QCOMPARE(this->registerForm.ui->lineEmail->text(), email);
+    registerForm.setEmail(email);
+    QCOMPARE(registerForm.ui->lineEmail->text(), email);
 }
 
 void TestRegisterForm::testSetPassword()
 {
     QString password = "password";
-    this->registerForm.setPassword(password);
-    QCOMPARE(this->registerForm.ui->linePassword->text(), password);
+    registerForm.setPassword(password);
+    QCOMPARE(registerForm.ui->linePassword->text(), password);
 }
 
 void TestRegisterForm::testCheckEmail()
 {
-    this->registerForm.ui->lineEmail->setText("mail");
-    QVERIFY(!this->registerForm.checkEmail());
-    this->registerForm.ui->lineEmail->setText("mail@ubuntu.com");
-    QVERIFY(this->registerForm.checkEmail());
+    registerForm.ui->lineEmail->setText("mail");
+    QVERIFY(!registerForm.checkEmail());
+    registerForm.ui->lineEmail->setText("mail@ubuntu.com");
+    QVERIFY(registerForm.checkEmail());
 }
 
 void TestRegisterForm::testCheckPassword()
 {
-    this->registerForm.ui->linePassword->setText("pass");
-    QVERIFY(!this->registerForm.checkPassword());
-    this->registerForm.ui->linePassword->setText("password");
-    QVERIFY(this->registerForm.checkPassword());
+    registerForm.ui->linePassword->setText("pass");
+    QVERIFY(!registerForm.checkPassword());
+    registerForm.ui->linePassword->setText("password");
+    QVERIFY(registerForm.checkPassword());
 }
 
 void TestRegisterForm::testCheckConfirmPassword()
 {
-    this->registerForm.ui->linePassword->setText("password");
-    this->registerForm.ui->lineConfirm->setText("");
-    QVERIFY(!this->registerForm.checkConfirmPassword());
-    this->registerForm.ui->lineConfirm->setText("password");
-    QVERIFY(this->registerForm.checkConfirmPassword());
+    registerForm.ui->linePassword->setText("password");
+    registerForm.ui->lineConfirm->setText("");
+    QVERIFY(!registerForm.checkConfirmPassword());
+    registerForm.ui->lineConfirm->setText("password");
+    QVERIFY(registerForm.checkConfirmPassword());
 }
 
 void TestRegisterForm::testCheckName()
 {
-    this->registerForm.ui->lineName->setText("");
-    QVERIFY(!this->registerForm.checkName());
-    this->registerForm.ui->lineName->setText("My Name");
-    QVERIFY(this->registerForm.checkName());
+    registerForm.ui->lineName->setText("");
+    QVERIFY(!registerForm.checkName());
+    registerForm.ui->lineName->setText("My Name");
+    QVERIFY(registerForm.checkName());
 }
 
 void TestRegisterForm::testValidateForm()
 {
-    QVERIFY(!this->registerForm.ui->btnCheckout->isEnabled());
-    this->registerForm.ui->lineEmail->setText("mail@ubuntu.com");
-    QVERIFY(!this->registerForm.ui->btnCheckout->isEnabled());
-    this->registerForm.ui->linePassword->setText("password");
-    QVERIFY(!this->registerForm.ui->btnCheckout->isEnabled());
-    this->registerForm.ui->lineName->setText("My Name");
-    QVERIFY(!this->registerForm.ui->btnCheckout->isEnabled());
-    this->registerForm.ui->checkBox->setChecked(true);
-    this->registerForm.ui->lineConfirm->setText("password");
-    QVERIFY(this->registerForm.ui->btnCheckout->isEnabled());
+    QVERIFY(!registerForm.ui->btnCheckout->isEnabled());
+    registerForm.ui->lineEmail->setText("mail@ubuntu.com");
+    QVERIFY(!registerForm.ui->btnCheckout->isEnabled());
+    registerForm.ui->linePassword->setText("password");
+    QVERIFY(!registerForm.ui->btnCheckout->isEnabled());
+    registerForm.ui->lineName->setText("My Name");
+    QVERIFY(!registerForm.ui->btnCheckout->isEnabled());
+    registerForm.ui->checkBox->setChecked(true);
+    registerForm.ui->lineConfirm->setText("password");
+    QVERIFY(registerForm.ui->btnCheckout->isEnabled());
 }
 
 void TestRegisterForm::testBackPressed()
 {
-    QVERIFY(!this->_goBackEmitted);
-    QObject::connect(&(this->registerForm), SIGNAL(goBack()), this, SLOT(receiveGoBack()));
-    this->registerForm.ui->btnBack->clicked();
-    QVERIFY(this->_goBackEmitted);
+    QVERIFY(!_goBackEmitted);
+    QObject::connect(&(registerForm), SIGNAL(goBack()), this, SLOT(receiveGoBack()));
+    registerForm.ui->btnBack->clicked();
+    QVERIFY(_goBackEmitted);
 }
 
 void TestRegisterForm::receiveGoBack()
 {
-    this->_goBackEmitted = true;
+    _goBackEmitted = true;
 }
 
 void TestRegisterForm::testCheckoutPressed()
 {
-    QVERIFY(!this->_registerCheckoutEmitted);
-    QObject::connect(&(this->registerForm), SIGNAL(registerCheckout(QString,QString,QString)),
+    QVERIFY(!_registerCheckoutEmitted);
+    QObject::connect(&(registerForm), SIGNAL(registerCheckout(QString,QString,QString)),
                      this, SLOT(receiveCheckout()));
-    this->registerForm.ui->lineEmail->setText("mail@ubuntu.com");
-    this->registerForm.ui->linePassword->setText("password");
-    this->registerForm.ui->lineName->setText("My Name");
-    this->registerForm.ui->lineConfirm->setText("password");
-    this->registerForm.ui->checkBox->setChecked(true);
-    this->registerForm.ui->btnCheckout->clicked();
-    QVERIFY(this->_registerCheckoutEmitted);
+    registerForm.ui->lineEmail->setText("mail@ubuntu.com");
+    registerForm.ui->linePassword->setText("password");
+    registerForm.ui->lineName->setText("My Name");
+    registerForm.ui->lineConfirm->setText("password");
+    registerForm.ui->checkBox->setChecked(true);
+    registerForm.ui->btnCheckout->clicked();
+    QVERIFY(_registerCheckoutEmitted);
 }
 
 void TestRegisterForm::testShowErrorTipsAlreadyRegistered()
 {
-    QVERIFY(!this->registerForm.ui->lineEmail->property("error").toBool());
+    QVERIFY(!registerForm.ui->lineEmail->property("error").toBool());
     ErrorResponse error(0, "", ALREADY_REGISTERED, "");
-    this->registerForm.showErrorTips(error);
-    QVERIFY(this->registerForm.ui->lineEmail->property("error").toBool());
+    registerForm.showErrorTips(error);
+    QVERIFY(registerForm.ui->lineEmail->property("error").toBool());
 }
 
 void TestRegisterForm::testShowErrorTipsEmailInvalidated()
 {
-    QVERIFY(!this->registerForm.ui->lineEmail->property("error").toBool());
+    QVERIFY(!registerForm.ui->lineEmail->property("error").toBool());
     ErrorResponse error(0, "", EMAIL_INVALIDATED, "");
-    this->registerForm.showErrorTips(error);
-    QVERIFY(this->registerForm.ui->lineEmail->property("error").toBool());
+    registerForm.showErrorTips(error);
+    QVERIFY(registerForm.ui->lineEmail->property("error").toBool());
 }
 
 void TestRegisterForm::testShowErrorTipsInvalidCredentials()
 {
-    QVERIFY(!this->registerForm.ui->lineEmail->property("error").toBool());
-    QVERIFY(!this->registerForm.ui->linePassword->property("error").toBool());
+    QVERIFY(!registerForm.ui->lineEmail->property("error").toBool());
+    QVERIFY(!registerForm.ui->linePassword->property("error").toBool());
     ErrorResponse error(0, "", INVALID_CREDENTIALS, "");
-    this->registerForm.showErrorTips(error);
-    QVERIFY(this->registerForm.ui->linePassword->property("error").toBool());
+    registerForm.showErrorTips(error);
+    QVERIFY(registerForm.ui->linePassword->property("error").toBool());
 }
 
 void TestRegisterForm::receiveCheckout()
 {
-    this->_registerCheckoutEmitted = true;
+    _registerCheckoutEmitted = true;
 }
 
 void TestRegisterForm::testLineConfirmPasswordReturnPressed()
 {
-    this->registerForm.show();
-    this->registerForm.ui->btnCheckout->setEnabled(true);
-    this->registerForm.ui->lineConfirm->setFocus();
-    QVERIFY(!this->_registerCheckoutEmitted);
-    this->registerForm.ui->lineConfirm->returnPressed();
-    QVERIFY(this->_registerCheckoutEmitted);
+    registerForm.show();
+    registerForm.ui->btnCheckout->setEnabled(true);
+    registerForm.ui->lineConfirm->setFocus();
+    QVERIFY(!_registerCheckoutEmitted);
+    registerForm.ui->lineConfirm->returnPressed();
+    QVERIFY(_registerCheckoutEmitted);
 }

@@ -41,155 +41,155 @@ TestLoginForm::TestLoginForm(QObject *parent) :
 
 void TestLoginForm::init()
 {
-    this->loginForm._sessionActive = true;
-    this->_newCustomerEmitted = false;
-    this->_loginCheckoutEmitted = false;
-    this->loginForm.ui->lineEmail->setProperty("error", false);
-    this->loginForm.ui->linePassword->setProperty("error", false);
-    this->loginForm.ui->lineEmail->setText("");
-    this->loginForm.ui->linePassword->setText("");
-    this->loginForm.ui->btnProceed->setEnabled(false);
-    this->loginForm.ui->lblEmailError->setVisible(false);
-    this->loginForm.ui->lblPasswordError->setVisible(false);
-    this->loginForm.ui->btnProceed->setText(QString("Proceed to Checkout"));
+    loginForm._sessionActive = true;
+    _newCustomerEmitted = false;
+    _loginCheckoutEmitted = false;
+    loginForm.ui->lineEmail->setProperty("error", false);
+    loginForm.ui->linePassword->setProperty("error", false);
+    loginForm.ui->lineEmail->setText("");
+    loginForm.ui->linePassword->setText("");
+    loginForm.ui->btnProceed->setEnabled(false);
+    loginForm.ui->lblEmailError->setVisible(false);
+    loginForm.ui->lblPasswordError->setVisible(false);
+    loginForm.ui->btnProceed->setText(QString("Proceed to Checkout"));
 }
 
 void TestLoginForm::cleanup()
 {
-    this->loginForm.hide();
+    loginForm.hide();
 }
 
 void TestLoginForm::testButtonText()
 {
-    QCOMPARE(this->loginForm.ui->btnProceed->text(), QString("Proceed to Checkout"));
-    this->loginForm.ui->radioNewCustomer->clicked();
-    QCOMPARE(this->loginForm.ui->btnProceed->text(), QString("Continue"));
-    this->loginForm.ui->radioReturningCustomer->clicked();
-    QCOMPARE(this->loginForm.ui->btnProceed->text(), QString("Proceed to Checkout"));
+    QCOMPARE(loginForm.ui->btnProceed->text(), QString("Proceed to Checkout"));
+    loginForm.ui->radioNewCustomer->clicked();
+    QCOMPARE(loginForm.ui->btnProceed->text(), QString("Continue"));
+    loginForm.ui->radioReturningCustomer->clicked();
+    QCOMPARE(loginForm.ui->btnProceed->text(), QString("Proceed to Checkout"));
 }
 
 void TestLoginForm::testCheckEmail()
 {
-    this->loginForm.ui->lineEmail->setText("mail");
-    QVERIFY(!this->loginForm.checkEmail());
-    this->loginForm.ui->lineEmail->setText("mail@ubuntu.com");
-    QVERIFY(this->loginForm.checkEmail());
+    loginForm.ui->lineEmail->setText("mail");
+    QVERIFY(!loginForm.checkEmail());
+    loginForm.ui->lineEmail->setText("mail@ubuntu.com");
+    QVERIFY(loginForm.checkEmail());
 }
 
 void TestLoginForm::testCheckPassword()
 {
-    this->loginForm.ui->linePassword->setText("pass");
-    QVERIFY(!this->loginForm.checkPassword());
-    this->loginForm.ui->linePassword->setText("password");
-    QVERIFY(this->loginForm.checkPassword());
+    loginForm.ui->linePassword->setText("pass");
+    QVERIFY(!loginForm.checkPassword());
+    loginForm.ui->linePassword->setText("password");
+    QVERIFY(loginForm.checkPassword());
 }
 
 void TestLoginForm::testValidateFormWithPassword()
 {
-    QVERIFY(!this->loginForm.ui->btnProceed->isEnabled());
-    this->loginForm.ui->lineEmail->setText("mail@ubuntu.com");
-    QVERIFY(!this->loginForm.ui->btnProceed->isEnabled());
-    this->loginForm.ui->linePassword->setText("password");
-    QVERIFY(this->loginForm.ui->btnProceed->isEnabled());
+    QVERIFY(!loginForm.ui->btnProceed->isEnabled());
+    loginForm.ui->lineEmail->setText("mail@ubuntu.com");
+    QVERIFY(!loginForm.ui->btnProceed->isEnabled());
+    loginForm.ui->linePassword->setText("password");
+    QVERIFY(loginForm.ui->btnProceed->isEnabled());
 }
 
 void TestLoginForm::testValidateFormWithoutPassword()
 {
-    QVERIFY(!this->loginForm.ui->btnProceed->isEnabled());
-    this->loginForm.ui->lineEmail->setText("mail@ubuntu.com");
-    QVERIFY(!this->loginForm.ui->btnProceed->isEnabled());
-    this->loginForm.ui->radioNewCustomer->click();
-    QVERIFY(this->loginForm.ui->btnProceed->isEnabled());
+    QVERIFY(!loginForm.ui->btnProceed->isEnabled());
+    loginForm.ui->lineEmail->setText("mail@ubuntu.com");
+    QVERIFY(!loginForm.ui->btnProceed->isEnabled());
+    loginForm.ui->radioNewCustomer->click();
+    QVERIFY(loginForm.ui->btnProceed->isEnabled());
 }
 
 void TestLoginForm::testCheckEmailWarnings()
 {
-    this->loginForm.show();
-    QVERIFY(!this->loginForm.ui->lblEmailError->isVisible());
-    this->loginForm.ui->lineEmail->setText("mail");
-    this->loginForm.ui->lineEmail->editingFinished();
-    QVERIFY(this->loginForm.ui->lblEmailError->isVisible());
-    this->loginForm.ui->lineEmail->setText("mail@ubuntu.com");
-    this->loginForm.ui->lineEmail->editingFinished();
-    QVERIFY(!this->loginForm.ui->lblEmailError->isVisible());
+    loginForm.show();
+    QVERIFY(!loginForm.ui->lblEmailError->isVisible());
+    loginForm.ui->lineEmail->setText("mail");
+    loginForm.ui->lineEmail->editingFinished();
+    QVERIFY(loginForm.ui->lblEmailError->isVisible());
+    loginForm.ui->lineEmail->setText("mail@ubuntu.com");
+    loginForm.ui->lineEmail->editingFinished();
+    QVERIFY(!loginForm.ui->lblEmailError->isVisible());
 }
 
 void TestLoginForm::testCheckPasswordWarningsReturningCustomer()
 {
-    this->loginForm.show();
-    this->loginForm.ui->radioReturningCustomer->setChecked(true);
-    QVERIFY(!this->loginForm.ui->lblPasswordError->isVisible());
-    this->loginForm.ui->linePassword->setText("pass");
-    this->loginForm.ui->linePassword->editingFinished();
-    QVERIFY(this->loginForm.ui->lblPasswordError->isVisible());
-    this->loginForm.ui->linePassword->setText("password");
-    this->loginForm.ui->linePassword->editingFinished();
-    QVERIFY(!this->loginForm.ui->lblPasswordError->isVisible());
+    loginForm.show();
+    loginForm.ui->radioReturningCustomer->setChecked(true);
+    QVERIFY(!loginForm.ui->lblPasswordError->isVisible());
+    loginForm.ui->linePassword->setText("pass");
+    loginForm.ui->linePassword->editingFinished();
+    QVERIFY(loginForm.ui->lblPasswordError->isVisible());
+    loginForm.ui->linePassword->setText("password");
+    loginForm.ui->linePassword->editingFinished();
+    QVERIFY(!loginForm.ui->lblPasswordError->isVisible());
 }
 
 void TestLoginForm::testCheckPasswordWarningsNewCustomer()
 {
-    this->loginForm.show();
-    this->loginForm.ui->radioNewCustomer->setChecked(true);
-    QVERIFY(!this->loginForm.ui->lblPasswordError->isVisible());
-    this->loginForm.ui->linePassword->setText("pass");
-    this->loginForm.ui->linePassword->editingFinished();
-    QVERIFY(!this->loginForm.ui->lblPasswordError->isVisible());
-    this->loginForm.ui->linePassword->setText("password");
-    this->loginForm.ui->linePassword->editingFinished();
-    QVERIFY(!this->loginForm.ui->lblPasswordError->isVisible());
+    loginForm.show();
+    loginForm.ui->radioNewCustomer->setChecked(true);
+    QVERIFY(!loginForm.ui->lblPasswordError->isVisible());
+    loginForm.ui->linePassword->setText("pass");
+    loginForm.ui->linePassword->editingFinished();
+    QVERIFY(!loginForm.ui->lblPasswordError->isVisible());
+    loginForm.ui->linePassword->setText("password");
+    loginForm.ui->linePassword->editingFinished();
+    QVERIFY(!loginForm.ui->lblPasswordError->isVisible());
 }
 
 void TestLoginForm::testButtonProceed()
 {
-    QVERIFY(!this->_newCustomerEmitted);
-    QVERIFY(!this->_loginCheckoutEmitted);
-    QObject::connect(&(this->loginForm), SIGNAL(newCustomerSelected(QString, QString)),
+    QVERIFY(!_newCustomerEmitted);
+    QVERIFY(!_loginCheckoutEmitted);
+    QObject::connect(&(loginForm), SIGNAL(newCustomerSelected(QString, QString)),
                      this, SLOT(receiveCustomerSignal()));
-    QObject::connect(&(this->loginForm), SIGNAL(loginCheckout(QString, QString)),
+    QObject::connect(&(loginForm), SIGNAL(loginCheckout(QString, QString)),
                      this, SLOT(receiveLoginSignal()));
-    this->loginForm.ui->btnProceed->setEnabled(true);
-    this->loginForm.ui->radioNewCustomer->setChecked(true);
-    this->loginForm.ui->btnProceed->clicked();
-    QVERIFY(this->_newCustomerEmitted);
-    QVERIFY(!this->_loginCheckoutEmitted);
-    this->loginForm.ui->radioReturningCustomer->setChecked(true);
-    this->loginForm.ui->btnProceed->clicked();
-    QVERIFY(this->_newCustomerEmitted);
-    QVERIFY(this->_loginCheckoutEmitted);
+    loginForm.ui->btnProceed->setEnabled(true);
+    loginForm.ui->radioNewCustomer->setChecked(true);
+    loginForm.ui->btnProceed->clicked();
+    QVERIFY(_newCustomerEmitted);
+    QVERIFY(!_loginCheckoutEmitted);
+    loginForm.ui->radioReturningCustomer->setChecked(true);
+    loginForm.ui->btnProceed->clicked();
+    QVERIFY(_newCustomerEmitted);
+    QVERIFY(_loginCheckoutEmitted);
 }
 
 void TestLoginForm::testShowErrorTipsAlreadyRegistered()
 {
-    QVERIFY(!this->loginForm.ui->lineEmail->property("error").toBool());
+    QVERIFY(!loginForm.ui->lineEmail->property("error").toBool());
     ErrorResponse error(0, "", ALREADY_REGISTERED, "");
-    this->loginForm.showErrorTips(error);
-    QVERIFY(this->loginForm.ui->lineEmail->property("error").toBool());
+    loginForm.showErrorTips(error);
+    QVERIFY(loginForm.ui->lineEmail->property("error").toBool());
 }
 
 void TestLoginForm::testShowErrorTipsEmailInvalidated()
 {
-    QVERIFY(!this->loginForm.ui->lineEmail->property("error").toBool());
+    QVERIFY(!loginForm.ui->lineEmail->property("error").toBool());
     ErrorResponse error(0, "", EMAIL_INVALIDATED, "");
-    this->loginForm.showErrorTips(error);
-    QVERIFY(this->loginForm.ui->lineEmail->property("error").toBool());
+    loginForm.showErrorTips(error);
+    QVERIFY(loginForm.ui->lineEmail->property("error").toBool());
 }
 
 void TestLoginForm::testShowErrorTipsInvalidCredentials()
 {
-    QVERIFY(!this->loginForm.ui->lineEmail->property("error").toBool());
-    QVERIFY(!this->loginForm.ui->linePassword->property("error").toBool());
+    QVERIFY(!loginForm.ui->lineEmail->property("error").toBool());
+    QVERIFY(!loginForm.ui->linePassword->property("error").toBool());
     ErrorResponse error(0, "", INVALID_CREDENTIALS, "");
-    this->loginForm.showErrorTips(error);
-    QVERIFY(this->loginForm.ui->linePassword->property("error").toBool());
+    loginForm.showErrorTips(error);
+    QVERIFY(loginForm.ui->linePassword->property("error").toBool());
 }
 
 void TestLoginForm::receiveCustomerSignal()
 {
-    this->_newCustomerEmitted = true;
+    _newCustomerEmitted = true;
 }
 
 void TestLoginForm::receiveLoginSignal()
 {
-    this->_loginCheckoutEmitted = true;
+    _loginCheckoutEmitted = true;
 }

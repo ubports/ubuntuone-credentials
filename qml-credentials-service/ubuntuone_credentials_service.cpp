@@ -6,19 +6,19 @@ UbuntuOneCredentialsService::UbuntuOneCredentialsService(QQuickItem *parent):
     QQuickItem(parent)
 {
     _state = IDLE;
-    QObject::connect(&(this->_service), SIGNAL(credentialsFound(Token)),
+    QObject::connect(&_service, SIGNAL(credentialsFound(Token)),
                      this, SLOT(handleCredentialsFound(Token)));
-    QObject::connect(&(this->_service), SIGNAL(credentialsNotFound()),
+    QObject::connect(&_service, SIGNAL(credentialsNotFound()),
                      this, SLOT(handleCredentialsNotFound()));
-    QObject::connect(&(this->_service), SIGNAL(credentialsStored()),
+    QObject::connect(&_service, SIGNAL(credentialsStored()),
                      this, SLOT(handleCredentialsStored()));
-    QObject::connect(&(this->_service), SIGNAL(credentialsDeleted()),
+    QObject::connect(&_service, SIGNAL(credentialsDeleted()),
                      this, SLOT(handleCredentialsDeleted()));
 
-    QObject::connect(&(this->_service), SIGNAL(twoFactorAuthRequired()),
+    QObject::connect(&_service, SIGNAL(twoFactorAuthRequired()),
                      this, SLOT(handleTwoFactorAuthRequired()));
 
-    QObject::connect(&(this->_service), SIGNAL(requestFailed(ErrorResponse)),
+    QObject::connect(&_service, SIGNAL(requestFailed(ErrorResponse)),
                      this, SLOT(handleError(ErrorResponse)));
 }
 
