@@ -5,6 +5,7 @@ CPackConfig.cmake
 CPackSourceConfig.cmake
 Makefile
 cmake_install.cmake
+signing-example
 test-music-login
 test-ubuntuoneauth
 ubuntuone-music-login
@@ -14,6 +15,7 @@ ui_*.h
 *_automoc.cpp
 *_resources.cpp
 *.depends
+*.pc
 *.so
 *.so.*
 *.tar.bz2
