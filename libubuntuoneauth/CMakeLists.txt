@@ -48,5 +48,20 @@ INSTALL (
   DESTINATION include/${AUTH_LIB_NAME}
 )
 
+SET (AUTH_LIB_PKGCONFIG_IN ${AUTH_LIB_UNVERSIONED}.pc.in)
+SET (AUTH_LIB_PKGCONFIG ${AUTH_LIB_NAME}.pc)
+add_custom_target(${AUTH_LIB_PKGCONFIG}
+  ALL sed -e 's|\@PREFIX\@|${CMAKE_INSTALL_PREFIX}|g'
+    -e 's|\@LIBDIR\@|${LIB_INSTALL_DIR}|g'
+    -e 's|\@VERSION\@|${PROJECT_VERSION}|g'
+    -e 's|\@LIB_NAME\@|${AUTH_LIB_NAME}|g' < ${AUTH_LIB_PKGCONFIG_IN} > ${AUTH_LIB_PKGCONFIG}
+  SOURCES ${AUTH_LIB_PKGCONFIG_IN}
+)
+
+INSTALL (
+  FILES ${AUTH_LIB_PKGCONFIG}
+  DESTINATION ${LIB_INSTALL_DIR}/pkgconfig
+)
+
 add_subdirectory(tests)
 add_subdirectory(examples)

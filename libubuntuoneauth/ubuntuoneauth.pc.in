@@ -1,0 +1,11 @@
+prefix=@PREFIX@
+exec_prefix=${prefix}
+libdir=${exec_prefix}/@LIBDIR@
+includedir=${prefix}/include
+
+Name: @LIB_NAME@
+Description: Client library for Ubuntu One authentication.
+Version: @VERSION@
+Libs: -L${libdir} -l@LIB_NAME@
+Requires: Qt5Core Qt5DBus Qt5Xml Qt5Network libsignon-qt5 libaccounts-qt5
+Cflags: -I${includedir}/@LIB_NAME@
