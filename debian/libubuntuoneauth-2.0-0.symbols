@@ -1,0 +1,187 @@
+libubuntuoneauth-2.0.so.0 libubuntuoneauth-2.0-0 #MINVER#
+ (c++)"UbuntuOne::AuthLogger::logMessage(QtMsgType, QMessageLogContext const&, QString const&)@Base" 13.08
+ (c++)"UbuntuOne::AuthLogger::qt_metacall(QMetaObject::Call, int, void**)@Base" 13.08
+ (c++)"UbuntuOne::AuthLogger::qt_metacast(char const*)@Base" 13.08
+ (c++)"UbuntuOne::AuthLogger::setLogLevel(QtMsgType)@Base" 13.08
+ (c++)"UbuntuOne::AuthLogger::stopLogging()@Base" 13.08
+ (c++)"UbuntuOne::AuthLogger::setupLogging(QString)@Base" 13.08
+ (c++)"UbuntuOne::AuthLogger::getLogDirectory()@Base" 13.08
+ (c++)"UbuntuOne::AuthLogger::staticMetaObject@Base" 13.08
+ (c++)"UbuntuOne::AuthLogger::getMessageTypeString(QtMsgType)@Base" 13.08
+ (c++)"UbuntuOne::AuthLogger::AuthLogger(QString)@Base" 13.08
+ (c++)"UbuntuOne::AuthLogger::AuthLogger(QString)@Base" 13.08
+ (c++)"UbuntuOne::AuthLogger::~AuthLogger()@Base" 13.08
+ (c++)"UbuntuOne::AuthLogger::~AuthLogger()@Base" 13.08
+ (c++)"UbuntuOne::AuthLogger::~AuthLogger()@Base" 13.08
+ (c++)"UbuntuOne::SSOService::qt_metacall(QMetaObject::Call, int, void**)@Base" 13.08
+ (c++)"UbuntuOne::SSOService::qt_metacast(char const*)@Base" 13.08
+ (c++)"UbuntuOne::SSOService::registerUser(QString, QString, QString)@Base" 13.08
+ (c++)"UbuntuOne::SSOService::accountPinged(QNetworkReply*)@Base" 13.08
+ (c++)"UbuntuOne::SSOService::errorOccurred(UbuntuOne::ErrorResponse const&)@Base" 13.08
+ (c++)"UbuntuOne::SSOService::requestFailed(UbuntuOne::ErrorResponse const&)@Base" 13.08
+ (c++)"UbuntuOne::SSOService::tokenReceived(UbuntuOne::OAuthTokenResponse const&)@Base" 13.08
+ (c++)"UbuntuOne::SSOService::getAuthBaseUrl()@Base" 13.08
+ (c++)"UbuntuOne::SSOService::getCredentials()@Base" 13.08
+ (c++)"UbuntuOne::SSOService::getUOneBaseUrl()@Base" 13.08
+ (c++)"UbuntuOne::SSOService::credentialsFound(UbuntuOne::Token const&)@Base" 13.08
+ (c++)"UbuntuOne::SSOService::staticMetaObject@Base" 13.08
+ (c++)"UbuntuOne::SSOService::accountRegistered(UbuntuOne::AccountResponse const&)@Base" 13.08
+ (c++)"UbuntuOne::SSOService::credentialsStored()@Base" 13.08
+ (c++)"UbuntuOne::SSOService::handleTokenStored()@Base" 13.08
+ (c++)"UbuntuOne::SSOService::credentialsDeleted()@Base" 13.08
+ (c++)"UbuntuOne::SSOService::credentialsNotFound()@Base" 13.08
+ (c++)"UbuntuOne::SSOService::invalidateCredentials()@Base" 13.08
+ (c++)"UbuntuOne::SSOService::twoFactorAuthRequired()@Base" 13.08
+ (c++)"UbuntuOne::SSOService::handleCredentialsFound(UbuntuOne::Token const&)@Base" 13.08
+ (c++)"UbuntuOne::SSOService::handleCredentialsNotFound()@Base" 13.08
+ (c++)"UbuntuOne::SSOService::handleTwoFactorAuthRequired()@Base" 13.08
+ (c++)"UbuntuOne::SSOService::login(QString, QString, QString)@Base" 13.08
+ (c++)"UbuntuOne::SSOService::SSOService(QObject*)@Base" 13.08
+ (c++)"UbuntuOne::SSOService::SSOService(QObject*)@Base" 13.08
+ (c++)"UbuntuOne::SSOService::~SSOService()@Base" 13.08
+ (c++)"UbuntuOne::SSOService::~SSOService()@Base" 13.08
+ (c++)"UbuntuOne::SSOService::~SSOService()@Base" 13.08
+ (c++)"UbuntuOne::ErrorResponse::initializeMap()@Base" 13.08
+ (c++)"UbuntuOne::ErrorResponse::code(QString)@Base" 13.08
+ (c++)"UbuntuOne::ErrorResponse::ErrorResponse(int const&, QString const&, QString const&, QString const&)@Base" 13.08
+ (c++)"UbuntuOne::ErrorResponse::ErrorResponse()@Base" 13.08
+ (c++)"UbuntuOne::ErrorResponse::ErrorResponse(int const&, QString const&, QString const&, QString const&)@Base" 13.08
+ (c++)"UbuntuOne::ErrorResponse::ErrorResponse()@Base" 13.08
+ (c++)"UbuntuOne::ErrorResponse::~ErrorResponse()@Base" 13.08
+ (c++)"UbuntuOne::ErrorResponse::~ErrorResponse()@Base" 13.08
+ (c++)"UbuntuOne::AccountRequest::AccountRequest(QString, QString, QString, QString, QString, QString, bool)@Base" 13.08
+ (c++)"UbuntuOne::AccountRequest::AccountRequest(QString, QString, QString, QString, QString, bool)@Base" 13.08
+ (c++)"UbuntuOne::AccountRequest::AccountRequest()@Base" 13.08
+ (c++)"UbuntuOne::AccountRequest::AccountRequest(QString, QString, QString, QString, QString, QString, bool)@Base" 13.08
+ (c++)"UbuntuOne::AccountRequest::AccountRequest(QString, QString, QString, QString, QString, bool)@Base" 13.08
+ (c++)"UbuntuOne::AccountRequest::AccountRequest()@Base" 13.08
+ (c++)"UbuntuOne::AccountRequest::~AccountRequest()@Base" 13.08
+ (c++)"UbuntuOne::AccountRequest::~AccountRequest()@Base" 13.08
+ (c++)"UbuntuOne::AccountResponse::AccountResponse()@Base" 13.08
+ (c++)"UbuntuOne::AccountResponse::AccountResponse()@Base" 13.08
+ (c++)"UbuntuOne::AccountResponse::~AccountResponse()@Base" 13.08
+ (c++)"UbuntuOne::AccountResponse::~AccountResponse()@Base" 13.08
+ (c++)"UbuntuOne::IdentityProvider::qt_metacall(QMetaObject::Call, int, void**)@Base" 13.08
+ (c++)"UbuntuOne::IdentityProvider::qt_metacast(char const*)@Base" 13.08
+ (c++)"UbuntuOne::IdentityProvider::CreateAccount(UbuntuOne::AccountRequest const&)@Base" 13.08
+ (c++)"UbuntuOne::IdentityProvider::ErrorOccurred(UbuntuOne::ErrorResponse const&)@Base" 13.08
+ (c++)"UbuntuOne::IdentityProvider::GetOAuthToken(UbuntuOne::OAuthTokenRequest const&)@Base" 13.08
+ (c++)"UbuntuOne::IdentityProvider::AccountGranted(UbuntuOne::AccountResponse const&)@Base" 13.08
+ (c++)"UbuntuOne::IdentityProvider::OnErrorOccurred(UbuntuOne::ErrorResponse const&)@Base" 13.08
+ (c++)"UbuntuOne::IdentityProvider::GetPasswordToken(UbuntuOne::PasswordTokenRequest const&)@Base" 13.08
+ (c++)"UbuntuOne::IdentityProvider::OnAccountGranted(UbuntuOne::AccountResponse const&)@Base" 13.08
+ (c++)"UbuntuOne::IdentityProvider::staticMetaObject@Base" 13.08
+ (c++)"UbuntuOne::IdentityProvider::OAuthTokenGranted(UbuntuOne::OAuthTokenResponse const&)@Base" 13.08
+ (c++)"UbuntuOne::IdentityProvider::OnOAuthTokenGranted(UbuntuOne::OAuthTokenResponse const&)@Base" 13.08
+ (c++)"UbuntuOne::IdentityProvider::PasswordTokenGranted(UbuntuOne::PasswordTokenResponse const&)@Base" 13.08
+ (c++)"UbuntuOne::IdentityProvider::TwoFactorAuthRequired()@Base" 13.08
+ (c++)"UbuntuOne::IdentityProvider::OnPasswordTokenGranted(UbuntuOne::PasswordTokenResponse const&)@Base" 13.08
+ (c++)"UbuntuOne::IdentityProvider::IdentityProvider(QObject*)@Base" 13.08
+ (c++)"UbuntuOne::IdentityProvider::IdentityProvider(QObject*)@Base" 13.08
+ (c++)"UbuntuOne::IdentityProvider::~IdentityProvider()@Base" 13.08
+ (c++)"UbuntuOne::IdentityProvider::~IdentityProvider()@Base" 13.08
+ (c++)"UbuntuOne::IdentityProvider::~IdentityProvider()@Base" 13.08
+ (c++)"UbuntuOne::RequestInterface::RequestInterface(QUrl const&)@Base" 13.08
+ (c++)"UbuntuOne::RequestInterface::RequestInterface(QUrl const&)@Base" 13.08
+ (c++)"UbuntuOne::OAuthTokenRequest::OAuthTokenRequest(QString, QString, QString, QString)@Base" 13.08
+ (c++)"UbuntuOne::OAuthTokenRequest::OAuthTokenRequest(QString, QString, QString, QString, QString)@Base" 13.08
+ (c++)"UbuntuOne::OAuthTokenRequest::OAuthTokenRequest()@Base" 13.08
+ (c++)"UbuntuOne::OAuthTokenRequest::OAuthTokenRequest(QString, QString, QString, QString)@Base" 13.08
+ (c++)"UbuntuOne::OAuthTokenRequest::OAuthTokenRequest(QString, QString, QString, QString, QString)@Base" 13.08
+ (c++)"UbuntuOne::OAuthTokenRequest::OAuthTokenRequest()@Base" 13.08
+ (c++)"UbuntuOne::OAuthTokenRequest::~OAuthTokenRequest()@Base" 13.08
+ (c++)"UbuntuOne::OAuthTokenRequest::~OAuthTokenRequest()@Base" 13.08
+ (c++)"UbuntuOne::OAuthTokenResponse::OAuthTokenResponse()@Base" 13.08
+ (c++)"UbuntuOne::OAuthTokenResponse::OAuthTokenResponse()@Base" 13.08
+ (c++)"UbuntuOne::OAuthTokenResponse::~OAuthTokenResponse()@Base" 13.08
+ (c++)"UbuntuOne::OAuthTokenResponse::~OAuthTokenResponse()@Base" 13.08
+ (c++)"UbuntuOne::PasswordTokenRequest::PasswordTokenRequest(QString)@Base" 13.08
+ (c++)"UbuntuOne::PasswordTokenRequest::PasswordTokenRequest(QString, QString)@Base" 13.08
+ (c++)"UbuntuOne::PasswordTokenRequest::PasswordTokenRequest()@Base" 13.08
+ (c++)"UbuntuOne::PasswordTokenRequest::PasswordTokenRequest(QString)@Base" 13.08
+ (c++)"UbuntuOne::PasswordTokenRequest::PasswordTokenRequest(QString, QString)@Base" 13.08
+ (c++)"UbuntuOne::PasswordTokenRequest::PasswordTokenRequest()@Base" 13.08
+ (c++)"UbuntuOne::PasswordTokenResponse::PasswordTokenResponse()@Base" 13.08
+ (c++)"UbuntuOne::PasswordTokenResponse::PasswordTokenResponse()@Base" 13.08
+ (c++)"UbuntuOne::Token::buildTokenName()@Base" 13.08
+ (c++)"UbuntuOne::Token::toQuery()@Base" 13.08
+ (c++)"UbuntuOne::Token::fromQuery(QString)@Base" 13.08
+ (c++)"UbuntuOne::Token::Token(QString, QString, QString, QString)@Base" 13.08
+ (c++)"UbuntuOne::Token::Token(QString, QString, QString, QString)@Base" 13.08
+ (c++)"UbuntuOne::Token::~Token()@Base" 13.08
+ (c++)"UbuntuOne::Token::~Token()@Base" 13.08
+ (c++)"UbuntuOne::Keyring::storeToken(UbuntuOne::Token)@Base" 13.08
+ (c++)"UbuntuOne::Keyring::tokenFound(UbuntuOne::Token const&)@Base" 13.08
+ (c++)"UbuntuOne::Keyring::deleteToken()@Base" 13.08
+ (c++)"UbuntuOne::Keyring::handleError(SignOn::Error const&)@Base" 13.08
+ (c++)"UbuntuOne::Keyring::qt_metacall(QMetaObject::Call, int, void**)@Base" 13.08
+ (c++)"UbuntuOne::Keyring::qt_metacast(char const*)@Base" 13.08
+ (c++)"UbuntuOne::Keyring::tokenStored()@Base" 13.08
+ (c++)"UbuntuOne::Keyring::keyringError(QString)@Base" 13.08
+ (c++)"UbuntuOne::Keyring::tokenDeleted()@Base" 13.08
+ (c++)"UbuntuOne::Keyring::tokenNotFound()@Base" 13.08
+ (c++)"UbuntuOne::Keyring::staticMetaObject@Base" 13.08
+ (c++)"UbuntuOne::Keyring::handleSessionData(SignOn::SessionData const&)@Base" 13.08
+ (c++)"UbuntuOne::Keyring::handleAccountRemoved()@Base" 13.08
+ (c++)"UbuntuOne::Keyring::handleCredentialsStored(unsigned int)@Base" 13.08
+ (c++)"UbuntuOne::Keyring::findToken()@Base" 13.08
+ (c++)"UbuntuOne::Keyring::Keyring(QObject*)@Base" 13.08
+ (c++)"UbuntuOne::Keyring::Keyring(QObject*)@Base" 13.08
+ (c++)"UbuntuOne::Keyring::~Keyring()@Base" 13.08
+ (c++)"UbuntuOne::Keyring::~Keyring()@Base" 13.08
+ (c++)"UbuntuOne::Keyring::~Keyring()@Base" 13.08
+ (c++)"UbuntuOne::Network::qt_metacall(QMetaObject::Call, int, void**)@Base" 13.08
+ (c++)"UbuntuOne::Network::qt_metacast(char const*)@Base" 13.08
+ (c++)"UbuntuOne::Network::ErrorOccurred(UbuntuOne::ErrorResponse const&)@Base" 13.08
+ (c++)"UbuntuOne::Network::AccountGranted(UbuntuOne::AccountResponse const&)@Base" 13.08
+ (c++)"UbuntuOne::Network::staticMetaObject@Base" 13.08
+ (c++)"UbuntuOne::Network::OAuthTokenGranted(UbuntuOne::OAuthTokenResponse const&)@Base" 13.08
+ (c++)"UbuntuOne::Network::PasswordTokenGranted(UbuntuOne::PasswordTokenResponse const&)@Base" 13.08
+ (c++)"UbuntuOne::Network::ProcessAccountsReply(QJsonObject const&)@Base" 13.08
+ (c++)"UbuntuOne::Network::ProcessOAuthTokenReply(QJsonObject const&)@Base" 13.08
+ (c++)"UbuntuOne::Network::ProcessPasswordTokenReply(QJsonObject const&)@Base" 13.08
+ (c++)"UbuntuOne::Network::OnReply(QNetworkReply*)@Base" 13.08
+ (c++)"UbuntuOne::Network::Network(QObject*)@Base" 13.08
+ (c++)"UbuntuOne::Network::Network(QObject*)@Base" 13.08
+ (c++)"UbuntuOne::Network::~Network()@Base" 13.08
+ (c++)"UbuntuOne::Network::~Network()@Base" 13.08
+ (c++)"UbuntuOne::Network::~Network()@Base" 13.08
+ (c++)"UbuntuOne::AuthLogger::metaObject() const@Base" 13.08
+ (c++)"UbuntuOne::SSOService::metaObject() const@Base" 13.08
+ (c++)"UbuntuOne::AccountRequest::serialize() const@Base" 13.08
+ (c++)"UbuntuOne::IdentityProvider::metaObject() const@Base" 13.08
+ (c++)"UbuntuOne::OAuthTokenRequest::serialize() const@Base" 13.08
+ (c++)"UbuntuOne::PasswordTokenRequest::serialize() const@Base" 13.08
+ (c++)"UbuntuOne::Token::isValid() const@Base" 13.08
+ (c++)"UbuntuOne::Token::signUrl(QString, QString, bool) const@Base" 13.08
+ (c++)"UbuntuOne::Keyring::metaObject() const@Base" 13.08
+ (c++)"UbuntuOne::Network::metaObject() const@Base" 13.08
+ (c++)"typeinfo for UbuntuOne::AuthLogger@Base" 13.08
+ (c++)"typeinfo for UbuntuOne::SSOService@Base" 13.08
+ (c++)"typeinfo for UbuntuOne::AccountRequest@Base" 13.08
+ (c++)"typeinfo for UbuntuOne::IdentityProvider@Base" 13.08
+ (c++)"typeinfo for UbuntuOne::RequestInterface@Base" 13.08
+ (c++)"typeinfo for UbuntuOne::OAuthTokenRequest@Base" 13.08
+ (c++)"typeinfo for UbuntuOne::PasswordTokenRequest@Base" 13.08
+ (c++)"typeinfo for UbuntuOne::Keyring@Base" 13.08
+ (c++)"typeinfo for UbuntuOne::Network@Base" 13.08
+ (c++)"typeinfo name for UbuntuOne::AuthLogger@Base" 13.08
+ (c++)"typeinfo name for UbuntuOne::SSOService@Base" 13.08
+ (c++)"typeinfo name for UbuntuOne::AccountRequest@Base" 13.08
+ (c++)"typeinfo name for UbuntuOne::IdentityProvider@Base" 13.08
+ (c++)"typeinfo name for UbuntuOne::RequestInterface@Base" 13.08
+ (c++)"typeinfo name for UbuntuOne::OAuthTokenRequest@Base" 13.08
+ (c++)"typeinfo name for UbuntuOne::PasswordTokenRequest@Base" 13.08
+ (c++)"typeinfo name for UbuntuOne::Keyring@Base" 13.08
+ (c++)"typeinfo name for UbuntuOne::Network@Base" 13.08
+ (c++)"vtable for UbuntuOne::AuthLogger@Base" 13.08
+ (c++)"vtable for UbuntuOne::SSOService@Base" 13.08
+ (c++)"vtable for UbuntuOne::AccountRequest@Base" 13.08
+ (c++)"vtable for UbuntuOne::IdentityProvider@Base" 13.08
+ (c++)"vtable for UbuntuOne::RequestInterface@Base" 13.08
+ (c++)"vtable for UbuntuOne::OAuthTokenRequest@Base" 13.08
+ (c++)"vtable for UbuntuOne::PasswordTokenRequest@Base" 13.08
+ (c++)"vtable for UbuntuOne::Keyring@Base" 13.08
+ (c++)"vtable for UbuntuOne::Network@Base" 13.08
+ (c++)"UbuntuOne::AccountRequest::AccountRequest(QString, QString, QString, QString)@Base" 13.09
+ (c++)"UbuntuOne::AccountRequest::AccountRequest(QString, QString, QString, QString)@Base" 13.09
