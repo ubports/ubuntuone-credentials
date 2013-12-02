@@ -1,0 +1,82 @@
+ubuntuone-credentials (14.04+14.04.2013.11.27) trusty; urgency=low
+
+  * Automatic snapshot from revision 80 (bootstrap)
+
+ -- Rodney Dawes <rodney.dawes@ubuntu.com>  Wed, 27 Nov 2013 13:14:17 -0500
+
+ubuntuone-credentials (13.10-0ubuntu5) trusty; urgency=low
+
+  * debian/libubuntuoneauth-2.0-dev.install:
+    - Include the new pkg-config file.
+  * debian/patches/03_lp1253116.patch:
+    - Add a pkg-config file. (LP: #1253116)
+
+ -- Rodney Dawes <rodney.dawes@ubuntu.com>  Mon, 25 Nov 2013 10:13:20 -0500
+
+ubuntuone-credentials (13.10-0ubuntu4) trusty; urgency=low
+
+  * debian/control:
+    - Use the correct dependencies for libubuntuoneauth-2.0-dev. (LP: #1253192)
+
+ -- Rodney Dawes <rodney.dawes@ubuntu.com>  Fri, 22 Nov 2013 10:44:26 -0500
+
+ubuntuone-credentials (13.10-0ubuntu3) saucy-proposed; urgency=low
+
+  * debian/patches/02_lp1234282.patch
+    - Don't allow adding multiple U1 accounts (LP: #1234282)
+
+ -- Ken VanDine <ken.vandine@canonical.com>  Wed, 16 Oct 2013 10:36:15 -0400
+
+ubuntuone-credentials (13.10-0ubuntu2) saucy; urgency=low
+
+  * debian/patches/00_lp1237006.patch:
+    - Fix behavior of back button on account details page. (LP: #1237006)
+  * debian/patches/01_lp1234883.patch:
+    - Give the two-factor text field focus when shown. (LP: #1234883)
+
+ -- Rodney Dawes <rodney.dawes@ubuntu.com>  Fri, 11 Oct 2013 11:25:18 -0400
+
+ubuntuone-credentials (13.10-0ubuntu1) saucy; urgency=low
+
+  * New upstream release.
+    - Close the osk when continue button clicked. (LP: #1231580)
+    - Improve generic network error messages. (LP: #1233951)
+    - Avoid partial account creation when toolbar back used. (LP: #1234285)
+    - Use text entry hints for better osk integration. (LP: #1235282)
+  * debian/rules:
+    - Set DEB_HOST_MULTIARCH if unset, to avoid breaking autopkgtests.
+
+ -- Rodney Dawes <rodney.dawes@ubuntu.com>  Fri, 04 Oct 2013 17:08:19 -0400
+
+ubuntuone-credentials (13.09-0ubuntu1) saucy; urgency=low
+
+  * New upstream release.
+  * debian/libubuntuoneauth-2.0-0.symbols:
+    - Update with new symbols.
+  * debian/rules:
+    - Remove the auto install override as it is no longer needed.
+  * debian/watch:
+    - Only use .bz2 as an extension in the regular expression.
+
+ -- Rodney Dawes <rodney.dawes@ubuntu.com>  Mon, 16 Sep 2013 17:45:41 -0400
+
+ubuntuone-credentials (13.08-0ubuntu3) saucy; urgency=low
+
+  * debin/tests/run-tests:
+    - Don't try to run the tests a second time. Tests are run by requiring
+      a built tree for autopkgtest already, so rely on that.
+
+ -- Rodney Dawes <rodney.dawes@ubuntu.com>  Mon, 16 Sep 2013 14:53:04 -0400
+
+ubuntuone-credentials (13.08-0ubuntu2) saucy; urgency=low
+
+  * debian/control:
+    - Add signon-plugin-password as dependency of libubuntuoneauth-2.0-0.
+
+ -- Rodney Dawes <rodney.dawes@ubuntu.com>  Wed, 11 Sep 2013 21:53:26 -0400
+
+ubuntuone-credentials (13.08-0ubuntu1) saucy; urgency=low
+
+  * Initial packaging for ubuntuone-credentials. (LP: #1199017)
+
+ -- Rodney Dawes <rodney.dawes@ubuntu.com>  Thu, 29 Aug 2013 09:37:25 -0400
