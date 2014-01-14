@@ -1,30 +1,33 @@
 Source: ubuntuone-credentials
 Section: libs
-Priority: extra
+Priority: optional
 Build-Depends:
  cmake,
  debhelper (>= 9),
- liboauth-dev,
  libaccounts-qt5-dev,
+ liboauth-dev,
  libsignon-qt5-dev,
  qtbase5-dev,
  qtdeclarative5-dev,
  qtdeclarative5-ubuntu-ui-toolkit-plugin,
  signon-plugins-dev,
  ubuntu-ui-toolkit-autopilot,
- xvfb
+ xvfb,
 Maintainer: Ubuntu One Developers <ubuntuone-users@lists.launchpad.net>
-Standards-Version: 3.9.4
+Standards-Version: 3.9.5
 Vcs-Bzr: lp:ubuntuone-credentials
 Xs-Testsuite: autopkgtest
 
 Package: ubuntuone-credentials-common
 Architecture: any
 Multi-Arch: same
-Pre-Depends: ${misc:Pre-Depends}, multiarch-support
-Depends: ${misc:Depends},
+Pre-Depends:
+ multiarch-support,
+ ${misc:Pre-Depends},
+Depends:
+ ubuntuone-client-data (>= 4.2.0),
+ ${misc:Depends},
  ${shlibs:Depends},
- ubuntuone-client-data (>= 4.2.0)
 Description: Ubuntu One authentication library - common data
  A library for native applications to log into the Ubuntu One services,
  to synchronize data, purchase music and software, or access data stored
@@ -36,11 +39,14 @@ Description: Ubuntu One authentication library - common data
 Package: libubuntuoneauth-2.0-0
 Architecture: any
 Multi-Arch: same
-Pre-Depends: ${misc:Pre-Depends}, multiarch-support
-Depends: ${misc:Depends},
- ${shlibs:Depends},
+Pre-Depends:
+ multiarch-support,
+ ${misc:Pre-Depends},
+Depends:
+ signon-plugin-password,
  ubuntuone-credentials-common (= ${binary:Version}),
- signon-plugin-password
+ ${misc:Depends},
+ ${shlibs:Depends},
 Description: Ubuntu One authentication library
  A library for native applications to log into the Ubuntu One services,
  to synchronize data, purchase music and software, or access data stored
@@ -52,13 +58,16 @@ Package: libubuntuoneauth-2.0-dev
 Section: libdevel
 Architecture: any
 Multi-Arch: same
-Pre-Depends: ${misc:Pre-Depends}, multiarch-support
-Depends: ${misc:Depends},
- libubuntuoneauth-2.0-0 (= ${binary:Version}),
- liboauth-dev,
+Pre-Depends:
+ multiarch-support,
+ ${misc:Pre-Depends},
+Depends:
  libaccounts-qt5-dev,
+ liboauth-dev,
  libsignon-qt5-dev,
- qtbase5-dev
+ libubuntuoneauth-2.0-0 (= ${binary:Version}),
+ qtbase5-dev,
+ ${misc:Depends},
 Description: Ubuntu One authentication library - development files
  A library for native applications to log into the Ubuntu One services,
  to synchronize data, purchase music and software, or access data stored
@@ -70,11 +79,14 @@ Description: Ubuntu One authentication library - development files
 Package: ubuntuone-credentials
 Architecture: any
 Multi-Arch: same
-Pre-Depends: ${misc:Pre-Depends}, multiarch-support
-Depends: ${misc:Depends},
- ${shlibs:Depends},
+Pre-Depends:
+ multiarch-support,
+ ${misc:Pre-Depends},
+Depends:
  libubuntuoneauth-2.0-0 (= ${binary:Version}),
- ubuntuone-client-data (>= 4.2.0)
+ ubuntuone-client-data (>= 4.2.0),
+ ${misc:Depends},
+ ${shlibs:Depends},
 Description: Ubuntu One authentication library - utility applications
  A library for native applications to log into the Ubuntu One services,
  to synchronize data, purchase music and software, or access data stored
@@ -85,13 +97,18 @@ Description: Ubuntu One authentication library - utility applications
 Package: qtdeclarative5-ubuntuone1.0
 Architecture: any
 Multi-Arch: same
-Pre-Depends: ${misc:Pre-Depends}, multiarch-support
-Depends: ${misc:Depends},
- ${shlibs:Depends},
+Pre-Depends:
+ multiarch-support,
+ ${misc:Pre-Depends},
+Depends:
  libubuntuoneauth-2.0-0 (= ${binary:Version}),
- qtdeclarative5-ubuntu-ui-toolkit-plugin
-Breaks: qtdeclarative5-ubuntuone-credentials-plugin
-Replaces: qtdeclarative5-ubuntuone-credentials-plugin
+ qtdeclarative5-ubuntu-ui-toolkit-plugin,
+ ${misc:Depends},
+ ${shlibs:Depends},
+Breaks:
+ qtdeclarative5-ubuntuone-credentials-plugin,
+Replaces:
+ qtdeclarative5-ubuntuone-credentials-plugin,
 Description: Ubuntu One authentication library - Qt declarative plug-in
  A library for native applications to log into the Ubuntu One services,
  to synchronize data, purchase music and software, or access data stored
@@ -102,10 +119,13 @@ Description: Ubuntu One authentication library - Qt declarative plug-in
 Package: signon-plugin-ubuntuone
 Architecture: any
 Multi-Arch: foreign
-Pre-Depends: ${misc:Pre-Depends}, multiarch-support
-Depends: ${misc:Depends},
+Pre-Depends:
+ multiarch-support,
+ ${misc:Pre-Depends},
+Depends:
+ libubuntuoneauth-2.0-0 (= ${binary:Version}),
+ ${misc:Depends},
  ${shlibs:Depends},
- libubuntuoneauth-2.0-0 (= ${binary:Version})
 Description: Ubuntu One authentication library - signon plug-in
  A library for native applications to log into the Ubuntu One services,
  to synchronize data, purchase music and software, or access data stored
@@ -116,12 +136,15 @@ Description: Ubuntu One authentication library - signon plug-in
 Package: account-plugin-ubuntuone
 Architecture: any
 Multi-Arch: foreign
-Pre-Depends: ${misc:Pre-Depends}, multiarch-support
-Depends: ${misc:Depends},
- ${shlibs:Depends},
+Pre-Depends:
+ multiarch-support,
+ ${misc:Pre-Depends},
+Depends:
  libubuntuoneauth-2.0-0 (= ${binary:Version}),
  qtdeclarative5-ubuntuone1.0 (= ${binary:Version}),
- ubuntu-system-settings-online-accounts
+ ubuntu-system-settings-online-accounts,
+ ${misc:Depends},
+ ${shlibs:Depends},
 Description: Ubuntu One authentication library - account settings plug-in
  A library for native applications to log into the Ubuntu One services,
  to synchronize data, purchase music and software, or access data stored
