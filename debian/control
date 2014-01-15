@@ -76,24 +76,6 @@ Description: Ubuntu One authentication library - development files
  This package includes the development files for the Ubuntu One authentication
  library.
 
-Package: ubuntuone-credentials
-Architecture: any
-Multi-Arch: same
-Pre-Depends:
- multiarch-support,
- ${misc:Pre-Depends},
-Depends:
- libubuntuoneauth-2.0-0 (= ${binary:Version}),
- ubuntuone-client-data (>= 4.2.0),
- ${misc:Depends},
- ${shlibs:Depends},
-Description: Ubuntu One authentication library - utility applications
- A library for native applications to log into the Ubuntu One services,
- to synchronize data, purchase music and software, or access data stored
- remotely on the Ubuntu One servers.
- .
- This package includes extra utility applications used by the library.
-
 Package: qtdeclarative5-ubuntuone1.0
 Architecture: any
 Multi-Arch: same

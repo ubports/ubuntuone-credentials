@@ -6,9 +6,7 @@ CPackSourceConfig.cmake
 Makefile
 cmake_install.cmake
 signing-example
-test-music-login
 test-ubuntuoneauth
-ubuntuone-music-login
 moc_*.cpp
 qmldir
 ui_*.h
