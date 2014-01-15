@@ -22,5 +22,6 @@ account info.
 
 If you don't have valid credentials, it will simply mention that.
 
-To get valid credentials for testing, use the ubuntuone-music-login
-app from the music-login directory at the top level of this project.
+To get valid credentials for testing, use the Online Accounts panel in
+System Settings to create an account. You will need to have the plug-in
+installed, to be able to add an account.
