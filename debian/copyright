@@ -19,7 +19,7 @@ License: LGPL-3
  The full text of the LGPL v3 is distributed in
  /usr/share/common-licenses/LGPL-3 on Debian systems.
 
-Files: music-login/* online-accounts-provider/*
+Files: online-accounts-provider/*
 Copyright: 2013 Canonical Ltd.
 License: GPL-3 with OpenSSL Exception
  This program is free software: you can redistribute it and/or modify it

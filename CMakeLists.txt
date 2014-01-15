@@ -47,7 +47,6 @@ add_custom_target(dist
 
 add_subdirectory(data)
 add_subdirectory(libubuntuoneauth)
-add_subdirectory(music-login)
 add_subdirectory(signon-plugin)
 add_subdirectory(qml-credentials-service)
 add_subdirectory(online-accounts-provider)
@@ -57,13 +56,13 @@ add_subdirectory(online-accounts-provider)
 # We use $namespace-tests[-valgrind[-leaks]] for the test names in subdirs,
 # and depend on them here, so that 'make check' will run them all.
 add_custom_target(check
-  DEPENDS ubuntuoneauth-tests music-login-tests
+  DEPENDS ubuntuoneauth-tests
 )
 
 add_custom_target(check-valgrind
-  DEPENDS ubuntuoneauth-tests-valgrind music-login-tests-valgrind
+  DEPENDS ubuntuoneauth-tests-valgrind
 )
 
 add_custom_target(check-valgrind-leaks
-  DEPENDS ubuntuoneauth-tests-valgrind-leaks music-login-tests-valgrind-leaks
+  DEPENDS ubuntuoneauth-tests-valgrind-leaks
 )
