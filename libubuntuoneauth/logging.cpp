@@ -34,30 +34,30 @@ namespace UbuntuOne {
         ((AuthLogger *)_logger)->logMessage(type, context, message);
     }
 
-    AuthLogger::AuthLogger (const QString filename)
+    AuthLogger::AuthLogger (QObject *parent)
+        : QObject(parent)
     {
-        if (filename == "") {
-            QString cachePath = getLogDirectory();
-            _logFileName = cachePath + "/authentication.log";
-        } else
-            _logFileName = filename;
-
-        _logFile.setFileName(_logFileName);
-        if (_logFile.open(QFile::WriteOnly | QFile::Truncate)) {
-            _logStream.setDevice(&_logFile);
-            _logStream.seek(0);
-            _logStream.flush();
-        }
-
         qInstallMessageHandler(_realMessageHandler);
 
         _initialized = true;
     }
 
-    void AuthLogger::setupLogging(const QString filename)
+    AuthLogger::AuthLogger (const QString filename)
+    {
+        qInstallMessageHandler(_realMessageHandler);
+
+        _initialized = true;
+    }
+
+    void AuthLogger::setupLogging()
     {
         if (_logger == NULL)
-            _logger = new AuthLogger(filename);
+            _logger = new AuthLogger();
+    }
+
+    void AuthLogger::setupLogging(const QString filename)
+    {
+        setupLogging();
     }
 
     void AuthLogger::stopLogging() {
@@ -119,19 +119,8 @@ namespace UbuntuOne {
         _logMessage << QDateTime::currentDateTime().toString(_datetimeFormat).toUtf8().data() << " - " << getMessageTypeString(type).toUtf8().data() << " - " << message.toUtf8().data() << "\n";
 
         QTextStream _stdErr(stderr, QIODevice::WriteOnly);
-        switch (type) {
-        case QtDebugMsg:
-        case QtCriticalMsg:
-        case QtFatalMsg:
-            _stdErr << logMessage;
-            break;
-        default:
-            break;
-        }
+        _stdErr << logMessage;
         _stdErr.device()->close();
-
-        _logStream << logMessage;
-        _logStream.flush();
 
         if (type == QtFatalMsg)
             abort();

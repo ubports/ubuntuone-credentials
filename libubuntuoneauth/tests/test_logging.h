@@ -24,13 +24,9 @@ class TestAuthLogger: public QObject
 {
     Q_OBJECT
  public:
-    TestAuthLogger();
-
- private:
-    QString test_cache_path;
+    explicit TestAuthLogger(QObject *parent = 0);
 
  private slots:
-    void testLogPath();
     void testMessageTypeString();
     void testLogLevel();
 };
