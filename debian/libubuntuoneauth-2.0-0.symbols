@@ -184,4 +184,5 @@ libubuntuoneauth-2.0.so.0 libubuntuoneauth-2.0-0 #MINVER#
  (c++)"vtable for UbuntuOne::Keyring@Base" 13.08
  (c++)"vtable for UbuntuOne::Network@Base" 13.08
  (c++)"UbuntuOne::AccountRequest::AccountRequest(QString, QString, QString, QString)@Base" 13.09
- (c++)"UbuntuOne::AccountRequest::AccountRequest(QString, QString, QString, QString)@Base" 13.09
+ (c++)"UbuntuOne::AuthLogger::setupLogging()@Base" 14.04+14.04.20131127
+ (c++)"UbuntuOne::AuthLogger::AuthLogger(QObject*)@Base" 14.04+14.04.20131127

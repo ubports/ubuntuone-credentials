@@ -32,21 +32,21 @@ namespace UbuntuOne {
     public:
         QtMsgType _logLevel = QtWarningMsg;
 
-        AuthLogger(const QString filename = "");
+        explicit AuthLogger(QObject *parent = 0);
+        Q_DECL_DEPRECATED AuthLogger(const QString filename);
 
         void logMessage(QtMsgType type, const QMessageLogContext &context,
                         const QString &message);
 
-        static void setupLogging(const QString filename = "");
+        static void setupLogging();
         static void stopLogging();
+        Q_DECL_DEPRECATED static void setupLogging(const QString filename);
         static bool setLogLevel(QtMsgType level);
         static const QString getMessageTypeString(QtMsgType type);
-        static QString getLogDirectory();
+        Q_DECL_DEPRECATED static QString getLogDirectory();
 
     private:
         bool _initialized = false;
-        QString _logFileName;
-        QFile _logFile;
         QTextStream _logStream;
 
         const QString _datetimeFormat = "yyyy-MM-dd hh:mm:ss,zzz";
