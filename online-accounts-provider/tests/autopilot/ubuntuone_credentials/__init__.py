@@ -58,7 +58,7 @@ Icon=Not important
     def setUp(self):
         super(TestCaseWithQMLWrapper, self).setUp()
         self.pointing_device = input.Pointer(self.input_device_class.create())
-        self.use_qml2_import_path_for_fakes()
+        self.use_qml2_import_path_for_fake_wrapper()
         self.launch_application()
 
     def use_fake_servers(self):
@@ -69,7 +69,7 @@ Icon=Not important
         self.useFixture(fixtures.EnvironmentVariable(
             'SSO_UONE_BASE_URL', newvalue=fake_sso_and_u1_server.url))
 
-    def use_qml2_import_path_for_fakes(self):
+    def use_qml2_import_path_for_fake_wrapper(self):
         arch = subprocess.check_output(
             ["dpkg-architecture", "-qDEB_HOST_MULTIARCH"]).strip()
         system_settings_path = (
