@@ -20,13 +20,17 @@ import os
 import subprocess
 import tempfile
 
+import fixtures
 from autopilot import input
 from autopilot.matchers import Eventually
 from testtools.matchers import Equals
 from ubuntuuitoolkit import (
     base,
     emulators as toolkit_emulators,
+    tests as toolkit_tests
 )
+
+from ubuntuone_credentials import fixture_setup
 
 
 def _get_module_include_path():
@@ -37,19 +41,6 @@ def _get_path_to_source_root():
     return os.path.abspath(
         os.path.join(
             os.path.dirname(__file__), '..', '..', '..'))
-
-
-def _get_local_desktop_file_directory():
-    return os.path.join(os.environ['HOME'], '.local', 'share', 'applications')
-
-
-def _get_qmlscene_launch_command():
-    """Return the command to launch qmlscene for autopilot tests."""
-    # TODO replace this with the one from the ubuntu-ui-toolkit, that has just
-    # been merged to trunk. --elopio - 2013-10-08
-    arch = subprocess.check_output(
-        ["dpkg-architecture", "-qDEB_HOST_MULTIARCH"]).strip()
-    return '/usr/lib/' + arch + '/qt5/bin/qmlscene'
 
 
 class TestCaseWithQMLWrapper(base.UbuntuUIToolkitAppTestCase):
@@ -67,7 +58,27 @@ Icon=Not important
     def setUp(self):
         super(TestCaseWithQMLWrapper, self).setUp()
         self.pointing_device = input.Pointer(self.input_device_class.create())
+        self.use_qml2_import_path_for_fakes()
         self.launch_application()
+
+    def use_fake_servers(self):
+        fake_sso_and_u1_server = fixture_setup.FakeSSOAndU1ServersRunning()
+        self.useFixture(fake_sso_and_u1_server)
+        self.useFixture(fixtures.EnvironmentVariable(
+            'SSO_AUTH_BASE_URL', newvalue=fake_sso_and_u1_server.url))
+        self.useFixture(fixtures.EnvironmentVariable(
+            'SSO_UONE_BASE_URL', newvalue=fake_sso_and_u1_server.url))
+
+    def use_qml2_import_path_for_fakes(self):
+        arch = subprocess.check_output(
+            ["dpkg-architecture", "-qDEB_HOST_MULTIARCH"]).strip()
+        system_settings_path = (
+            '/usr/lib/{}/ubuntu-system-settings/private'.format(arch))
+        qml_credentials_path = os.path.join(
+            _get_path_to_source_root(), 'qml-credentials-service')
+        self.useFixture(fixtures.EnvironmentVariable(
+            'QML2_IMPORT_PATH',
+            newvalue=':'.join([system_settings_path, qml_credentials_path])))
 
     def launch_application(self):
         qml_file_path = os.path.join(
@@ -75,7 +86,7 @@ Icon=Not important
         desktop_file_path = self._write_test_desktop_file()
         self.addCleanup(os.remove, desktop_file_path)
         self.app = self.launch_test_application(
-            _get_qmlscene_launch_command(),
+            base.get_qmlscene_launch_command(),
             '-I' + _get_module_include_path(),
             qml_file_path,
             '--desktop_file_hint={0}'.format(desktop_file_path),
@@ -86,7 +97,7 @@ Icon=Not important
             self.main_view.visible, Eventually(Equals(True)))
 
     def _write_test_desktop_file(self):
-        desktop_file_dir = _get_local_desktop_file_directory()
+        desktop_file_dir = toolkit_tests.get_local_desktop_file_directory()
         if not os.path.exists(desktop_file_dir):
             os.makedirs(desktop_file_dir)
         desktop_file = tempfile.NamedTemporaryFile(
