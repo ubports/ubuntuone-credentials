@@ -1,6 +1,6 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
-# Copyright (C) 2013 Canonical Ltd.
+# Copyright (C) 2013-2014 Canonical Ltd.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License version 3, as published
@@ -14,12 +14,16 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+import os
+
 from autopilot.matchers import Eventually
 from testtools.matchers import Equals, Not
 from ubuntuuitoolkit import emulators as toolkit_emulators
 
-from UbuntuOneCredentialsProviderAutopilotTests import (emulators,
-                                                        TestCaseWithQMLWrapper)
+from ubuntuone_credentials import (
+    emulators,
+    TestCaseWithQMLWrapper
+)
 
 
 class NewUbuntuOneOnlineAccountTestCase(TestCaseWithQMLWrapper):
@@ -78,6 +82,13 @@ class SimpleLogInTestCase(TestCaseWithQMLWrapper):
         ('failure',
          dict(email='not-ok@te.st', password='password', success=False))]
 
+    def setUp(self):
+        # Start the fake server before launching the application.
+        if (os.environ.get('SSO_AUTH_BASE_URL') == 'fake' and
+                os.environ.get('SSO_UONE_BASE_URL') == 'fake'):
+            self.use_fake_servers()
+        super(SimpleLogInTestCase, self).setUp()
+
     def test_simple_login(self):
         """Test that success pops the NewAccount main page, and
         failure shows the error label.
@@ -102,6 +113,13 @@ class TwoFactorLogInTestCase(TestCaseWithQMLWrapper):
          dict(email='2fa@te.st', password='password',
               twoFactorCode='bad', success=False))
         ]
+
+    def setUp(self):
+        # Start the fake server before launching the application.
+        if (os.environ.get('SSO_AUTH_BASE_URL') == 'fake' and
+                os.environ.get('SSO_UONE_BASE_URL') == 'fake'):
+            self.use_fake_servers()
+        super(TwoFactorLogInTestCase, self).setUp()
 
     def test_twofactor_login(self):
         "Test that success pops the NewAccount main page."
@@ -157,6 +175,13 @@ class RegisterNewU1AccountTestCase(TestCaseWithQMLWrapper):
         ('bad request', dict(VALID_NEW_ACCOUNT, email='bad-new@te.st',
                              success=False))
         ]
+
+    def setUp(self):
+        # Start the fake server before launching the application.
+        if (os.environ.get('SSO_AUTH_BASE_URL') == 'fake' and
+                os.environ.get('SSO_UONE_BASE_URL') == 'fake'):
+            self.use_fake_servers()
+        super(RegisterNewU1AccountTestCase, self).setUp()
 
     def test_register_new_account(self):
         "Test that registering a new account pops the main page."
