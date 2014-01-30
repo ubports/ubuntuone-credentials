@@ -10,6 +10,7 @@ Build-Depends:
  qtbase5-dev,
  qtdeclarative5-dev,
  qtdeclarative5-ubuntu-ui-toolkit-plugin,
+ python (>= 2.7),
  signon-plugins-dev,
  ubuntu-ui-toolkit-autopilot,
  xvfb,
@@ -35,6 +36,29 @@ Description: Ubuntu One authentication library - common data
  .
  This package includes common data files for the Ubuntu One authentication
  library and utilities.
+
+Package: ubuntuone-credentials-autopilot
+Architecture: all
+Depends:
+ libautopilot-qt (>= 1.4),
+ python-autopilot,
+ python-fixtures,
+ python-testtools,
+ qtdeclarative5-online-accounts-client0.1,
+ qtdeclarative5-qtquick2-plugin,
+ qtdeclarative5-test-plugin,
+ qtdeclarative5-ubuntu-ui-toolkit-plugin,
+ qtdeclarative5-ubuntuone1.0,
+ ubuntu-ui-toolkit-autopilot,
+ ${misc:Depends},
+ ${python:Depends},
+ ${shlibs:Depends},
+Description: Ubuntu One authentication library - autopilot tests
+ A library for native applications to log into the Ubuntu One services,
+ to synchronize data, purchase music and software, or access data stored
+ remotely on the Ubuntu One servers.
+ .
+ This package includes the autopilot tests.
 
 Package: libubuntuoneauth-2.0-0
 Architecture: any
