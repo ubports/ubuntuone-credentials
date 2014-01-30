@@ -51,6 +51,7 @@ Depends:
  qtdeclarative5-ubuntuone1.0,
  ubuntu-ui-toolkit-autopilot,
  ${misc:Depends},
+ ${python:Depends},
  ${shlibs:Depends},
 Description: Ubuntu One authentication library - autopilot tests
  A library for native applications to log into the Ubuntu One services,
