@@ -1,3 +1,169 @@
+ubuntuone-credentials (14.04+14.04.20140306) trusty; urgency=low
+
+  [ Diego Sarmentero ]
+  * adding files
+  * ssolib files
+  * adding license
+  * SSO Lib working
+  * new folder structure
+  * updating .pro
+  * Fixing some design issues.
+  * Improve Error handling in the application as requested by design.
+  * Support urls in the --picture argument, to handle download of the
+    image from this application.
+  * Fix UI flow requested by design for Returning Customers.
+
+  [ Leo Arias ]
+  * Cleaned the autopilot tests.
+  * Refactor the fake servers to be a thread on the same process,
+    started from a fixture on the test setup.
+  * Added missing files from previous autopilot fixtures MP. .
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+  [ CI bot ]
+  * No change rebuild against Qt 5.2.1.
+
+  [ Brian Curtin ]
+  * Update the tests.pro file to work with changes to how the library is
+    built.
+  * Add more tests.
+
+  [ Michael McCracken ]
+  * Simplify header layout to avoid issues in packaging. (LP: #1190782).
+    (LP: #1190782)
+  * Improvements to available slots and signals on ssoservice object.
+  * Fixes for registration
+  * mark two methods of Token as const, and fix a leak from oauth
+    library.
+  * Add QML plugin that wraps login/register and signUrl functionality
+    of libubuntuoneauth, and accompanying QML UI prototype
+  * Add support for two-factor auth to the ssoservice and QML plugin
+    (LP: #1197081). (LP: #1197081)
+  * Add error signal for failure cases in Network class - covers
+    connection failures.
+  * Improve UI, better support embedding into external QML, and add
+    embedding example code.
+  * Fix credential deletion and expose it via QML plugin.
+  * Validate input and show error messages for invalid email, short
+    password, etc.
+  * add cmake rule to generate qmltypes file for qtcreator integration.
+  * Make background of embeddable component transparent, and use smaller
+    font sizes to fit better on small screens.
+  * Fix typo in signal connection for handleError.
+  * set signon plugin name to 'ubuntuoneplugin' as required by the
+    signond plugin loader.
+  * Ensure initial value of _state variable is IDLE.
+  * Add UOA provider plug-in to house login/register UI. Move that UI
+    from credentials service plug-in.
+  * Fix example code for QML plugin to no longer try to show the
+    CredentialsUI that doesn't exist anymore, and improve its comments
+    to better explain the remaining API.
+  * Re-add a regexp validator to the email textfield.
+  * Add minimal Qt/C++ example app and README describing how to use
+    libubuntuoneauth to access creds and sign API requests.
+  * Add cancel/continue buttons back.
+  * Fix spacing and margins of login/register UI. Use default fontSizes
+    pending design input.
+  * Provide faster visual feedback of activity after clicking
+    'continue'.
+  * Fix flickable scrolling. Fix sizing of nested Columns in LoginForm
+    and RegisterForm, and use correct anchors.
+  * Improve integration with Online Accounts System settings module.
+  * Fix registration errors caused by scrambling parameters due to
+    undefined behavior in C++.
+  * Fix key focus handling. .
+  * Do not leave an empty UOA account in the DB if the user clicks
+    cancel.
+  * Properly handle switching to the register screen after logging in
+    partially with a 2fa account.
+  * Add GUI-level autopilot functional test suite to online-accounts-
+    provider.
+  * Delete incomplete account when user uses back button to cancel
+    account creation. (LP: #1234285). (LP: #1234285)
+  * Provide general user-friendly error message for network errors. (LP:
+    #1233951). (LP: #1233951)
+  * Use email-specific keyboard layout and avoid storing passwords in
+    predictive input dictionary (LP: #1235282). (LP: #1235282)
+  * Hide keyboard when user submits form, making error message visible.
+    (LP: #1231580). (LP: #1231580)
+  * Give the two-factor text field focus when shown.
+  * Fix behavior of back button on existing account detail page (LP:
+    #1237006). (LP: #1237006)
+  * Add initial suite of QML unit tests for online-accounts-provider.
+  * Improve logged warnings about token creation errors and JSON parsing
+    (LP: #1241250, LP: #1241259). (LP: #1241250, #1241259)
+  * Add local mock test server and make autopilot tests hit the server.
+  * Improve form validation for account registration. Warn about T&C
+    checkbox only after all other fields are filled in.
+  * Add autopilot tests of registering new u1 account.
+  * Cleanup an apparent pythonism - avoid use of 'this->' to refer to an
+    unshadowed member variable or function.
+  * Remove more superfluous uses of this.
+
+  [ Alberto Mardegan ]
+  * Declare that no more than one U1 account should be created
+
+  [ Rodney Dawes ]
+  * Remove the app directory and files as we don't need them. Remove the
+    generated Makefile as we shouldn't store it in VCS. Remove the
+    useless main.cpp. Add COPYING and COPYING.LESSER for LGPL v3. Rename
+    lib/core to lib/main to prevent make clean failure.
+  * Update the license headers in source files to be correct LGPL.
+  * Convert the build system to use a global qmake project. Add the
+    rpath for the lib dir to the tests.pro, for running tests.
+  * Switch to cmake. Enable -Werror and fix the few existing compiler
+    warnings. Ignore all the new extra generated files. Rename the
+    library and test program to be more accurate.
+  * Merge in the ubuntuone-music-login app code.
+  * Move lib to libubuntuoneauth and tests to libubuntuoneauth/tests.
+    Create the libubuntuoneauthui and libubuntuoneauthui/tests
+    directories for the UI library.
+  * Add more tests.
+  * Use the correct 'Ubuntu One' for the TOKEN_NAME constant.
+  * Store the token information correctly in the keyring. Make token
+    creation and keyring usage compatible with ubuntu-sso-client.
+  * A new class for registering a log handler singleton. Use the new log
+    handler for logging.
+  * Clean up usage of debug/warning messages to avoid logging private
+    data.
+  * Refactor the keyring code and some usage of it, to be much simpler.
+  * Add necessary support to sign the purchase URL before opening. Use
+    the correct attribute name for the token, for ubuntu-sso-client
+    compat.
+  * Implement support for the ping URL on Ubuntu One to make account
+    usable.
+  * Bump trunk version for development.
+  * Work around a bug in liboauth to escape '+' in url path properly.
+    Fix qCritical() usage when account pinging fails.
+  * Only export the UbuntuOne namespace symbols in the shared library.
+  * Add ctors for network requests to use the SSO_AUTH_BASE_URL value.
+    Change usage of SSO_*_BASE_URL values to not require ending /.
+    Restructure API URL constants to separate path from base URL.
+  * Always print critical/fatal messages to stderr. When debug is
+    enabled, also print debug messages to stderr.
+  * Add the beginnings of a signon plugin for u1.
+  * Fix a missing prefix in the substvar in the qmldir that broke
+    importing.
+  * Switch from using using the keyring, to storing tokens in online-
+    accounts. Add necessary data files for online-accounts storage.
+  * Add UOA provider plug-in to house login/register UI. Move that UI
+    from credentials service plug-in.
+  * Fix a think-o in the qml-plugins install path.
+  * Get rid of the UI library pieces that we never used, and don't need
+    now.
+  * Add a pkgconfig file for using libubuntuoneauth in other projects.
+  * Pull in the packaging for moving to daily-release. Revert to a
+    sensible version for use under daily-release.
+  * Clean up packaging a little.
+  * Remove the music-login app as we don't use it and aren't going to.
+  * Deprecate the API for logging to a file in AuthLogger. Do not log to
+    a file in the logging API. (LP: #1175289)
+  * Package the autopilot tests.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 06 Mar 2014 08:04:13 +0000
+
 ubuntuone-credentials (14.04+14.04.20131127) trusty; urgency=low
 
   * Automatic snapshot from revision 80 (bootstrap)
