@@ -1,3 +1,11 @@
+ubuntuone-credentials (14.04+14.04.20140306ubuntu1) trusty; urgency=medium
+
+  * Make ubuntuone-credentials-common Architecture: all and Multi-Arch:
+    foreign. This allows cross-building of ubuntuone-credentials' reverse
+    dependencies.
+
+ -- Iain Lane <iain.lane@canonical.com>  Wed, 02 Apr 2014 11:52:43 +0100
+
 ubuntuone-credentials (14.04+14.04.20140306) trusty; urgency=low
 
   [ Diego Sarmentero ]

@@ -20,8 +20,8 @@ Vcs-Bzr: lp:ubuntuone-credentials
 Xs-Testsuite: autopkgtest
 
 Package: ubuntuone-credentials-common
-Architecture: any
-Multi-Arch: same
+Architecture: all
+Multi-Arch: foreign
 Pre-Depends:
  multiarch-support,
  ${misc:Pre-Depends},
@@ -68,7 +68,7 @@ Pre-Depends:
  ${misc:Pre-Depends},
 Depends:
  signon-plugin-password,
- ubuntuone-credentials-common (= ${binary:Version}),
+ ubuntuone-credentials-common (= ${source:Version}),
  ${misc:Depends},
  ${shlibs:Depends},
 Description: Ubuntu One authentication library
