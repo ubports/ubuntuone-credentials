@@ -1,3 +1,10 @@
+ubuntuone-credentials (14.04+14.04.20140306ubuntu2) trusty; urgency=medium
+
+  * debian/control: alternatively depend on the OpenGLES version of
+    qtdeclarative5-ubuntu-ui-toolkit-plugin
+
+ -- Ricardo Salveti de Araujo <ricardo.salveti@canonical.com>  Mon, 14 Apr 2014 17:40:47 -0300
+
 ubuntuone-credentials (14.04+14.04.20140306ubuntu1) trusty; urgency=medium
 
   * Make ubuntuone-credentials-common Architecture: all and Multi-Arch:
