@@ -79,6 +79,11 @@ namespace UbuntuOne {
             account = _manager.account(_ids[0]);
             qDebug() << "findToken(): Using Ubuntu One account '" << _ids[0] << "'.";
             identity = Identity::existingIdentity(account->credentialsId());
+            if (identity == NULL) {
+                qCritical() << "findToken(): disabled account " << _acctName << _ids[0];
+                emit tokenNotFound();
+                return;
+            }
             AuthSession *session = identity->createSession(QStringLiteral("password"));
             if (session != NULL) {
                 connect(session, SIGNAL(response(const SignOn::SessionData&)),
