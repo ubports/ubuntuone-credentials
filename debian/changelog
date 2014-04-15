@@ -1,3 +1,11 @@
+ubuntuone-credentials (14.04+14.04.20140415) trusty; urgency=low
+
+  [ Alejandro J. Cura ]
+  * Do not create the session when the account is disabled (LP:
+    #1307608)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 15 Apr 2014 18:54:03 +0000
+
 ubuntuone-credentials (14.04+14.04.20140306ubuntu2) trusty; urgency=medium
 
   * debian/control: alternatively depend on the OpenGLES version of
