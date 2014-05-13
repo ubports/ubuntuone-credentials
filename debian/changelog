@@ -1,3 +1,11 @@
+ubuntuone-credentials (14.04+14.10.20140513) utopic; urgency=low
+
+  [ Martin Pitt ]
+  * Fix FTBFS (#1318947). Clean up unnecessarily noisy
+    debian/tests/control (LP: #1318947)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 13 May 2014 09:15:46 +0000
+
 ubuntuone-credentials (14.04+14.04.20140415) trusty; urgency=low
 
   [ Alejandro J. Cura ]
