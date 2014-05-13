@@ -7,6 +7,7 @@ Build-Depends:
  libaccounts-qt5-dev,
  liboauth-dev,
  libsignon-qt5-dev,
+ pkg-config,
  qtbase5-dev,
  qtdeclarative5-dev,
  qtdeclarative5-ubuntu-ui-toolkit-plugin,
