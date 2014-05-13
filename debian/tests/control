@@ -1,10 +1,2 @@
 Tests: run-tests
-Restrictions: rw-build-tree build-needed allow-stderr
-Depends: @,
- cmake,
- liboauth-dev,
- libsecret-1-dev,
- qtbase5-dev,
- qtdeclarative5-dev,
- qtdeclarative5-ubuntu-ui-toolkit-plugin,
- xvfb
+Restrictions: build-needed
