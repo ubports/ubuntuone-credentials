@@ -91,7 +91,7 @@ Depends:
  liboauth-dev,
  libsignon-qt5-dev,
  libubuntuoneauth-2.0-0 (= ${binary:Version}),
- qtbase5-dev,
+ qtbase5-dev | qtbase5-gles-dev,
  ${misc:Depends},
 Description: Ubuntu One authentication library - development files
  A library for native applications to log into the Ubuntu One services,
