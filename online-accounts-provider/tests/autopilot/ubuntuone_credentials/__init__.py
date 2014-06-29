@@ -71,7 +71,8 @@ Icon=Not important
 
     def use_qml2_import_path_for_fake_wrapper(self):
         arch = subprocess.check_output(
-            ["dpkg-architecture", "-qDEB_HOST_MULTIARCH"]).strip()
+            ["dpkg-architecture", "-qDEB_HOST_MULTIARCH"],
+            universal_newlines=True).strip()
         system_settings_path = (
             '/usr/lib/{}/ubuntu-system-settings/private'.format(arch))
         qml_credentials_path = os.path.join(
