@@ -101,7 +101,7 @@ Icon=Not important
         if not os.path.exists(desktop_file_dir):
             os.makedirs(desktop_file_dir)
         desktop_file = tempfile.NamedTemporaryFile(
-            suffix='.desktop', dir=desktop_file_dir, delete=False)
+            mode='w+t', suffix='.desktop', dir=desktop_file_dir, delete=False)
         desktop_file.write(self._DESKTOP_FILE_CONTENTS)
         desktop_file.close()
         return desktop_file.name
