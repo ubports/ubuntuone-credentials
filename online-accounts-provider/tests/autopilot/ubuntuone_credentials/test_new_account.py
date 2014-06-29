@@ -16,23 +16,22 @@
 
 import os
 
+import ubuntuuitoolkit
 from autopilot.matchers import Eventually
 from testtools.matchers import Equals, Not
-from ubuntuuitoolkit import emulators as toolkit_emulators
 
-from ubuntuone_credentials import (
-    emulators,
-    TestCaseWithQMLWrapper
-)
+import ubuntuone_credentials
+from ubuntuone_credentials import base
 
 
-class NewUbuntuOneOnlineAccountTestCase(TestCaseWithQMLWrapper):
+class NewUbuntuOneOnlineAccountTestCase(base.TestCaseWithQMLWrapper):
 
     test_qml_wrapper_file_name = 'TestWrapperNew.qml'
 
     def setUp(self):
         super(NewUbuntuOneOnlineAccountTestCase, self).setUp()
-        self.new_account = self.main_view.select_single(emulators.NewAccount)
+        self.new_account = self.main_view.select_single(
+            ubuntuone_credentials.NewAccount)
 
     def test_loading_overlay_starts_invisible(self):
         overlay = self.main_view.select_single(objectName='loadingOverlay')
@@ -55,7 +54,7 @@ class NewUbuntuOneOnlineAccountTestCase(TestCaseWithQMLWrapper):
 
     def test_switch_to_new_user(self):
         new_user_switch = self.main_view.select_single(
-            toolkit_emulators.CheckBox, objectName='newUserToggleSwitch')
+            ubuntuuitoolkit.CheckBox, objectName='newUserToggleSwitch')
         new_user_switch.check()
 
         password_text_field = self.main_view.select_single(
@@ -72,7 +71,7 @@ class NewUbuntuOneOnlineAccountTestCase(TestCaseWithQMLWrapper):
             Eventually(Equals(False)))
 
 
-class SimpleLogInTestCase(TestCaseWithQMLWrapper):
+class SimpleLogInTestCase(base.TestCaseWithQMLWrapper):
 
     test_qml_wrapper_file_name = 'TestWrapperNew.qml'
 
@@ -93,7 +92,8 @@ class SimpleLogInTestCase(TestCaseWithQMLWrapper):
         """Test that success pops the NewAccount main page, and
         failure shows the error label.
         """
-        new_account = self.main_view.select_single(emulators.NewAccount)
+        new_account = self.main_view.select_single(
+            ubuntuone_credentials.NewAccount)
         new_account.log_in(email=self.email, password=self.password)
         dummyPage = self.main_view.select_single(objectName="dummyPage")
         self.assertThat(dummyPage.visible, Eventually(Equals(self.success)))
@@ -101,7 +101,7 @@ class SimpleLogInTestCase(TestCaseWithQMLWrapper):
                         Eventually(Equals(not self.success)))
 
 
-class TwoFactorLogInTestCase(TestCaseWithQMLWrapper):
+class TwoFactorLogInTestCase(base.TestCaseWithQMLWrapper):
 
     test_qml_wrapper_file_name = 'TestWrapperNew.qml'
 
@@ -135,11 +135,12 @@ class TwoFactorLogInTestCase(TestCaseWithQMLWrapper):
         # password field, which is always at the location that the
         # hidden two-factor field starts out at.
         tfn = 'twoFactorTextField'
-        two_factor_field = self.main_view.select_single(emulators.TextField,
-                                                        objectName=tfn)
+        two_factor_field = self.main_view.select_single(
+            ubuntuuitoolkit.TextField, objectName=tfn)
         saved_rect = two_factor_field.globalRect
 
-        new_account = self.main_view.select_single(emulators.NewAccount)
+        new_account = self.main_view.select_single(
+            ubuntuone_credentials.NewAccount)
         new_account.log_in(email=self.email, password=self.password)
 
         # Here we wait for both visible and focus, to ensure that the
@@ -166,7 +167,7 @@ VALID_NEW_ACCOUNT = dict(email='new@te.st', name='test name',
                          success=True)
 
 
-class RegisterNewU1AccountTestCase(TestCaseWithQMLWrapper):
+class RegisterNewU1AccountTestCase(base.TestCaseWithQMLWrapper):
 
     test_qml_wrapper_file_name = 'TestWrapperNew.qml'
 
@@ -186,7 +187,8 @@ class RegisterNewU1AccountTestCase(TestCaseWithQMLWrapper):
     def test_register_new_account(self):
         "Test that registering a new account pops the main page."
 
-        new_account = self.main_view.select_single(emulators.NewAccount)
+        new_account = self.main_view.select_single(
+            ubuntuone_credentials.NewAccount)
         new_account.register_new_account(self.email, self.name, self.password,
                                          self.password_confirmation,
                                          self.agree_to_terms)

@@ -14,99 +14,81 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-"""UbuntuOne Credentials Online-Accounts provider plugin autopilot tests."""
-
-import os
-import subprocess
-import tempfile
-
-import fixtures
-from autopilot import input
-from autopilot.matchers import Eventually
-from testtools.matchers import Equals
-from ubuntuuitoolkit import (
-    base,
-    emulators as toolkit_emulators,
-    tests as toolkit_tests
-)
-
-from ubuntuone_credentials import fixture_setup
+import ubuntuuitoolkit
 
 
-def _get_module_include_path():
-    return _get_path_to_source_root()
+class NewAccount(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
 
+    """New Account Autopilot helper."""
 
-def _get_path_to_source_root():
-    return os.path.abspath(
-        os.path.join(
-            os.path.dirname(__file__), '..', '..', '..'))
+    def is_error_label_visible(self):
+        error_label = self.select_single(objectName='errorLabel')
+        return error_label.visible
 
+    def log_in(self, email, password):
+        self._fill_log_in(email, password)
+        self._click_continue()
 
-class TestCaseWithQMLWrapper(base.UbuntuUIToolkitAppTestCase):
+    def enter_twofactor_code(self, twoFactorCode):
+        two_factor_text_field = self.select_single(
+            ubuntuuitoolkit.TextField, objectName='twoFactorTextField')
+        two_factor_text_field.write(twoFactorCode)
+        self._click_continue()
 
-    _DESKTOP_FILE_CONTENTS = ("""[Desktop Entry]
-Type=Application
-Exec=Not important
-Path=Not important
-Name=Test app
-Icon=Not important
-""")
+    def _fill_log_in(self, email, password):
+        self._enter_email(email)
+        self._enter_login_password(password)
 
-    test_qml_wrapper_file_name = None
+    def _enter_email(self, email):
+        email_text_field = self.select_single(
+            ubuntuuitoolkit.TextField, objectName='emailTextField')
+        email_text_field.write(email)
 
-    def setUp(self):
-        super(TestCaseWithQMLWrapper, self).setUp()
-        self.pointing_device = input.Pointer(self.input_device_class.create())
-        self.use_qml2_import_path_for_fake_wrapper()
-        self.launch_application()
+    def _enter_login_password(self, password):
+        password_text_field = self.select_single(
+            ubuntuuitoolkit.TextField, objectName='loginFormPasswordTextField')
+        password_text_field.write(password)
 
-    def use_fake_servers(self):
-        fake_sso_and_u1_server = fixture_setup.FakeSSOAndU1ServersRunning()
-        self.useFixture(fake_sso_and_u1_server)
-        self.useFixture(fixtures.EnvironmentVariable(
-            'SSO_AUTH_BASE_URL', newvalue=fake_sso_and_u1_server.url))
-        self.useFixture(fixtures.EnvironmentVariable(
-            'SSO_UONE_BASE_URL', newvalue=fake_sso_and_u1_server.url))
+    def _click_continue(self):
+        continue_button = self.select_single(
+            objectName='continueButton', visible=True)
+        self.pointing_device.click_object(continue_button)
 
-    def use_qml2_import_path_for_fake_wrapper(self):
-        arch = subprocess.check_output(
-            ["dpkg-architecture", "-qDEB_HOST_MULTIARCH"],
-            universal_newlines=True).strip()
-        system_settings_path = (
-            '/usr/lib/{}/ubuntu-system-settings/private'.format(arch))
-        qml_credentials_path = os.path.join(
-            _get_path_to_source_root(), 'qml-credentials-service')
-        self.useFixture(fixtures.EnvironmentVariable(
-            'QML2_IMPORT_PATH',
-            newvalue=':'.join([system_settings_path, qml_credentials_path])))
+    def register_new_account(self, email, name, password,
+                             password_confirmation, agree_to_terms):
+        self._switch_to_new_account()
+        self._enter_email(email)
+        self._enter_name(name)
+        self._enter_password_new_user(password)
+        self._enter_password_confirmation(password_confirmation)
+        self._agree_to_terms(agree_to_terms)
+        self._click_continue()
 
-    def launch_application(self):
-        qml_file_path = os.path.join(
-            os.path.dirname(__file__), self.test_qml_wrapper_file_name)
-        desktop_file_path = self._write_test_desktop_file()
-        self.addCleanup(os.remove, desktop_file_path)
-        self.app = self.launch_test_application(
-            base.get_qmlscene_launch_command(),
-            '-I' + _get_module_include_path(),
-            qml_file_path,
-            '--desktop_file_hint={0}'.format(desktop_file_path),
-            emulator_base=toolkit_emulators.UbuntuUIToolkitEmulatorBase,
-            app_type='qt')
+    def _switch_to_new_account(self):
+        new_user_switch = self.select_single(
+            ubuntuuitoolkit.CheckBox, objectName='newUserToggleSwitch')
+        new_user_switch.check()
 
-        self.assertThat(
-            self.main_view.visible, Eventually(Equals(True)))
+    def _enter_name(self, name):
+        name_text_field = self.select_single(
+            ubuntuuitoolkit.TextField, objectName='nameTextField')
+        name_text_field.write(name)
 
-    def _write_test_desktop_file(self):
-        desktop_file_dir = toolkit_tests.get_local_desktop_file_directory()
-        if not os.path.exists(desktop_file_dir):
-            os.makedirs(desktop_file_dir)
-        desktop_file = tempfile.NamedTemporaryFile(
-            mode='w+t', suffix='.desktop', dir=desktop_file_dir, delete=False)
-        desktop_file.write(self._DESKTOP_FILE_CONTENTS)
-        desktop_file.close()
-        return desktop_file.name
+    def _enter_password_new_user(self, password):
+        password_text_field = self.select_single(
+            ubuntuuitoolkit.TextField, objectName='passwordTextField')
+        password_text_field.write(password)
 
-    @property
-    def main_view(self):
-        return self.app.select_single(toolkit_emulators.MainView)
+    def _enter_password_confirmation(self, password_confirmation):
+        confirm_password_text_field = self.select_single(
+            ubuntuuitoolkit.TextField, objectName='confirmPasswordTextField')
+        confirm_password_text_field.write(password_confirmation)
+
+    def _agree_to_terms(self, agree):
+        terms_and_conditions_check_box = self.select_single(
+            ubuntuuitoolkit.CheckBox,
+            objectName='termsAndConditionsCheckBox')
+        if agree:
+            terms_and_conditions_check_box.check()
+        else:
+            terms_and_conditions_check_box.uncheck()
