@@ -1,3 +1,10 @@
+ubuntuone-credentials (14.04+14.10.20140513ubuntu1) utopic; urgency=medium
+
+  * Depend on qtbase5-dev | qtbase5-gles-dev, for compatibility with the
+    touch stack.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 02 Jun 2014 15:42:22 -0700
+
 ubuntuone-credentials (14.04+14.10.20140513) utopic; urgency=low
 
   [ Martin Pitt ]
