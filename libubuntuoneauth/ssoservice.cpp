@@ -92,7 +92,6 @@ namespace UbuntuOne {
     void SSOService::handleTokenStored()
     {
         emit credentialsStored(); 
-        _pendingPing = Token();
     }
 
     void SSOService::registerUser(QString email, QString password,
@@ -127,22 +126,6 @@ namespace UbuntuOne {
         emit twoFactorAuthRequired();
     }
 
-    static QString _getPlatformDataParams()
-    {
-        struct utsname _platData;
-        uname(&_platData);
-
-        QUrlQuery *params = new QUrlQuery();
-        params->addQueryItem("platform", _platData.sysname);
-        params->addQueryItem("platform_version", _platData.release);
-        params->addQueryItem("platform_arch", _platData.machine);
-        params->addQueryItem("client_version", PROJECT_VERSION);
-
-        QString result = params->toString();
-
-        return result;
-    }
-
     QString SSOService::getAuthBaseUrl()
     {
         QString baseUrl = qgetenv("SSO_AUTH_BASE_URL");
@@ -163,36 +146,12 @@ namespace UbuntuOne {
     {
         Token realToken = Token(token.token_key(), token.token_secret(),
                                 token.consumer_key(), token.consumer_secret());
-        QString urlToSign = getUOneBaseUrl() + "/oauth/sso-finished-so-get-tokens/" + _tempEmail + "?" + _getPlatformDataParams();
-        QString authHeader = realToken.signUrl(urlToSign,
-                                               QStringLiteral("GET"));
-        QNetworkRequest *_request = new QNetworkRequest();
-
-        _request->setRawHeader(QStringLiteral("Authorization").toUtf8(),
-                              authHeader.toUtf8());
-        _request->setUrl(urlToSign);
-        _nam->get(*_request);
-
-        _tempEmail = "";
-        _pendingPing = realToken;
+        _keyring->storeToken(realToken);
     }
 
-    void SSOService::accountPinged(QNetworkReply* reply)
+    void SSOService::accountPinged(QNetworkReply*)
     {
-        QVariant statusAttr = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
-        int httpStatus = statusAttr.toInt();
-
-        if (reply->error() != QNetworkReply::NoError) {
-            QVariant phraseAttr = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute);
-            QString reason = phraseAttr.toString();
-
-            qCritical() << "Ping to Ubuntu One failed:" << httpStatus << reason << reply->error();
-            ErrorResponse error(httpStatus, reason, "", "");
-            emit requestFailed(error);
-        } else
-            _keyring->storeToken(_pendingPing);
-
-        reply->deleteLater();
+        /* DEPRECATED */
     }
 
     void SSOService::invalidateCredentials()
