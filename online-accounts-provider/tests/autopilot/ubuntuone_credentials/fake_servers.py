@@ -14,23 +14,23 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import BaseHTTPServer
+import http.server
 import json
 import logging
-import urlparse
+import urllib.parse
 
 
 logger = logging.getLogger(__name__)
 
 
-class FakeSSOAndU1Server(BaseHTTPServer.HTTPServer, object):
+class FakeSSOAndU1Server(http.server.HTTPServer, object):
 
     def __init__(self, server_address):
         super(FakeSSOAndU1Server, self).__init__(
             server_address, FakeSSOAndU1RequestHandler)
 
 
-class FakeSSOAndU1RequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
+class FakeSSOAndU1RequestHandler(http.server.BaseHTTPRequestHandler):
 
     SSO_API_PATH = '/api/v2'
 
@@ -85,8 +85,8 @@ class FakeSSOAndU1RequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
     def do_GET(self):
         """Handle GET as if we were the one.ubuntu.com server."""
-        parsed_path = urlparse.urlparse(self.path)
-        query_dict = urlparse.parse_qs(parsed_path.query)
+        parsed_path = urllib.parse.urlparse(self.path)
+        query_dict = urllib.parse.parse_qs(parsed_path.query)
 
         if parsed_path.path.startswith('/oauth/sso-finished-so-get-tokens/'):
             self._handle_get_tokens(query_dict)
@@ -103,12 +103,13 @@ class FakeSSOAndU1RequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         else:
             self.send_response(200)
             self.end_headers()
-            self.wfile.write("ok 0/0")  # fake format of server's real response
+            # fake format of server's real response
+            self.wfile.write("ok 0/0".encode())
 
     def do_POST(self):
         """Handle POST as if we are the login.ubuntu.com server."""
         length = int(self.headers['Content-Length'])
-        post_data = self.rfile.read(length)
+        post_data = self.rfile.read(length).decode('utf-8')
         if post_data == '':
             logger.debug('NOTE: empty post data, just dropping the request.')
         else:
@@ -136,7 +137,7 @@ class FakeSSOAndU1RequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         self.send_response(code)
         self.send_header('Content-Type', 'application/json')
         self.end_headers()
-        self.wfile.write(reply_json)
+        self.wfile.write(reply_json.encode())
 
     def _handle_login(self, body_dict):
         if ('email' not in body_dict or 'password' not in body_dict or

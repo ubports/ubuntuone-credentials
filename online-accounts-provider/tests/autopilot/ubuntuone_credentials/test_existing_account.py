@@ -19,10 +19,10 @@ import os
 from autopilot.matchers import Eventually
 from testtools.matchers import Equals
 
-import ubuntuone_credentials
+from ubuntuone_credentials import base
 
 
-class ExistingUOAAccountTestCase(ubuntuone_credentials.TestCaseWithQMLWrapper):
+class ExistingUOAAccountTestCase(base.TestCaseWithQMLWrapper):
 
     test_qml_wrapper_file_name = 'TestWrapperExisting.qml'
 

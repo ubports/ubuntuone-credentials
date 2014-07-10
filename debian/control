@@ -11,7 +11,7 @@ Build-Depends:
  qtbase5-dev,
  qtdeclarative5-dev,
  qtdeclarative5-ubuntu-ui-toolkit-plugin,
- python (>= 2.7),
+ python3-all,
  signon-plugins-dev,
  ubuntu-ui-toolkit-autopilot,
  xvfb,
@@ -42,9 +42,9 @@ Package: ubuntuone-credentials-autopilot
 Architecture: all
 Depends:
  libautopilot-qt (>= 1.4),
- python-autopilot,
- python-fixtures,
- python-testtools,
+ python3-autopilot,
+ python3-fixtures,
+ python3-testtools,
  qtdeclarative5-online-accounts-client0.1,
  qtdeclarative5-qtquick2-plugin,
  qtdeclarative5-test-plugin,
