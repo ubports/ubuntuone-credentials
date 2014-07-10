@@ -1,3 +1,15 @@
+ubuntuone-credentials (14.04+14.10.20140710) utopic; urgency=low
+
+  [ Leo Arias ]
+  * Ported the autopilot tests to python3. Refactored and updated the
+    tests to use new helpers and to be more consistent with the rest of
+    packages.
+
+  [ Rodney Dawes ]
+  * Don't hit the ping URL on one.ubuntu.com any longer.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 10 Jul 2014 20:21:22 +0000
+
 ubuntuone-credentials (14.04+14.10.20140513ubuntu1) utopic; urgency=medium
 
   * Depend on qtbase5-dev | qtbase5-gles-dev, for compatibility with the
