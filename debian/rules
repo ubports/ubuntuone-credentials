@@ -13,8 +13,4 @@ override_dh_auto_configure:
 	dh_auto_configure -- -DLIB_SUFFIX=/$(DEB_HOST_MULTIARCH)
 
 override_dh_auto_test:
-	if [ "x${DEB_HOST_ARCH}" = "xarmhf" -o "x$(DEB_HOST_ARCH)" = "armel" ]; then \
-		dh_auto_build -- ubuntuoneauth-tests; \
-	else \
-		dh_auto_build -- check; \
-	fi
+	dh_auto_build -- check
