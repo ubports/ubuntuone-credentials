@@ -11,6 +11,3 @@ DEB_HOST_ARCH ?= $(shell dpk-architecture -qDEB_HOST_ARCH)
 
 override_dh_auto_configure:
 	dh_auto_configure -- -DLIB_SUFFIX=/$(DEB_HOST_MULTIARCH)
-
-override_dh_auto_test:
-	dh_auto_build -- check
