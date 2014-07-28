@@ -88,6 +88,11 @@ Column {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.margins: units.gu(2)
+        onLengthChanged: {
+            if (emailTextField.length > 0 && main.state == "register") {
+                validateInput();
+            }
+        }
     }
 
     LoginForm {

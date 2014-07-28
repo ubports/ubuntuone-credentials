@@ -28,14 +28,6 @@ Column {
     property alias password: newPasswordTextField.text
     property alias display_name: nameTextField.text
 
-    Connections {
-        target: emailTextField
-        onLengthChanged: {
-            if (emailTextField.length > 0) {
-                validateInput();
-            }
-        }
-    }
 
     Label {
         id: subtitle
