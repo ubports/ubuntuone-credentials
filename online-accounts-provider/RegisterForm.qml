@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2013-2014 Canonical Ltd.
+ *
+ *
+ * This program is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 3, as published
+ * by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranties of
+ * MERCHANTABILITY, SATISFACTORY QUALITY, or FITNESS FOR A PARTICULAR
+ * PURPOSE.  See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 
@@ -9,43 +25,72 @@ Column {
     property alias nameTextField: nameTextField
     property alias confirmPasswordTextField: confirmPasswordTextField
 
-    property alias password: passwordTextField.text
+    property alias password: newPasswordTextField.text
     property alias display_name: nameTextField.text
+
+    Connections {
+        target: emailTextField
+        onLengthChanged: {
+            if (emailTextField.length > 0) {
+                validateInput();
+            }
+        }
+    }
 
     Label {
         id: subtitle
-        text: "Please tell us your name and choose a password."
+        text: i18n.tr("Please tell us your name:")
     }
     
     TextField {
         id: nameTextField
         objectName: "nameTextField"
-        placeholderText: "Your name"
+        placeholderText: i18n.tr("First and last name")
         width: main.width - (2 * main.anchors.margins)
-        KeyNavigation.tab: passwordTextField
-        KeyNavigation.backtab: emailTextField /* from main */
+        KeyNavigation.tab: newPasswordTextField
+        KeyNavigation.backtab: emailTextField
+        onLengthChanged: {
+            if (nameTextField.length > 0) {
+                validateInput();
+            }
+        }
     }
 
+    Label {
+        id: passwordTitles
+        text: i18n.tr("Choose a password:")
+    }
+    
     TextField {
-        id: passwordTextField
-        objectName: "passwordTextField"
-        placeholderText: "Password with at least 8 characters"
+        id: newPasswordTextField
+        objectName: "newPasswordTextField"
+        placeholderText: i18n.tr("At least 8 characters")
         echoMode: TextInput.Password
         width: main.width - (2 * main.anchors.margins)
         KeyNavigation.tab: confirmPasswordTextField
         KeyNavigation.backtab: nameTextField
         inputMethodHints: Qt.ImhSensitiveData
+        onLengthChanged: {
+            if (newPasswordTextField.length > 0) {
+                validateInput();
+            }
+        }
     }
 
     TextField {
         id: confirmPasswordTextField
         objectName: "confirmPasswordTextField"
-        placeholderText: "Re-type password"
+        placeholderText: i18n.tr("Must match the previous field")
         echoMode: TextInput.Password
         width: main.width - (2 * main.anchors.margins)
-        KeyNavigation.tab: emailTextField /* from main */
-        KeyNavigation.backtab: passwordTextField
+        KeyNavigation.tab: emailTextField
+        KeyNavigation.backtab: newPasswordTextField
         inputMethodHints: Qt.ImhSensitiveData
+        onLengthChanged: {
+            if (confirmPasswordTextField.length > 0) {
+                validateInput();
+            }
+        }
     }
 
     Row {
@@ -54,26 +99,71 @@ Column {
             id: termsAndConditionsCheckBox
             objectName: "termsAndConditionsCheckBox"
             checked: false
+            onClicked: {
+                validateInput();
+            }
         }
 
         Label {
             anchors.verticalCenter: termsAndConditionsCheckBox.verticalCenter
-            text: "I agree to the <a href='http://one.ubuntu.com/terms/'>Ubuntu One Terms and Conditions</a>"
+            text: 'I agree to the <a href="https://one.ubuntu.com/terms/"><span style="color: #dd4814;">Ubuntu One T&amp;Cs</span></a>'
             onLinkActivated: { Qt.openUrlExternally(link); }
+            textFormat: Text.RichText
         }
     }
 
-    ButtonRow {
+    Row {
         objectName: "buttonRow-RegisterForm"
+        height: units.gu(5)
+        spacing: units.gu(1)
         anchors.left: parent.left
         anchors.right: parent.right
+
+        Button {
+            id: btnCancel
+            objectName: "cancelButton"
+            text: i18n.tr("Cancel")
+            color: "#1c091a"
+            height: parent.height
+            width: (parent.width / 2) - 0.5 * parent.spacing
+            onClicked: {
+                userCancelled();
+            }
+        }
+
+        Button {
+            id: btnContinue
+            objectName: "continueButton"
+            text: i18n.tr("Continue")
+            color: "#cc3300"
+            height: parent.height
+            width: (parent.width / 2) - 0.5 * parent.spacing
+            onClicked: {
+                processForm();
+            }
+            enabled: false
+        }
+    }
+
+    Label {
+        id: toggleLabel
+        objectName: "toggleLabel"
+        text: '<a href="#"><span style="color: #dd4814;">%1</span></a>'.arg(i18n.tr("I'm an existing Ubuntu One user, sign me in"))
+
+        textFormat: Text.RichText
+        horizontalAlignment: Text.AlignHCenter
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.margins: parent.anchors.margins
+        onLinkActivated: { toggleNewUser(); }
     }
 
     function resetUI() {
         termsAndConditionsCheckBox.checked = false;
         nameTextField.text = "";
-        passwordTextField.text = "";
+        newPasswordTextField.text = "";
         confirmPasswordTextField.text = "";
+        btnContinue.enabled = false;
     }
     
     function validateInput() {
@@ -85,14 +175,14 @@ Column {
             return false;
         }
 
-        var passwordLongEnough = passwordTextField.length > 7;
-        passwordTextField.errorHighlight = !passwordLongEnough;
+        var passwordLongEnough = newPasswordTextField.length > 7;
+        newPasswordTextField.errorHighlight = !passwordLongEnough;
         if (!passwordLongEnough) {
             main.showError("Your password must be at least 8 characters long.");
             return false;
         }
 
-        var passwordsMatch = (passwordTextField.text == confirmPasswordTextField.text);
+        var passwordsMatch = (newPasswordTextField.text == confirmPasswordTextField.text);
         confirmPasswordTextField.errorHighlight = !passwordsMatch;
         if (!passwordsMatch) {
             main.showError("The passwords do not match.");
@@ -104,6 +194,8 @@ Column {
             return false;
         }
 
+        btnContinue.enabled = true;
+        errorLabel.visible = false;
         return true;
     }
 }

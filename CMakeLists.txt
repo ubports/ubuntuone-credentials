@@ -56,7 +56,7 @@ add_subdirectory(online-accounts-provider)
 # We use $namespace-tests[-valgrind[-leaks]] for the test names in subdirs,
 # and depend on them here, so that 'make check' will run them all.
 add_custom_target(check
-  DEPENDS ubuntuoneauth-tests
+  DEPENDS ubuntuoneauth-tests online-accounts-provider-qmlunit-tests
 )
 
 add_custom_target(check-valgrind
