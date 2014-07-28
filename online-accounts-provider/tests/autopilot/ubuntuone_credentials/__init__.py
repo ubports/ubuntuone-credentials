@@ -56,7 +56,7 @@ class NewAccount(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
 
     def register_new_account(self, email, name, password,
                              password_confirmation, agree_to_terms):
-        self._switch_to_new_account()
+        self.switch_to_new_account()
         self._enter_email(email)
         self._enter_name(name)
         self._enter_password_new_user(password)
@@ -64,10 +64,10 @@ class NewAccount(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
         self._agree_to_terms(agree_to_terms)
         self._click_continue()
 
-    def _switch_to_new_account(self):
-        new_user_switch = self.select_single(
-            ubuntuuitoolkit.CheckBox, objectName='newUserToggleSwitch')
-        new_user_switch.check()
+    def switch_to_new_account(self):
+        new_user_label = self.select_single(
+            'Label', objectName='loginFormToggleLabel')
+        self.pointing_device.click_object(new_user_label)
 
     def _enter_name(self, name):
         name_text_field = self.select_single(
@@ -76,7 +76,7 @@ class NewAccount(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
 
     def _enter_password_new_user(self, password):
         password_text_field = self.select_single(
-            ubuntuuitoolkit.TextField, objectName='passwordTextField')
+            ubuntuuitoolkit.TextField, objectName='newPasswordTextField')
         password_text_field.write(password)
 
     def _enter_password_confirmation(self, password_confirmation):

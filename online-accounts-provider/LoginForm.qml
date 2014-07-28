@@ -22,13 +22,13 @@ Column {
     spacing: units.gu(2)
 
     /* export two aliases for KeyNavigation access*/
-    property alias passwordTextField: passwordTextField  
+    property alias passwordTextField: passwordTextField
     property alias twoFactorTextField: twoFactorTextField
 
     property alias password: passwordTextField.text
     property alias twoFactorVisible: twoFactorUI.visible
     property alias twoFactorCode: twoFactorTextField.text
-    
+
     Label {
         text: i18n.tr("Enter your password:")
     }
@@ -115,7 +115,7 @@ Column {
 
     Label {
         id: toggleLabel
-        objectName: "toggleLabel"
+        objectName: "loginFormToggleLabel"
         text: '<a href="#"><span style="color: #dd4814;">%1</span</a>'.arg(i18n.tr("I'm a new Ubuntu One user, sign me up"))
 
         textFormat: Text.RichText
@@ -142,7 +142,7 @@ Column {
         if (!twoFactorUI.visible) {
             return passwordLongEnough;
         }
-        
+
         var twoFactorLongEnough = twoFactorTextField.text.length > 0;
         twoFactorTextField.errorHighlight = !twoFactorLongEnough;
         if(!twoFactorLongEnough){
