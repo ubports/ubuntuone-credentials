@@ -10,6 +10,7 @@ Build-Depends:
  pkg-config,
  qtbase5-dev,
  qtdeclarative5-dev,
+ qtdeclarative5-dev-tools,
  qtdeclarative5-ubuntu-ui-toolkit-plugin,
  python3-all:native,
  signon-plugins-dev,
