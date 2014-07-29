@@ -32,6 +32,9 @@ Flickable {
 
     signal finished
 
+    anchors.fill: parent
+    clip: true
+
     Loader {
         id: editPageLoader
         anchors.left: parent.left
