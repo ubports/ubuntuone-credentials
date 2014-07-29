@@ -1,3 +1,13 @@
+ubuntuone-credentials (14.04+14.10.20140729) utopic; urgency=low
+
+  [ Rodney Dawes ]
+  * Fixes to enable cross-compiling. (LP: #1347885)
+  * Update layout for new designs. Wrap some strings in QML in i18n.tr
+    to later enable translations. Add build dependency on
+    qtdeclarative5-dev-tools.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 29 Jul 2014 21:39:17 +0000
+
 ubuntuone-credentials (14.04+14.10.20140710) utopic; urgency=low
 
   [ Leo Arias ]
