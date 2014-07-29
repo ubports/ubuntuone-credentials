@@ -53,9 +53,7 @@ class NewUbuntuOneOnlineAccountTestCase(base.TestCaseWithQMLWrapper):
             two_factor_text_field.visible, Eventually(Equals(False)))
 
     def test_switch_to_new_user(self):
-        new_user_switch = self.main_view.select_single(
-            ubuntuuitoolkit.CheckBox, objectName='newUserToggleSwitch')
-        new_user_switch.check()
+        self.new_account.switch_to_new_account()
 
         password_text_field = self.main_view.select_single(
             objectName='loginFormPasswordTextField')

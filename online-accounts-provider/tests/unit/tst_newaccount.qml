@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical Ltd.
+ * Copyright (C) 2013-2014 Canonical Ltd.
  *
  *
  * This program is free software: you can redistribute it and/or modify it
@@ -146,8 +146,8 @@ Item {
             emailTextField.text = data.email;
             var nameTextField = Utils.findChild(registerForm, "nameTextField");
             nameTextField.text = data.name;
-            var passwordTextField = Utils.findChild(registerForm, "passwordTextField");
-            passwordTextField.text = data.password;
+            var newPasswordTextField = Utils.findChild(registerForm, "newPasswordTextField");
+            newPasswordTextField.text = data.password;
             var registerForm_confirm_pwd = Utils.findChild(registerForm, "confirmPasswordTextField");
             registerForm_confirm_pwd.text = data.confirmPassword;
             var termsCheckbox = Utils.findChild(registerForm, "termsAndConditionsCheckBox");

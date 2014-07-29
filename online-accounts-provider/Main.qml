@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical Ltd.
+ * Copyright (C) 2013-2014 Canonical Ltd.
  *
  *
  * This program is free software: you can redistribute it and/or modify it
@@ -32,6 +32,9 @@ Flickable {
 
     signal finished
 
+    anchors.fill: parent
+    clip: true
+
     Loader {
         id: editPageLoader
         anchors.left: parent.left
@@ -39,18 +42,6 @@ Flickable {
         anchors.top: parent.top
         source: sourceComponent === null ? (account.accountId != 0 ? existingAccountUrl : newAccountUrl) : ""
         sourceComponent: account.accountId != 0 ? existingAccountComponent : newAccountComponent
-
-        onLoaded: {
-            /* NOTE: dirty hack to work around our grandparent Page (from
-               AccountCreationPage.qml in
-               ubuntu-system-settings-online-accounts) not being able
-               to find our Flickable, and not having an id set for us
-               to set flickable directly.
-
-               This will not be necessary once Bug #1221845 is fixed.
-             */
-            rootFlickable.parent.parent.flickable = rootFlickable;
-        }
 
         Connections {
             target: rootFlickable.parent.parent.tools.back;
