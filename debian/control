@@ -11,9 +11,9 @@ Build-Depends:
  qtbase5-dev,
  qtdeclarative5-dev,
  qtdeclarative5-ubuntu-ui-toolkit-plugin,
- python3-all,
+ python3-all:native,
  signon-plugins-dev,
- ubuntu-ui-toolkit-autopilot,
+ ubuntu-ui-toolkit-autopilot:native,
  xvfb,
 Maintainer: Ubuntu One Developers <ubuntuone-users@lists.launchpad.net>
 Standards-Version: 3.9.5

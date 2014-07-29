@@ -8,7 +8,6 @@ FILE (GLOB SOURCES *.cpp)
 # HEADERS only includes the public headers for installation.
 FILE (GLOB HEADERS *.h)
 
-find_package (PkgConfig REQUIRED)
 pkg_check_modules(SIGNON REQUIRED signon-plugins)
 add_definitions(${SIGNON_CFLAGS} ${SIGNON_CFLAGS_OTHER})
 
