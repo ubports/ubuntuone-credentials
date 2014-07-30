@@ -73,3 +73,11 @@ void TestToken::testTokenName()
     QString expected = QStringLiteral(TOKEN_ID) + " @ " + test_hostname;
     QCOMPARE(Token::buildTokenName(), expected);
 }
+
+void TestToken::testSignUrlEmpty()
+{
+    Token *token = new Token("a", "b", "c", "d");
+    QCOMPARE(token->signUrl(QStringLiteral(""), QStringLiteral("GET")),
+             QStringLiteral(""));
+    delete token;
+}

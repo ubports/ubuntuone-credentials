@@ -91,6 +91,11 @@ namespace UbuntuOne {
         char **argv = NULL;
         char *req_hdr = NULL;
 
+        if (url.isEmpty()) {
+            qWarning() << "Unable to sign empty URL.";
+            return result;
+        }
+
         argc = oauth_split_url_parameters(url.toUtf8().data(), &argv);
         // Fixup the URL as liboauth is escaping '+' to ' ' in it, incorrectly.
         for (int a = 0; argv[0][a] != 0; a++)
@@ -102,9 +107,9 @@ namespace UbuntuOne {
                                   _tokenHash[TOKEN_CONSUMER_SEC_KEY].toUtf8().data(),
                                   _tokenHash[TOKEN_TOKEN_KEY].toUtf8().data(),
                                   _tokenHash[TOKEN_TOKEN_SEC_KEY].toUtf8().data());
-        if (asQuery)
+        if (asQuery) {
             result = oauth_serialize_url_parameters(argc, argv);
-        else{
+        } else {
             req_hdr = oauth_serialize_url_sep(argc, 1, argv, (char *)", ", 6);
             result = hdrPrefix + QString(req_hdr);
         }
