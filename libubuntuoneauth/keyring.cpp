@@ -122,7 +122,6 @@ namespace UbuntuOne {
                 emit keyringError(errMsg);
             }
             account->setEnabled(true);
-            account->sync();
             emit tokenStored();
             return;
         }
@@ -155,7 +154,6 @@ namespace UbuntuOne {
             }
 
             account->setEnabled(true);
-            account->sync();
         }
 
         if(account->credentialsId() == 0){

@@ -42,7 +42,6 @@ Column {
     Component.onCompleted: {
         resetUI();
         enableAccount();
-        __account.sync()
     }
 
     Label {
