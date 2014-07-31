@@ -180,7 +180,6 @@ Column {
         console.debug("Removing account ID: " + account.accountId);
         account.removed.connect(finished);
         account.remove(Account.RemoveCredentials);
-        resetUI();
     }
 
     /* processForm uses a timer to delay calling u1credservice, which can
@@ -225,7 +224,6 @@ Column {
         account.updateEnabled(true);
         account.synced.connect(main.finished);
         account.sync();
-        resetUI();
     }
 
     function showTwoFactorUI() {
