@@ -69,7 +69,7 @@ Column {
     }
 
     Label {
-        text: i18n.tr("Please type your email:")
+        text: i18n.dtr(rootFlickable.domain, "Please type your email:")
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.margins: units.gu(2)
@@ -78,7 +78,7 @@ Column {
     TextField {
         id: emailTextField
         objectName: "emailTextField"
-        placeholderText: i18n.tr("example: user@ubuntu.com")
+        placeholderText: i18n.dtr(rootFlickable.domain, "example: user@ubuntu.com")
         width: main.width - (2 * main.anchors.margins)
         validator: RegExpValidator { regExp: /.+@.+/ }
         focus: true
@@ -131,7 +131,7 @@ Column {
 
         onLoginOrRegisterError: {
             if (errorMessage == "Invalid request data") {
-                errorMessage = i18n.tr("Please enter a valid email address.");
+                errorMessage = i18n.dtr(rootFlickable.domain, "Please enter a valid email address.");
             }
             showError(errorMessage);
         }
@@ -163,12 +163,12 @@ Column {
 
     function toggleNewUser() {
         if(state == "login" || state == "twofactor") {
-            topLabel.text = i18n.tr("Create your Ubuntu One account")
+            topLabel.text = i18n.dtr(rootFlickable.domain, "Create your Ubuntu One account")
             switchTo(registerForm)
             state = "register";
             registerForm.nameTextField.focus = true;
         } else if(state == "register") {
-            topLabel.text = i18n.tr("Sign in to your Ubuntu One account")
+            topLabel.text = i18n.dtr(rootFlickable.domain, "Sign in to your Ubuntu One account")
             switchTo(loginForm)
             state = "login";
             loginForm.passwordTextField.focus = true;
@@ -233,7 +233,7 @@ Column {
         loadingOverlay.visible = false;
         if(state != "login") {
             console.log("Error: did not expect two factor request from register");
-            showError(i18n.tr("An internal error occurred. Please try again later."));
+            showError(i18n.dtr(rootFlickable.domain, "An internal error occurred. Please try again later."));
             return;
         }
         errorLabel.visible = false;
@@ -246,7 +246,7 @@ Column {
     function validateInput() {
         formValid = emailTextField.acceptableInput;
         if(!formValid) {
-            showError(i18n.tr("Please enter a valid email address."));
+            showError(i18n.dtr(rootFlickable.domain, "Please enter a valid email address."));
             return;
         }
 
