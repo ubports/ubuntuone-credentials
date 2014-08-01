@@ -18,6 +18,7 @@
 #ifndef _U1_KEYRING_H_
 #define _U1_KEYRING_H_
 
+#include <Accounts/Account>
 #include <Accounts/Manager>
 #include <SignOn/Identity>
 
@@ -54,6 +55,7 @@ namespace UbuntuOne {
 
     private:
         Accounts::Manager _manager;
+        Accounts::Account *_account;
     };
 
 } /* namespace UbuntuOne */

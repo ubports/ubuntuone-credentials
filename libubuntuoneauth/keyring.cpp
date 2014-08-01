@@ -35,6 +35,7 @@ namespace UbuntuOne {
         : QObject(parent),
           _manager()
     {
+        _account = nullptr;
     }
 
     void Keyring::handleError(const SignOn::Error &error)
@@ -103,29 +104,19 @@ namespace UbuntuOne {
     {
         QString _acctName("ubuntuone");
         AccountIdList _ids = _manager.accountList(_acctName);
-        Account *account;
 
-        if (_ids.length() > 0) {
-            if (_ids.length() > 1) {
-                qDebug() << "handleCredentialsStored(): Found '" << _ids.length() << "' accounts. Using first.";
-            }
-            account = _manager.account(_ids[0]);
-            qDebug() << "handleCredentialsStored(): Using Ubuntu One account '" << _ids[0] << "'.";
-            account->selectService();
-            account->setCredentialsId(id);
+        _account->selectService();
+        _account->setCredentialsId(id);
 
-            ServiceList services = account->services(_acctName);
-            if (services.length() > 0) {
-                account->selectService(services[0]);
-            } else {
-                QString errMsg("Unable to enable 'ubuntuone' service.");
-                emit keyringError(errMsg);
-            }
-            account->setEnabled(true);
-            emit tokenStored();
-            return;
+        ServiceList services = _account->services(_acctName);
+        if (services.length() > 0) {
+            _account->selectService(services[0]);
+        } else {
+            QString errMsg("Unable to enable 'ubuntuone' service.");
+            emit keyringError(errMsg);
         }
-        emit keyringError(QStringLiteral("Could not sync credentials ID."));
+        _account->setEnabled(true);
+        emit tokenStored();
     }
 
     void Keyring::storeToken(Token token)
@@ -133,35 +124,34 @@ namespace UbuntuOne {
         QString _acctName("ubuntuone");
         AccountIdList _ids = _manager.accountList(_acctName);
         Identity *identity = NULL;
-        Account *account = NULL;
 
         if (_ids.length() > 0) {
             if (_ids.length() > 1) {
                 qDebug() << "storeToken(): Found '" << _ids.length() << "' accounts. Using first.";
             }
-            account = _manager.account(_ids[0]);
+            _account = _manager.account(_ids[0]);
             qDebug() << "storeToken(): Using Ubuntu One account '" << _ids[0] << "'.";
         } else {
             qDebug() << "in storeToken(): no accounts found in accountList, creating new";
-            account = _manager.createAccount(_acctName);
+            _account = _manager.createAccount(_acctName);
 
-            ServiceList services = account->services(_acctName);
+            ServiceList services = _account->services(_acctName);
             if (services.length() > 0) {
-                account->selectService(services[0]);
+                _account->selectService(services[0]);
             } else {
                 QString errMsg("Unable to enable 'ubuntuone' service.");
                 emit keyringError(errMsg);
             }
 
-            account->setEnabled(true);
+            _account->setEnabled(true);
         }
 
-        if(account->credentialsId() == 0){
-            qDebug() << "storeToken() : creating new Identity for account " << account->id() ;
+        if(_account->credentialsId() == 0){
+            qDebug() << "storeToken() : creating new Identity for account " << _account->id() ;
             identity = Identity::newIdentity();
         }else{
             qDebug() << "storeToken(): identity found.";
-            identity = Identity::existingIdentity(account->credentialsId());
+            identity = Identity::existingIdentity(_account->credentialsId());
         }
 
         Q_ASSERT(identity != NULL);
