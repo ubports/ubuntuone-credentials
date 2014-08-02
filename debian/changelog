@@ -1,3 +1,13 @@
+ubuntuone-credentials (14.04+14.10.20140802) utopic; urgency=low
+
+  [ Rodney Dawes ]
+  * Warn and return if the URL is empty, before signing. (LP: #1270283)
+  * Let Qt choose to abort() or exit(1) for fatal messages. (LP:
+    #1351345)
+  * Enable translation of the strings in the plug-in. (LP: #1201460)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Sat, 02 Aug 2014 02:08:58 +0000
+
 ubuntuone-credentials (14.04+14.10.20140729) utopic; urgency=low
 
   [ Rodney Dawes ]
