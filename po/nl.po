@@ -1,0 +1,157 @@
+# Dutch translation for ubuntuone-credentials
+# Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
+# This file is distributed under the same license as the ubuntuone-credentials package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ubuntuone-credentials\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2014-08-01 15:51-0400\n"
+"PO-Revision-Date: 2014-08-05 15:42+0000\n"
+"Last-Translator: rob <linuxned@gmail.com>\n"
+"Language-Team: Dutch <nl@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2014-08-06 06:41+0000\n"
+"X-Generator: Launchpad (build 17147)\n"
+
+#: ../online-accounts-provider/ExistingAccount.qml:37
+msgid "Email"
+msgstr "E-mailadres"
+
+#: ../online-accounts-provider/ExistingAccount.qml:50
+msgid "Remove account…"
+msgstr "Account verwijderen…"
+
+#: ../online-accounts-provider/ExistingAccount.qml:64
+msgid "Remove Credentials"
+msgstr "Aanmeldgegevens verwijderen"
+
+#: ../online-accounts-provider/ExistingAccount.qml:65
+msgid ""
+"Removing the Ubuntu One credentials will prevent any applications on this "
+"device from accessing your account. You can authorize the device again by "
+"providing your username and password."
+msgstr ""
+"Door het verwijderen van de Ubuntu One-aanmeldgegevens voorkomt u dat "
+"toepassingen op dit apparaat toegang hebben tot uw account. U kunt het "
+"apparaat opnieuw autoriseren door uw gebruikersnaam en wachtwoord te geven."
+
+#: ../online-accounts-provider/ExistingAccount.qml:68
+msgid "Remove"
+msgstr "Verwijderen"
+
+#: ../online-accounts-provider/ExistingAccount.qml:81
+#: ../online-accounts-provider/LoginForm.qml:94
+#: ../online-accounts-provider/RegisterForm.qml:118
+msgid "Cancel"
+msgstr "Annuleren"
+
+#: ../online-accounts-provider/LoginForm.qml:33
+msgid "Enter your password:"
+msgstr "Voer uw wachtwoord in:"
+
+#: ../online-accounts-provider/LoginForm.qml:49
+msgid "Forgot password?"
+msgstr "Wachtwoord vergeten?"
+
+#: ../online-accounts-provider/LoginForm.qml:61
+msgid "Type your verification code:"
+msgstr "Voer uw verificatiecode in:"
+
+#: ../online-accounts-provider/LoginForm.qml:67
+msgid "2-factor device code"
+msgstr "Apparaatcode in twee stappen"
+
+#: ../online-accounts-provider/LoginForm.qml:78
+msgid "Authentication Device Help"
+msgstr "Hulp authenticatieapparaat"
+
+#: ../online-accounts-provider/LoginForm.qml:106
+msgid "Sign in"
+msgstr "Aanmelden"
+
+#: ../online-accounts-provider/LoginForm.qml:119
+msgid "I'm a new Ubuntu One user, sign me up"
+msgstr "Ik ben een nieuwe Ubuntu One-gebruiker, maak een account aan"
+
+#: ../online-accounts-provider/LoginForm.qml:139
+msgid "Password must be at least 8 characters long."
+msgstr "Wachtwoord moet minimaal 8 tekens lang zijn."
+
+#: ../online-accounts-provider/LoginForm.qml:149
+msgid "Please enter your two-factor device code."
+msgstr "Voer a.u.b. uw apparaatcode in."
+
+#: ../online-accounts-provider/NewAccount.qml:72
+msgid "Please type your email:"
+msgstr "Voer uw e-mailadres in:"
+
+#: ../online-accounts-provider/NewAccount.qml:81
+msgid "example: user@ubuntu.com"
+msgstr "bijvoorbeeld: gebruiker@ubuntu.com"
+
+#: ../online-accounts-provider/NewAccount.qml:134
+#: ../online-accounts-provider/NewAccount.qml:249
+msgid "Please enter a valid email address."
+msgstr "Voer een geldig e-mailadres in."
+
+#: ../online-accounts-provider/NewAccount.qml:166
+msgid "Create your Ubuntu One account"
+msgstr "Uw Ubuntu One-account aanmaken"
+
+#: ../online-accounts-provider/NewAccount.qml:171
+msgid "Sign in to your Ubuntu One account"
+msgstr "Meld u aan bij uw Ubuntu One-account"
+
+#: ../online-accounts-provider/NewAccount.qml:236
+msgid "An internal error occurred. Please try again later."
+msgstr "Er is een interne fout opgetreden. Probeer het later opnieuw."
+
+#: ../online-accounts-provider/RegisterForm.qml:34
+msgid "Please tell us your name:"
+msgstr "Geef a.u.b. uw naam:"
+
+#: ../online-accounts-provider/RegisterForm.qml:40
+msgid "First and last name"
+msgstr "Voor- en achternaam"
+
+#: ../online-accounts-provider/RegisterForm.qml:53
+msgid "Choose a password:"
+msgstr "Kies een wachtwoord:"
+
+#: ../online-accounts-provider/RegisterForm.qml:59
+msgid "At least 8 characters"
+msgstr "Minimaal 8 tekens"
+
+#: ../online-accounts-provider/RegisterForm.qml:75
+msgid "Must match the previous field"
+msgstr "Moet overeenkomen met het vorige veld"
+
+#: ../online-accounts-provider/RegisterForm.qml:130
+msgid "Continue"
+msgstr "Volgende"
+
+#: ../online-accounts-provider/RegisterForm.qml:144
+msgid "I'm an existing Ubuntu One user, sign me in"
+msgstr "Ik ben een bestaande Ubuntu One-gebruiker, meld me aan"
+
+#: ../online-accounts-provider/RegisterForm.qml:167
+msgid "Please enter a name."
+msgstr "Vul a.u.b. een naam in."
+
+#: ../online-accounts-provider/RegisterForm.qml:174
+msgid "Your password must be at least 8 characters long."
+msgstr "U wachtwoord moet minimaal 8 tekens lang zijn."
+
+#: ../online-accounts-provider/RegisterForm.qml:181
+msgid "The passwords do not match."
+msgstr "De wachtwoorden komen niet overeen."
+
+#: ../online-accounts-provider/RegisterForm.qml:186
+msgid "Please accept the terms and conditions by checking the box."
+msgstr ""
+"Accepteer a.u.b. de voorwaarden en bepalingen door het keuzevakje aan te "
+"vinken."
