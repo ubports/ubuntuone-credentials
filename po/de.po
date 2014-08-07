@@ -1,4 +1,4 @@
-# Persian translation for ubuntuone-credentials
+# German translation for ubuntuone-credentials
 # Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
 # This file is distributed under the same license as the ubuntuone-credentials package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: ubuntuone-credentials\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-01 15:51-0400\n"
-"PO-Revision-Date: 2014-08-06 05:08+0000\n"
-"Last-Translator: Danial Behzadi <dani.behzi@gmail.com>\n"
-"Language-Team: Persian <fa@li.org>\n"
+"PO-Revision-Date: 2014-08-06 18:07+0000\n"
+"Last-Translator: Phillip Sz <Unknown>\n"
+"Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,15 +19,15 @@ msgstr ""
 
 #: ../online-accounts-provider/ExistingAccount.qml:37
 msgid "Email"
-msgstr "ای‌میل"
+msgstr "E-Mail"
 
 #: ../online-accounts-provider/ExistingAccount.qml:50
 msgid "Remove account…"
-msgstr "برداشتن حساب کاربری…"
+msgstr "Konto entfernen …"
 
 #: ../online-accounts-provider/ExistingAccount.qml:64
 msgid "Remove Credentials"
-msgstr "برداشتن گواهی‌نامه"
+msgstr ""
 
 #: ../online-accounts-provider/ExistingAccount.qml:65
 msgid ""
@@ -35,121 +35,118 @@ msgid ""
 "device from accessing your account. You can authorize the device again by "
 "providing your username and password."
 msgstr ""
-"برداشتن گواهی نامه‌ی اوبونتو وان هر برنامه‌ای روی این دستگاه را از دست‌رسی "
-"به حیاب کاربریتان منع می‌کند. می‌توانید با فراهم کردن نام کاربری و گدرواژه، "
-"دوباره دستگاه را تأیید کنید."
 
 #: ../online-accounts-provider/ExistingAccount.qml:68
 msgid "Remove"
-msgstr "برداشتن"
+msgstr "Entfernen"
 
 #: ../online-accounts-provider/ExistingAccount.qml:81
 #: ../online-accounts-provider/LoginForm.qml:94
 #: ../online-accounts-provider/RegisterForm.qml:118
 msgid "Cancel"
-msgstr "لغو"
+msgstr "Abbrechen"
 
 #: ../online-accounts-provider/LoginForm.qml:33
 msgid "Enter your password:"
-msgstr "گذرواژه‌تان را وارد کنید:"
+msgstr "Geben Sie Ihr Passwort ein:"
 
 #: ../online-accounts-provider/LoginForm.qml:49
 msgid "Forgot password?"
-msgstr "گذرواژه را فراموش کردید؟"
+msgstr "Passwort vergessen?"
 
 #: ../online-accounts-provider/LoginForm.qml:61
 msgid "Type your verification code:"
-msgstr "رمز تأییدیه‌ی خود را بنویسید:"
+msgstr ""
 
 #: ../online-accounts-provider/LoginForm.qml:67
 msgid "2-factor device code"
-msgstr "کد دستگاه مرحله ۲"
+msgstr ""
 
 #: ../online-accounts-provider/LoginForm.qml:78
 msgid "Authentication Device Help"
-msgstr "راه‌نمای دستگاه تأیید"
+msgstr ""
 
 #: ../online-accounts-provider/LoginForm.qml:106
 msgid "Sign in"
-msgstr "ورود"
+msgstr "Anmelden"
 
 #: ../online-accounts-provider/LoginForm.qml:119
 msgid "I'm a new Ubuntu One user, sign me up"
-msgstr "من یک کاربر جدید اوبونتووان هستم، مرا ثبت‌نام کن"
+msgstr ""
 
 #: ../online-accounts-provider/LoginForm.qml:139
 msgid "Password must be at least 8 characters long."
-msgstr "گذرواژه باید حداقل ۸ نویسه طول داشته باشد."
+msgstr "Das Passwort muss mindestens 8 Zeichen lang sein."
 
 #: ../online-accounts-provider/LoginForm.qml:149
 msgid "Please enter your two-factor device code."
-msgstr "لطفاً کد دستگاه مرحله ۲ خود را وارد کنید"
+msgstr ""
 
 #: ../online-accounts-provider/NewAccount.qml:72
 msgid "Please type your email:"
-msgstr "لطفاً ای‌میل خود را وارد کنید:"
+msgstr "Bitte geben Sie Ihre E-Mail-Adresse ein:"
 
 #: ../online-accounts-provider/NewAccount.qml:81
 msgid "example: user@ubuntu.com"
-msgstr "مثال: user@ubuntu.com"
+msgstr "z.B.: nutzer@ubuntu.com"
 
 #: ../online-accounts-provider/NewAccount.qml:134
 #: ../online-accounts-provider/NewAccount.qml:249
 msgid "Please enter a valid email address."
-msgstr "لطفاً یک نشانی ای‌میل معتبر وارد کنید."
+msgstr "Bitte geben Sie eine gültige E-Mail-Adresse ein."
 
 #: ../online-accounts-provider/NewAccount.qml:166
 msgid "Create your Ubuntu One account"
-msgstr "ایجاد حساب اوبونتووان شما"
+msgstr ""
 
 #: ../online-accounts-provider/NewAccount.qml:171
 msgid "Sign in to your Ubuntu One account"
-msgstr "وارد شدن به حساب اوبونتووان شما"
+msgstr ""
 
 #: ../online-accounts-provider/NewAccount.qml:236
 msgid "An internal error occurred. Please try again later."
-msgstr "یک خطای داخلی رخ داد. لطفاً دوباره تلاش نمایید."
+msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:34
 msgid "Please tell us your name:"
-msgstr "لطفاً نامتان را به ما بگویید"
+msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:40
 msgid "First and last name"
-msgstr "نام و نام‌خانوادگی"
+msgstr "Vor- und Nachname"
 
 #: ../online-accounts-provider/RegisterForm.qml:53
 msgid "Choose a password:"
-msgstr "گذرواژه‌ای برگزینید:"
+msgstr "Wählen Sie ein Passwort:"
 
 #: ../online-accounts-provider/RegisterForm.qml:59
 msgid "At least 8 characters"
-msgstr "حداقل ۸ نویسه"
+msgstr "Mindestens 8 Zeichen"
 
 #: ../online-accounts-provider/RegisterForm.qml:75
 msgid "Must match the previous field"
-msgstr "باید با زمینه‌ی قبلی تطابق داشته باشد"
+msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:130
 msgid "Continue"
-msgstr "ادامه"
+msgstr "Fortfahren"
 
 #: ../online-accounts-provider/RegisterForm.qml:144
 msgid "I'm an existing Ubuntu One user, sign me in"
-msgstr "من یک کاربر اوبونتووان هستم، مرا وارد کن"
+msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:167
 msgid "Please enter a name."
-msgstr "لطفا یک نام وارد کنید."
+msgstr "Bitte geben Sie einen Namen ein."
 
 #: ../online-accounts-provider/RegisterForm.qml:174
 msgid "Your password must be at least 8 characters long."
-msgstr "گذرواژه‌ی شما باید حداقل ۸ نویسه باشد."
+msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:181
 msgid "The passwords do not match."
-msgstr "گذرواژه‌ها تطابق ندارند"
+msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:186
 msgid "Please accept the terms and conditions by checking the box."
-msgstr "لطفاً با علامت زدن جعبه، شرابط و ضوابط را بپذیرید."
+msgstr ""
