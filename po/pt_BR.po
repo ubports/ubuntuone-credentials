@@ -8,26 +8,26 @@ msgstr ""
 "Project-Id-Version: ubuntuone-credentials\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-01 15:51-0400\n"
-"PO-Revision-Date: 2014-08-06 02:20+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2014-08-07 13:13+0000\n"
+"Last-Translator: Salomão Carneiro de Brito <salomaocar@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-07 06:13+0000\n"
-"X-Generator: Launchpad (build 17147)\n"
+"X-Launchpad-Export-Date: 2014-08-08 06:43+0000\n"
+"X-Generator: Launchpad (build 17156)\n"
 
 #: ../online-accounts-provider/ExistingAccount.qml:37
 msgid "Email"
-msgstr ""
+msgstr "E-mail"
 
 #: ../online-accounts-provider/ExistingAccount.qml:50
 msgid "Remove account…"
-msgstr ""
+msgstr "Remover conta…"
 
 #: ../online-accounts-provider/ExistingAccount.qml:64
 msgid "Remove Credentials"
-msgstr ""
+msgstr "Remover credenciais"
 
 #: ../online-accounts-provider/ExistingAccount.qml:65
 msgid ""
@@ -35,28 +35,31 @@ msgid ""
 "device from accessing your account. You can authorize the device again by "
 "providing your username and password."
 msgstr ""
+"Remover as credenciais do Ubuntu One irá prevenir quaisquer aplicações neste "
+"dispositivo de acessar sua conta. Você pode autorizar o dispositivo "
+"novamente fornecendo o seu nome de usuário e senha."
 
 #: ../online-accounts-provider/ExistingAccount.qml:68
 msgid "Remove"
-msgstr ""
+msgstr "Remover"
 
 #: ../online-accounts-provider/ExistingAccount.qml:81
 #: ../online-accounts-provider/LoginForm.qml:94
 #: ../online-accounts-provider/RegisterForm.qml:118
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: ../online-accounts-provider/LoginForm.qml:33
 msgid "Enter your password:"
-msgstr ""
+msgstr "Digite sua senha:"
 
 #: ../online-accounts-provider/LoginForm.qml:49
 msgid "Forgot password?"
-msgstr ""
+msgstr "Esqueceu a senha?"
 
 #: ../online-accounts-provider/LoginForm.qml:61
 msgid "Type your verification code:"
-msgstr ""
+msgstr "Digite o código de verificação:"
 
 #: ../online-accounts-provider/LoginForm.qml:67
 msgid "2-factor device code"
@@ -68,15 +71,15 @@ msgstr ""
 
 #: ../online-accounts-provider/LoginForm.qml:106
 msgid "Sign in"
-msgstr ""
+msgstr "Entrar"
 
 #: ../online-accounts-provider/LoginForm.qml:119
 msgid "I'm a new Ubuntu One user, sign me up"
-msgstr ""
+msgstr "Sou um novo usuário Ubuntu One, quero me inscrever"
 
 #: ../online-accounts-provider/LoginForm.qml:139
 msgid "Password must be at least 8 characters long."
-msgstr ""
+msgstr "A senha deve ter pelo menos 8 caracteres."
 
 #: ../online-accounts-provider/LoginForm.qml:149
 msgid "Please enter your two-factor device code."
@@ -84,69 +87,69 @@ msgstr ""
 
 #: ../online-accounts-provider/NewAccount.qml:72
 msgid "Please type your email:"
-msgstr ""
+msgstr "Por favor informe seu e-mail:"
 
 #: ../online-accounts-provider/NewAccount.qml:81
 msgid "example: user@ubuntu.com"
-msgstr ""
+msgstr "exemplo: usuario@ubuntu.com"
 
 #: ../online-accounts-provider/NewAccount.qml:134
 #: ../online-accounts-provider/NewAccount.qml:249
 msgid "Please enter a valid email address."
-msgstr ""
+msgstr "Por favor, informe um endereço de e-mail válido"
 
 #: ../online-accounts-provider/NewAccount.qml:166
 msgid "Create your Ubuntu One account"
-msgstr ""
+msgstr "Crie a sua conta Ubuntu One"
 
 #: ../online-accounts-provider/NewAccount.qml:171
 msgid "Sign in to your Ubuntu One account"
-msgstr ""
+msgstr "Entre na sua conta Ubuntu One"
 
 #: ../online-accounts-provider/NewAccount.qml:236
 msgid "An internal error occurred. Please try again later."
-msgstr ""
+msgstr "Ocorreu um erro interno. Por favor, tente novamente mais tarde."
 
 #: ../online-accounts-provider/RegisterForm.qml:34
 msgid "Please tell us your name:"
-msgstr ""
+msgstr "Por favor, nos informe o seu nome:"
 
 #: ../online-accounts-provider/RegisterForm.qml:40
 msgid "First and last name"
-msgstr ""
+msgstr "Primeiro e último nome"
 
 #: ../online-accounts-provider/RegisterForm.qml:53
 msgid "Choose a password:"
-msgstr ""
+msgstr "Escolha uma senha:"
 
 #: ../online-accounts-provider/RegisterForm.qml:59
 msgid "At least 8 characters"
-msgstr ""
+msgstr "Pelo menos 8 caracteres"
 
 #: ../online-accounts-provider/RegisterForm.qml:75
 msgid "Must match the previous field"
-msgstr ""
+msgstr "Deve corresponder ao campo anterior"
 
 #: ../online-accounts-provider/RegisterForm.qml:130
 msgid "Continue"
-msgstr ""
+msgstr "Continuar"
 
 #: ../online-accounts-provider/RegisterForm.qml:144
 msgid "I'm an existing Ubuntu One user, sign me in"
-msgstr ""
+msgstr "Eu sou usuário Ubuntu One existente, inscrever-me em"
 
 #: ../online-accounts-provider/RegisterForm.qml:167
 msgid "Please enter a name."
-msgstr ""
+msgstr "Por favor, informe o nome."
 
 #: ../online-accounts-provider/RegisterForm.qml:174
 msgid "Your password must be at least 8 characters long."
-msgstr ""
+msgstr "Sua senha deve ter pelo menos 8 caracteres."
 
 #: ../online-accounts-provider/RegisterForm.qml:181
 msgid "The passwords do not match."
-msgstr ""
+msgstr "As senhas não coincídem."
 
 #: ../online-accounts-provider/RegisterForm.qml:186
 msgid "Please accept the terms and conditions by checking the box."
-msgstr ""
+msgstr "Por favor, aceite os termos e condições, marcando a caixa."
