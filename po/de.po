@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: ubuntuone-credentials\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-01 15:51-0400\n"
-"PO-Revision-Date: 2014-08-06 18:07+0000\n"
-"Last-Translator: Phillip Sz <Unknown>\n"
+"PO-Revision-Date: 2014-08-08 09:58+0000\n"
+"Last-Translator: Martin Pitt <martin.pitt@ubuntu.com>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-07 06:13+0000\n"
-"X-Generator: Launchpad (build 17147)\n"
+"X-Launchpad-Export-Date: 2014-08-09 05:33+0000\n"
+"X-Generator: Launchpad (build 17156)\n"
 
 #: ../online-accounts-provider/ExistingAccount.qml:37
 msgid "Email"
@@ -27,7 +27,7 @@ msgstr "Konto entfernen …"
 
 #: ../online-accounts-provider/ExistingAccount.qml:64
 msgid "Remove Credentials"
-msgstr ""
+msgstr "Berechtigung entfernen"
 
 #: ../online-accounts-provider/ExistingAccount.qml:65
 msgid ""
@@ -35,6 +35,9 @@ msgid ""
 "device from accessing your account. You can authorize the device again by "
 "providing your username and password."
 msgstr ""
+"Das Entfernen der Ubuntu One-Berechtigung wird alle Apps davon abhalten, auf "
+"Ihr Ubuntu One-Konto zuzugreifen. Sie können Ihr Telefon erneut "
+"authorisieren indem Sie Ihren Benutzernamen und Passwort eingeben."
 
 #: ../online-accounts-provider/ExistingAccount.qml:68
 msgid "Remove"
@@ -56,15 +59,15 @@ msgstr "Passwort vergessen?"
 
 #: ../online-accounts-provider/LoginForm.qml:61
 msgid "Type your verification code:"
-msgstr ""
+msgstr "Geben Sie den Verifikations-Code ein:"
 
 #: ../online-accounts-provider/LoginForm.qml:67
 msgid "2-factor device code"
-msgstr ""
+msgstr "Zwei-Faktor-Code:"
 
 #: ../online-accounts-provider/LoginForm.qml:78
 msgid "Authentication Device Help"
-msgstr ""
+msgstr "Hilfe zur Geräte-Authentifizierung"
 
 #: ../online-accounts-provider/LoginForm.qml:106
 msgid "Sign in"
@@ -72,7 +75,7 @@ msgstr "Anmelden"
 
 #: ../online-accounts-provider/LoginForm.qml:119
 msgid "I'm a new Ubuntu One user, sign me up"
-msgstr ""
+msgstr "Ich bin ein neuer Ubuntu One-Benutzer, registriere mich"
 
 #: ../online-accounts-provider/LoginForm.qml:139
 msgid "Password must be at least 8 characters long."
@@ -80,7 +83,7 @@ msgstr "Das Passwort muss mindestens 8 Zeichen lang sein."
 
 #: ../online-accounts-provider/LoginForm.qml:149
 msgid "Please enter your two-factor device code."
-msgstr ""
+msgstr "Geben Sie den Zwei-Faktor-Code ein:"
 
 #: ../online-accounts-provider/NewAccount.qml:72
 msgid "Please type your email:"
@@ -97,19 +100,20 @@ msgstr "Bitte geben Sie eine gültige E-Mail-Adresse ein."
 
 #: ../online-accounts-provider/NewAccount.qml:166
 msgid "Create your Ubuntu One account"
-msgstr ""
+msgstr "Ihr Ubuntu One-Konto erstellen"
 
 #: ../online-accounts-provider/NewAccount.qml:171
 msgid "Sign in to your Ubuntu One account"
-msgstr ""
+msgstr "An Ubuntu One-Konto anmelden"
 
 #: ../online-accounts-provider/NewAccount.qml:236
 msgid "An internal error occurred. Please try again later."
 msgstr ""
+"Ein interner Fehler ist aufgetreten. Bitte versuchen Sie es später nochmal."
 
 #: ../online-accounts-provider/RegisterForm.qml:34
 msgid "Please tell us your name:"
-msgstr ""
+msgstr "Bitte geben Sie uns Ihren Benutzernamen:"
 
 #: ../online-accounts-provider/RegisterForm.qml:40
 msgid "First and last name"
@@ -125,7 +129,7 @@ msgstr "Mindestens 8 Zeichen"
 
 #: ../online-accounts-provider/RegisterForm.qml:75
 msgid "Must match the previous field"
-msgstr ""
+msgstr "Muss gleich dem vorherigen Feld sein"
 
 #: ../online-accounts-provider/RegisterForm.qml:130
 msgid "Continue"
@@ -133,7 +137,7 @@ msgstr "Fortfahren"
 
 #: ../online-accounts-provider/RegisterForm.qml:144
 msgid "I'm an existing Ubuntu One user, sign me in"
-msgstr ""
+msgstr "Ich habe schon ein Ubuntu One-Konto, melde mich an"
 
 #: ../online-accounts-provider/RegisterForm.qml:167
 msgid "Please enter a name."
@@ -141,12 +145,13 @@ msgstr "Bitte geben Sie einen Namen ein."
 
 #: ../online-accounts-provider/RegisterForm.qml:174
 msgid "Your password must be at least 8 characters long."
-msgstr ""
+msgstr "Ihr Passwort muss mindestens 8 Zeichen lang sein."
 
 #: ../online-accounts-provider/RegisterForm.qml:181
 msgid "The passwords do not match."
-msgstr ""
+msgstr "Die Passwörter stimmen nicht überein"
 
 #: ../online-accounts-provider/RegisterForm.qml:186
 msgid "Please accept the terms and conditions by checking the box."
 msgstr ""
+"Bitte akzeptieren Sie die Bedingungen indem Sie dieses Häkchen setzen."
