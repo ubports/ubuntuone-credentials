@@ -38,7 +38,8 @@ class TestToken: public QObject
 
         void testFromQuery();
         void testTokenName();
+
+        void testSignUrlEmpty();
 };
 
 #endif /* _TEST_TOKEN_H_ */
-

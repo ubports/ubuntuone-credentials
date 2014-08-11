@@ -50,6 +50,7 @@ add_subdirectory(libubuntuoneauth)
 add_subdirectory(signon-plugin)
 add_subdirectory(qml-credentials-service)
 add_subdirectory(online-accounts-provider)
+add_subdirectory(po)
 
 # We need to add these here which simply depend on other test rules, as
 # CMake doesn't allow defining a "check" rule in multiple places.

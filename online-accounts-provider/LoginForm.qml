@@ -30,7 +30,7 @@ Column {
     property alias twoFactorCode: twoFactorTextField.text
 
     Label {
-        text: i18n.tr("Enter your password:")
+        text: i18n.dtr(rootFlickable.domain, "Enter your password:")
     }
 
     TextField {
@@ -46,7 +46,7 @@ Column {
     }
 
     Label {
-        text: '<a href="https://login.ubuntu.com/+forgot_password"><span style="color: #dd4814;">%1</span></a>'.arg(i18n.tr("Forgot password?"))
+        text: '<a href="https://login.ubuntu.com/+forgot_password"><span style="color: #dd4814;">%1</span></a>'.arg(i18n.dtr(rootFlickable.domain, "Forgot password?"))
         textFormat: Text.RichText
         onLinkActivated: { Qt.openUrlExternally(link); }
     }
@@ -58,13 +58,13 @@ Column {
         visible: false
 
         Label {
-            text: "Type your verification code:"
+            text: i18n.dtr(rootFlickable.domain, "Type your verification code:")
         }
 
         TextField {
             id: twoFactorTextField
             objectName: "twoFactorTextField"
-            placeholderText: "2-factor device code"
+            placeholderText: i18n.dtr(rootFlickable.domain, "2-factor device code")
             echoMode: TextInput.Password
             width: main.width - (2 * main.anchors.margins)
             Keys.onReturnPressed: {
@@ -75,7 +75,7 @@ Column {
         }
 
         Label {
-            text: '<a href="https://login.ubuntu.com/+device-help"><span style="color: #dd4814;">%1</span></a>'.arg(i18n.tr("Authentication Device Help"))
+            text: '<a href="https://login.ubuntu.com/+device-help"><span style="color: #dd4814;">%1</span></a>'.arg(i18n.dtr(rootFlickable.domain, "Authentication Device Help"))
             textFormat: Text.RichText
             onLinkActivated: { Qt.openUrlExternally(link); }
         }
@@ -91,7 +91,7 @@ Column {
         Button {
             id: btnCancel
             objectName: "cancelButton"
-            text: i18n.tr("Cancel")
+            text: i18n.dtr(rootFlickable.domain, "Cancel")
             color: "#1c091a"
             height: parent.height
             width: (parent.width / 2) - 0.5 * parent.spacing
@@ -103,7 +103,7 @@ Column {
         Button {
             id: btnContinue
             objectName: "continueButton"
-            text: i18n.tr("Sign in")
+            text: i18n.dtr(rootFlickable.domain, "Sign in")
             color: "#cc3300"
             height: parent.height
             width: (parent.width / 2) - 0.5 * parent.spacing
@@ -116,7 +116,7 @@ Column {
     Label {
         id: toggleLabel
         objectName: "loginFormToggleLabel"
-        text: '<a href="#"><span style="color: #dd4814;">%1</span</a>'.arg(i18n.tr("I'm a new Ubuntu One user, sign me up"))
+        text: '<a href="#"><span style="color: #dd4814;">%1</span</a>'.arg(i18n.dtr(rootFlickable.domain, "I'm a new Ubuntu One user, sign me up"))
 
         textFormat: Text.RichText
         horizontalAlignment: Text.AlignHCenter
@@ -136,7 +136,7 @@ Column {
         var passwordLongEnough = passwordTextField.text.length > 7;
         passwordTextField.errorHighlight = !passwordLongEnough;
         if (!passwordLongEnough) {
-            main.showError("Password must be at least 8 characters long.");
+            main.showError(i18n.dtr(rootFlickable.domain, "Password must be at least 8 characters long."));
         }
 
         if (!twoFactorUI.visible) {
@@ -146,7 +146,7 @@ Column {
         var twoFactorLongEnough = twoFactorTextField.text.length > 0;
         twoFactorTextField.errorHighlight = !twoFactorLongEnough;
         if(!twoFactorLongEnough){
-            main.showError("Please enter your two-factor device code.");
+            main.showError(i18n.dtr(rootFlickable.domain, "Please enter your two-factor device code."));
         }
         return passwordLongEnough && twoFactorLongEnough;
     }

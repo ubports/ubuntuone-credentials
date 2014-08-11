@@ -1,0 +1,159 @@
+# Gaelic; Scottish translation for ubuntuone-credentials
+# Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
+# This file is distributed under the same license as the ubuntuone-credentials package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ubuntuone-credentials\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2014-08-01 15:51-0400\n"
+"PO-Revision-Date: 2014-08-05 12:45+0000\n"
+"Last-Translator: GunChleoc <Unknown>\n"
+"Language-Team: Gaelic; Scottish <gd@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2014-08-06 06:41+0000\n"
+"X-Generator: Launchpad (build 17147)\n"
+
+#: ../online-accounts-provider/ExistingAccount.qml:37
+msgid "Email"
+msgstr "Post-d"
+
+#: ../online-accounts-provider/ExistingAccount.qml:50
+msgid "Remove account…"
+msgstr "Thoir cunntas air falbh..."
+
+#: ../online-accounts-provider/ExistingAccount.qml:64
+msgid "Remove Credentials"
+msgstr "Thoir dàta-clàraidh air falbh"
+
+#: ../online-accounts-provider/ExistingAccount.qml:65
+msgid ""
+"Removing the Ubuntu One credentials will prevent any applications on this "
+"device from accessing your account. You can authorize the device again by "
+"providing your username and password."
+msgstr ""
+"Chan fhaigh aplacaid sam bith air an uidheam seo cothrom dhan chunntas agad "
+"ma bheir thu an dàta-clàraidh Ubuntu One agad air falbh. 'S urrainn dhut an "
+"t-uidheam a dhearbhadh a-rithist le d' ainm-cleachdaiche 's facal-faire."
+
+#: ../online-accounts-provider/ExistingAccount.qml:68
+msgid "Remove"
+msgstr "Thoir air falbh"
+
+#: ../online-accounts-provider/ExistingAccount.qml:81
+#: ../online-accounts-provider/LoginForm.qml:94
+#: ../online-accounts-provider/RegisterForm.qml:118
+msgid "Cancel"
+msgstr "Sguir dheth"
+
+#: ../online-accounts-provider/LoginForm.qml:33
+msgid "Enter your password:"
+msgstr "Cuir a-steach am facal-faire agad:"
+
+#: ../online-accounts-provider/LoginForm.qml:49
+msgid "Forgot password?"
+msgstr "Gun chuimhne air an fhacal-fhaire agad?"
+
+#: ../online-accounts-provider/LoginForm.qml:61
+msgid "Type your verification code:"
+msgstr "Cuir a-steach an còd dearbhaidh agad:"
+
+#: ../online-accounts-provider/LoginForm.qml:67
+msgid "2-factor device code"
+msgstr "Còd uidheim dà-fhactarail"
+
+#: ../online-accounts-provider/LoginForm.qml:78
+msgid "Authentication Device Help"
+msgstr "Cobhair le dearbhadh an uidheim"
+
+#: ../online-accounts-provider/LoginForm.qml:106
+msgid "Sign in"
+msgstr "Clàraich a-steach"
+
+#: ../online-accounts-provider/LoginForm.qml:119
+msgid "I'm a new Ubuntu One user, sign me up"
+msgstr "'S e cleachdaiche Ubuntu One ùr a th' annam, clàraich mi"
+
+#: ../online-accounts-provider/LoginForm.qml:139
+msgid "Password must be at least 8 characters long."
+msgstr ""
+"Feumaich am facal-faire a bhith 8 caractaran a dh'fhaid air a char as lugha."
+
+#: ../online-accounts-provider/LoginForm.qml:149
+msgid "Please enter your two-factor device code."
+msgstr "Cuir a-steach an còd uidheim dà-fhactarail agad"
+
+#: ../online-accounts-provider/NewAccount.qml:72
+msgid "Please type your email:"
+msgstr "Cuir a-steach am post-d agad:"
+
+#: ../online-accounts-provider/NewAccount.qml:81
+msgid "example: user@ubuntu.com"
+msgstr "ball-eisimpleir: cleachdaiche@ubuntu.com"
+
+#: ../online-accounts-provider/NewAccount.qml:134
+#: ../online-accounts-provider/NewAccount.qml:249
+msgid "Please enter a valid email address."
+msgstr "Cuir a-steach seòladh puist-d dligheach"
+
+#: ../online-accounts-provider/NewAccount.qml:166
+msgid "Create your Ubuntu One account"
+msgstr "Cruthaich cunntas Ubuntu One"
+
+#: ../online-accounts-provider/NewAccount.qml:171
+msgid "Sign in to your Ubuntu One account"
+msgstr "Clàraich a-steach leis a' chunntas Ubuntu One agad"
+
+#: ../online-accounts-provider/NewAccount.qml:236
+msgid "An internal error occurred. Please try again later."
+msgstr ""
+"Thachair mearachd taobh a-staigh. Feuch ris a-rithist an ceann greis."
+
+#: ../online-accounts-provider/RegisterForm.qml:34
+msgid "Please tell us your name:"
+msgstr "Innis d' ainm dhuinn:"
+
+#: ../online-accounts-provider/RegisterForm.qml:40
+msgid "First and last name"
+msgstr "Ainm is sloinneadh"
+
+#: ../online-accounts-provider/RegisterForm.qml:53
+msgid "Choose a password:"
+msgstr "Tagh facal-faire:"
+
+#: ../online-accounts-provider/RegisterForm.qml:59
+msgid "At least 8 characters"
+msgstr "Co-dhiù 8 caractaran"
+
+#: ../online-accounts-provider/RegisterForm.qml:75
+msgid "Must match the previous field"
+msgstr "Feumaidh e co-fhreagairt ris an raon roimhe"
+
+#: ../online-accounts-provider/RegisterForm.qml:130
+msgid "Continue"
+msgstr "Lean air adhart"
+
+#: ../online-accounts-provider/RegisterForm.qml:144
+msgid "I'm an existing Ubuntu One user, sign me in"
+msgstr "Tha mi 'nam bhall air Ubuntu One mar-thà, clàraich a-steach mi"
+
+#: ../online-accounts-provider/RegisterForm.qml:167
+msgid "Please enter a name."
+msgstr "Cuir ainm a-steach:"
+
+#: ../online-accounts-provider/RegisterForm.qml:174
+msgid "Your password must be at least 8 characters long."
+msgstr ""
+"Feumaidh am facal-faire agad a bhith 8 caractaran a dh'fhaid air a char as "
+"lugha."
+
+#: ../online-accounts-provider/RegisterForm.qml:181
+msgid "The passwords do not match."
+msgstr "Chan eil an dà fhacal-faire co-ionnann."
+
+#: ../online-accounts-provider/RegisterForm.qml:186
+msgid "Please accept the terms and conditions by checking the box."
+msgstr "Aontaich ris na teirmichean is cumhaichean"

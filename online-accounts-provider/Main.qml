@@ -29,6 +29,7 @@ Flickable {
     property url existingAccountUrl: "ExistingAccount.qml"
     property Component newAccountComponent: null
     property Component existingAccountComponent: null
+    property string domain: "ubuntuone-credentials"
 
     signal finished
 
@@ -42,17 +43,6 @@ Flickable {
         anchors.top: parent.top
         source: sourceComponent === null ? (account.accountId != 0 ? existingAccountUrl : newAccountUrl) : ""
         sourceComponent: account.accountId != 0 ? existingAccountComponent : newAccountComponent
-
-        Connections {
-            target: rootFlickable.parent.parent.tools.back;
-            onTriggered: {
-                if(editPageLoader.source == newAccountUrl) {
-                    console.debug("back button clicked while creating account, removing incomplete account.");
-                    account.remove(Account.RemoveCredentials);
-                    editPageLoader.item.resetUI();
-                }
-            }
-        }
 
         Connections {
             target: account

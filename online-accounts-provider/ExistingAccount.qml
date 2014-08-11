@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical Ltd.
+ * Copyright (C) 2013-2014 Canonical Ltd.
  *
  *
  * This program is free software: you can redistribute it and/or modify it
@@ -34,7 +34,7 @@ Column {
 
     ListItem.SingleValue {
         objectName: "emailListItem"
-        text: "Email"
+        text: i18n.dtr(rootFlickable.domain, "Email")
         value: account.displayName
     }
 
@@ -47,7 +47,7 @@ Column {
     ListItem.SingleControl {
         control: Button {
             objectName: "removeAccountButton"
-            text: "Remove account…"
+            text: i18n.dtr(rootFlickable.domain, "Remove account…")
             width: parent.width - units.gu(4)
             onClicked: PopupUtils.open(removalConfirmationComponent);
         }
@@ -61,11 +61,11 @@ Column {
 
             property bool confirmed: false
 
-            title: "Remove Credentials"
-            text: "Removing the Ubuntu One credentials will prevent any applications on this device from accessing your account. You can authorize the device again by providing your username and password."
+            title: i18n.dtr(rootFlickable.domain, "Remove Credentials")
+            text: i18n.dtr(rootFlickable.domain, "Removing the Ubuntu One credentials will prevent any applications on this device from accessing your account. You can authorize the device again by providing your username and password.")
 
             Button {
-                text: "Remove"
+                text: i18n.dtr(rootFlickable.domain, "Remove")
                 objectName: "confirmRemoveAccountButton"
                 onClicked: {
                     PopupUtils.close(dialog);
@@ -78,7 +78,7 @@ Column {
             }
 
             Button {
-                text: "Cancel"
+                text: i18n.dtr(rootFlickable.domain, "Cancel")
                 objectName: "cancelRemoveAccountButton"
                 onClicked: {
                     console.log("User cancelled account removal");

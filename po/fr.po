@@ -1,0 +1,156 @@
+# French translation for ubuntuone-credentials
+# Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
+# This file is distributed under the same license as the ubuntuone-credentials package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ubuntuone-credentials\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2014-08-01 15:51-0400\n"
+"PO-Revision-Date: 2014-08-08 21:25+0000\n"
+"Last-Translator: Jean-Baptiste Lallement <jean-"
+"baptiste.lallement@ubuntu.com>\n"
+"Language-Team: French <fr@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2014-08-09 05:33+0000\n"
+"X-Generator: Launchpad (build 17156)\n"
+
+#: ../online-accounts-provider/ExistingAccount.qml:37
+msgid "Email"
+msgstr ""
+
+#: ../online-accounts-provider/ExistingAccount.qml:50
+msgid "Remove account…"
+msgstr "Supprimer le compte…"
+
+#: ../online-accounts-provider/ExistingAccount.qml:64
+msgid "Remove Credentials"
+msgstr "Supprimer les identifiants"
+
+#: ../online-accounts-provider/ExistingAccount.qml:65
+msgid ""
+"Removing the Ubuntu One credentials will prevent any applications on this "
+"device from accessing your account. You can authorize the device again by "
+"providing your username and password."
+msgstr ""
+"Supprimer vos identifiants Ubuntu One empêchera toute application sur cet "
+"appareil d'accéder à votre compte. Vous pouvez à nouveau autoriser cette "
+"appareil en fournissant un nom d'utilisateur et un mot de passe."
+
+#: ../online-accounts-provider/ExistingAccount.qml:68
+msgid "Remove"
+msgstr "Supprimer"
+
+#: ../online-accounts-provider/ExistingAccount.qml:81
+#: ../online-accounts-provider/LoginForm.qml:94
+#: ../online-accounts-provider/RegisterForm.qml:118
+msgid "Cancel"
+msgstr "Annuler"
+
+#: ../online-accounts-provider/LoginForm.qml:33
+msgid "Enter your password:"
+msgstr "Saisissez votre mot de passe :"
+
+#: ../online-accounts-provider/LoginForm.qml:49
+msgid "Forgot password?"
+msgstr "Mot de passe oublié ?"
+
+#: ../online-accounts-provider/LoginForm.qml:61
+msgid "Type your verification code:"
+msgstr "Entrez votre code de vérification :"
+
+#: ../online-accounts-provider/LoginForm.qml:67
+msgid "2-factor device code"
+msgstr ""
+
+#: ../online-accounts-provider/LoginForm.qml:78
+msgid "Authentication Device Help"
+msgstr ""
+
+#: ../online-accounts-provider/LoginForm.qml:106
+msgid "Sign in"
+msgstr "S'identifier"
+
+#: ../online-accounts-provider/LoginForm.qml:119
+msgid "I'm a new Ubuntu One user, sign me up"
+msgstr ""
+
+#: ../online-accounts-provider/LoginForm.qml:139
+msgid "Password must be at least 8 characters long."
+msgstr "Le mot de passe doit être de 8 caractères minimum."
+
+#: ../online-accounts-provider/LoginForm.qml:149
+msgid "Please enter your two-factor device code."
+msgstr ""
+
+#: ../online-accounts-provider/NewAccount.qml:72
+msgid "Please type your email:"
+msgstr "Veuillez saisir votre adresse de courriel :"
+
+#: ../online-accounts-provider/NewAccount.qml:81
+msgid "example: user@ubuntu.com"
+msgstr "exemple : utilisateur@ubuntu.com"
+
+#: ../online-accounts-provider/NewAccount.qml:134
+#: ../online-accounts-provider/NewAccount.qml:249
+msgid "Please enter a valid email address."
+msgstr "Veuillez entrer une adresse de courriel valide."
+
+#: ../online-accounts-provider/NewAccount.qml:166
+msgid "Create your Ubuntu One account"
+msgstr "Créez votre compte Ubuntu One"
+
+#: ../online-accounts-provider/NewAccount.qml:171
+msgid "Sign in to your Ubuntu One account"
+msgstr "Identifiez-vous avec votre compte Ubuntu One"
+
+#: ../online-accounts-provider/NewAccount.qml:236
+msgid "An internal error occurred. Please try again later."
+msgstr "Une erreur inattendue est survenue. Réessayez plus tard."
+
+#: ../online-accounts-provider/RegisterForm.qml:34
+msgid "Please tell us your name:"
+msgstr ""
+
+#: ../online-accounts-provider/RegisterForm.qml:40
+msgid "First and last name"
+msgstr "Prénom et nom"
+
+#: ../online-accounts-provider/RegisterForm.qml:53
+msgid "Choose a password:"
+msgstr "Choisissez un mot de passe :"
+
+#: ../online-accounts-provider/RegisterForm.qml:59
+msgid "At least 8 characters"
+msgstr "Au moins 8 charactères"
+
+#: ../online-accounts-provider/RegisterForm.qml:75
+msgid "Must match the previous field"
+msgstr "Doit correspondre au champ précedent"
+
+#: ../online-accounts-provider/RegisterForm.qml:130
+msgid "Continue"
+msgstr "Continuer"
+
+#: ../online-accounts-provider/RegisterForm.qml:144
+msgid "I'm an existing Ubuntu One user, sign me in"
+msgstr ""
+
+#: ../online-accounts-provider/RegisterForm.qml:167
+msgid "Please enter a name."
+msgstr "Veuillez entrer un nom."
+
+#: ../online-accounts-provider/RegisterForm.qml:174
+msgid "Your password must be at least 8 characters long."
+msgstr ""
+
+#: ../online-accounts-provider/RegisterForm.qml:181
+msgid "The passwords do not match."
+msgstr "Les mots de passe ne correspondent pas."
+
+#: ../online-accounts-provider/RegisterForm.qml:186
+msgid "Please accept the terms and conditions by checking the box."
+msgstr ""

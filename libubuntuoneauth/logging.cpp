@@ -121,9 +121,6 @@ namespace UbuntuOne {
         QTextStream _stdErr(stderr, QIODevice::WriteOnly);
         _stdErr << logMessage;
         _stdErr.device()->close();
-
-        if (type == QtFatalMsg)
-            abort();
     }
 
 } // namespace UbuntuOne
