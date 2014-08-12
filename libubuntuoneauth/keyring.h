@@ -37,6 +37,7 @@ namespace UbuntuOne {
 
         void findToken();
         void storeToken(Token token);
+        void storeToken(Token token, const QString& displayName);
         void deleteToken();
 
     Q_SIGNALS:

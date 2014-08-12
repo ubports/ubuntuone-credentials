@@ -116,10 +116,16 @@ namespace UbuntuOne {
             emit keyringError(errMsg);
         }
         _account->setEnabled(true);
+        _account->sync();
         emit tokenStored();
     }
 
     void Keyring::storeToken(Token token)
+    {
+        storeToken(token, "");
+    }
+
+    void Keyring::storeToken(Token token, const QString& displayName)
     {
         QString _acctName("ubuntuone");
         AccountIdList _ids = _manager.accountList(_acctName);
@@ -146,10 +152,14 @@ namespace UbuntuOne {
             _account->setEnabled(true);
         }
 
-        if(_account->credentialsId() == 0){
+        if (!displayName.isEmpty()) {
+            _account->setDisplayName(displayName);
+        }
+
+        if(_account->credentialsId() == 0) {
             qDebug() << "storeToken() : creating new Identity for account " << _account->id() ;
             identity = Identity::newIdentity();
-        }else{
+        } else {
             qDebug() << "storeToken(): identity found.";
             identity = Identity::existingIdentity(_account->credentialsId());
         }

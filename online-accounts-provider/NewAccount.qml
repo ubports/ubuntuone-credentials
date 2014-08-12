@@ -41,7 +41,6 @@ Column {
 
     Component.onCompleted: {
         resetUI();
-        enableAccount();
     }
 
     Label {
@@ -220,10 +219,7 @@ Column {
     function handleSuccess() {
         loadingOverlay.visible = false;
         errorLabel.visible = false;
-        account.updateDisplayName(emailTextField.text);
-        account.updateEnabled(true);
-        account.synced.connect(main.finished);
-        account.sync();
+        main.finished();
     }
 
     function showTwoFactorUI() {
@@ -270,15 +266,4 @@ Column {
         includeDisabled: true
         account: __account.objectHandle
     }
-
-    function enableAccount() {
-        for (var i = 0; i < accountServices.count; i++) {
-            var accountServiceHandle = accountServices.get(i, "accountService")
-            var accountService = accountServiceComponent.createObject(null,
-                                     { "objectHandle": accountServiceHandle })
-            accountService.updateServiceEnabled(true)
-            accountService.destroy(1000)
-        }
-    }
-
 }
