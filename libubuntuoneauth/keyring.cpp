@@ -108,14 +108,10 @@ namespace UbuntuOne {
         _account->selectService();
         _account->setCredentialsId(id);
 
-        ServiceList services = _account->services(_acctName);
-        if (services.length() > 0) {
-            _account->selectService(services[0]);
-        } else {
-            QString errMsg("Unable to enable 'ubuntuone' service.");
-            emit keyringError(errMsg);
+        for (auto service: _account->services()) {
+            _account->selectService(service);
+            _account->setEnabled(true);
         }
-        _account->setEnabled(true);
         _account->sync();
         emit tokenStored();
     }
@@ -140,17 +136,8 @@ namespace UbuntuOne {
         } else {
             qDebug() << "in storeToken(): no accounts found in accountList, creating new";
             _account = _manager.createAccount(_acctName);
-
-            ServiceList services = _account->services(_acctName);
-            if (services.length() > 0) {
-                _account->selectService(services[0]);
-            } else {
-                QString errMsg("Unable to enable 'ubuntuone' service.");
-                emit keyringError(errMsg);
-            }
-
-            _account->setEnabled(true);
         }
+        _account->setEnabled(true);
 
         if (!displayName.isEmpty()) {
             _account->setDisplayName(displayName);
