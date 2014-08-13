@@ -1,4 +1,4 @@
-# Brazilian Portuguese translation for ubuntuone-credentials
+# Romanian translation for ubuntuone-credentials
 # Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
 # This file is distributed under the same license as the ubuntuone-credentials package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: ubuntuone-credentials\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-01 15:51-0400\n"
-"PO-Revision-Date: 2014-08-13 04:39+0000\n"
-"Last-Translator: Tiago Hillebrandt <tiagohillebrandt@gmail.com>\n"
-"Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
+"PO-Revision-Date: 2014-08-12 11:14+0000\n"
+"Last-Translator: Marian Vasile <marianvasile1972@gmail.com>\n"
+"Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -23,11 +23,11 @@ msgstr "E-mail"
 
 #: ../online-accounts-provider/ExistingAccount.qml:50
 msgid "Remove account…"
-msgstr "Remover conta…"
+msgstr "Ștergere cont..."
 
 #: ../online-accounts-provider/ExistingAccount.qml:64
 msgid "Remove Credentials"
-msgstr "Remover credenciais"
+msgstr "Șterge acreditările"
 
 #: ../online-accounts-provider/ExistingAccount.qml:65
 msgid ""
@@ -35,121 +35,123 @@ msgid ""
 "device from accessing your account. You can authorize the device again by "
 "providing your username and password."
 msgstr ""
-"Remover as credenciais do Ubuntu One irá prevenir quaisquer aplicações neste "
-"dispositivo de acessar sua conta. Você pode autorizar o dispositivo "
-"novamente fornecendo o seu nome de usuário e senha."
+"Ștergerea acreditărilor pentru Ubuntu One va face ca aplicațiile de pe acest "
+"dispozitiv să nu mai poată accesa contul dumneavoastră. Puteți autoriza din "
+"nou dispozitivul prin introducerea numelui de utilizator și a parolei."
 
 #: ../online-accounts-provider/ExistingAccount.qml:68
 msgid "Remove"
-msgstr "Remover"
+msgstr "Șterge"
 
 #: ../online-accounts-provider/ExistingAccount.qml:81
 #: ../online-accounts-provider/LoginForm.qml:94
 #: ../online-accounts-provider/RegisterForm.qml:118
 msgid "Cancel"
-msgstr "Cancelar"
+msgstr "Anulează"
 
 #: ../online-accounts-provider/LoginForm.qml:33
 msgid "Enter your password:"
-msgstr "Informe sua senha:"
+msgstr "Introduceți parola"
 
 #: ../online-accounts-provider/LoginForm.qml:49
 msgid "Forgot password?"
-msgstr "Esqueceu a senha?"
+msgstr "Ați uitat parola?"
 
 #: ../online-accounts-provider/LoginForm.qml:61
 msgid "Type your verification code:"
-msgstr "Digite o código de verificação:"
+msgstr "Introduceți codul de verificare"
 
 #: ../online-accounts-provider/LoginForm.qml:67
 msgid "2-factor device code"
-msgstr "código do dispositivo 2-factor"
+msgstr "Cod dispozitiv cu 2 factori"
 
 #: ../online-accounts-provider/LoginForm.qml:78
 msgid "Authentication Device Help"
-msgstr "Ajuda do dispositivo de autenticação"
+msgstr "Ajutor pentru autentificarea dispozitivului"
 
 #: ../online-accounts-provider/LoginForm.qml:106
 msgid "Sign in"
-msgstr "Entrar"
+msgstr "Autentificare"
 
 #: ../online-accounts-provider/LoginForm.qml:119
 msgid "I'm a new Ubuntu One user, sign me up"
-msgstr "Sou um novo usuário Ubuntu One, quero me inscrever"
+msgstr "Sunt utilizator nou Ubuntu One, creați contul"
 
 #: ../online-accounts-provider/LoginForm.qml:139
 msgid "Password must be at least 8 characters long."
-msgstr "A senha deve ter pelo menos 8 caracteres."
+msgstr "Parola trebuie să conțină cel puțin 8 caractere"
 
 #: ../online-accounts-provider/LoginForm.qml:149
 msgid "Please enter your two-factor device code."
-msgstr "Informe o código do seu dispositivo 2-factor."
+msgstr "Introduceți codul de dispozitiv format din doi factori"
 
 #: ../online-accounts-provider/NewAccount.qml:72
 msgid "Please type your email:"
-msgstr "Por favor informe seu e-mail:"
+msgstr "Introduceți adresa de email"
 
 #: ../online-accounts-provider/NewAccount.qml:81
 msgid "example: user@ubuntu.com"
-msgstr "exemplo: usuario@ubuntu.com"
+msgstr "exemplu: utilizator@ubuntu.com"
 
 #: ../online-accounts-provider/NewAccount.qml:134
 #: ../online-accounts-provider/NewAccount.qml:249
 msgid "Please enter a valid email address."
-msgstr "Por favor, informe um endereço de e-mail válido."
+msgstr "Introduceți o adresă de email validă."
 
 #: ../online-accounts-provider/NewAccount.qml:166
 msgid "Create your Ubuntu One account"
-msgstr "Criar sua conta Ubuntu One"
+msgstr "Creați contul dumneavoastră Ubuntu One"
 
 #: ../online-accounts-provider/NewAccount.qml:171
 msgid "Sign in to your Ubuntu One account"
-msgstr "Entrar na sua conta Ubuntu One"
+msgstr "Autentificați-vă în contul Ubuntu One"
 
 #: ../online-accounts-provider/NewAccount.qml:236
 msgid "An internal error occurred. Please try again later."
-msgstr "Ocorreu um erro interno. Por favor, tente novamente mais tarde."
+msgstr "A apărut o eroare internă. Încercați mai târziu."
 
 #: ../online-accounts-provider/RegisterForm.qml:34
 msgid "Please tell us your name:"
-msgstr "Por favor, nos informe o seu nome:"
+msgstr "Introduceți numele:"
 
 #: ../online-accounts-provider/RegisterForm.qml:40
 msgid "First and last name"
-msgstr "Primeiro e último nome"
+msgstr "Prenume și nume de familie"
 
 #: ../online-accounts-provider/RegisterForm.qml:53
 msgid "Choose a password:"
-msgstr "Escolha uma senha:"
+msgstr "Alegeți o parolă:"
 
 #: ../online-accounts-provider/RegisterForm.qml:59
 msgid "At least 8 characters"
-msgstr "Pelo menos 8 caracteres"
+msgstr "Cel puțin 8 caractere"
 
 #: ../online-accounts-provider/RegisterForm.qml:75
 msgid "Must match the previous field"
-msgstr "Deve corresponder ao campo anterior"
+msgstr "Trebuie să se potrivească cu câmpul precedent"
 
 #: ../online-accounts-provider/RegisterForm.qml:130
 msgid "Continue"
-msgstr "Continuar"
+msgstr "Continuare"
 
 #: ../online-accounts-provider/RegisterForm.qml:144
 msgid "I'm an existing Ubuntu One user, sign me in"
-msgstr "Eu sou usuário Ubuntu One existente, inscrever-me em"
+msgstr "Sunt utilizator Ubuntu One, doresc autentificare"
 
 #: ../online-accounts-provider/RegisterForm.qml:167
 msgid "Please enter a name."
-msgstr "Por favor, informe o nome."
+msgstr "Introduceți un nume"
 
 #: ../online-accounts-provider/RegisterForm.qml:174
 msgid "Your password must be at least 8 characters long."
-msgstr "Sua senha deve ter pelo menos 8 caracteres."
+msgstr "Parola trebuie să conțină cel puțin 8 caractere"
 
 #: ../online-accounts-provider/RegisterForm.qml:181
 msgid "The passwords do not match."
-msgstr "As senhas não coincídem."
+msgstr "Parolele nu se potrivesc"
 
 #: ../online-accounts-provider/RegisterForm.qml:186
 msgid "Please accept the terms and conditions by checking the box."
-msgstr "Por favor, aceite os termos e condições, marcando a caixa."
+msgstr ""
+"Vă rugăm să acceptați termenii și condițiile prin marcarea căsuței de "
+"validare."
