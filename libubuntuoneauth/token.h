@@ -18,6 +18,7 @@
 #ifndef _U1_TOKEN_H_
 #define _U1_TOKEN_H_
 
+#include <QDateTime>
 #include <QHash>
 #include <QString>
 
@@ -37,6 +38,9 @@ namespace UbuntuOne {
 
         QString toQuery();
         bool isValid() const;
+
+        QDateTime created() const;
+        QDateTime updated() const;
 
         QString signUrl(const QString url, const QString method, bool asQuery = false) const;
 

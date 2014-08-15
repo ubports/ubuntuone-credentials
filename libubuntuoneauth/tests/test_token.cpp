@@ -81,3 +81,29 @@ void TestToken::testSignUrlEmpty()
              QStringLiteral(""));
     delete token;
 }
+
+void TestToken::testTimesCached()
+{
+    Token *token = Token::fromQuery("consumer_key=c&consumer_secret=c_s&name=Name+%40+hostname&token=t&token_secret=t_s&updated=2014-08-11+18%3A40%3A20.777777&created=2014-08-11+18%3A40%3A20.777777");
+    QVERIFY(token->isValid());
+    QString query = token->toQuery();
+    QVERIFY(query.contains("updated=2014-08-11+18%3A40%3A20.777777"));
+    QVERIFY(query.contains("created=2014-08-11+18%3A40%3A20.777777"));
+    delete token;
+}
+
+void TestToken::testCreatedParsed()
+{
+    Token *token = Token::fromQuery("consumer_key=c&consumer_secret=c_s&name=Name+%40+hostname&token=t&token_secret=t_s&updated=2014-08-11+18%3A40%3A20.777777&created=2014-08-11+18%3A40%3A20.777777");
+    unsigned int expected = 4294967295;
+    QCOMPARE(token->updated().toTime_t(), expected);
+    delete token;
+}
+
+void TestToken::testUpdatedParsed()
+{
+    Token *token = Token::fromQuery("consumer_key=c&consumer_secret=c_s&name=Name+%40+hostname&token=t&token_secret=t_s&updated=2014-08-11+18%3A40%3A20.777777&created=2014-08-11+18%3A40%3A20.777777");
+    unsigned int expected = 4294967295;
+    QCOMPARE(token->updated().toTime_t(), expected);
+    delete token;
+}

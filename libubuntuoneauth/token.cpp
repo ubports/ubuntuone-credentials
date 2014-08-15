@@ -30,6 +30,9 @@
 #define TOKEN_TOKEN_SEC_KEY "token_secret"
 #define TOKEN_CONSUMER_KEY "consumer_key"
 #define TOKEN_CONSUMER_SEC_KEY "consumer_secret"
+#define TOKEN_UPDATED_KEY "updated"
+#define TOKEN_CREATED_KEY "created"
+
 
 namespace UbuntuOne {
 
@@ -58,6 +61,13 @@ namespace UbuntuOne {
         secret.prepend(QStringLiteral(TOKEN_CONSUMER_KEY) + "=" + _tokenHash[TOKEN_CONSUMER_KEY]);
         secret.prepend(QStringLiteral(TOKEN_CONSUMER_SEC_KEY) + "=" + _tokenHash[TOKEN_CONSUMER_SEC_KEY]);
 
+        if (_tokenHash.contains(QStringLiteral(TOKEN_UPDATED_KEY))) {
+            secret.prepend(QStringLiteral(TOKEN_UPDATED_KEY) + "=" + _tokenHash[TOKEN_UPDATED_KEY]);
+        }
+        if (_tokenHash.contains(QStringLiteral(TOKEN_CREATED_KEY))) {
+            secret.prepend(QStringLiteral(TOKEN_CREATED_KEY) + "=" + _tokenHash[TOKEN_CREATED_KEY]);
+        }
+
         secret.sort();
 
         return secret.join("&");
@@ -75,6 +85,36 @@ namespace UbuntuOne {
                 _tokenHash.contains(TOKEN_TOKEN_SEC_KEY) &&
                 _tokenHash.contains(TOKEN_CONSUMER_KEY) &&
                 _tokenHash.contains(TOKEN_CONSUMER_SEC_KEY));
+    }
+
+    /**
+     * \fn QDateTime Token::created()
+     *
+     * Retruns a QDateTime representing the time the token was created on
+     * the server, or empty if unknown.
+     */
+    QDateTime Token::created() const
+    {
+        if (_tokenHash.contains(QStringLiteral(TOKEN_CREATED_KEY))) {
+            return QDateTime::fromString(_tokenHash[TOKEN_CREATED_KEY],
+                                         "yyyy-MM-dd+HH'%3A'mm'%3A'ss.zzz");
+        }
+        return QDateTime();
+    }
+
+    /**
+     * \fn QDateTime Token::updated()
+     *
+     * Retruns a QDateTime representing the time the token was last updated on
+     * the server, or empty if unknown.
+     */
+    QDateTime Token::updated() const
+    {
+        if (_tokenHash.contains(QStringLiteral(TOKEN_UPDATED_KEY))) {
+            return QDateTime::fromString(_tokenHash[TOKEN_UPDATED_KEY],
+                                         "yyyy-MM-dd+HH'%3A'mm'%3A'ss.zzz");
+        }
+        return QDateTime();
     }
 
     /**
