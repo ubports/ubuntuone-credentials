@@ -1,3 +1,15 @@
+ubuntuone-credentials (14.04+14.10.20140815) utopic; urgency=low
+
+  [ Rodney Dawes ]
+  * Install the translations in the correct place. Package the installed
+    translations.
+  * Don't call sync so much. Don't call resetUI on success or cancel, to
+    avoid popping the keyboard. Set the displayName of the account
+    internally. Do not set the display name, or enable or sync the
+    account, in the qml. (LP: #1239616)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 15 Aug 2014 16:44:30 +0000
+
 ubuntuone-credentials (14.04+14.10.20140802) utopic; urgency=low
 
   [ Rodney Dawes ]
