@@ -4,6 +4,8 @@ cmake_minimum_required (VERSION 2.8.9)
 PROJECT (ubuntuone-credentials)
 SET (PROJECT_VERSION 14.04)
 
+include(GNUInstallDirs)
+
 # Some variables for the library builds
 SET (AUTH_LIB_VERSION 0.1.0)
 SET (AUTH_LIB_SOVERSION 0)
