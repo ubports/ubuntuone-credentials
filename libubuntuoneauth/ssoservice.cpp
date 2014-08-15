@@ -146,7 +146,7 @@ namespace UbuntuOne {
     {
         Token realToken = Token(token.token_key(), token.token_secret(),
                                 token.consumer_key(), token.consumer_secret());
-        _keyring->storeToken(realToken);
+        _keyring->storeToken(realToken, _tempEmail);
     }
 
     void SSOService::accountPinged(QNetworkReply*)

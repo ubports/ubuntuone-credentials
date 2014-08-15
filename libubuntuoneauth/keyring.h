@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2013-2014 Canonical Ltd.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of version 3 of the GNU Lesser General Public
@@ -18,6 +18,7 @@
 #ifndef _U1_KEYRING_H_
 #define _U1_KEYRING_H_
 
+#include <Accounts/Account>
 #include <Accounts/Manager>
 #include <SignOn/Identity>
 
@@ -36,6 +37,7 @@ namespace UbuntuOne {
 
         void findToken();
         void storeToken(Token token);
+        void storeToken(Token token, const QString& displayName);
         void deleteToken();
 
     Q_SIGNALS:
@@ -54,6 +56,7 @@ namespace UbuntuOne {
 
     private:
         Accounts::Manager _manager;
+        Accounts::Account *_account;
     };
 
 } /* namespace UbuntuOne */

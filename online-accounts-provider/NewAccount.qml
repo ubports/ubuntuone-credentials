@@ -41,8 +41,6 @@ Column {
 
     Component.onCompleted: {
         resetUI();
-        enableAccount();
-        __account.sync()
     }
 
     Label {
@@ -181,7 +179,6 @@ Column {
         console.debug("Removing account ID: " + account.accountId);
         account.removed.connect(finished);
         account.remove(Account.RemoveCredentials);
-        resetUI();
     }
 
     /* processForm uses a timer to delay calling u1credservice, which can
@@ -222,11 +219,7 @@ Column {
     function handleSuccess() {
         loadingOverlay.visible = false;
         errorLabel.visible = false;
-        account.updateDisplayName(emailTextField.text);
-        account.updateEnabled(true);
-        account.synced.connect(main.finished);
-        account.sync();
-        resetUI();
+        main.finished();
     }
 
     function showTwoFactorUI() {
@@ -273,15 +266,4 @@ Column {
         includeDisabled: true
         account: __account.objectHandle
     }
-
-    function enableAccount() {
-        for (var i = 0; i < accountServices.count; i++) {
-            var accountServiceHandle = accountServices.get(i, "accountService")
-            var accountService = accountServiceComponent.createObject(null,
-                                     { "objectHandle": accountServiceHandle })
-            accountService.updateServiceEnabled(true)
-            accountService.destroy(1000)
-        }
-    }
-
 }
