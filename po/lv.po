@@ -1,4 +1,4 @@
-# French translation for ubuntuone-credentials
+# Latvian translation for ubuntuone-credentials
 # Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
 # This file is distributed under the same license as the ubuntuone-credentials package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: ubuntuone-credentials\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-01 15:51-0400\n"
-"PO-Revision-Date: 2014-08-15 13:24+0000\n"
-"Last-Translator: Jean Marc <Unknown>\n"
-"Language-Team: French <fr@li.org>\n"
+"PO-Revision-Date: 2014-08-15 16:20+0000\n"
+"Last-Translator: Jānis-Marks Gailis <jm-gailis@fai-vianet.fr>\n"
+"Language-Team: Latvian <lv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,15 +19,15 @@ msgstr ""
 
 #: ../online-accounts-provider/ExistingAccount.qml:37
 msgid "Email"
-msgstr "Courriel"
+msgstr "E-pasts"
 
 #: ../online-accounts-provider/ExistingAccount.qml:50
 msgid "Remove account…"
-msgstr "Supprimer le compte…"
+msgstr "Noņemt kontu..."
 
 #: ../online-accounts-provider/ExistingAccount.qml:64
 msgid "Remove Credentials"
-msgstr "Supprimer les identifiants"
+msgstr ""
 
 #: ../online-accounts-provider/ExistingAccount.qml:65
 msgid ""
@@ -35,121 +35,118 @@ msgid ""
 "device from accessing your account. You can authorize the device again by "
 "providing your username and password."
 msgstr ""
-"Supprimer vos identifiants Ubuntu One empêchera toute application sur cet "
-"appareil d'accéder à votre compte. Vous pouvez à nouveau autoriser cette "
-"appareil en fournissant un nom d'utilisateur et un mot de passe."
 
 #: ../online-accounts-provider/ExistingAccount.qml:68
 msgid "Remove"
-msgstr "Supprimer"
+msgstr "Noņemt"
 
 #: ../online-accounts-provider/ExistingAccount.qml:81
 #: ../online-accounts-provider/LoginForm.qml:94
 #: ../online-accounts-provider/RegisterForm.qml:118
 msgid "Cancel"
-msgstr "Annuler"
+msgstr "Atcelt"
 
 #: ../online-accounts-provider/LoginForm.qml:33
 msgid "Enter your password:"
-msgstr "Saisissez votre mot de passe :"
+msgstr "Ievadiet savu paroli:"
 
 #: ../online-accounts-provider/LoginForm.qml:49
 msgid "Forgot password?"
-msgstr "Mot de passe oublié ?"
+msgstr "Aizmirsāt paroli?"
 
 #: ../online-accounts-provider/LoginForm.qml:61
 msgid "Type your verification code:"
-msgstr "Saisissez votre code de vérification :"
+msgstr ""
 
 #: ../online-accounts-provider/LoginForm.qml:67
 msgid "2-factor device code"
-msgstr "Code de dispositif à 2 facteurs"
+msgstr ""
 
 #: ../online-accounts-provider/LoginForm.qml:78
 msgid "Authentication Device Help"
-msgstr "Aide sur l'authentification du dispositif"
+msgstr ""
 
 #: ../online-accounts-provider/LoginForm.qml:106
 msgid "Sign in"
-msgstr "S'identifier"
+msgstr ""
 
 #: ../online-accounts-provider/LoginForm.qml:119
 msgid "I'm a new Ubuntu One user, sign me up"
-msgstr "Je suis un nouvel utilisateur d'Ubuntu One, m'enregistrer"
+msgstr ""
 
 #: ../online-accounts-provider/LoginForm.qml:139
 msgid "Password must be at least 8 characters long."
-msgstr "Le mot de passe doit être de 8 caractères minimum."
+msgstr ""
 
 #: ../online-accounts-provider/LoginForm.qml:149
 msgid "Please enter your two-factor device code."
-msgstr "Saisissez votre code de dispositif à deux facteurs."
+msgstr ""
 
 #: ../online-accounts-provider/NewAccount.qml:72
 msgid "Please type your email:"
-msgstr "Veuillez saisir votre adresse de courriel :"
+msgstr ""
 
 #: ../online-accounts-provider/NewAccount.qml:81
 msgid "example: user@ubuntu.com"
-msgstr "exemple : utilisateur@ubuntu.com"
+msgstr ""
 
 #: ../online-accounts-provider/NewAccount.qml:134
 #: ../online-accounts-provider/NewAccount.qml:249
 msgid "Please enter a valid email address."
-msgstr "Veuillez entrer une adresse de courriel valide."
+msgstr ""
 
 #: ../online-accounts-provider/NewAccount.qml:166
 msgid "Create your Ubuntu One account"
-msgstr "Créez votre compte Ubuntu One"
+msgstr ""
 
 #: ../online-accounts-provider/NewAccount.qml:171
 msgid "Sign in to your Ubuntu One account"
-msgstr "Identifiez-vous avec votre compte Ubuntu One"
+msgstr ""
 
 #: ../online-accounts-provider/NewAccount.qml:236
 msgid "An internal error occurred. Please try again later."
-msgstr "Une erreur interne est survenue. Veuillez réessayez plus tard."
+msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:34
 msgid "Please tell us your name:"
-msgstr "Veuillez nous indiquez votre nom :"
+msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:40
 msgid "First and last name"
-msgstr "Prénom et nom"
+msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:53
 msgid "Choose a password:"
-msgstr "Choisissez un mot de passe :"
+msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:59
 msgid "At least 8 characters"
-msgstr "Au moins 8 charactères"
+msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:75
 msgid "Must match the previous field"
-msgstr "Doit correspondre au champ précedent"
+msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:130
 msgid "Continue"
-msgstr "Continuer"
+msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:144
 msgid "I'm an existing Ubuntu One user, sign me in"
-msgstr "J'ai déjà un compte Ubuntu One, m'identifier"
+msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:167
 msgid "Please enter a name."
-msgstr "Veuillez entrer un nom."
+msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:174
 msgid "Your password must be at least 8 characters long."
-msgstr "Votre mot de passe doit comporter au moins 8 caractères."
+msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:181
 msgid "The passwords do not match."
-msgstr "Les mots de passe ne correspondent pas."
+msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:186
 msgid "Please accept the terms and conditions by checking the box."
-msgstr "Veuillez accepter les conditions d'utilisation en cochant la case."
+msgstr ""
