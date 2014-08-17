@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: ubuntuone-credentials\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-01 15:51-0400\n"
-"PO-Revision-Date: 2014-08-07 01:09+0000\n"
+"PO-Revision-Date: 2014-08-17 00:59+0000\n"
 "Last-Translator: samson <Unknown>\n"
 "Language-Team: Amharic <am@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-08 06:43+0000\n"
+"X-Launchpad-Export-Date: 2014-08-17 06:23+0000\n"
 "X-Generator: Launchpad (build 17156)\n"
 
 #: ../online-accounts-provider/ExistingAccount.qml:37
@@ -68,11 +68,11 @@ msgstr ""
 
 #: ../online-accounts-provider/LoginForm.qml:106
 msgid "Sign in"
-msgstr ""
+msgstr "መግቢያ"
 
 #: ../online-accounts-provider/LoginForm.qml:119
 msgid "I'm a new Ubuntu One user, sign me up"
-msgstr ""
+msgstr "ለ ኡቡንቱ ዋን አዲስ ተጠቃሚ ነኝ ለ አባልነት መዝግቡኝ"
 
 #: ../online-accounts-provider/LoginForm.qml:139
 msgid "Password must be at least 8 characters long."
@@ -97,11 +97,11 @@ msgstr "እባክዎን ዋጋ ያለው የ ኢሜይል አድራሻ ያስገ
 
 #: ../online-accounts-provider/NewAccount.qml:166
 msgid "Create your Ubuntu One account"
-msgstr ""
+msgstr "የ ኡቡንቱ ዋን መግለጫ መፍጠሪያ"
 
 #: ../online-accounts-provider/NewAccount.qml:171
 msgid "Sign in to your Ubuntu One account"
-msgstr ""
+msgstr "ወደ ኡቡንቱ ዋን መግለጫ መግቢያ"
 
 #: ../online-accounts-provider/NewAccount.qml:236
 msgid "An internal error occurred. Please try again later."
@@ -125,7 +125,7 @@ msgstr "ቢያንስ 8 ባህሪዎች መሆን አለበት"
 
 #: ../online-accounts-provider/RegisterForm.qml:75
 msgid "Must match the previous field"
-msgstr ""
+msgstr "ቀደም ካለው ሜዳ ጋር መመሳሰል አለበት"
 
 #: ../online-accounts-provider/RegisterForm.qml:130
 msgid "Continue"
@@ -133,7 +133,7 @@ msgstr "ይቀጥሉ"
 
 #: ../online-accounts-provider/RegisterForm.qml:144
 msgid "I'm an existing Ubuntu One user, sign me in"
-msgstr ""
+msgstr "የ ኡቡንቱ ዋን አባል ነኝ: መግቢያ"
 
 #: ../online-accounts-provider/RegisterForm.qml:167
 msgid "Please enter a name."
