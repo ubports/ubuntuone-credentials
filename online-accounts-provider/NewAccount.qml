@@ -36,9 +36,6 @@ Column {
 
     spacing: units.gu(2)
 
-    width: units.gu(45)
-    height: units.gu(80)
-
     Component.onCompleted: {
         resetUI();
     }
