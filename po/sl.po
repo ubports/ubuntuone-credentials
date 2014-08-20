@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: ubuntuone-credentials\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-01 15:51-0400\n"
-"PO-Revision-Date: 2014-08-06 05:42+0000\n"
+"PO-Revision-Date: 2014-08-19 13:37+0000\n"
 "Last-Translator: Damir Jerovšek <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-07 06:13+0000\n"
-"X-Generator: Launchpad (build 17147)\n"
+"X-Launchpad-Export-Date: 2014-08-20 06:06+0000\n"
+"X-Generator: Launchpad (build 17163)\n"
 
 #: ../online-accounts-provider/ExistingAccount.qml:37
 msgid "Email"
@@ -63,7 +63,7 @@ msgstr "Vpišite svojo potrditveno kodo:"
 
 #: ../online-accounts-provider/LoginForm.qml:67
 msgid "2-factor device code"
-msgstr ""
+msgstr "2-stopenjska koda naprave"
 
 #: ../online-accounts-provider/LoginForm.qml:78
 msgid "Authentication Device Help"
@@ -83,7 +83,7 @@ msgstr "Geslo mora vsebovati vsaj 8 znakov."
 
 #: ../online-accounts-provider/LoginForm.qml:149
 msgid "Please enter your two-factor device code."
-msgstr ""
+msgstr "Vnesite dvostopenjsko koda naprave."
 
 #: ../online-accounts-provider/NewAccount.qml:72
 msgid "Please type your email:"
@@ -152,4 +152,4 @@ msgstr "Gesli se ne ujemata."
 
 #: ../online-accounts-provider/RegisterForm.qml:186
 msgid "Please accept the terms and conditions by checking the box."
-msgstr ""
+msgstr "Sprejmite pogoje z označitvijo polja."
