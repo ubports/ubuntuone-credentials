@@ -40,6 +40,10 @@ class TestToken: public QObject
         void testTokenName();
 
         void testSignUrlEmpty();
+
+        void testTimesCached();
+        void testCreatedParsed();
+        void testUpdatedParsed();
 };
 
 #endif /* _TEST_TOKEN_H_ */
