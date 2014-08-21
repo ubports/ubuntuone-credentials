@@ -1,3 +1,12 @@
+ubuntuone-credentials (14.04+14.10.20140821) utopic; urgency=low
+
+  [ Rodney Dawes ]
+  * Don't set the width/height of the flickable. (LP: #1350543)
+  * Enable langpacks for ubuntuone-credentials.
+  * Store and parse the created and updated times on the token.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 21 Aug 2014 02:19:04 +0000
+
 ubuntuone-credentials (14.04+14.10.20140815) utopic; urgency=low
 
   [ Rodney Dawes ]
