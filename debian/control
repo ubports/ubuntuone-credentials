@@ -20,6 +20,7 @@ Maintainer: Ubuntu One Developers <ubuntuone-users@lists.launchpad.net>
 Standards-Version: 3.9.5
 Vcs-Bzr: lp:ubuntuone-credentials
 Xs-Testsuite: autopkgtest
+X-Ubuntu-Use-Langpack: yes
 
 Package: ubuntuone-credentials-common
 Architecture: all
