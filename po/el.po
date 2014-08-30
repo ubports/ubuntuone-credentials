@@ -1,4 +1,4 @@
-# Uyghur translation for ubuntuone-credentials
+# Greek translation for ubuntuone-credentials
 # Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
 # This file is distributed under the same license as the ubuntuone-credentials package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: ubuntuone-credentials\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-01 15:51-0400\n"
-"PO-Revision-Date: 2014-08-28 09:31+0000\n"
-"Last-Translator: Gheyret T.Kenji <Unknown>\n"
-"Language-Team: Uyghur <ug@li.org>\n"
+"PO-Revision-Date: 2014-08-28 11:05+0000\n"
+"Last-Translator: Simos Xenitellis <Unknown>\n"
+"Language-Team: Greek <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,15 +19,15 @@ msgstr ""
 
 #: ../online-accounts-provider/ExistingAccount.qml:37
 msgid "Email"
-msgstr "ئېلخەت"
+msgstr "Ηλεκτρονική διεύθυνση"
 
 #: ../online-accounts-provider/ExistingAccount.qml:50
 msgid "Remove account…"
-msgstr "ھېسابات چىقىرىۋېتىش…"
+msgstr "Αφαίρεση λογαριασμού..."
 
 #: ../online-accounts-provider/ExistingAccount.qml:64
 msgid "Remove Credentials"
-msgstr "ئاساسنى چىقىرىۋەت"
+msgstr ""
 
 #: ../online-accounts-provider/ExistingAccount.qml:65
 msgid ""
@@ -38,25 +38,25 @@ msgstr ""
 
 #: ../online-accounts-provider/ExistingAccount.qml:68
 msgid "Remove"
-msgstr "چىقىرىۋەت"
+msgstr "Αφαίρεση"
 
 #: ../online-accounts-provider/ExistingAccount.qml:81
 #: ../online-accounts-provider/LoginForm.qml:94
 #: ../online-accounts-provider/RegisterForm.qml:118
 msgid "Cancel"
-msgstr "ئەمەلدىن قالدۇر"
+msgstr "Ακύρωση"
 
 #: ../online-accounts-provider/LoginForm.qml:33
 msgid "Enter your password:"
-msgstr "ئىم كىرگۈزۈڭ"
+msgstr "Εισάγετε τον κωδικό πρόσβασης:"
 
 #: ../online-accounts-provider/LoginForm.qml:49
 msgid "Forgot password?"
-msgstr "ئىمنى ئۇنتۇپسىزمۇ؟"
+msgstr "Ξεχάσατε τον κωδικό πρόσβασης;"
 
 #: ../online-accounts-provider/LoginForm.qml:61
 msgid "Type your verification code:"
-msgstr "دەلىللەش كودىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: ../online-accounts-provider/LoginForm.qml:67
 msgid "2-factor device code"
@@ -64,19 +64,19 @@ msgstr ""
 
 #: ../online-accounts-provider/LoginForm.qml:78
 msgid "Authentication Device Help"
-msgstr "دەلىللەش ئۈسكۈنىسى يارىدىمى"
+msgstr ""
 
 #: ../online-accounts-provider/LoginForm.qml:106
 msgid "Sign in"
-msgstr "كىر"
+msgstr "Σύνδεση"
 
 #: ../online-accounts-provider/LoginForm.qml:119
 msgid "I'm a new Ubuntu One user, sign me up"
-msgstr "مەن ئۇبۇنتۇ بىرنىڭ يېڭى ئىشلەتكۈچىسى، تىزىملىتىمەن"
+msgstr ""
 
 #: ../online-accounts-provider/LoginForm.qml:139
 msgid "Password must be at least 8 characters long."
-msgstr "ئىم ئاز دىگەندە 8 ھەرىپ بولۇشى زۆرۈر"
+msgstr ""
 
 #: ../online-accounts-provider/LoginForm.qml:149
 msgid "Please enter your two-factor device code."
@@ -84,44 +84,44 @@ msgstr ""
 
 #: ../online-accounts-provider/NewAccount.qml:72
 msgid "Please type your email:"
-msgstr "ئېلخەت ئادرېسىڭىزنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: ../online-accounts-provider/NewAccount.qml:81
 msgid "example: user@ubuntu.com"
-msgstr "example: user@ubuntu.com"
+msgstr "παράδειγμα: user@ubuntu.com"
 
 #: ../online-accounts-provider/NewAccount.qml:134
 #: ../online-accounts-provider/NewAccount.qml:249
 msgid "Please enter a valid email address."
-msgstr "ئىناۋەتلىك Email ئادرېسىنى كىرگۈزۈڭ."
+msgstr "Παρακαλώ εισάγετε μια έγκυρη διεύθυνση ηλεκτρονικού ταχυδρομείου."
 
 #: ../online-accounts-provider/NewAccount.qml:166
 msgid "Create your Ubuntu One account"
-msgstr "ئۇبۇنتۇ بىر ھېساباتىڭىزنى قۇرۇڭ"
+msgstr ""
 
 #: ../online-accounts-provider/NewAccount.qml:171
 msgid "Sign in to your Ubuntu One account"
-msgstr "ئۇبۇنتۇ بىر ھېساباتىڭىزغا كىرىڭ"
+msgstr ""
 
 #: ../online-accounts-provider/NewAccount.qml:236
 msgid "An internal error occurred. Please try again later."
-msgstr ""
+msgstr "Συνέβη ένα εσωτερικό σφάλμα. Παρακαλώ δοκιμάστε ξανά αργότερα."
 
 #: ../online-accounts-provider/RegisterForm.qml:34
 msgid "Please tell us your name:"
-msgstr "ئاتىڭىز:"
+msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:40
 msgid "First and last name"
-msgstr "ئاتى ۋە تەگاتى"
+msgstr "Όνομα και επώνυμο"
 
 #: ../online-accounts-provider/RegisterForm.qml:53
 msgid "Choose a password:"
-msgstr "ئىم تاللاڭ:"
+msgstr "Επιλέξτε έναν κωδικό πρόσβασης:"
 
 #: ../online-accounts-provider/RegisterForm.qml:59
 msgid "At least 8 characters"
-msgstr "ئاز دېگەندە 8 ھەرپ"
+msgstr "Τουλάχιστον 8 χαρακτήρες"
 
 #: ../online-accounts-provider/RegisterForm.qml:75
 msgid "Must match the previous field"
@@ -129,23 +129,23 @@ msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:130
 msgid "Continue"
-msgstr "داۋاملاشتۇر"
+msgstr "Συνέχιση"
 
 #: ../online-accounts-provider/RegisterForm.qml:144
 msgid "I'm an existing Ubuntu One user, sign me in"
-msgstr "مېنىڭ ئۇبۇنتۇ ھېساباتم بار، كىرىمەن"
+msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:167
 msgid "Please enter a name."
-msgstr "ئاتىڭىزنى كىرگۈزۈڭ"
+msgstr "Παρακαλώ εισάγετε ένα όνομα."
 
 #: ../online-accounts-provider/RegisterForm.qml:174
 msgid "Your password must be at least 8 characters long."
-msgstr "ئىم ئاز دىگەندە 8 ھەرىپ  بۇلۇشى لازىم"
+msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:181
 msgid "The passwords do not match."
-msgstr "ئىم ماسلاشمىدى"
+msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:186
 msgid "Please accept the terms and conditions by checking the box."
