@@ -1,3 +1,13 @@
+ubuntuone-credentials (14.04+14.10.20140903) utopic; urgency=low
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ John R. Lenton ]
+  * Make the 2fa entry more usable. (LP: #1364935)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 03 Sep 2014 21:29:13 +0000
+
 ubuntuone-credentials (14.04+14.10.20140821) utopic; urgency=low
 
   [ Rodney Dawes ]
