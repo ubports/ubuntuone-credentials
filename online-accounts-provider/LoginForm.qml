@@ -65,7 +65,7 @@ Column {
             id: twoFactorTextField
             objectName: "twoFactorTextField"
             placeholderText: i18n.dtr(rootFlickable.domain, "2-factor device code")
-            echoMode: TextInput.Password
+            inputMethodHints: Qt.ImhDigitsOnly
             width: main.width - (2 * main.anchors.margins)
             Keys.onReturnPressed: {
                 main.processForm();
