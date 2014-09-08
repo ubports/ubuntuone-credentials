@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: ubuntuone-credentials\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-01 15:51-0400\n"
-"PO-Revision-Date: 2014-08-05 10:09+0000\n"
+"PO-Revision-Date: 2014-09-07 11:13+0000\n"
 "Last-Translator: David Planella <david.planella@ubuntu.com>\n"
 "Language-Team: Catalan <ca@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-06 06:41+0000\n"
-"X-Generator: Launchpad (build 17147)\n"
+"X-Launchpad-Export-Date: 2014-09-08 06:44+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
 
 #: ../online-accounts-provider/ExistingAccount.qml:37
 msgid "Email"
@@ -67,7 +67,7 @@ msgstr "Codi de verificació per l'autenticació de 2 factors"
 
 #: ../online-accounts-provider/LoginForm.qml:78
 msgid "Authentication Device Help"
-msgstr ""
+msgstr "Ajuda per a dispositius d'autenticació"
 
 #: ../online-accounts-provider/LoginForm.qml:106
 msgid "Sign in"
@@ -75,15 +75,15 @@ msgstr "Inicia la sessió"
 
 #: ../online-accounts-provider/LoginForm.qml:119
 msgid "I'm a new Ubuntu One user, sign me up"
-msgstr ""
+msgstr "Sóc un usuari nou de l'Ubuntu One, registra'm"
 
 #: ../online-accounts-provider/LoginForm.qml:139
 msgid "Password must be at least 8 characters long."
-msgstr ""
+msgstr "La contrasenya ha de tenir 8 caràcters com a mínim."
 
 #: ../online-accounts-provider/LoginForm.qml:149
 msgid "Please enter your two-factor device code."
-msgstr ""
+msgstr "Introduïu el codi del dispositiu d'autenticació en dos passos."
 
 #: ../online-accounts-provider/NewAccount.qml:72
 msgid "Please type your email:"
@@ -104,15 +104,15 @@ msgstr "Crea un compte de l'Ubuntu One"
 
 #: ../online-accounts-provider/NewAccount.qml:171
 msgid "Sign in to your Ubuntu One account"
-msgstr ""
+msgstr "Entreu al compte de l'Ubuntu One"
 
 #: ../online-accounts-provider/NewAccount.qml:236
 msgid "An internal error occurred. Please try again later."
-msgstr ""
+msgstr "S'ha produït un error intern, torneu-ho a provar més endavant."
 
 #: ../online-accounts-provider/RegisterForm.qml:34
 msgid "Please tell us your name:"
-msgstr ""
+msgstr "El vostre nom:"
 
 #: ../online-accounts-provider/RegisterForm.qml:40
 msgid "First and last name"
@@ -128,7 +128,7 @@ msgstr "Com a mínim 8 caràcters"
 
 #: ../online-accounts-provider/RegisterForm.qml:75
 msgid "Must match the previous field"
-msgstr ""
+msgstr "Ha de concordar amb el camp anterior"
 
 #: ../online-accounts-provider/RegisterForm.qml:130
 msgid "Continue"
@@ -136,7 +136,7 @@ msgstr "Continua"
 
 #: ../online-accounts-provider/RegisterForm.qml:144
 msgid "I'm an existing Ubuntu One user, sign me in"
-msgstr ""
+msgstr "Ja sóc usuari de l'Ubuntu One, entra al meu compte"
 
 #: ../online-accounts-provider/RegisterForm.qml:167
 msgid "Please enter a name."
@@ -144,7 +144,7 @@ msgstr "Introduïu un nom."
 
 #: ../online-accounts-provider/RegisterForm.qml:174
 msgid "Your password must be at least 8 characters long."
-msgstr ""
+msgstr "La contrasenya ha de tenir 8 caràcters com a mínim."
 
 #: ../online-accounts-provider/RegisterForm.qml:181
 msgid "The passwords do not match."
@@ -152,4 +152,4 @@ msgstr "Les contrasenyes no coincideixen"
 
 #: ../online-accounts-provider/RegisterForm.qml:186
 msgid "Please accept the terms and conditions by checking the box."
-msgstr ""
+msgstr "Marqueu la casella per acceptar les condicions generals"
