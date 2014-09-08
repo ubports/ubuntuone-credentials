@@ -44,6 +44,9 @@ class TestToken: public QObject
         void testTimesCached();
         void testCreatedParsed();
         void testUpdatedParsed();
+        void testCreatedMissing();
+        void testUpdatedMissing();
+        void testNewWithDates();
 };
 
 #endif /* _TEST_TOKEN_H_ */

@@ -145,7 +145,8 @@ namespace UbuntuOne {
     void SSOService::tokenReceived(const OAuthTokenResponse& token)
     {
         Token realToken = Token(token.token_key(), token.token_secret(),
-                                token.consumer_key(), token.consumer_secret());
+                                token.consumer_key(), token.consumer_secret(),
+                                token.date_created(), token.date_updated());
         _keyring->storeToken(realToken, _tempEmail);
     }
 
