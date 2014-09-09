@@ -143,3 +143,16 @@ void TestToken::testNewWithDates()
     QCOMPARE(token->updated().toTime_t(), expected);
     delete token;
 }
+
+void TestToken::testSSODateToISO()
+{
+    QString in_date{"2014-08-11+18%3A40%3A20.777777"};
+    QString expected{"2014-08-11T18:40:20Z"};
+    QCOMPARE(Token::dateStringToISO(in_date), expected);
+}
+
+void TestToken::testISODateToISO()
+{
+    QString in_date{"2014-08-11T18:40:20Z"};
+    QCOMPARE(Token::dateStringToISO(in_date), in_date);
+}

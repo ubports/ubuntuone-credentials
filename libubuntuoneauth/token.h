@@ -50,6 +50,8 @@ namespace UbuntuOne {
         static Token *fromQuery(const QString query);
         static QString buildTokenName();
 
+        static QString dateStringToISO(const QString date);
+
     private:
         QHash<QString, QString> _tokenHash;
     };

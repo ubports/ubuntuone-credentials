@@ -55,8 +55,8 @@ namespace UbuntuOne {
         _tokenHash[TOKEN_TOKEN_SEC_KEY] = token_secret;
         _tokenHash[TOKEN_CONSUMER_KEY] = consumer_key;
         _tokenHash[TOKEN_CONSUMER_SEC_KEY] = consumer_secret;
-        _tokenHash[TOKEN_CREATED_KEY] = QString(created_date.replace("+", "T").replace("%3A", ":").replace(QRegExp("\\.[0-9]+"), "Z"));
-        _tokenHash[TOKEN_UPDATED_KEY] = QString(updated_date.replace("+", "T").replace("%3A", ":").replace(QRegExp("\\.[0-9]+"), "Z"));
+        _tokenHash[TOKEN_CREATED_KEY] = dateStringToISO(created_date);
+        _tokenHash[TOKEN_UPDATED_KEY] = dateStringToISO(updated_date);
     }
 
     /**
@@ -190,10 +190,7 @@ namespace UbuntuOne {
                 QString value = pair.at(1);
                 token->_tokenHash[pair.at(0)] = QString(value.replace("+", " ").replace("%40", "@"));
             } else if (pair.at(0) == TOKEN_UPDATED_KEY || pair.at(0) == TOKEN_CREATED_KEY) {
-                // Force the date strings to be ISO formattted, not pythonish.
-                // We can force GMT here, as we use it on the server.
-                QString value = pair.at(1);
-                token->_tokenHash[pair.at(0)] = QString(value.replace("+", "T").replace("%3A", ":").replace(QRegExp("\\.[0-9]+"), "Z"));
+                token->_tokenHash[pair.at(0)] = dateStringToISO(pair.at(1));
             } else {
                 token->_tokenHash[pair.at(0)] = pair.at(1);
             }
@@ -213,6 +210,18 @@ namespace UbuntuOne {
         computer_name.replace(TOKEN_SEP, TOKEN_SEP_REPLACEMENT);
 
         return QStringLiteral(TOKEN_ID) + QStringLiteral(TOKEN_SEP) + computer_name;
+    }
+
+    /**
+     * \fn QString Token::dateStringToISO(const QString date)
+     *
+     * Convert the date string from SSO server to ISO format, if needed.
+     **/
+    QString Token::dateStringToISO(const QString date)
+    {
+        // Force the date strings to be ISO formattted, not pythonish.
+        // We can force GMT here, as we use it on the server.
+        return QString(date).replace("+", "T").replace("%3A", ":").replace(QRegExp("\\.[0-9]+"), "Z");
     }
 
 } // namespace UbuntuOne

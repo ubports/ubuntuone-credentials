@@ -47,6 +47,9 @@ class TestToken: public QObject
         void testCreatedMissing();
         void testUpdatedMissing();
         void testNewWithDates();
+
+        void testSSODateToISO();
+        void testISODateToISO();
 };
 
 #endif /* _TEST_TOKEN_H_ */
