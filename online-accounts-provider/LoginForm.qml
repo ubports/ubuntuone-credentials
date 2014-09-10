@@ -119,6 +119,7 @@ Column {
         text: '<a href="#"><span style="color: #dd4814;">%1</span</a>'.arg(i18n.dtr(rootFlickable.domain, "I'm a new Ubuntu One user, sign me up"))
 
         textFormat: Text.RichText
+        wrapMode: Text.Wrap
         horizontalAlignment: Text.AlignHCenter
         anchors.left: parent.left
         anchors.right: parent.right
