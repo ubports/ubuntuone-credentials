@@ -87,23 +87,72 @@ void TestToken::testTimesCached()
     Token *token = Token::fromQuery("consumer_key=c&consumer_secret=c_s&name=Name+%40+hostname&token=t&token_secret=t_s&updated=2014-08-11+18%3A40%3A20.777777&created=2014-08-11+18%3A40%3A20.777777");
     QVERIFY(token->isValid());
     QString query = token->toQuery();
-    QVERIFY(query.contains("updated=2014-08-11+18%3A40%3A20.777777"));
-    QVERIFY(query.contains("created=2014-08-11+18%3A40%3A20.777777"));
+    // Dates are converted to ISO when parsed.
+    QVERIFY(query.contains("updated=2014-08-11T18:40:20Z"));
+    QVERIFY(query.contains("created=2014-08-11T18:40:20Z"));
     delete token;
 }
 
 void TestToken::testCreatedParsed()
 {
     Token *token = Token::fromQuery("consumer_key=c&consumer_secret=c_s&name=Name+%40+hostname&token=t&token_secret=t_s&updated=2014-08-11+18%3A40%3A20.777777&created=2014-08-11+18%3A40%3A20.777777");
-    unsigned int expected = 4294967295;
-    QCOMPARE(token->updated().toTime_t(), expected);
+    unsigned int expected = 1407782420;
+    QVERIFY(token->created().isValid());
+    QCOMPARE(token->created().toTime_t(), expected);
     delete token;
 }
 
 void TestToken::testUpdatedParsed()
 {
     Token *token = Token::fromQuery("consumer_key=c&consumer_secret=c_s&name=Name+%40+hostname&token=t&token_secret=t_s&updated=2014-08-11+18%3A40%3A20.777777&created=2014-08-11+18%3A40%3A20.777777");
-    unsigned int expected = 4294967295;
+    unsigned int expected = 1407782420;
+    QVERIFY(token->updated().isValid());
     QCOMPARE(token->updated().toTime_t(), expected);
     delete token;
+}
+
+void TestToken::testCreatedMissing()
+{
+    Token *token = Token::fromQuery("consumer_key=c&consumer_secret=c_s&name=Name+%40+hostname&token=t&token_secret=t_s");
+    QVERIFY(token->isValid());
+    QVERIFY(!token->created().isValid());
+    QCOMPARE(token->created().toTime_t(), UINT_MAX);
+    delete token;
+}
+
+void TestToken::testUpdatedMissing()
+{
+    Token *token = Token::fromQuery("consumer_key=c&consumer_secret=c_s&name=Name+%40+hostname&token=t&token_secret=t_s");
+    QVERIFY(token->isValid());
+    QVERIFY(!token->updated().isValid());
+    QCOMPARE(token->updated().toTime_t(), UINT_MAX);
+    delete token;
+}
+
+void TestToken::testNewWithDates()
+{
+    Token *token = new Token("token", "t_secret", "consumer", "c_secret",
+                             "2014-08-11+18%3A40%3A20.777777",
+                             "2014-08-11T18:40:20Z");
+    unsigned int expected = 1407782420;
+
+    QVERIFY(token->isValid());
+    QVERIFY(token->created().isValid());
+    QCOMPARE(token->created().toTime_t(), expected);
+    QVERIFY(token->updated().isValid());
+    QCOMPARE(token->updated().toTime_t(), expected);
+    delete token;
+}
+
+void TestToken::testSSODateToISO()
+{
+    QString in_date{"2014-08-11+18%3A40%3A20.777777"};
+    QString expected{"2014-08-11T18:40:20Z"};
+    QCOMPARE(Token::dateStringToISO(in_date), expected);
+}
+
+void TestToken::testISODateToISO()
+{
+    QString in_date{"2014-08-11T18:40:20Z"};
+    QCOMPARE(Token::dateStringToISO(in_date), in_date);
 }

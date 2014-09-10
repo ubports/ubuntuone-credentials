@@ -46,6 +46,19 @@ namespace UbuntuOne {
         _tokenHash[TOKEN_CONSUMER_SEC_KEY] = consumer_secret;
     }
 
+    Token::Token(QString token_key, QString token_secret,
+                 QString consumer_key, QString consumer_secret,
+                 QString created_date, QString updated_date)
+    {
+        _tokenHash[TOKEN_NAME_KEY] = buildTokenName();
+        _tokenHash[TOKEN_TOKEN_KEY] = token_key;
+        _tokenHash[TOKEN_TOKEN_SEC_KEY] = token_secret;
+        _tokenHash[TOKEN_CONSUMER_KEY] = consumer_key;
+        _tokenHash[TOKEN_CONSUMER_SEC_KEY] = consumer_secret;
+        _tokenHash[TOKEN_CREATED_KEY] = dateStringToISO(created_date);
+        _tokenHash[TOKEN_UPDATED_KEY] = dateStringToISO(updated_date);
+    }
+
     /**
      * \fn QString Token::toQuery()
      *
@@ -97,7 +110,7 @@ namespace UbuntuOne {
     {
         if (_tokenHash.contains(QStringLiteral(TOKEN_CREATED_KEY))) {
             return QDateTime::fromString(_tokenHash[TOKEN_CREATED_KEY],
-                                         "yyyy-MM-dd+HH'%3A'mm'%3A'ss.zzz");
+                                         Qt::ISODate);
         }
         return QDateTime();
     }
@@ -112,7 +125,7 @@ namespace UbuntuOne {
     {
         if (_tokenHash.contains(QStringLiteral(TOKEN_UPDATED_KEY))) {
             return QDateTime::fromString(_tokenHash[TOKEN_UPDATED_KEY],
-                                         "yyyy-MM-dd+HH'%3A'mm'%3A'ss.zzz");
+                                         Qt::ISODate);
         }
         return QDateTime();
     }
@@ -176,8 +189,11 @@ namespace UbuntuOne {
                 // QUrl::fromPercentEncoding at this point in the code.
                 QString value = pair.at(1);
                 token->_tokenHash[pair.at(0)] = QString(value.replace("+", " ").replace("%40", "@"));
-            } else
+            } else if (pair.at(0) == TOKEN_UPDATED_KEY || pair.at(0) == TOKEN_CREATED_KEY) {
+                token->_tokenHash[pair.at(0)] = dateStringToISO(pair.at(1));
+            } else {
                 token->_tokenHash[pair.at(0)] = pair.at(1);
+            }
         }
 
         return token;
@@ -194,6 +210,18 @@ namespace UbuntuOne {
         computer_name.replace(TOKEN_SEP, TOKEN_SEP_REPLACEMENT);
 
         return QStringLiteral(TOKEN_ID) + QStringLiteral(TOKEN_SEP) + computer_name;
+    }
+
+    /**
+     * \fn QString Token::dateStringToISO(const QString date)
+     *
+     * Convert the date string from SSO server to ISO format, if needed.
+     **/
+    QString Token::dateStringToISO(const QString date)
+    {
+        // Force the date strings to be ISO formattted, not pythonish.
+        // We can force GMT here, as we use it on the server.
+        return QString(date).replace("+", "T").replace("%3A", ":").replace(QRegExp("\\.[0-9]+"), "Z");
     }
 
 } // namespace UbuntuOne

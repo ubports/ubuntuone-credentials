@@ -35,6 +35,9 @@ namespace UbuntuOne {
         Token() {};
         Token(QString token_key, QString token_secret,
               QString consumer_key, QString consumer_secret);
+        Token(QString token_key, QString token_secret,
+              QString consumer_key, QString consumer_secret,
+              QString created_date, QString updated_date);
 
         QString toQuery();
         bool isValid() const;
@@ -46,6 +49,8 @@ namespace UbuntuOne {
 
         static Token *fromQuery(const QString query);
         static QString buildTokenName();
+
+        static QString dateStringToISO(const QString date);
 
     private:
         QHash<QString, QString> _tokenHash;

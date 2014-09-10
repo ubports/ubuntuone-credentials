@@ -106,8 +106,9 @@ libubuntuoneauth-2.0.so.0 libubuntuoneauth-2.0-0 #MINVER#
  (c++)"UbuntuOne::Token::buildTokenName()@Base" 13.08
  (c++)"UbuntuOne::Token::toQuery()@Base" 13.08
  (c++)"UbuntuOne::Token::fromQuery(QString)@Base" 13.08
+ (c++)"UbuntuOne::Token::dateStringToISO(QString)@Base" 14.04+14.10.20140908
  (c++)"UbuntuOne::Token::Token(QString, QString, QString, QString)@Base" 13.08
- (c++)"UbuntuOne::Token::Token(QString, QString, QString, QString)@Base" 13.08
+ (c++)"UbuntuOne::Token::Token(QString, QString, QString, QString, QString, QString)@Base" 14.04+14.10.20140908
  (c++)"UbuntuOne::Token::~Token()@Base" 13.08
  (c++)"UbuntuOne::Token::created() const@Base" 14.04+14.10.20140818
  (c++)"UbuntuOne::Token::updated() const@Base" 14.04+14.10.20140818
