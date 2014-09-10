@@ -1,3 +1,19 @@
+ubuntuone-credentials (14.04+14.10.20140910) utopic; urgency=low
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Rodney Dawes ]
+  * Add new ctor for Token to accept created/updated date strings. Use
+    the new ctor when creating the token from the REST response. Turn
+    the date string returned from the server into an ISO string for
+    parsing. Add more tests. (LP: #1366998)
+
+  [ Sebastien Bacher ]
+  * Set wrapmode to avoid having a label cut (LP: #1366294)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 10 Sep 2014 13:18:31 +0000
+
 ubuntuone-credentials (14.04+14.10.20140903) utopic; urgency=low
 
   [ CI bot ]
