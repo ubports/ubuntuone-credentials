@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: ubuntuone-credentials\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-01 15:51-0400\n"
-"PO-Revision-Date: 2014-08-28 09:31+0000\n"
+"PO-Revision-Date: 2014-09-23 02:35+0000\n"
 "Last-Translator: Gheyret T.Kenji <Unknown>\n"
 "Language-Team: Uyghur <ug@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-30 07:17+0000\n"
-"X-Generator: Launchpad (build 17176)\n"
+"X-Launchpad-Export-Date: 2014-09-23 06:55+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
 
 #: ../online-accounts-provider/ExistingAccount.qml:37
 msgid "Email"
@@ -35,6 +35,9 @@ msgid ""
 "device from accessing your account. You can authorize the device again by "
 "providing your username and password."
 msgstr ""
+"ئۇبۇنتۇ بىر كىملىك دەلىللەش ئۇچۇرلىرىنى ئۆچۈرسىڭىز، ئۈسكۈنىدىكى ھەممە ئەپ ۋە "
+"ھېساباتلارنى زىيارەت قىلغىلى بولمايدۇ. ئىشلەتكۈچى ئاتى ۋە ئىمنى كىرگۈزسىڭىز "
+"قايتا كىملىكىڭىزنى دەلىللىگىلى بولىدۇ."
 
 #: ../online-accounts-provider/ExistingAccount.qml:68
 msgid "Remove"
@@ -60,7 +63,7 @@ msgstr "دەلىللەش كودىنى كىرگۈزۈڭ:"
 
 #: ../online-accounts-provider/LoginForm.qml:67
 msgid "2-factor device code"
-msgstr ""
+msgstr "ئىككى ئېلېمېنتلىق ئۈسكۈنە كودى"
 
 #: ../online-accounts-provider/LoginForm.qml:78
 msgid "Authentication Device Help"
@@ -80,7 +83,7 @@ msgstr "ئىم ئاز دىگەندە 8 ھەرىپ بولۇشى زۆرۈر"
 
 #: ../online-accounts-provider/LoginForm.qml:149
 msgid "Please enter your two-factor device code."
-msgstr ""
+msgstr "ئىككى ئېلېمېنتلىق ئۈسكۈنە كودىنى كىرگۈزۈڭ"
 
 #: ../online-accounts-provider/NewAccount.qml:72
 msgid "Please type your email:"
@@ -105,7 +108,7 @@ msgstr "ئۇبۇنتۇ بىر ھېساباتىڭىزغا كىرىڭ"
 
 #: ../online-accounts-provider/NewAccount.qml:236
 msgid "An internal error occurred. Please try again later."
-msgstr ""
+msgstr "ئىچكى خاتالىق يۈز بەردى. قايتا سىناپ كۆرۈڭ"
 
 #: ../online-accounts-provider/RegisterForm.qml:34
 msgid "Please tell us your name:"
@@ -125,7 +128,7 @@ msgstr "ئاز دېگەندە 8 ھەرپ"
 
 #: ../online-accounts-provider/RegisterForm.qml:75
 msgid "Must match the previous field"
-msgstr ""
+msgstr "ئالدىنقىسى بىلەن ئوخشاش بولۇشى كېرەك"
 
 #: ../online-accounts-provider/RegisterForm.qml:130
 msgid "Continue"
@@ -149,4 +152,4 @@ msgstr "ئىم ماسلاشمىدى"
 
 #: ../online-accounts-provider/RegisterForm.qml:186
 msgid "Please accept the terms and conditions by checking the box."
-msgstr ""
+msgstr "ئىشلىتىش تۈزۈمىگە قوشۇلۇش ئۈچۈن تاللاش كۆزنەكچىسىنى تاللاڭ."
