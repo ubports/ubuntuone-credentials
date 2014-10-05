@@ -8,18 +8,18 @@ msgstr ""
 "Project-Id-Version: ubuntuone-credentials\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-01 15:51-0400\n"
-"PO-Revision-Date: 2014-08-12 12:50+0000\n"
-"Last-Translator: Andi Chandler <Unknown>\n"
+"PO-Revision-Date: 2014-10-05 02:54+0000\n"
+"Last-Translator: Anthony Harrington <untaintableangel@ubuntu.com>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-13 06:33+0000\n"
-"X-Generator: Launchpad (build 17156)\n"
+"X-Launchpad-Export-Date: 2014-10-05 06:14+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
 
 #: ../online-accounts-provider/ExistingAccount.qml:37
 msgid "Email"
-msgstr "Email"
+msgstr "E-mail"
 
 #: ../online-accounts-provider/ExistingAccount.qml:50
 msgid "Remove account…"
@@ -87,7 +87,7 @@ msgstr "Please enter your two-factor device code."
 
 #: ../online-accounts-provider/NewAccount.qml:72
 msgid "Please type your email:"
-msgstr "Please type your email:"
+msgstr "Please type your e-mail:"
 
 #: ../online-accounts-provider/NewAccount.qml:81
 msgid "example: user@ubuntu.com"
@@ -96,7 +96,7 @@ msgstr "example: user@ubuntu.com"
 #: ../online-accounts-provider/NewAccount.qml:134
 #: ../online-accounts-provider/NewAccount.qml:249
 msgid "Please enter a valid email address."
-msgstr "Please enter a valid email address."
+msgstr "Please enter a valid e-mail address."
 
 #: ../online-accounts-provider/NewAccount.qml:166
 msgid "Create your Ubuntu One account"
