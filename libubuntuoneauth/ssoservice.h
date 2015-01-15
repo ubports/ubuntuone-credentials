@@ -65,6 +65,7 @@ namespace UbuntuOne {
             void accountRegistered(const AccountResponse& account);
             void errorOccurred(const ErrorResponse&);
             void handleTwoFactorAuthRequired();
+            void handleKeyringError(QString message);
 
     private:
             Keyring *_keyring;
