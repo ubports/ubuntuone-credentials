@@ -35,6 +35,7 @@ libubuntuoneauth-2.0.so.0 libubuntuoneauth-2.0-0 #MINVER#
  (c++)"UbuntuOne::SSOService::handleCredentialsFound(UbuntuOne::Token const&)@Base" 13.08
  (c++)"UbuntuOne::SSOService::handleCredentialsNotFound()@Base" 13.08
  (c++)"UbuntuOne::SSOService::handleTwoFactorAuthRequired()@Base" 13.08
+ (c++)"UbuntuOne::SSOService::handleKeyringError(QString)@Base" 14.04+14.10.20140910bzr164
  (c++)"UbuntuOne::SSOService::login(QString, QString, QString)@Base" 13.08
  (c++)"UbuntuOne::SSOService::SSOService(QObject*)@Base" 13.08
  (c++)"UbuntuOne::SSOService::SSOService(QObject*)@Base" 13.08
