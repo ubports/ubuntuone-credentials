@@ -1,3 +1,13 @@
+ubuntuone-credentials (14.04+15.04.20150120) vivid; urgency=low
+
+  [ Rodney Dawes ]
+  * Set the default ACL as ["unconfined"] for the account. (LP:
+    #1376445)
+  * Handle keyringError from the keyring, by deleting token. (LP:
+    #1282392)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 20 Jan 2015 18:09:09 +0000
+
 ubuntuone-credentials (14.04+14.10.20140910) utopic; urgency=low
 
   [ CI bot ]
