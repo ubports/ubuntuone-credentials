@@ -53,6 +53,7 @@ namespace UbuntuOne {
         void handleSessionData(const SignOn::SessionData &data);
         void handleCredentialsStored(const quint32 id);
         void handleAccountRemoved();
+        void handleDeleteError(const SignOn::Error &error);
 
     private:
         Accounts::Manager _manager;
