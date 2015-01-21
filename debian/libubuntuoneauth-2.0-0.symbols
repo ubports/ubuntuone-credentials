@@ -35,6 +35,7 @@ libubuntuoneauth-2.0.so.0 libubuntuoneauth-2.0-0 #MINVER#
  (c++)"UbuntuOne::SSOService::handleCredentialsFound(UbuntuOne::Token const&)@Base" 13.08
  (c++)"UbuntuOne::SSOService::handleCredentialsNotFound()@Base" 13.08
  (c++)"UbuntuOne::SSOService::handleTwoFactorAuthRequired()@Base" 13.08
+ (c++)"UbuntuOne::SSOService::handleKeyringError(QString)@Base" 14.04+14.10.20140910bzr164
  (c++)"UbuntuOne::SSOService::login(QString, QString, QString)@Base" 13.08
  (c++)"UbuntuOne::SSOService::SSOService(QObject*)@Base" 13.08
  (c++)"UbuntuOne::SSOService::SSOService(QObject*)@Base" 13.08
@@ -117,6 +118,7 @@ libubuntuoneauth-2.0.so.0 libubuntuoneauth-2.0-0 #MINVER#
  (c++)"UbuntuOne::Keyring::tokenFound(UbuntuOne::Token const&)@Base" 13.08
  (c++)"UbuntuOne::Keyring::deleteToken()@Base" 13.08
  (c++)"UbuntuOne::Keyring::handleError(SignOn::Error const&)@Base" 13.08
+ (c++)"UbuntuOne::Keyring::handleDeleteError(SignOn::Error const&)@Base" 14.04+14.10.20140910bzr165
  (c++)"UbuntuOne::Keyring::qt_metacall(QMetaObject::Call, int, void**)@Base" 13.08
  (c++)"UbuntuOne::Keyring::qt_metacast(char const*)@Base" 13.08
  (c++)"UbuntuOne::Keyring::tokenStored()@Base" 13.08
