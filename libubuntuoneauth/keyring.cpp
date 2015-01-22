@@ -161,6 +161,7 @@ namespace UbuntuOne {
         IdentityInfo info = IdentityInfo();
 
         info.setSecret(token.toQuery(), true);
+        info.setAccessControlList(QStringList() << "unconfined");
         identity->storeCredentials(info);
     }
 
