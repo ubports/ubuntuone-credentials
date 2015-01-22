@@ -1,3 +1,16 @@
+ubuntuone-credentials (14.04+15.04.20150122~rtm) 14.09; urgency=low
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+  [ Rodney Dawes ]
+  * Handle keyringError from the keyring, by deleting token. (LP:
+    #1282392)
+  * Set the default ACL as ["unconfined"] for the account. (LP:
+    #1376445)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 22 Jan 2015 16:16:46 +0000
+
 ubuntuone-credentials (14.04+14.10.20140910) utopic; urgency=low
 
   [ CI bot ]
