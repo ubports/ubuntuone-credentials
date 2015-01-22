@@ -57,6 +57,9 @@ namespace UbuntuOne {
         connect(_keyring, SIGNAL(tokenDeleted()),
                 this, SLOT(handleTokenDeleted()));
 
+        connect(_keyring, SIGNAL(keyringError(QString)),
+                this, SLOT(handleKeyringError(QString)));
+
         connect(_nam, SIGNAL(finished(QNetworkReply*)),
                 this, SLOT(accountPinged(QNetworkReply*)));
 
@@ -166,4 +169,12 @@ namespace UbuntuOne {
         emit requestFailed(error);
     }
 
+    void SSOService::handleKeyringError(QString message)
+    {
+        _tempPassword = "";
+        /* Treat keyring errors as invalid/expired token.
+           Delete the token and act like it wasn't found. */
+        invalidateCredentials();
+        emit credentialsNotFound();
+    }
 }

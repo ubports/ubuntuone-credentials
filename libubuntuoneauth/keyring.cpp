@@ -169,6 +169,12 @@ namespace UbuntuOne {
         emit tokenDeleted();
     }
 
+    void Keyring::handleDeleteError(const SignOn::Error &error)
+    {
+        // Just log the error here, as we don't want to infinite loop.
+        qWarning() << "Error deleting token:" << error.message();
+    }
+
     void Keyring::deleteToken()
     {
         QString _acctName("ubuntuone");
@@ -183,7 +189,7 @@ namespace UbuntuOne {
             connect(account, SIGNAL(removed()),
                     this, SLOT(handleAccountRemoved()));
             connect(identity, SIGNAL(error(const SignOn::Error&)),
-                    this, SLOT(handleError(const SignOn::Error&)));
+                    this, SLOT(handleDeleteError(const SignOn::Error&)));
 
             identity->remove();
             account->remove();
