@@ -18,7 +18,10 @@ fi
 echo "Upgrading ACL for U1 account (id:$CREDS_ID)"
 
 # ensure the 'unconfined' element exists in the table
-sqlite3 $SIGNON_DB 'insert or ignore into TOKENS(token) values ("unconfined")'
+UNCONFINED=`sqlite3 $SIGNON_DB 'select id from TOKENS where token="unconfined"'`
+if [ -z $UNCONFINED ]; then
+	sqlite3 $SIGNON_DB 'insert or ignore into TOKENS(token) values ("unconfined")'
+fi
 
 # add the ACL to protect the U1 account
 sqlite3 $SIGNON_DB "insert or ignore into ACL (identity_id, token_id) values ($CREDS_ID, (select id from TOKENS where token='unconfined'))"
