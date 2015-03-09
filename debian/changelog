@@ -1,3 +1,22 @@
+ubuntuone-credentials (14.04+15.04.20150309.2~rtm) 14.09; urgency=medium
+
+  [ Alberto Mardegan ]
+  * Upgrades the ACL of U1 accounts registered in the Online Accounts
+    database. Add dependencies on sqlite3 and account-plugin-tools for
+    migration script. added: acl-updater/ acl-updater/acl-updater
+    debian/libubuntuoneauth-2.0-0.migrations
+
+  [ CI Train Bot ]
+  * New rebuild forced.
+
+  [ David Barth ]
+  * Upgrades the ACL of U1 accounts registered in the Online Accounts
+    database. Add dependencies on sqlite3 and account-plugin-tools for
+    migration script. added: acl-updater/ acl-updater/acl-updater
+    debian/libubuntuoneauth-2.0-0.migrations
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Mon, 09 Mar 2015 18:14:28 +0000
+
 ubuntuone-credentials (14.04+15.04.20150122~rtm) 14.09; urgency=low
 
   [ Ubuntu daily release ]
