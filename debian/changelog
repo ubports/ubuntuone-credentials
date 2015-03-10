@@ -1,3 +1,11 @@
+ubuntuone-credentials (14.04+15.04.20150310) vivid; urgency=medium
+
+  [ Rodney Dawes ]
+  * Update autopilot dependencies for the autopilot tests package. (LP:
+    #1429158)
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Tue, 10 Mar 2015 19:00:56 +0000
+
 ubuntuone-credentials (14.04+15.04.20150120) vivid; urgency=low
 
   [ Rodney Dawes ]
