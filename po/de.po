@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: ubuntuone-credentials\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-01 15:51-0400\n"
-"PO-Revision-Date: 2015-02-25 15:40+0000\n"
+"PO-Revision-Date: 2015-03-13 11:31+0000\n"
 "Last-Translator: Tobias Bannert <Unknown>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-02-26 05:39+0000\n"
-"X-Generator: Launchpad (build 17361)\n"
+"X-Launchpad-Export-Date: 2015-03-14 05:21+0000\n"
+"X-Generator: Launchpad (build 17389)\n"
 
 #: ../online-accounts-provider/ExistingAccount.qml:37
 msgid "Email"
@@ -83,7 +83,7 @@ msgstr "Das Passwort muss mindestens 8 Zeichen lang sein."
 
 #: ../online-accounts-provider/LoginForm.qml:149
 msgid "Please enter your two-factor device code."
-msgstr "Bitte den Zwei-Faktor-Code eingeben:"
+msgstr "Bitte den Zwei-Faktor-Code eingeben."
 
 #: ../online-accounts-provider/NewAccount.qml:72
 msgid "Please type your email:"
@@ -113,7 +113,7 @@ msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:34
 msgid "Please tell us your name:"
-msgstr "Bitte teilen Sie uns Ihren Namen mit:"
+msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:40
 msgid "First and last name"
@@ -121,7 +121,7 @@ msgstr "Vor- und Nachname"
 
 #: ../online-accounts-provider/RegisterForm.qml:53
 msgid "Choose a password:"
-msgstr "Ein Passwort auswählen:"
+msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:59
 msgid "At least 8 characters"
@@ -137,11 +137,11 @@ msgstr "Fortfahren"
 
 #: ../online-accounts-provider/RegisterForm.qml:144
 msgid "I'm an existing Ubuntu One user, sign me in"
-msgstr "Ich habe schon ein Ubuntu-One-Konto, bitte mich anmelden"
+msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:167
 msgid "Please enter a name."
-msgstr "Bitte einen Namen eingeben."
+msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:174
 msgid "Your password must be at least 8 characters long."
@@ -154,4 +154,3 @@ msgstr "Die Passwörter stimmen nicht überein"
 #: ../online-accounts-provider/RegisterForm.qml:186
 msgid "Please accept the terms and conditions by checking the box."
 msgstr ""
-"Bitte akzeptieren Sie die Bedingungen, indem Sie dieses Feld ankreuzen."
