@@ -4,6 +4,7 @@ Priority: optional
 Build-Depends:
  cmake,
  debhelper (>= 9),
+ dh-migrations,
  libaccounts-qt5-dev,
  liboauth-dev,
  libsignon-qt5-dev,
@@ -71,7 +72,9 @@ Pre-Depends:
  multiarch-support,
  ${misc:Pre-Depends},
 Depends:
+ account-plugin-tools,
  signon-plugin-password,
+ sqlite3,
  ubuntuone-credentials-common (= ${source:Version}),
  ${misc:Depends},
  ${shlibs:Depends},
