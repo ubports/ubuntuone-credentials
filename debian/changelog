@@ -1,3 +1,12 @@
+ubuntuone-credentials (14.04+15.04.20150401) vivid; urgency=medium
+
+  [ Alberto Mardegan ]
+  * Upgrades the ACL of U1 accounts registered in the Online Accounts
+    database. Add dependencies on sqlite3 and account-plugin-tools for
+    migration script. (LP: #1376445)
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Wed, 01 Apr 2015 17:53:57 +0000
+
 ubuntuone-credentials (14.04+15.04.20150310) vivid; urgency=medium
 
   [ Rodney Dawes ]
