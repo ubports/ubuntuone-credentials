@@ -1,34 +1,33 @@
-# Swedish translation for ubuntuone-credentials
-# Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
+# Vietnamese translation for ubuntuone-credentials
+# Copyright (c) 2015 Rosetta Contributors and Canonical Ltd 2015
 # This file is distributed under the same license as the ubuntuone-credentials package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
-# clone <josef.andersson@fripost.org>, 2015.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: ubuntuone-credentials\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-01 15:51-0400\n"
-"PO-Revision-Date: 2015-04-03 05:36+0000\n"
-"Last-Translator: Josef Andersson <Unknown>\n"
-"Language-Team: Swedish\n"
+"PO-Revision-Date: 2015-04-02 19:55+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Vietnamese <vi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2015-04-03 05:37+0000\n"
 "X-Generator: Launchpad (build 17413)\n"
-"Language: sv\n"
 
 #: ../online-accounts-provider/ExistingAccount.qml:37
 msgid "Email"
-msgstr "E-post"
+msgstr ""
 
 #: ../online-accounts-provider/ExistingAccount.qml:50
 msgid "Remove account…"
-msgstr "Ta bort konto…"
+msgstr ""
 
 #: ../online-accounts-provider/ExistingAccount.qml:64
 msgid "Remove Credentials"
-msgstr "Ta bort inloggningsuppgifter"
+msgstr ""
 
 #: ../online-accounts-provider/ExistingAccount.qml:65
 msgid ""
@@ -36,122 +35,118 @@ msgid ""
 "device from accessing your account. You can authorize the device again by "
 "providing your username and password."
 msgstr ""
-"Om du tar bort dina Ubuntu One-inloggningsuppgifter så kommer det hindra "
-"samtliga applikationer på den här enheten från att komma åt ditt konto. Du "
-"kan aktivera åtkomst från den här enheten igen genom att ange ditt "
-"användarnamn och lösenord."
 
 #: ../online-accounts-provider/ExistingAccount.qml:68
 msgid "Remove"
-msgstr "Ta bort"
+msgstr ""
 
 #: ../online-accounts-provider/ExistingAccount.qml:81
 #: ../online-accounts-provider/LoginForm.qml:94
 #: ../online-accounts-provider/RegisterForm.qml:118
 msgid "Cancel"
-msgstr "Avbryt"
+msgstr ""
 
 #: ../online-accounts-provider/LoginForm.qml:33
 msgid "Enter your password:"
-msgstr "Ange ditt lösenord:"
+msgstr ""
 
 #: ../online-accounts-provider/LoginForm.qml:49
 msgid "Forgot password?"
-msgstr "Glömt lösenordet?"
+msgstr ""
 
 #: ../online-accounts-provider/LoginForm.qml:61
 msgid "Type your verification code:"
-msgstr "Skriv in din verifieringskod:"
+msgstr ""
 
 #: ../online-accounts-provider/LoginForm.qml:67
 msgid "2-factor device code"
-msgstr "Tvåvägsenhetskod"
+msgstr ""
 
 #: ../online-accounts-provider/LoginForm.qml:78
 msgid "Authentication Device Help"
-msgstr "Hjälp för autentiseringsenhet"
+msgstr ""
 
 #: ../online-accounts-provider/LoginForm.qml:106
 msgid "Sign in"
-msgstr "Logga in"
+msgstr ""
 
 #: ../online-accounts-provider/LoginForm.qml:119
 msgid "I'm a new Ubuntu One user, sign me up"
-msgstr "Jag är en ny Ubuntu One-användare, skapa ett nytt konto åt mig"
+msgstr ""
 
 #: ../online-accounts-provider/LoginForm.qml:139
 msgid "Password must be at least 8 characters long."
-msgstr "Lösenordet måste innehålla minst 8 tecken."
+msgstr ""
 
 #: ../online-accounts-provider/LoginForm.qml:149
 msgid "Please enter your two-factor device code."
-msgstr "Ange din tvåvägsenhetskod."
+msgstr ""
 
 #: ../online-accounts-provider/NewAccount.qml:72
 msgid "Please type your email:"
-msgstr "Ange din e-postadress:"
+msgstr ""
 
 #: ../online-accounts-provider/NewAccount.qml:81
 msgid "example: user@ubuntu.com"
-msgstr "exempel: user@ubuntu.com"
+msgstr ""
 
 #: ../online-accounts-provider/NewAccount.qml:134
 #: ../online-accounts-provider/NewAccount.qml:249
 msgid "Please enter a valid email address."
-msgstr "Ange en giltig e-postadress."
+msgstr ""
 
 #: ../online-accounts-provider/NewAccount.qml:166
 msgid "Create your Ubuntu One account"
-msgstr "Skapa ditt Ubuntu One-konto"
+msgstr ""
 
 #: ../online-accounts-provider/NewAccount.qml:171
 msgid "Sign in to your Ubuntu One account"
-msgstr "Logga in till ditt Ubuntu One-konto"
+msgstr ""
 
 #: ../online-accounts-provider/NewAccount.qml:236
 msgid "An internal error occurred. Please try again later."
-msgstr "Ett internt fel har inträffat. Vänligen försök igen."
+msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:34
 msgid "Please tell us your name:"
-msgstr "Ange ditt namn:"
+msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:40
 msgid "First and last name"
-msgstr "För- och efternamn"
+msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:53
 msgid "Choose a password:"
-msgstr "Välj ett lösenord:"
+msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:59
 msgid "At least 8 characters"
-msgstr "Minst 8 tecken"
+msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:75
 msgid "Must match the previous field"
-msgstr "Måste stämma överens med tidigare fält"
+msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:130
 msgid "Continue"
-msgstr "Fortsätt"
+msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:144
 msgid "I'm an existing Ubuntu One user, sign me in"
-msgstr "Jag är en redan en Ubuntu One-användare, logga in mig"
+msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:167
 msgid "Please enter a name."
-msgstr "Ange ett namn."
+msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:174
 msgid "Your password must be at least 8 characters long."
-msgstr "Ditt lösenord måste innehålla minst 8 tecken."
+msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:181
 msgid "The passwords do not match."
-msgstr "Lösenorden stämmer inte överens."
+msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:186
 msgid "Please accept the terms and conditions by checking the box."
-msgstr "Acceptera användarvillkoren genom att kryssa i rutan."
+msgstr ""
