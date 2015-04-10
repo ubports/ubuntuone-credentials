@@ -54,6 +54,7 @@ Depends:
  qtdeclarative5-ubuntu-ui-toolkit-plugin | qtdeclarative5-ubuntu-ui-toolkit-plugin-gles,
  qtdeclarative5-ubuntuone1.0,
  qttestability-autopilot | libautopilot-qt,
+ ubuntu-keyboard-autopilot,
  ubuntu-ui-toolkit-autopilot,
  ${misc:Depends},
  ${python:Depends},
