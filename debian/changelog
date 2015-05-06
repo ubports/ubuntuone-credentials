@@ -1,3 +1,11 @@
+ubuntuone-credentials (14.04+15.10.20150506) wily; urgency=medium
+
+  [ Leo Arias ]
+  * On autopilot helpers, dismiss the on-screen keyboard when filling
+    the new account form. Workaround for bug #1442733. (LP: #1442733)
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Wed, 06 May 2015 20:53:15 +0000
+
 ubuntuone-credentials (14.04+15.04.20150401) vivid; urgency=medium
 
   [ Alberto Mardegan ]
