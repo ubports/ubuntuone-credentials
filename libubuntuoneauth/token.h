@@ -52,6 +52,8 @@ namespace UbuntuOne {
 
         static QString dateStringToISO(const QString date);
 
+        QString consumerKey() const;
+
     private:
         QHash<QString, QString> _tokenHash;
     };
