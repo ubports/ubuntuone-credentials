@@ -91,7 +91,7 @@ namespace UbuntuOne {
      *
      * Retruns a consumer key for this token, or empty string if consumer key is not set.
      */
-    QString consumerKey() const
+    QString Token::consumerKey() const
     {
         return _tokenHash.value(TOKEN_CONSUMER_KEY, "");
     }

@@ -41,6 +41,8 @@ void TestToken::testTokenArgs()
 {
     Token *token = new Token("a", "b", "c", "d");
     QVERIFY(token->isValid());
+    QString expected("c");
+    QCOMPARE(token->consumerKey(), expected);
     delete token;
 }
 
