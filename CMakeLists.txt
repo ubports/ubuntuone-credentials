@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 2.8.9)
 
 # This is the name and release version of the project
 PROJECT (ubuntuone-credentials)
-SET (PROJECT_VERSION 14.04)
+SET (PROJECT_VERSION 15.10)
 
 include(GNUInstallDirs)
 
