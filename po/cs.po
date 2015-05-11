@@ -8,26 +8,26 @@ msgstr ""
 "Project-Id-Version: ubuntuone-credentials\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-01 15:51-0400\n"
-"PO-Revision-Date: 2015-03-30 10:41+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2015-05-06 19:47+0000\n"
+"Last-Translator: Vojtěch Daněk <vdanek@outlook.com>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-03-31 05:49+0000\n"
-"X-Generator: Launchpad (build 17413)\n"
+"X-Launchpad-Export-Date: 2015-05-08 05:20+0000\n"
+"X-Generator: Launchpad (build 17474)\n"
 
 #: ../online-accounts-provider/ExistingAccount.qml:37
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: ../online-accounts-provider/ExistingAccount.qml:50
 msgid "Remove account…"
-msgstr ""
+msgstr "Odstranit účet..."
 
 #: ../online-accounts-provider/ExistingAccount.qml:64
 msgid "Remove Credentials"
-msgstr ""
+msgstr "Odstranit pověření"
 
 #: ../online-accounts-provider/ExistingAccount.qml:65
 msgid ""
@@ -35,118 +35,121 @@ msgid ""
 "device from accessing your account. You can authorize the device again by "
 "providing your username and password."
 msgstr ""
+"Odstranění pověření pro Ubunu One zabrání všem aplikacím na tomto zařízení v "
+"přístupu k vašemu účtu. Zařízení můžete znovu pověřit zadáním uživatelského "
+"jména a hesla."
 
 #: ../online-accounts-provider/ExistingAccount.qml:68
 msgid "Remove"
-msgstr ""
+msgstr "Odebrat"
 
 #: ../online-accounts-provider/ExistingAccount.qml:81
 #: ../online-accounts-provider/LoginForm.qml:94
 #: ../online-accounts-provider/RegisterForm.qml:118
 msgid "Cancel"
-msgstr ""
+msgstr "Zrušit"
 
 #: ../online-accounts-provider/LoginForm.qml:33
 msgid "Enter your password:"
-msgstr ""
+msgstr "Zadejte své heslo:"
 
 #: ../online-accounts-provider/LoginForm.qml:49
 msgid "Forgot password?"
-msgstr ""
+msgstr "Zapoměli jste heslo?"
 
 #: ../online-accounts-provider/LoginForm.qml:61
 msgid "Type your verification code:"
-msgstr ""
+msgstr "Napište ověřovací kód:"
 
 #: ../online-accounts-provider/LoginForm.qml:67
 msgid "2-factor device code"
-msgstr ""
+msgstr "Kód zařízení pro dvoufázové ověření"
 
 #: ../online-accounts-provider/LoginForm.qml:78
 msgid "Authentication Device Help"
-msgstr ""
+msgstr "Nápověda pro ověření zařízení"
 
 #: ../online-accounts-provider/LoginForm.qml:106
 msgid "Sign in"
-msgstr ""
+msgstr "Přihlásit"
 
 #: ../online-accounts-provider/LoginForm.qml:119
 msgid "I'm a new Ubuntu One user, sign me up"
-msgstr ""
+msgstr "Jsem nový uživatel Ubuntu One, chci se zaregistrovat"
 
 #: ../online-accounts-provider/LoginForm.qml:139
 msgid "Password must be at least 8 characters long."
-msgstr ""
+msgstr "Heslo musí být dlouhé minimálně 8 znaků."
 
 #: ../online-accounts-provider/LoginForm.qml:149
 msgid "Please enter your two-factor device code."
-msgstr ""
+msgstr "Prosím zadejte kód zařízení pro dvoufázové ověření."
 
 #: ../online-accounts-provider/NewAccount.qml:72
 msgid "Please type your email:"
-msgstr ""
+msgstr "Prosím, zadejte vaši emailovou adresu:"
 
 #: ../online-accounts-provider/NewAccount.qml:81
 msgid "example: user@ubuntu.com"
-msgstr ""
+msgstr "příklad: uzivatel@ubuntu.cz"
 
 #: ../online-accounts-provider/NewAccount.qml:134
 #: ../online-accounts-provider/NewAccount.qml:249
 msgid "Please enter a valid email address."
-msgstr ""
+msgstr "Zadejte, prosím, platnou e-mailovou adresu"
 
 #: ../online-accounts-provider/NewAccount.qml:166
 msgid "Create your Ubuntu One account"
-msgstr ""
+msgstr "Vytvořit účet Ubuntu One"
 
 #: ../online-accounts-provider/NewAccount.qml:171
 msgid "Sign in to your Ubuntu One account"
-msgstr ""
+msgstr "Přihlaste se k vašemu účtu Ubuntu One"
 
 #: ../online-accounts-provider/NewAccount.qml:236
 msgid "An internal error occurred. Please try again later."
-msgstr ""
+msgstr "Nastala vnitřní chyba. Zkuste to, prosím, znovu později."
 
 #: ../online-accounts-provider/RegisterForm.qml:34
 msgid "Please tell us your name:"
-msgstr ""
+msgstr "Prosím, řekněte nám své jméno:"
 
 #: ../online-accounts-provider/RegisterForm.qml:40
 msgid "First and last name"
-msgstr ""
+msgstr "Jméno a příjmení"
 
 #: ../online-accounts-provider/RegisterForm.qml:53
 msgid "Choose a password:"
-msgstr ""
+msgstr "Zvolte heslo:"
 
 #: ../online-accounts-provider/RegisterForm.qml:59
 msgid "At least 8 characters"
-msgstr ""
+msgstr "Alespoň 8 znaků"
 
 #: ../online-accounts-provider/RegisterForm.qml:75
 msgid "Must match the previous field"
-msgstr ""
+msgstr "Musí se shodovat s předchozím polem"
 
 #: ../online-accounts-provider/RegisterForm.qml:130
 msgid "Continue"
-msgstr ""
+msgstr "Pokračovat"
 
 #: ../online-accounts-provider/RegisterForm.qml:144
 msgid "I'm an existing Ubuntu One user, sign me in"
-msgstr ""
+msgstr "Jsem uživatel Ubuntu One, přihlásit"
 
 #: ../online-accounts-provider/RegisterForm.qml:167
 msgid "Please enter a name."
-msgstr ""
+msgstr "Prosím zadejte jméno."
 
 #: ../online-accounts-provider/RegisterForm.qml:174
 msgid "Your password must be at least 8 characters long."
-msgstr ""
+msgstr "Heslo musí být dlouhé minimálně 8 znaků."
 
 #: ../online-accounts-provider/RegisterForm.qml:181
 msgid "The passwords do not match."
-msgstr ""
+msgstr "Hesla si neodpovídají."
 
 #: ../online-accounts-provider/RegisterForm.qml:186
 msgid "Please accept the terms and conditions by checking the box."
-msgstr ""
+msgstr "Přijměte, prosím, pravidla a podmínky použití zaškrtnutím políčka."
