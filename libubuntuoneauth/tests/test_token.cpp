@@ -51,6 +51,13 @@ void TestConsumerKey()
     QCOMPARE(token.consumerKey(), expected);
 }
 
+void TestConsumerKeyOfEmptyToken()
+{
+    Token token;
+    QVERIFY(!token.isValid());
+    QCOMPARE(token.consumerKey(), QString(""));
+}
+
 void TestToken::testTokenCopy()
 {
     Token *old_token = new Token("a", "b", "c", "d");
