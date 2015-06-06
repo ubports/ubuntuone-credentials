@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: ubuntuone-credentials\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-01 15:51-0400\n"
-"PO-Revision-Date: 2015-05-19 07:17+0000\n"
+"PO-Revision-Date: 2015-06-05 07:06+0000\n"
 "Last-Translator: Fohanno Thierry <thierry.fohanno@ofis-bzh.org>\n"
 "Language-Team: Breton <br@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-05-20 05:21+0000\n"
-"X-Generator: Launchpad (build 17508)\n"
+"X-Launchpad-Export-Date: 2015-06-06 05:22+0000\n"
+"X-Generator: Launchpad (build 17540)\n"
 
 #: ../online-accounts-provider/ExistingAccount.qml:37
 msgid "Email"
@@ -27,7 +27,7 @@ msgstr "Dilemel ar gont..."
 
 #: ../online-accounts-provider/ExistingAccount.qml:64
 msgid "Remove Credentials"
-msgstr ""
+msgstr "Diverkañ an anaouderioù"
 
 #: ../online-accounts-provider/ExistingAccount.qml:65
 msgid ""
@@ -35,6 +35,9 @@ msgid ""
 "device from accessing your account. You can authorize the device again by "
 "providing your username and password."
 msgstr ""
+"Diverkañ hoc'h anaouderioù Ubuntu One a viro ouzh kement arload a zo er "
+"benveg-mañ da vont d'ho kont. Gallout a rit aotreañ ar benveg-mañ en-dro "
+"gant reiñ hoc'h anv implijer hag ho ker-tremen."
 
 #: ../online-accounts-provider/ExistingAccount.qml:68
 msgid "Remove"
@@ -48,7 +51,7 @@ msgstr "Nullañ"
 
 #: ../online-accounts-provider/LoginForm.qml:33
 msgid "Enter your password:"
-msgstr ""
+msgstr "Skrivit ho ker-tremen :"
 
 #: ../online-accounts-provider/LoginForm.qml:49
 msgid "Forgot password?"
@@ -56,23 +59,23 @@ msgstr "Ankouaet ho peus ho ker-tremen ?"
 
 #: ../online-accounts-provider/LoginForm.qml:61
 msgid "Type your verification code:"
-msgstr ""
+msgstr "Skrivit ho kof gwiriañ :"
 
 #: ../online-accounts-provider/LoginForm.qml:67
 msgid "2-factor device code"
-msgstr ""
+msgstr "Kod stignad gant 2 faktor"
 
 #: ../online-accounts-provider/LoginForm.qml:78
 msgid "Authentication Device Help"
-msgstr ""
+msgstr "Skoazell evit dilesadur ar benveg"
 
 #: ../online-accounts-provider/LoginForm.qml:106
 msgid "Sign in"
-msgstr ""
+msgstr "Kevreañ"
 
 #: ../online-accounts-provider/LoginForm.qml:119
 msgid "I'm a new Ubuntu One user, sign me up"
-msgstr ""
+msgstr "Un implijer nevez on en Ubuntu One, kevreit ac'hanon"
 
 #: ../online-accounts-provider/LoginForm.qml:139
 msgid "Password must be at least 8 characters long."
@@ -80,11 +83,11 @@ msgstr "8 arouezenn da nebeutañ a rank bezañ er ger-tremen."
 
 #: ../online-accounts-provider/LoginForm.qml:149
 msgid "Please enter your two-factor device code."
-msgstr ""
+msgstr "Skrivit ho kod stignad gant daou faktor, mar plij."
 
 #: ../online-accounts-provider/NewAccount.qml:72
 msgid "Please type your email:"
-msgstr ""
+msgstr "Skrivit ho chomlec'h postel, mar plij :"
 
 #: ../online-accounts-provider/NewAccount.qml:81
 msgid "example: user@ubuntu.com"
@@ -101,15 +104,15 @@ msgstr "Krouiñ ho kont Ubuntu One"
 
 #: ../online-accounts-provider/NewAccount.qml:171
 msgid "Sign in to your Ubuntu One account"
-msgstr ""
+msgstr "Kevreit ouzh ho kont Ubuntu One"
 
 #: ../online-accounts-provider/NewAccount.qml:236
 msgid "An internal error occurred. Please try again later."
-msgstr ""
+msgstr "Ur fazi diabarzh zo bet. Esaeit en-dro diwezhatoc'h, mar plij."
 
 #: ../online-accounts-provider/RegisterForm.qml:34
 msgid "Please tell us your name:"
-msgstr ""
+msgstr "Skrivit hoc'h anv, mar plij :"
 
 #: ../online-accounts-provider/RegisterForm.qml:40
 msgid "First and last name"
@@ -125,7 +128,7 @@ msgstr "8 arouezenn da nebeutañ"
 
 #: ../online-accounts-provider/RegisterForm.qml:75
 msgid "Must match the previous field"
-msgstr ""
+msgstr "Ret eo dezhañ klotañ gant ar vaezienn a-raok"
 
 #: ../online-accounts-provider/RegisterForm.qml:130
 msgid "Continue"
@@ -133,7 +136,7 @@ msgstr "Kenderc'hel"
 
 #: ../online-accounts-provider/RegisterForm.qml:144
 msgid "I'm an existing Ubuntu One user, sign me in"
-msgstr ""
+msgstr "Ur gont Ubuntu One am eus dija, kevreit ac'hanon"
 
 #: ../online-accounts-provider/RegisterForm.qml:167
 msgid "Please enter a name."
@@ -141,12 +144,12 @@ msgstr "Roit un anv mar plij ganeoc'h"
 
 #: ../online-accounts-provider/RegisterForm.qml:174
 msgid "Your password must be at least 8 characters long."
-msgstr ""
+msgstr "8 arouezenn da nebeutañ a zle bezañ en ho ker-tremen."
 
 #: ../online-accounts-provider/RegisterForm.qml:181
 msgid "The passwords do not match."
-msgstr ""
+msgstr "ne glot ket ar gerioù-tremen."
 
 #: ../online-accounts-provider/RegisterForm.qml:186
 msgid "Please accept the terms and conditions by checking the box."
-msgstr ""
+msgstr "Asantit d'an divizoù implij gant askañ al logell, mar plij."
