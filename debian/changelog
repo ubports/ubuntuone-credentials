@@ -1,3 +1,9 @@
+ubuntuone-credentials (15.10+15.10.20150527) UNRELEASED; urgency=medium
+
+  * Added Token::consumerKey() getter.
+
+ -- Pawel Stolowski <pawel.stolowski@canonical.com>  Mon, 27 May 2015 16:38:11 +0200
+
 ubuntuone-credentials (14.04+15.10.20150506) wily; urgency=medium
 
   [ Leo Arias ]
