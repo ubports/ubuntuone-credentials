@@ -111,7 +111,7 @@ libubuntuoneauth-2.0.so.0 libubuntuoneauth-2.0-0 #MINVER#
  (c++)"UbuntuOne::Token::Token(QString, QString, QString, QString)@Base" 13.08
  (c++)"UbuntuOne::Token::Token(QString, QString, QString, QString, QString, QString)@Base" 14.04+14.10.20140908
  (c++)"UbuntuOne::Token::~Token()@Base" 13.08
- (c++)"UbuntuOne::Token::consumerKey() const@Base" 0replaceme
+ (c++)"UbuntuOne::Token::consumerKey() const@Base" 15.10+15.10.20150617
  (c++)"UbuntuOne::Token::created() const@Base" 14.04+14.10.20140818
  (c++)"UbuntuOne::Token::updated() const@Base" 14.04+14.10.20140818
  (c++)"UbuntuOne::Keyring::storeToken(UbuntuOne::Token)@Base" 13.08
