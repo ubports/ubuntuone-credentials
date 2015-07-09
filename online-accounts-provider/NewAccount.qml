@@ -48,6 +48,7 @@ Column {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.margins: units.gu(2)
+        wrapMode: Text.Wrap
     }
 
     Label {
@@ -61,6 +62,7 @@ Column {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.margins: units.gu(4)
+        wrapMode: Text.Wrap
     }
 
     Label {
