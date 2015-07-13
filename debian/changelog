@@ -1,3 +1,13 @@
+ubuntuone-credentials (15.10+15.10.20150713) wily; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Wrap the main header and error labels. (LP: #1368797, #1453830)
+
+  [ CI Train Bot ]
+  * New rebuild forced.
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Mon, 13 Jul 2015 19:59:31 +0000
+
 ubuntuone-credentials (15.10+15.10.20150617) wily; urgency=medium
 
   [ Pawel Stolowski ]
