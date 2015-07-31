@@ -17,7 +17,8 @@ Build-Depends:
  signon-plugins-dev,
  ubuntu-ui-toolkit-autopilot:native,
  xvfb,
-Maintainer: Ubuntu One Developers <ubuntuone-users@lists.launchpad.net>
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+XSBC-Original-Maintainer: Ubuntu One Developers <ubuntuone-users@lists.launchpad.net>
 Standards-Version: 3.9.5
 Vcs-Bzr: lp:ubuntuone-credentials
 Xs-Testsuite: autopkgtest
