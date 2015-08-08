@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-07-21 05:25+0000\n"
-"X-Generator: Launchpad (build 17628)\n"
+"X-Launchpad-Export-Date: 2015-08-08 06:09+0000\n"
+"X-Generator: Launchpad (build 17656)\n"
 
 #: ../online-accounts-provider/ExistingAccount.qml:37
 msgid "Email"
@@ -72,7 +72,7 @@ msgstr "S'identifier"
 
 #: ../online-accounts-provider/LoginForm.qml:119
 msgid "I'm a new Ubuntu One user, sign me up"
-msgstr ""
+msgstr "Soi un novèl utilizaire d'Ubuntu One, m'enregistrar"
 
 #: ../online-accounts-provider/LoginForm.qml:139
 msgid "Password must be at least 8 characters long."
@@ -80,7 +80,7 @@ msgstr "Lo senhal deu èsser de 8 caractèrs minimum."
 
 #: ../online-accounts-provider/LoginForm.qml:149
 msgid "Please enter your two-factor device code."
-msgstr ""
+msgstr "Picatz vòstre còde de dispositiu de dos factors."
 
 #: ../online-accounts-provider/NewAccount.qml:72
 msgid "Please type your email:"
