@@ -49,11 +49,11 @@ Depends:
  python3-autopilot,
  python3-fixtures,
  python3-testtools,
- qtdeclarative5-online-accounts-client0.1,
- qtdeclarative5-qtquick2-plugin,
- qtdeclarative5-test-plugin,
+ qml-module-qtquick2,
+ qml-module-qttest,
+ qml-module-ubuntuone,
+ qml-module-ubuntu-onlineaccounts,
  qtdeclarative5-ubuntu-ui-toolkit-plugin | qtdeclarative5-ubuntu-ui-toolkit-plugin-gles,
- qtdeclarative5-ubuntuone1.0,
  qttestability-autopilot | libautopilot-qt,
  ubuntu-keyboard-autopilot,
  ubuntu-ui-toolkit-autopilot,
@@ -109,7 +109,7 @@ Description: Ubuntu One authentication library - development files
  This package includes the development files for the Ubuntu One authentication
  library.
 
-Package: qtdeclarative5-ubuntuone1.0
+Package: qml-module-ubuntuone
 Architecture: any
 Multi-Arch: same
 Pre-Depends:
@@ -122,9 +122,11 @@ Depends:
  ${shlibs:Depends},
 Breaks:
  qtdeclarative5-ubuntuone-credentials-plugin,
+ qtdeclarative5-ubuntuone1.0,
 Replaces:
  qtdeclarative5-ubuntuone-credentials-plugin,
-Description: Ubuntu One authentication library - Qt declarative plug-in
+ qtdeclarative5-ubuntuone1.0,
+Description: Ubuntu One authentication library - QML Module
  A library for native applications to log into the Ubuntu One services,
  to synchronize data, purchase music and software, or access data stored
  remotely on the Ubuntu One servers.
@@ -156,7 +158,7 @@ Pre-Depends:
  ${misc:Pre-Depends},
 Depends:
  libubuntuoneauth-2.0-0 (= ${binary:Version}),
- qtdeclarative5-ubuntuone1.0 (= ${binary:Version}),
+ qml-module-ubuntuone (= ${binary:Version}),
  ubuntu-system-settings-online-accounts,
  ${misc:Depends},
  ${shlibs:Depends},
