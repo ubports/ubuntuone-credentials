@@ -1,8 +1,12 @@
-ubuntuone-credentials (15.11+16.04.20151117) UNRELEASED; urgency=medium
+ubuntuone-credentials (15.11+16.04.20151117.1) xenial; urgency=medium
 
+  [ Rodney Dawes ]
   * Rename the QML module package to match newer naming scheme.
 
- -- Rodney Dawes <rodney.dawes@ubuntu.com>  Tue, 17 Nov 2015 16:07:05 -0500
+  [ CI Train Bot ]
+  * No-change rebuild.
+
+ -- Rodney Dawes <ci-train-bot@canonical.com>  Tue, 17 Nov 2015 21:34:44 +0000
 
 ubuntuone-credentials (15.10+15.10.20150713ubuntu1~gcc5.1) wily; urgency=medium
 
