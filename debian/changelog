@@ -1,4 +1,4 @@
-ubuntuone-credentials (15.11) UNRELEASED; urgency=medium
+ubuntuone-credentials (15.11+16.04.20151117) UNRELEASED; urgency=medium
 
   * Rename the QML module package to match newer naming scheme.
 
