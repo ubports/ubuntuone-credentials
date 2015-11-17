@@ -1,3 +1,9 @@
+ubuntuone-credentials (15.11) UNRELEASED; urgency=medium
+
+  * Rename the QML module package to match newer naming scheme.
+
+ -- Rodney Dawes <rodney.dawes@ubuntu.com>  Tue, 17 Nov 2015 16:07:05 -0500
+
 ubuntuone-credentials (15.10+15.10.20150713ubuntu1~gcc5.1) wily; urgency=medium
 
   * No-change test rebuild for g++5 ABI transition
