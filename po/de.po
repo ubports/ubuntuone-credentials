@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-08 06:08+0000\n"
-"X-Generator: Launchpad (build 17656)\n"
+"X-Launchpad-Export-Date: 2015-11-25 05:21+0000\n"
+"X-Generator: Launchpad (build 17850)\n"
 
 #: ../online-accounts-provider/ExistingAccount.qml:37
 msgid "Email"
@@ -35,9 +35,6 @@ msgid ""
 "device from accessing your account. You can authorize the device again by "
 "providing your username and password."
 msgstr ""
-"Das Entfernen der Ubuntu-One-Berechtigung wird alle Apps davon abhalten, auf "
-"Ihr Ubuntu-One-Konto zuzugreifen. Sie können Ihr Telefon erneut berechtigen, "
-"indem Sie Ihren Benutzernamen und Passwort eingeben."
 
 #: ../online-accounts-provider/ExistingAccount.qml:68
 msgid "Remove"
@@ -75,7 +72,7 @@ msgstr "Anmelden"
 
 #: ../online-accounts-provider/LoginForm.qml:119
 msgid "I'm a new Ubuntu One user, sign me up"
-msgstr "Ich bin ein neuer Ubuntu-One-Benutzer, bitte mich registrieren"
+msgstr ""
 
 #: ../online-accounts-provider/LoginForm.qml:139
 msgid "Password must be at least 8 characters long."
@@ -87,7 +84,7 @@ msgstr "Bitte den Zwei-Faktor-Code eingeben."
 
 #: ../online-accounts-provider/NewAccount.qml:72
 msgid "Please type your email:"
-msgstr "Bitte Ihre E-Mail-Adresse eingeben:"
+msgstr ""
 
 #: ../online-accounts-provider/NewAccount.qml:81
 msgid "example: user@ubuntu.com"
@@ -137,7 +134,7 @@ msgstr "Fortfahren"
 
 #: ../online-accounts-provider/RegisterForm.qml:144
 msgid "I'm an existing Ubuntu One user, sign me in"
-msgstr "Ich habe schon ein Ubuntu-One-Konto, bitte mich anmelden"
+msgstr ""
 
 #: ../online-accounts-provider/RegisterForm.qml:167
 msgid "Please enter a name."
