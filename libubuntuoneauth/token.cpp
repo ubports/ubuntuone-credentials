@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2013-2015 Canonical Ltd.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of version 3 of the GNU Lesser General Public
@@ -15,15 +15,19 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
+#include "token.h"
+#include "ssoservice.h"
+
+#include <future>
 #include <stdlib.h>
 #include <oauth.h>
 
 #include <QHash>
 #include <QHostInfo>
+#include <QNetworkReply>
+#include <QNetworkRequest>
 #include <QStringList>
 #include <QUrl>
-
-#include "token.h"
 
 #define TOKEN_NAME_KEY "name"
 #define TOKEN_TOKEN_KEY "token"
@@ -128,7 +132,7 @@ namespace UbuntuOne {
     /**
      * \fn QDateTime Token::updated()
      *
-     * Retruns a QDateTime representing the time the token was last updated on
+     * Returns a QDateTime representing the time the token was last updated on
      * the server, or empty if unknown.
      */
     QDateTime Token::updated() const
@@ -138,6 +142,42 @@ namespace UbuntuOne {
                                          Qt::ISODate);
         }
         return QDateTime();
+    }
+
+    /**
+     * \fn QDateTime Token::getServerTimestamp()
+     *
+     * Returns a QDateTime representing the current time known on the
+     * Ubuntu One authentication server, or empty on errors.
+     */
+    QDateTime Token::getServerTimestamp() const
+    {
+        auto _nam = new QNetworkAccessManager();
+        QUrl _url{SSOService::getAuthBaseUrl()}; 
+        auto _req = new QNetworkRequest(_url);
+        _req->setRawHeader("Cache-Control", "no-cache");
+
+        std::promise<QDateTime> promise;
+        auto future = promise.get_future();
+
+        auto _reply = _nam->head(*_req);
+        QObject::connect(_reply, &QNetworkReply::finished,
+                         [&promise, &_reply]() {
+                             auto _dt = QDateTime::fromString(_reply->rawHeader("Date"),
+                                                              Qt::ISODate);
+                             qDebug() << "Got server timestamp:"
+                                      << _dt.toTime_t();
+                             promise.set_value(_dt);
+                         });
+        typedef void(QNetworkReply::*QNetworkReplyErrorSignal)(QNetworkReply::NetworkError);
+        QObject::connect(_reply, static_cast<QNetworkReplyErrorSignal>(&QNetworkReply::error),
+                         [&promise, &_reply](QNetworkReply::NetworkError) {
+                             qCritical() << "Error fetching server timestamp:"
+                                         << _reply->readAll();
+                             promise.set_value(QDateTime());
+                         });
+
+        return future.get();
     }
 
     /**
@@ -158,6 +198,11 @@ namespace UbuntuOne {
             qWarning() << "Unable to sign empty URL.";
             return result;
         }
+
+        QUrl copy{url};
+        auto timestamp = getServerTimestamp();
+        copy.setQuery(copy.query(QUrl::FullyEncoded) +
+                      "&oauth_timestamp=" + timestamp.toTime_t());
 
         argc = oauth_split_url_parameters(url.toUtf8().data(), &argv);
         // Fixup the URL as liboauth is escaping '+' to ' ' in it, incorrectly.
