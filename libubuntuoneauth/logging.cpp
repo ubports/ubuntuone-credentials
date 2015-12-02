@@ -92,6 +92,11 @@ namespace UbuntuOne {
         case QtFatalMsg:
             return QStringLiteral("FATAL");
             break;
+#if QT_VERSION >= 0x505000
+        case QtInfoMsg:
+            return QStringLiteral("INFO");
+            break;
+#endif
         }
         return QStringLiteral("UNKNOWN");
     }
