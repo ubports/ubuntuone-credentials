@@ -1,3 +1,10 @@
+ubuntuone-credentials (15.11+16.04.20151202) xenial; urgency=medium
+
+  * Handle the new QtInfoMsg type when compiling against Qt >= 5.5. (LP:
+    #1522063)
+
+ -- Rodney Dawes <ci-train-bot@canonical.com>  Wed, 02 Dec 2015 19:29:55 +0000
+
 ubuntuone-credentials (15.11+16.04.20151117.1) xenial; urgency=medium
 
   [ Rodney Dawes ]
