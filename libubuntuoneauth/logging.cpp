@@ -18,6 +18,7 @@
 #include <QDateTime>
 #include <QDir>
 #include <QStandardPaths>
+#include <QtGlobal>
 
 #include "logging.h"
 
@@ -92,7 +93,7 @@ namespace UbuntuOne {
         case QtFatalMsg:
             return QStringLiteral("FATAL");
             break;
-#if QT_VERSION >= 0x505000
+#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
         case QtInfoMsg:
             return QStringLiteral("INFO");
             break;
