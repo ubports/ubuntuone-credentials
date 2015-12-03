@@ -18,10 +18,10 @@
 #include "token.h"
 #include "ssoservice.h"
 
-#include <future>
 #include <stdlib.h>
 #include <oauth.h>
 
+#include <QCoreApplication>
 #include <QHash>
 #include <QHostInfo>
 #include <QNetworkReply>
@@ -148,36 +148,47 @@ namespace UbuntuOne {
      * \fn QDateTime Token::getServerTimestamp()
      *
      * Returns a QDateTime representing the current time known on the
-     * Ubuntu One authentication server, or empty on errors.
+     * Ubuntu One authentication server, or current local time on errors,
+     * or when a QCoreApplication instance is not running.
      */
     QDateTime Token::getServerTimestamp() const
     {
-        auto _nam = new QNetworkAccessManager();
-        QUrl _url{SSOService::getAuthBaseUrl()}; 
-        auto _req = new QNetworkRequest(_url);
-        _req->setRawHeader("Cache-Control", "no-cache");
+        QDateTime _dt;
+        auto _app = QCoreApplication::instance();
+        if (_app != nullptr) {
+            QSharedPointer<QNetworkAccessManager> _nam(new QNetworkAccessManager());
+            QUrl _url{SSOService::getAuthBaseUrl()}; 
+            QSharedPointer<QNetworkRequest> _req(new QNetworkRequest(_url));
+            _req->setRawHeader("Cache-Control", "no-cache");
 
-        std::promise<QDateTime> promise;
-        auto future = promise.get_future();
+            qDebug() << "Getting timestamp from server:" << _url.toString();
 
-        auto _reply = _nam->head(*_req);
-        QObject::connect(_reply, &QNetworkReply::finished,
-                         [&promise, &_reply]() {
-                             auto _dt = QDateTime::fromString(_reply->rawHeader("Date"),
-                                                              Qt::ISODate);
-                             qDebug() << "Got server timestamp:"
-                                      << _dt.toTime_t();
-                             promise.set_value(_dt);
-                         });
-        typedef void(QNetworkReply::*QNetworkReplyErrorSignal)(QNetworkReply::NetworkError);
-        QObject::connect(_reply, static_cast<QNetworkReplyErrorSignal>(&QNetworkReply::error),
-                         [&promise, &_reply](QNetworkReply::NetworkError) {
-                             qCritical() << "Error fetching server timestamp:"
-                                         << _reply->readAll();
-                             promise.set_value(QDateTime());
-                         });
+            auto _reply = _nam->head(*_req);
+            QEventLoop _loop;
+            QObject::connect(_reply, &QNetworkReply::finished,
+                             [&_loop, &_reply, &_dt]() {
+                                 auto _date = _reply->rawHeader("Date");
+                                 _dt = QDateTime::fromString(_date,
+                                                             Qt::RFC2822Date);
+                                 qDebug() << "Got server timestamp:"
+                                          << _dt.toTime_t();
+                                 _loop.quit();
+                             });
+            typedef void(QNetworkReply::*QNetworkReplyErrorSignal)(QNetworkReply::NetworkError);
+            QObject::connect(_reply, static_cast<QNetworkReplyErrorSignal>(&QNetworkReply::error),
+                             [&_loop, &_reply, &_dt](QNetworkReply::NetworkError) {
+                                 qCritical() << "Error fetching server timestamp:"
+                                             << _reply->readAll();
+                                 _dt = QDateTime::currentDateTime();
+                                 _loop.quit();
+                             });
 
-        return future.get();
+            _loop.exec();
+        } else {
+            qWarning() << "No main loop, defaulting to local timestamp.";
+            _dt = QDateTime::currentDateTime();
+        }
+        return _dt;
     }
 
     /**
@@ -201,10 +212,13 @@ namespace UbuntuOne {
 
         QUrl copy{url};
         auto timestamp = getServerTimestamp();
+        char buf[11];
+        snprintf(buf, 11, "%010u", timestamp.toTime_t());
         copy.setQuery(copy.query(QUrl::FullyEncoded) +
-                      "&oauth_timestamp=" + timestamp.toTime_t());
+                      "&oauth_timestamp=" + buf);
 
-        argc = oauth_split_url_parameters(url.toUtf8().data(), &argv);
+        argc = oauth_split_url_parameters(copy.toString().toUtf8().data(),
+                                          &argv);
         // Fixup the URL as liboauth is escaping '+' to ' ' in it, incorrectly.
         for (int a = 0; argv[0][a] != 0; a++)
             argv[0][a] = argv[0][a] == ' ' ? '+' : argv[0][a];

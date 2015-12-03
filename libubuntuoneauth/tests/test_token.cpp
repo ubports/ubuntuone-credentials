@@ -15,6 +15,7 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
+#include <QDir>
 #include <QHostInfo>
 #include <QUuid>
 
@@ -25,8 +26,16 @@
 using namespace UbuntuOne;
 
 
+void TestToken::cleanupTestCase()
+{
+    qputenv("SSO_AUTH_BASE_URL", old_base_url.toUtf8().data());
+    process->close();
+    process->deleteLater();
+}
+
 TestToken::TestToken()
-    : test_hostname(QHostInfo::localHostName())
+    : test_hostname(QHostInfo::localHostName()),
+      old_base_url("")
 {
 }
 
@@ -94,6 +103,53 @@ void TestToken::testSignUrlEmpty()
     QCOMPARE(token->signUrl(QStringLiteral(""), QStringLiteral("GET")),
              QStringLiteral(""));
     delete token;
+}
+
+void TestToken::testSignUrlTimestampNoEventLoop()
+{
+    Token *token = new Token("a", "b", "c", "d");
+    auto result = token->signUrl(QStringLiteral("https://login.ubuntu.com"),
+                                 QStringLiteral("GET"));
+    QVERIFY(result.startsWith("OAuth oauth_consumer_key"));
+    delete token;
+}
+
+void TestToken::testSignUrlWithEventLoop()
+{
+    old_base_url = qgetenv("SSO_AUTH_BASE_URL");
+    qputenv("SSO_AUTH_BASE_URL", "http://localhost:8000/");
+
+    auto _app = new QCoreApplication(argc, argv);
+
+    QString result;
+    QTimer::singleShot(0, [this, &result, &_app](){
+            process = new QProcess(this);
+            QSignalSpy spy(process, SIGNAL(started()));
+            QString program = "python3";
+            QString script = QDir::currentPath() + "/mock_sso_server.py";
+            process->start(program, QStringList() << script);
+            QTRY_COMPARE(spy.count(), 1);
+
+            // Wait for server to start
+            QTimer timer;
+            QSignalSpy spy2(&timer, SIGNAL(timeout()));
+            timer.setInterval(2000);
+            timer.setSingleShot(true);
+            timer.start();
+            QTRY_COMPARE(spy2.count(), 1);
+
+            Token *token = new Token("a", "b", "c", "d");
+            result = token->signUrl(QStringLiteral("https://login.ubuntu.com"),
+                                    QStringLiteral("GET"));
+            delete token;
+
+            _app->quit();
+        });
+
+    _app->exec();
+
+    QVERIFY(result.startsWith("OAuth oauth_consumer_key"));
+    QVERIFY(result.contains("oauth_timestamp=\"0000000010\""));
 }
 
 void TestToken::testTimesCached()

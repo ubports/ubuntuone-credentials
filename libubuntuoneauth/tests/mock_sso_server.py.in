@@ -1,0 +1,47 @@
+#!/usr/bin/python3
+# -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
+#
+# Copyright (C) 2015 Canonical Ltd.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License version 3, as published
+# by the Free Software Foundation.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+import json
+import time
+import threading
+from http.server import BaseHTTPRequestHandler, HTTPServer
+
+
+class MyHandler(BaseHTTPRequestHandler):
+
+    def do_HEAD(self):
+        self.send_response(200)
+        #@self.send_header('X-Ignore', 'true')
+        self.end_headers();
+
+    def date_time_string(self):
+        return 'Thu, 01 Jan 1970 00:00:10 GMT'
+
+
+def run_server():
+    server_address = ('', 8000)
+    httpd = HTTPServer(server_address, MyHandler)
+    print('start')
+    while True:
+        httpd.handle_request()
+
+
+def run_mocked_settings():
+    t = threading.Thread(target=run_server)
+    t.start()
+
+
+run_mocked_settings()

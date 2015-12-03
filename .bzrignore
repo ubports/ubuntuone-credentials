@@ -8,6 +8,7 @@ cmake_install.cmake
 signing-example
 test-ubuntuoneauth
 moc_*.cpp
+mock_sso_server.py
 qmldir
 ui_*.h
 *_automoc.cpp

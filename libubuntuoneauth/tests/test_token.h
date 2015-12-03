@@ -18,6 +18,7 @@
 #ifndef _TEST_TOKEN_H_
 #define _TEST_TOKEN_H_
 
+#include <QProcess>
 #include <QtTest/QtTest>
 
 class TestToken: public QObject
@@ -26,10 +27,17 @@ class TestToken: public QObject
  public:
     TestToken();
 
+    int argc;
+    char** argv;
+
  private:
     QString test_hostname;
+    QProcess *process;
+    QString old_base_url;;
 
     private slots:
+        void cleanupTestCase();
+
         void testEmptyToken();
         void testTokenArgs();
         void testTokenCopy();
@@ -40,6 +48,8 @@ class TestToken: public QObject
         void testTokenName();
 
         void testSignUrlEmpty();
+        void testSignUrlTimestampNoEventLoop();
+        void testSignUrlWithEventLoop();
 
         void testTimesCached();
         void testCreatedParsed();

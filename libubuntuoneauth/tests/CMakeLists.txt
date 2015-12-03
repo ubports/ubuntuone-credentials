@@ -16,6 +16,11 @@ target_link_libraries (${TESTS_TARGET}
   -L${CMAKE_BINARY_DIR}/libubuntuoneauth
   ${AUTH_LIB_NAME})
 
+configure_file(
+  mock_sso_server.py.in
+  mock_sso_server.py
+)
+
 add_custom_target(ubuntuoneauth-tests
     COMMAND ${CMAKE_CURRENT_BINARY_DIR}/${TESTS_TARGET}
     DEPENDS ${TESTS_TARGET}
