@@ -218,7 +218,7 @@ namespace UbuntuOne {
         // Get and use the server timestamp if necessary
         QDateTime _now = QDateTime::currentDateTime();
         // Static variables for caching the time to check, and skew
-        static time_t _ts_check = 0;
+        static uint _ts_check = 0;
         static int _ts_skew = 0;
 
         QDateTime timestamp;
