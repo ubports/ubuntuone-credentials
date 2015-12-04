@@ -105,7 +105,7 @@ void TestToken::testSignUrlEmpty()
     delete token;
 }
 
-void TestToken::testSignUrlTimestampNoEventLoop()
+void TestToken::testSignUrl()
 {
     Token *token = new Token("a", "b", "c", "d");
     auto result = token->signUrl(QStringLiteral("https://login.ubuntu.com"),
@@ -114,14 +114,23 @@ void TestToken::testSignUrlTimestampNoEventLoop()
     delete token;
 }
 
-void TestToken::testSignUrlWithEventLoop()
+void TestToken::testGetServerTimestamp()
+{
+    Token *token = new Token("a", "b", "c", "d");
+    auto result = token->getServerTimestamp();
+    delete token;
+
+    QCOMPARE(result.toTime_t(), (uint)time(NULL));
+}
+
+void TestToken::testGetServerTimestampEventLoop()
 {
     old_base_url = qgetenv("SSO_AUTH_BASE_URL");
     qputenv("SSO_AUTH_BASE_URL", "http://localhost:8000/");
 
     auto _app = new QCoreApplication(argc, argv);
 
-    QString result;
+    QDateTime result;
     QTimer::singleShot(0, [this, &result, &_app](){
             process = new QProcess(this);
             QSignalSpy spy(process, SIGNAL(started()));
@@ -139,8 +148,7 @@ void TestToken::testSignUrlWithEventLoop()
             QTRY_COMPARE(spy2.count(), 1);
 
             Token *token = new Token("a", "b", "c", "d");
-            result = token->signUrl(QStringLiteral("https://login.ubuntu.com"),
-                                    QStringLiteral("GET"));
+            result = token->getServerTimestamp();
             delete token;
 
             _app->quit();
@@ -148,8 +156,7 @@ void TestToken::testSignUrlWithEventLoop()
 
     _app->exec();
 
-    QVERIFY(result.startsWith("OAuth oauth_consumer_key"));
-    QVERIFY(result.contains("oauth_timestamp=\"0000000010\""));
+    QCOMPARE(result.toTime_t(), (uint)10);
 }
 
 void TestToken::testTimesCached()

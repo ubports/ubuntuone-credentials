@@ -37,6 +37,8 @@
 #define TOKEN_UPDATED_KEY "updated"
 #define TOKEN_CREATED_KEY "created"
 
+#define TIMESTAMP_CHECK_INTERVAL (60 * 60) // Seconds/minute * minutes
+
 
 namespace UbuntuOne {
 
@@ -153,7 +155,9 @@ namespace UbuntuOne {
      */
     QDateTime Token::getServerTimestamp() const
     {
-        QDateTime _dt;
+        // The DateTime object to return, defaulting to current time
+        QDateTime _dt = QDateTime::currentDateTime();
+
         auto _app = QCoreApplication::instance();
         if (_app != nullptr) {
             QSharedPointer<QNetworkAccessManager> _nam(new QNetworkAccessManager());
@@ -176,17 +180,15 @@ namespace UbuntuOne {
                              });
             typedef void(QNetworkReply::*QNetworkReplyErrorSignal)(QNetworkReply::NetworkError);
             QObject::connect(_reply, static_cast<QNetworkReplyErrorSignal>(&QNetworkReply::error),
-                             [&_loop, &_reply, &_dt](QNetworkReply::NetworkError) {
+                             [&_loop, &_reply](QNetworkReply::NetworkError) {
                                  qCritical() << "Error fetching server timestamp:"
                                              << _reply->readAll();
-                                 _dt = QDateTime::currentDateTime();
                                  _loop.quit();
                              });
 
             _loop.exec();
         } else {
             qWarning() << "No main loop, defaulting to local timestamp.";
-            _dt = QDateTime::currentDateTime();
         }
         return _dt;
     }
@@ -210,8 +212,24 @@ namespace UbuntuOne {
             return result;
         }
 
+        // A copy of the URL in case we need to fix the timestamp
         QUrl copy{url};
-        auto timestamp = getServerTimestamp();
+
+        // Get and use the server timestamp if necessary
+        QDateTime _now = QDateTime::currentDateTime();
+        // Static variables for caching the time to check, and skew
+        static time_t _ts_check = 0;
+        static int _ts_skew = 0;
+
+        QDateTime timestamp;
+        if (_ts_check <= _now.toTime_t()) {
+            timestamp = getServerTimestamp();
+            _ts_skew = timestamp.toTime_t() - _now.toTime_t();
+        } else {
+            // QDateTime doesn't override + operator, create from time_t
+            timestamp = QDateTime::fromTime_t(_now.toTime_t() + _ts_skew);
+        }
+        _ts_check = _now.toTime_t() + TIMESTAMP_CHECK_INTERVAL;
         char buf[11];
         snprintf(buf, 11, "%010u", timestamp.toTime_t());
         copy.setQuery(copy.query(QUrl::FullyEncoded) +

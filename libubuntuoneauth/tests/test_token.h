@@ -48,8 +48,10 @@ class TestToken: public QObject
         void testTokenName();
 
         void testSignUrlEmpty();
-        void testSignUrlTimestampNoEventLoop();
-        void testSignUrlWithEventLoop();
+        void testSignUrl();
+
+        void testGetServerTimestamp();
+        void testGetServerTimestampEventLoop();
 
         void testTimesCached();
         void testCreatedParsed();
