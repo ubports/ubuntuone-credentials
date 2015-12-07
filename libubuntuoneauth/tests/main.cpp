@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2013-2015 Canonical Ltd.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of version 3 of the GNU Lesser General Public
@@ -24,7 +24,7 @@
 #include "test_requests.h"
 #include "test_responses.h"
 
-int main()
+int main(int argc, char** argv)
 {
     QByteArray fake_home = QDir::currentPath().toUtf8() + "/_test_temp";
     /* Need to alter some environment variables to avoid contamination. */
@@ -40,6 +40,8 @@ int main()
 
     /* Token tests */
     TestToken test_token;
+    test_token.argc = argc;
+    test_token.argv = argv;
 
     /* Request tests */
     TestOAuthTokenRequests test_oauth_token_requests;

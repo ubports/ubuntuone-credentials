@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2013-2015 Canonical Ltd.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of version 3 of the GNU Lesser General Public
@@ -15,15 +15,19 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
+#include "token.h"
+#include "ssoservice.h"
+
 #include <stdlib.h>
 #include <oauth.h>
 
+#include <QCoreApplication>
 #include <QHash>
 #include <QHostInfo>
+#include <QNetworkReply>
+#include <QNetworkRequest>
 #include <QStringList>
 #include <QUrl>
-
-#include "token.h"
 
 #define TOKEN_NAME_KEY "name"
 #define TOKEN_TOKEN_KEY "token"
@@ -32,6 +36,8 @@
 #define TOKEN_CONSUMER_SEC_KEY "consumer_secret"
 #define TOKEN_UPDATED_KEY "updated"
 #define TOKEN_CREATED_KEY "created"
+
+#define TIMESTAMP_CHECK_INTERVAL (60 * 60) // Seconds/minute * minutes
 
 
 namespace UbuntuOne {
@@ -128,7 +134,7 @@ namespace UbuntuOne {
     /**
      * \fn QDateTime Token::updated()
      *
-     * Retruns a QDateTime representing the time the token was last updated on
+     * Returns a QDateTime representing the time the token was last updated on
      * the server, or empty if unknown.
      */
     QDateTime Token::updated() const
@@ -138,6 +144,95 @@ namespace UbuntuOne {
                                          Qt::ISODate);
         }
         return QDateTime();
+    }
+
+    /**
+     * \fn QDateTime Token::getServerTimestamp()
+     *
+     * Returns a QDateTime representing the current time known on the
+     * Ubuntu One authentication server, or current local time on errors,
+     * or when a QCoreApplication instance is not running.
+     */
+    QDateTime Token::getServerTimestamp() const
+    {
+        // The DateTime object to return, defaulting to current time
+        QDateTime _dt = QDateTime::currentDateTimeUtc();
+
+        // The timestamp of the client to send to the server.
+        QDateTime _clientDate(_dt);
+        auto _testDate = qgetenv("U1_TEST_TIMESTAMP");
+        if (_testDate != "") {
+            _clientDate = QDateTime::fromString(_testDate, Qt::RFC2822Date);
+        }
+
+        auto _app = QCoreApplication::instance();
+        if (_app != nullptr) {
+            QSharedPointer<QNetworkAccessManager> _nam(new QNetworkAccessManager());
+            QUrl _url{SSOService::getAuthBaseUrl()}; 
+            QSharedPointer<QNetworkRequest> _req(new QNetworkRequest(_url));
+            _req->setRawHeader("Cache-Control", "no-cache");
+            _req->setRawHeader("Date",
+                               _clientDate.toString(Qt::RFC2822Date).toUtf8().data());
+
+            qDebug() << "Getting timestamp from server:" << _url.toString();
+
+            auto _reply = _nam->head(*_req);
+            QEventLoop _loop;
+            QObject::connect(_reply, &QNetworkReply::finished,
+                             [&_loop, &_reply, &_dt]() {
+                                 auto _date = _reply->rawHeader("Date");
+                                 _dt = QDateTime::fromString(_date,
+                                                             Qt::RFC2822Date);
+                                 qDebug() << "Got server timestamp:"
+                                          << _dt.toTime_t();
+                                 _loop.quit();
+                             });
+            typedef void(QNetworkReply::*QNetworkReplyErrorSignal)(QNetworkReply::NetworkError);
+            QObject::connect(_reply, static_cast<QNetworkReplyErrorSignal>(&QNetworkReply::error),
+                             [&_loop, &_reply](QNetworkReply::NetworkError) {
+                                 qCritical() << "Error fetching server timestamp:"
+                                             << _reply->readAll();
+                                 _loop.quit();
+                             });
+
+            _loop.exec();
+        } else {
+            qWarning() << "No main loop, defaulting to local timestamp.";
+        }
+        return _dt;
+    }
+
+    /**
+     * \fn QUrl Token::addOAuthTimestamp(const QString url)
+     *
+     * Returns a QUrl with the oauth_timestamp value added to the query string
+     */
+    QUrl Token::addOAuthTimestamp(const QString url) const
+    {
+        // A copy of the URL in case we need to fix the timestamp
+        QUrl newurl{url};
+
+        // Get and use the server timestamp if necessary
+        QDateTime _now = QDateTime::currentDateTimeUtc();
+        // Static variables for caching the time to check, and skew
+        static uint _ts_check = 0;
+        static int _ts_skew = 0;
+
+        QDateTime timestamp;
+        if (_ts_check <= _now.toTime_t()) {
+            timestamp = getServerTimestamp();
+            _ts_skew = timestamp.toTime_t() - _now.toTime_t();
+        } else {
+            // QDateTime doesn't override + operator, create from time_t
+            timestamp = QDateTime::fromTime_t(_now.toTime_t() + _ts_skew);
+        }
+        _ts_check = _now.toTime_t() + TIMESTAMP_CHECK_INTERVAL;
+        char buf[11];
+        snprintf(buf, 11, "%010u", timestamp.toTime_t());
+        newurl.setQuery(newurl.query(QUrl::FullyEncoded) +
+                        "&oauth_timestamp=" + buf);
+
+        return newurl;
     }
 
     /**
@@ -159,7 +254,9 @@ namespace UbuntuOne {
             return result;
         }
 
-        argc = oauth_split_url_parameters(url.toUtf8().data(), &argv);
+        QUrl copy(addOAuthTimestamp(url));
+        argc = oauth_split_url_parameters(copy.toString().toUtf8().data(),
+                                          &argv);
         // Fixup the URL as liboauth is escaping '+' to ' ' in it, incorrectly.
         for (int a = 0; argv[0][a] != 0; a++)
             argv[0][a] = argv[0][a] == ' ' ? '+' : argv[0][a];
