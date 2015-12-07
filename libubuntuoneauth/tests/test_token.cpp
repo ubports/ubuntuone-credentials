@@ -123,10 +123,11 @@ void TestToken::testGetServerTimestamp()
     QCOMPARE(result.toTime_t(), (uint)time(NULL));
 }
 
-void TestToken::testGetServerTimestampEventLoop()
+void TestToken::testGetServerTimestampMuchEarlier()
 {
     old_base_url = qgetenv("SSO_AUTH_BASE_URL");
-    qputenv("SSO_AUTH_BASE_URL", "http://localhost:8000/");
+    qputenv("SSO_AUTH_BASE_URL", "http://localhost:8000/muchearlier");
+    qputenv("U1_TEST_TIMESTAMP", "Thu, 01 Jan 1970 04:32:16 GMT");
 
     auto _app = new QCoreApplication(argc, argv);
 
@@ -156,7 +157,44 @@ void TestToken::testGetServerTimestampEventLoop()
 
     _app->exec();
 
-    QCOMPARE(result.toTime_t(), (uint)10);
+    QCOMPARE(result.toTime_t(), (uint)864016336);
+}
+
+void TestToken::testGetServerTimestampMuchLater()
+{
+    old_base_url = qgetenv("SSO_AUTH_BASE_URL");
+    qputenv("SSO_AUTH_BASE_URL", "http://localhost:8000/muchlater");
+    qputenv("U1_TEST_TIMESTAMP", "Mon, 18 Jan 2038 22:14:07 GMT");
+
+    auto _app = new QCoreApplication(argc, argv);
+
+    QDateTime result;
+    QTimer::singleShot(0, [this, &result, &_app](){
+            process = new QProcess(this);
+            QSignalSpy spy(process, SIGNAL(started()));
+            QString program = "python3";
+            QString script = QDir::currentPath() + "/mock_sso_server.py";
+            process->start(program, QStringList() << script);
+            QTRY_COMPARE(spy.count(), 1);
+
+            // Wait for server to start
+            QTimer timer;
+            QSignalSpy spy2(&timer, SIGNAL(timeout()));
+            timer.setInterval(2000);
+            timer.setSingleShot(true);
+            timer.start();
+            QTRY_COMPARE(spy2.count(), 1);
+
+            Token *token = new Token("a", "b", "c", "d");
+            result = token->getServerTimestamp();
+            delete token;
+
+            _app->quit();
+        });
+
+    _app->exec();
+
+    QCOMPARE(result.toTime_t(), (uint)1283465647);
 }
 
 void TestToken::testTimesCached()

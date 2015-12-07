@@ -14,9 +14,12 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+import datetime
 import json
-import time
 import threading
+
+from email.utils import parsedate_to_datetime
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 
@@ -24,17 +27,24 @@ class MyHandler(BaseHTTPRequestHandler):
 
     def do_HEAD(self):
         self.send_response(200)
-        #@self.send_header('X-Ignore', 'true')
         self.end_headers();
 
     def date_time_string(self):
-        return 'Thu, 01 Jan 1970 00:00:10 GMT'
+        if self.path == '/muchearlier':
+            ctime = parsedate_to_datetime(self.headers['Date'])
+            value = ctime + datetime.timedelta(days=10000)
+            return value.strftime('%a, %d %b %Y %H:%M:%S GMT')
+        elif self.path == '/muchlater':
+            ctime = parsedate_to_datetime(self.headers['Date'])
+            value = ctime - datetime.timedelta(days=10000)
+            return value.strftime('%a, %d %b %Y %H:%M:%S GMT')
+        else:
+            return 'Thu, 01 Jan 1970 00:00:10 GMT'
 
 
 def run_server():
     server_address = ('', 8000)
     httpd = HTTPServer(server_address, MyHandler)
-    print('start')
     while True:
         httpd.handle_request()
 

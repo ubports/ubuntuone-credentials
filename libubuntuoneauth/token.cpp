@@ -156,7 +156,14 @@ namespace UbuntuOne {
     QDateTime Token::getServerTimestamp() const
     {
         // The DateTime object to return, defaulting to current time
-        QDateTime _dt = QDateTime::currentDateTime();
+        QDateTime _dt = QDateTime::currentDateTimeUtc();
+
+        // The timestamp of the client to send to the server.
+        QDateTime _clientDate(_dt);
+        auto _testDate = qgetenv("U1_TEST_TIMESTAMP");
+        if (_testDate != "") {
+            _clientDate = QDateTime::fromString(_testDate, Qt::RFC2822Date);
+        }
 
         auto _app = QCoreApplication::instance();
         if (_app != nullptr) {
@@ -164,6 +171,8 @@ namespace UbuntuOne {
             QUrl _url{SSOService::getAuthBaseUrl()}; 
             QSharedPointer<QNetworkRequest> _req(new QNetworkRequest(_url));
             _req->setRawHeader("Cache-Control", "no-cache");
+            _req->setRawHeader("Date",
+                               _clientDate.toString(Qt::RFC2822Date).toUtf8().data());
 
             qDebug() << "Getting timestamp from server:" << _url.toString();
 
@@ -194,6 +203,39 @@ namespace UbuntuOne {
     }
 
     /**
+     * \fn QUrl Token::addOAuthTimestamp(const QString url)
+     *
+     * Returns a QUrl with the oauth_timestamp value added to the query string
+     */
+    QUrl Token::addOAuthTimestamp(const QString url) const
+    {
+        // A copy of the URL in case we need to fix the timestamp
+        QUrl newurl{url};
+
+        // Get and use the server timestamp if necessary
+        QDateTime _now = QDateTime::currentDateTimeUtc();
+        // Static variables for caching the time to check, and skew
+        static uint _ts_check = 0;
+        static int _ts_skew = 0;
+
+        QDateTime timestamp;
+        if (_ts_check <= _now.toTime_t()) {
+            timestamp = getServerTimestamp();
+            _ts_skew = timestamp.toTime_t() - _now.toTime_t();
+        } else {
+            // QDateTime doesn't override + operator, create from time_t
+            timestamp = QDateTime::fromTime_t(_now.toTime_t() + _ts_skew);
+        }
+        _ts_check = _now.toTime_t() + TIMESTAMP_CHECK_INTERVAL;
+        char buf[11];
+        snprintf(buf, 11, "%010u", timestamp.toTime_t());
+        newurl.setQuery(newurl.query(QUrl::FullyEncoded) +
+                        "&oauth_timestamp=" + buf);
+
+        return newurl;
+    }
+
+    /**
      * \fn QString Token::signUrl(const QString url, const QString method,
      *                            bool asQuery = false)
      *
@@ -212,29 +254,7 @@ namespace UbuntuOne {
             return result;
         }
 
-        // A copy of the URL in case we need to fix the timestamp
-        QUrl copy{url};
-
-        // Get and use the server timestamp if necessary
-        QDateTime _now = QDateTime::currentDateTime();
-        // Static variables for caching the time to check, and skew
-        static uint _ts_check = 0;
-        static int _ts_skew = 0;
-
-        QDateTime timestamp;
-        if (_ts_check <= _now.toTime_t()) {
-            timestamp = getServerTimestamp();
-            _ts_skew = timestamp.toTime_t() - _now.toTime_t();
-        } else {
-            // QDateTime doesn't override + operator, create from time_t
-            timestamp = QDateTime::fromTime_t(_now.toTime_t() + _ts_skew);
-        }
-        _ts_check = _now.toTime_t() + TIMESTAMP_CHECK_INTERVAL;
-        char buf[11];
-        snprintf(buf, 11, "%010u", timestamp.toTime_t());
-        copy.setQuery(copy.query(QUrl::FullyEncoded) +
-                      "&oauth_timestamp=" + buf);
-
+        QUrl copy(addOAuthTimestamp(url));
         argc = oauth_split_url_parameters(copy.toString().toUtf8().data(),
                                           &argv);
         // Fixup the URL as liboauth is escaping '+' to ' ' in it, incorrectly.

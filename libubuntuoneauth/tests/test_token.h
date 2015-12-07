@@ -51,7 +51,8 @@ class TestToken: public QObject
         void testSignUrl();
 
         void testGetServerTimestamp();
-        void testGetServerTimestampEventLoop();
+        void testGetServerTimestampMuchEarlier();
+        void testGetServerTimestampMuchLater();
 
         void testTimesCached();
         void testCreatedParsed();

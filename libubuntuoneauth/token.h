@@ -21,6 +21,7 @@
 #include <QDateTime>
 #include <QHash>
 #include <QString>
+#include <QUrl>
 
 
 namespace UbuntuOne {
@@ -46,6 +47,7 @@ namespace UbuntuOne {
         QDateTime updated() const;
 
         QDateTime getServerTimestamp() const;
+        QUrl addOAuthTimestamp(const QString url) const;
         QString signUrl(const QString url, const QString method, bool asQuery = false) const;
 
         static Token *fromQuery(const QString query);
