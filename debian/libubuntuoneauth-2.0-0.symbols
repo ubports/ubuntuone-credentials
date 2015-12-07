@@ -114,8 +114,8 @@ libubuntuoneauth-2.0.so.0 libubuntuoneauth-2.0-0 #MINVER#
  (c++)"UbuntuOne::Token::consumerKey() const@Base" 15.10+15.10.20150617
  (c++)"UbuntuOne::Token::created() const@Base" 14.04+14.10.20140818
  (c++)"UbuntuOne::Token::updated() const@Base" 14.04+14.10.20140818
- (c++)"UbuntuOne::Token::getServerTimestamp() const@Base" 0replaceme
- (c++)"UbuntuOne::Token::addOAuthTimestamp(QString) const@Base" 0replaceme
+ (c++)"UbuntuOne::Token::getServerTimestamp() const@Base" 15.11+16.04.20151207.1
+ (c++)"UbuntuOne::Token::addOAuthTimestamp(QString) const@Base" 15.11+16.04.20151207.1
  (c++)"UbuntuOne::Keyring::storeToken(UbuntuOne::Token)@Base" 13.08
  (c++)"UbuntuOne::Keyring::storeToken(UbuntuOne::Token, QString const&)@Base" 14.04+14.10.20140802
  (c++)"UbuntuOne::Keyring::tokenFound(UbuntuOne::Token const&)@Base" 13.08
