@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: ubuntuone-credentials\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-01 15:51-0400\n"
-"PO-Revision-Date: 2015-11-03 13:43+0000\n"
+"PO-Revision-Date: 2015-12-08 15:16+0000\n"
 "Last-Translator: Ivo Xavier <ivofernandes12@gmail.com>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-11-25 05:21+0000\n"
-"X-Generator: Launchpad (build 17850)\n"
+"X-Launchpad-Export-Date: 2015-12-09 05:31+0000\n"
+"X-Generator: Launchpad (build 17862)\n"
 
 #: ../online-accounts-provider/ExistingAccount.qml:37
 msgid "Email"
@@ -35,9 +35,9 @@ msgid ""
 "device from accessing your account. You can authorize the device again by "
 "providing your username and password."
 msgstr ""
-"Remover as credenciais do Ubuntu One vai negar a qualquer aplicação neste "
-"dispositivo o acesso à sua conta. Poderá autorizar o dispositivo novamente, "
-"fornecendo o nome de utilizador e a senha."
+"Remover as credenciais do Ubuntu One vai negar às apps neste dispositivo o "
+"acesso à sua conta. Poderá autorizar o dispositivo novamente, fornecendo o "
+"nome de utilizador e a palavra-passe."
 
 #: ../online-accounts-provider/ExistingAccount.qml:68
 msgid "Remove"
@@ -51,7 +51,7 @@ msgstr "Cancelar"
 
 #: ../online-accounts-provider/LoginForm.qml:33
 msgid "Enter your password:"
-msgstr "Insira a sua palavra-passe:"
+msgstr "Insira palavra-passe:"
 
 #: ../online-accounts-provider/LoginForm.qml:49
 msgid "Forgot password?"
@@ -67,7 +67,7 @@ msgstr "Código de equipamento de 2-fatores"
 
 #: ../online-accounts-provider/LoginForm.qml:78
 msgid "Authentication Device Help"
-msgstr "Ajuda na autenticação do equipamento"
+msgstr "Ajuda na autenticação do dispositivo"
 
 #: ../online-accounts-provider/LoginForm.qml:106
 msgid "Sign in"
@@ -83,7 +83,7 @@ msgstr "A palavra-passe deve ter no mínimo 8 caracteres."
 
 #: ../online-accounts-provider/LoginForm.qml:149
 msgid "Please enter your two-factor device code."
-msgstr "Por favor, introduza o código de dois fatores do seu equipamento."
+msgstr "Por favor, introduza o código de dois fatores do seu dispositivo."
 
 #: ../online-accounts-provider/NewAccount.qml:72
 msgid "Please type your email:"
@@ -108,7 +108,7 @@ msgstr "Entre na sua conta Ubuntu One"
 
 #: ../online-accounts-provider/NewAccount.qml:236
 msgid "An internal error occurred. Please try again later."
-msgstr "Um erro interno ocorreu. Por favor, tente novamente mais tarde."
+msgstr "Ocorreu um erro interno. Por favor, tente novamente mais tarde."
 
 #: ../online-accounts-provider/RegisterForm.qml:34
 msgid "Please tell us your name:"
