@@ -26,6 +26,8 @@
 #include <QTimer>
 #include <QtTest/QtTest>
 
+#include <SignOn/uisessiondata_priv.h>
+
 #include "ubuntuone-plugin.h"
 
 using namespace SignOn;
@@ -75,7 +77,9 @@ public:
 
         open(ReadOnly | Unbuffered);
         setHeader(QNetworkRequest::ContentLengthHeader, QVariant(content.size()));
+    }
 
+    void start() {
         QTimer::singleShot(0, this, SIGNAL(readyRead()));
         QTimer::singleShot(10, this, SLOT(finish()));
     }
@@ -120,6 +124,7 @@ protected:
         Q_UNUSED(op);
         m_lastRequest = request;
         m_lastRequestData = outgoingData->readAll();
+        m_nextReply->start();
         return m_nextReply;
     }
 
@@ -139,6 +144,10 @@ private Q_SLOTS:
 
     void testInitialization();
     void testPluginType();
+    void testPluginMechanisms();
+    void testStoredToken_data();
+    void testStoredToken();
+    void testUserInteraction();
 
     void init();
     void cleanup();
@@ -181,186 +190,114 @@ void PluginTest::testPluginType()
     QCOMPARE(m_testPlugin->type(), QString("ubuntuone"));
 }
 
-#if 0
 void PluginTest::testPluginMechanisms()
 {
     QStringList mechs = m_testPlugin->mechanisms();
-    QVERIFY(!mechs.isEmpty());
-    QVERIFY(mechs.contains(QString("user_agent")));
-    QVERIFY(mechs.contains(QString("web_server")));
+    QCOMPARE(mechs.count(), 1);
+    QCOMPARE(mechs[0], QString("ubuntuone"));
 }
 
-void PluginTest::testPluginCancel()
+void PluginTest::testStoredToken_data()
 {
-    //does nothing as no active connections
-    m_testPlugin->cancel();
-
-    //then real cancel
-    QSignalSpy pluginError(m_testPlugin, SIGNAL(error(const SignOn::Error &)));
-
-    PluginData userAgentData;
-    userAgentData.setHost("https://localhost");
-    userAgentData.setAuthPath("access_token");
-    userAgentData.setClientId("104660106251471");
-    userAgentData.setClientSecret("fa28f40b5a1f8c1d5628963d880636fbkjkjkj");
-    userAgentData.setRedirectUri("http://localhost/connect/login_success.html");
-
-    m_testPlugin->process(userAgentData, QString("user_agent"));
-    m_testPlugin->cancel();
-    QTRY_COMPARE(pluginError.count(), 1);
-    Error error = pluginError.at(0).at(0).value<Error>();
-    QCOMPARE(error.type(), int(Error::SessionCanceled));
-}
-
-void PluginTest::testPluginProcess_data()
-{
-    QTest::addColumn<QString>("mechanism");
     QTest::addColumn<QVariantMap>("sessionData");
-    QTest::addColumn<int>("errorCode");
+    QTest::addColumn<int>("networkError");
+    QTest::addColumn<int>("httpStatus");
+    QTest::addColumn<QString>("replyContents");
+    QTest::addColumn<int>("expectedErrorCode");
     QTest::addColumn<bool>("uiExpected");
-    QTest::addColumn<QVariantMap>("response");
-    QTest::addColumn<QVariantMap>("stored");
+    QTest::addColumn<QVariantMap>("expectedResponse");
+    QTest::addColumn<QVariantMap>("expectedStore");
 
-    PluginData userAgentData;
-    userAgentData.setHost("https://localhost");
-    userAgentData.setTokenPath("access_token");
-    userAgentData.setClientId("104660106251471");
-    userAgentData.setClientSecret("fa28f40b5a1f8c1d5628963d880636fbkjkjkj");
-    userAgentData.setRedirectUri("http://localhost/connect/login_success.html");
+    UbuntuOne::PluginData sessionData;
+    UbuntuOne::PluginData response;
+    UbuntuOne::PluginData stored;
 
-    QTest::newRow("invalid mechanism") <<
-        "ANONYMOUS" <<
-        userAgentData.toMap() <<
-        int(Error::MechanismNotAvailable) <<
-        false << QVariantMap() << QVariantMap();
-
-    QTest::newRow("without params, user_agent") <<
-        "user_agent" <<
-        userAgentData.toMap() <<
+    QTest::newRow("empty") <<
+        sessionData.toMap() <<
+        -1 << -1 << QString() <<
         int(Error::MissingData) <<
         false << QVariantMap() << QVariantMap();
 
-    PluginData webServerData;
-    webServerData.setHost("https://localhost");
-    webServerData.setAuthPath("authorize");
-    webServerData.setClientId("104660106251471");
-    webServerData.setClientSecret("fa28f40b5a1f8c1d5628963d880636fbkjkjkj");
-    webServerData.setRedirectUri("http://localhost/connect/login_success.html");
-    webServerData.setScope(QStringList() << "scope1" << "scope2");
-
-    QTest::newRow("without params, web_server") <<
-        "web_server" <<
-        webServerData.toMap() <<
-        int(Error::MissingData) <<
-        false << QVariantMap() << QVariantMap();
-
-    userAgentData.setAuthPath("authorize");
-    QTest::newRow("ui-request, user_agent") <<
-        "user_agent" <<
-        userAgentData.toMap() <<
+    sessionData.setTokenName("helloworld");
+    sessionData.setSecret("consumer_key=aAa&consumer_secret=bBb&name=helloworld&token=cCc&token_secret=dDd");
+    response.setConsumerKey("aAa");
+    response.setConsumerSecret("bBb");
+    response.setTokenKey("cCc");
+    response.setTokenSecret("dDd");
+    QVariantMap storedData;
+    storedData[sessionData.TokenName()] = response.toMap();
+    stored.setStoredData(storedData);
+    response.setTokenName(sessionData.TokenName());
+    QTest::newRow("in secret, valid") <<
+        sessionData.toMap() <<
         -1 <<
-        true << QVariantMap() << QVariantMap();
-
-    webServerData.setTokenPath("token");
-    QTest::newRow("ui-request, web_server") <<
-        "web_server" <<
-        webServerData.toMap() <<
+        200 << QString("{\n"
+                       "  \"is_valid\": true,\n"
+                       "  \"identifier\": \"64we8bn\",\n"
+                       "  \"account_verified\": true\n"
+                       "}") <<
         -1 <<
-        true << QVariantMap() << QVariantMap();
+        false << response.toMap() << stored.toMap();
+    sessionData = UbuntuOne::PluginData();
+    response = UbuntuOne::PluginData();
+    stored = UbuntuOne::PluginData();
+    storedData.clear();
 
-    QVariantMap tokens;
-    QVariantMap token;
-    token.insert("Token", QLatin1String("tokenfromtest"));
-    token.insert("Token2", QLatin1String("token2fromtest"));
-    token.insert("timestamp", QDateTime::currentDateTime().toTime_t());
-    token.insert("Expiry", 10000);
-    tokens.insert(QLatin1String("invalidid"), QVariant::fromValue(token));
-    webServerData.m_data.insert(QLatin1String("Tokens"), tokens);
-
-    QTest::newRow("stored response, without params") <<
-        "web_server" <<
-        webServerData.toMap() <<
+    sessionData.setTokenName("helloworld");
+    sessionData.setSecret("consumer_key=aAa&consumer_secret=bBb&name=helloworld&token=cCc&token_secret=dDd");
+    response.setConsumerKey("aAa");
+    response.setConsumerSecret("bBb");
+    response.setTokenKey("cCc");
+    response.setTokenSecret("dDd");
+    storedData[sessionData.TokenName()] = response.toMap();
+    stored.setStoredData(storedData);
+    response = UbuntuOne::PluginData();
+    QTest::newRow("in secret, invalid") <<
+        sessionData.toMap() <<
         -1 <<
-        true << QVariantMap() << QVariantMap();
-
-    tokens.insert(webServerData.ClientId(), QVariant::fromValue(token));
-    webServerData.m_data.insert(QLatin1String("Tokens"), tokens);
-
-    QTest::newRow("stored response, missing cached scopes") <<
-        "web_server" <<
-        webServerData.toMap() <<
+        200 << QString("{\n"
+                       "  \"is_valid\": false,\n"
+                       "  \"identifier\": \"64we8bn\",\n"
+                       "  \"account_verified\": true\n"
+                       "}") <<
         -1 <<
-        true << QVariantMap() << QVariantMap();
+        true << response.toMap() << stored.toMap();
+    sessionData = UbuntuOne::PluginData();
+    response = UbuntuOne::PluginData();
+    stored = UbuntuOne::PluginData();
+    storedData.clear();
 
-    token.insert("Scopes", QStringList("scope2"));
-    tokens.insert(webServerData.ClientId(), QVariant::fromValue(token));
-    webServerData.m_data.insert(QLatin1String("Tokens"), tokens);
-
-    QTest::newRow("stored response, incomplete cached scopes") <<
-        "web_server" <<
-        webServerData.toMap() <<
-        -1 <<
-        true << QVariantMap() << QVariantMap();
-
-    token.insert("Scopes",
-                 QStringList() << "scope1" << "scope3" << "scope2");
-    tokens.insert(webServerData.ClientId(), QVariant::fromValue(token));
-    webServerData.m_data.insert(QLatin1String("Tokens"), tokens);
-    QVariantMap response;
-    response.insert("AccessToken", QLatin1String("tokenfromtest"));
-    response.insert("ExpiresIn", int(10000));
-
-    QTest::newRow("stored response, sufficient cached scopes") <<
-        "web_server" <<
-        webServerData.toMap() <<
-        -1 <<
-        false << response << QVariantMap();
-
-    webServerData.setForceTokenRefresh(true);
-    QTest::newRow("force token refresh, without refresh token") <<
-        "web_server" <<
-        webServerData.toMap() <<
-        -1 <<
-        true << QVariantMap() << QVariantMap();
-
-    /* test the ProvidedTokens semantics */
-    PluginData providedTokensWebServerData;
-    providedTokensWebServerData.setHost("https://localhost");
-    providedTokensWebServerData.setAuthPath("authorize");
-    providedTokensWebServerData.setClientId("104660106251471");
-    providedTokensWebServerData.setClientSecret("fa28f40b5a1f8c1d5628963d880636fbkjkjkj");
-    providedTokensWebServerData.setRedirectUri("http://localhost/connect/login_success.html");
-    providedTokensWebServerData.setTokenPath("token");
-    providedTokensWebServerData.setScope(QStringList() << "scope1" << "scope3" << "scope2");
-    QVariantMap providedTokens;
-    providedTokens.insert("AccessToken", "providedtokenfromtest");
-    providedTokens.insert("RefreshToken", "providedrefreshfromtest");
-    providedTokens.insert("ExpiresIn", 12345);
-
-    /* try providing tokens to be stored */
-    providedTokensWebServerData.m_data.insert("ProvidedTokens", providedTokens);
-    QVariantMap storedTokensForKey;
-    storedTokensForKey.insert("Token", providedTokens.value("AccessToken"));
-    storedTokensForKey.insert("refresh_token", providedTokens.value("RefreshToken"));
-    QVariantMap storedTokens;
-    storedTokens.insert(providedTokensWebServerData.ClientId(), storedTokensForKey);
-    QVariantMap stored;
-    stored.insert("Tokens", storedTokens);
-    QTest::newRow("provided tokens") <<
-        "web_server" <<
-        providedTokensWebServerData.toMap() <<
-        -1 <<
-        false << providedTokens << stored;
+    sessionData.setTokenName("helloworld");
+    sessionData.setSecret("consumer_key=aAa&consumer_secret=bBb&name=helloworld&token=cCc&token_secret=dDd");
+    response.setConsumerKey("aAa");
+    response.setConsumerSecret("bBb");
+    response.setTokenKey("cCc");
+    response.setTokenSecret("dDd");
+    storedData[sessionData.TokenName()] = response.toMap();
+    stored.setStoredData(storedData);
+    response = UbuntuOne::PluginData();
+    QTest::newRow("in secret, network error") <<
+        sessionData.toMap() <<
+        int(QNetworkReply::SslHandshakeFailedError) <<
+        -1 << QString() <<
+        int(SignOn::Error::Ssl) <<
+        true << response.toMap() << stored.toMap();
+    sessionData = UbuntuOne::PluginData();
+    response = UbuntuOne::PluginData();
+    stored = UbuntuOne::PluginData();
+    storedData.clear();
 }
 
-void PluginTest::testPluginProcess()
+void PluginTest::testStoredToken()
 {
-    QFETCH(QString, mechanism);
     QFETCH(QVariantMap, sessionData);
-    QFETCH(int, errorCode);
+    QFETCH(int, httpStatus);
+    QFETCH(int, networkError);
+    QFETCH(QString, replyContents);
+    QFETCH(int, expectedErrorCode);
     QFETCH(bool, uiExpected);
-    QFETCH(QVariantMap, response);
-    QFETCH(QVariantMap, stored);
+    QFETCH(QVariantMap, expectedResponse);
+    QFETCH(QVariantMap, expectedStore);
 
     QSignalSpy result(m_testPlugin, SIGNAL(result(const SignOn::SessionData&)));
     QSignalSpy error(m_testPlugin, SIGNAL(error(const SignOn::Error &)));
@@ -368,33 +305,103 @@ void PluginTest::testPluginProcess()
                                   SIGNAL(userActionRequired(const SignOn::UiSessionData&)));
     QSignalSpy store(m_testPlugin, SIGNAL(store(const SignOn::SessionData&)));
 
-    m_testPlugin->process(sessionData, mechanism);
-    if (errorCode < 0) {
+    /* Prepare network reply */
+    TestNetworkAccessManager *nam = new TestNetworkAccessManager;
+    m_testPlugin->m_networkAccessManager = nam;
+    TestNetworkReply *reply = new TestNetworkReply(this);
+    if (httpStatus > 0) {
+        reply->setStatusCode(httpStatus);
+    } else {
+        reply->setError(QNetworkReply::NetworkError(networkError),
+                        "Network error");
+    }
+    reply->setContent(replyContents.toUtf8());
+    nam->setNextReply(reply);
+
+
+    m_testPlugin->process(sessionData, "ubuntuone");
+    if (expectedErrorCode < 0) {
         QCOMPARE(error.count(), 0);
         QTRY_COMPARE(userActionRequired.count(), uiExpected ? 1 : 0);
-        if (!response.isEmpty()) {
-            QCOMPARE(result.count(), 1);
+        if (!expectedResponse.isEmpty()) {
+            QTRY_COMPARE(result.count(), 1);
             QVariantMap resp = result.at(0).at(0).value<SessionData>().toMap();
-            /* Round the expiration time, because some seconds might have passed */
-            if (resp.contains("ExpiresIn")) {
-                resp["ExpiresIn"] = qRound(resp["ExpiresIn"].toInt() / 10.0) * 10;
-                response["ExpiresIn"] = qRound(response["ExpiresIn"].toInt() / 10.0) * 10;
-            }
-            QCOMPARE(resp, response);
+            QCOMPARE(resp, expectedResponse);
+        } else {
+            QCOMPARE(result.count(), 0);
         }
-        if (!stored.isEmpty()) {
+
+        if (!expectedStore.isEmpty()) {
             QCOMPARE(store.count(), 1);
             QVariantMap storedData =
                 store.at(0).at(0).value<SessionData>().toMap();
-            QVERIFY(mapIsSubset(stored, storedData));
+            QCOMPARE(storedData, expectedStore);
+        } else {
+            QCOMPARE(store.count(), 0);
         }
     } else {
         QTRY_COMPARE(error.count(), 1);
         Error err = error.at(0).at(0).value<Error>();
-        QCOMPARE(err.type(), errorCode);
+        QCOMPARE(err.type(), expectedErrorCode);
     }
 }
 
+void PluginTest::testUserInteraction()
+{
+    QSignalSpy result(m_testPlugin, SIGNAL(result(const SignOn::SessionData&)));
+    QSignalSpy error(m_testPlugin, SIGNAL(error(const SignOn::Error &)));
+    QSignalSpy userActionRequired(m_testPlugin,
+                                  SIGNAL(userActionRequired(const SignOn::UiSessionData&)));
+    QSignalSpy store(m_testPlugin, SIGNAL(store(const SignOn::SessionData&)));
+
+    TestNetworkAccessManager *nam = new TestNetworkAccessManager;
+    m_testPlugin->m_networkAccessManager = nam;
+
+    UbuntuOne::PluginData sessionData;
+    sessionData.setTokenName("helloworld");
+    sessionData.setUserName("tom@example.com");
+    m_testPlugin->process(sessionData, "ubuntuone");
+
+    QTRY_COMPARE(userActionRequired.count(), 1);
+    QVariantMap data =
+        userActionRequired.at(0).at(0).value<UiSessionData>().toMap();
+    QVariantMap expectedUserInteraction;
+    expectedUserInteraction[SSOUI_KEY_QUERYUSERNAME] = true;
+    expectedUserInteraction[SSOUI_KEY_USERNAME] = "tom@example.com";
+    expectedUserInteraction[SSOUI_KEY_QUERYPASSWORD] = true;
+    QCOMPARE(data, expectedUserInteraction);
+    userActionRequired.clear();
+
+    /* Prepare network reply */
+    TestNetworkReply *reply = new TestNetworkReply(this);
+    reply->setStatusCode(401);
+    reply->setContent("{\n"
+                      "  \"code\": \"TWOFACTOR_REQUIRED\",\n"
+                      "  \"message\": \"This account requires 2-factor authentication.\",\n"
+                      "  \"extra\": {}\n"
+                      "}");
+    nam->setNextReply(reply);
+
+    QVariantMap userReply;
+    userReply[SSOUI_KEY_USERNAME] = "tom@example.com";
+    userReply[SSOUI_KEY_PASSWORD] = "s3cr3t";
+    m_testPlugin->userActionFinished(userReply);
+
+    /* Again the plugin should request user interaction, as OTP is required */
+    QTRY_COMPARE(userActionRequired.count(), 1);
+    data = userActionRequired.at(0).at(0).value<UiSessionData>().toMap();
+    expectedUserInteraction.clear();
+    expectedUserInteraction[SSOUI_KEY_USERNAME] = "tom@example.com";
+    expectedUserInteraction[SSOUI_KEY_PASSWORD] = "s3cr3t";
+    expectedUserInteraction[SSOUI_KEY_QUERY2FA] = true;
+    /* We want the map to contain the SSOUI_KEY_2FA_TEXT, but we don't care
+     * about the value */
+    QVERIFY(data.contains(SSOUI_KEY_2FA_TEXT));
+    data.remove(SSOUI_KEY_2FA_TEXT);
+    QCOMPARE(data, expectedUserInteraction);
+}
+
+#if 0
 void PluginTest::testPluginHmacSha1Process_data()
 {
     QTest::addColumn<QString>("mechanism");

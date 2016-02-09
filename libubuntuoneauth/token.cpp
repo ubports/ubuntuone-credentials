@@ -46,10 +46,18 @@ namespace UbuntuOne {
                  QString consumer_key, QString consumer_secret)
     {
         _tokenHash[TOKEN_NAME_KEY] = buildTokenName();
-        _tokenHash[TOKEN_TOKEN_KEY] = token_key;
-        _tokenHash[TOKEN_TOKEN_SEC_KEY] = token_secret;
-        _tokenHash[TOKEN_CONSUMER_KEY] = consumer_key;
-        _tokenHash[TOKEN_CONSUMER_SEC_KEY] = consumer_secret;
+        if (!token_key.isEmpty()) {
+            _tokenHash[TOKEN_TOKEN_KEY] = token_key;
+        }
+        if (!token_secret.isEmpty()) {
+            _tokenHash[TOKEN_TOKEN_SEC_KEY] = token_secret;
+        }
+        if (!consumer_key.isEmpty()) {
+            _tokenHash[TOKEN_CONSUMER_KEY] = consumer_key;
+        }
+        if (!consumer_secret.isEmpty()) {
+            _tokenHash[TOKEN_CONSUMER_SEC_KEY] = consumer_secret;
+        }
     }
 
     Token::Token(QString token_key, QString token_secret,

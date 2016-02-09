@@ -37,18 +37,6 @@
 #define ERR_TWOFACTOR_FAILURE QLatin1String("TWOFACTOR_FAILURE")
 #define ERR_PASSWORD_POLICY_ERROR QLatin1String("PASSWORD_POLICY_ERROR")
 
-/* These fields are temporarily defined here; they'll be eventually moved to
- * signond's include files. */
-#define SSOUI_KEY_USERNAME_TEXT QLatin1String("UserNameText")
-#define SSOUI_KEY_PASSWORD_TEXT QLatin1String("PasswordText")
-#define SSOUI_KEY_REGISTER_URL  QLatin1String("RegisterUrl")
-#define SSOUI_KEY_REGISTER_TEXT QLatin1String("RegisterText")
-#define SSOUI_KEY_LOGIN_TEXT QLatin1String("LoginText")
-#define SSOUI_KEY_QUERY2FA QLatin1String("Query2fa")
-#define SSOUI_KEY_2FA QLatin1String("2fa")
-#define SSOUI_KEY_2FA_TEXT QLatin1String("2faText")
-#define SSOUI_KEY_ERROR_MESSAGE QLatin1String("ErrorMessage")
-
 namespace UbuntuOne {
 
     SignOnPlugin::SignOnPlugin(QObject *parent):
@@ -129,6 +117,7 @@ namespace UbuntuOne {
         Token token(tokenData.TokenKey(), tokenData.TokenSecret(),
                     tokenData.ConsumerKey(), tokenData.ConsumerSecret());
         if (!token.isValid()) return false;
+        qDebug() << "Token is valid!" << tokenData.TokenKey();
 
         tokenData.setTokenName(m_data.TokenName());
         checkTokenValidity(token, tokenData);
@@ -238,12 +227,12 @@ namespace UbuntuOne {
         m_reply->deleteLater();
         m_reply = 0;
 
-        QJsonDocument json = QJsonDocument::fromJson(m_reply->readAll());
+        QJsonDocument json = QJsonDocument::fromJson(reply->readAll());
         QJsonObject object = json.object();
 
         QString error = object.value("code").toString();
 
-        int statusCode = m_reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+        int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
         if (statusCode == 200 || statusCode == 201) {
             PluginData token;
             token.setTokenName(object.value("token_name").toString());
