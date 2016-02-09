@@ -1,3 +1,7 @@
+project(SignonPlugin)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-exceptions -fno-rtti")
+
 # Qt5 bits
 SET (CMAKE_INCLUDE_CURRENT_DIR ON)
 SET (CMAKE_AUTOMOC ON)
@@ -33,4 +37,4 @@ INSTALL (
   LIBRARY DESTINATION ${SIGNON_PLUGIN_INSTALL_DIR}
 )
 
-#add_subdirectory(tests)
+add_subdirectory(tests)

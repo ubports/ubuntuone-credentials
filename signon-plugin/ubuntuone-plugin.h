@@ -27,8 +27,12 @@
 
 #include "ubuntuonedata.h"
 
+class QNetworkAccessManager;
+class QNetworkReply;
 
 namespace UbuntuOne {
+
+    class Token;
 
     class SignOnPlugin : public AuthPluginInterface
     {
@@ -40,15 +44,34 @@ namespace UbuntuOne {
         virtual ~SignOnPlugin();
 
     public Q_SLOTS:
-        QString type() const;
-        QStringList mechanisms() const;
-        void cancel();
+        QString type() const Q_DECL_OVERRIDE;
+        QStringList mechanisms() const Q_DECL_OVERRIDE;
+        void cancel() Q_DECL_OVERRIDE;
         void process(const SignOn::SessionData &inData,
-                     const QString &mechanism = 0);
-        void userActionFinished(const SignOn::UiSessionData &data);
+                     const QString &mechanism = 0) Q_DECL_OVERRIDE;
+        void userActionFinished(const SignOn::UiSessionData &data) Q_DECL_OVERRIDE;
+
+    private:
+        bool validateInput(const PluginData &data, const QString &mechanism);
+        bool respondWithStoredData();
+        void checkTokenValidity(const Token &token,
+                                const PluginData &tokenData);
+        void emitErrorFromReply(QNetworkReply *reply);
+        void createNewToken();
+        void getCredentialsAndCreateNewToken();
+        bool handleUiError(const SignOn::UiSessionData &data);
+
+    private Q_SLOTS:
+        void onValidationFinished();
+        void onCreationFinished();
 
     private:
         PluginData m_data;
+        PluginData m_checkedToken;
+        QNetworkAccessManager *m_networkAccessManager;
+        QNetworkReply *m_reply;
+        bool m_didAskForPassword;
+        bool m_needsOtp;
     };
 
 } // namespace UbuntuOne
