@@ -339,6 +339,7 @@ namespace UbuntuOne {
         QStringList params = query.split("&");
         for (int i = 0; i < params.size(); ++i) {
             QStringList pair = params.at(i).split("=");
+            if (pair.count() < 2) continue;
             if (pair.at(0) == TOKEN_NAME_KEY) {
                 // TODO: Need to figure out how to actually use the
                 // QUrl::fromPercentEncoding at this point in the code.

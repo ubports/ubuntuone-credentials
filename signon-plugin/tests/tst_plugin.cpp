@@ -148,6 +148,8 @@ private Q_SLOTS:
     void testStoredToken_data();
     void testStoredToken();
     void testUserInteraction();
+    void testTokenCreation_data();
+    void testTokenCreation();
 
     void init();
     void cleanup();
@@ -399,6 +401,151 @@ void PluginTest::testUserInteraction()
     QVERIFY(data.contains(SSOUI_KEY_2FA_TEXT));
     data.remove(SSOUI_KEY_2FA_TEXT);
     QCOMPARE(data, expectedUserInteraction);
+}
+
+void PluginTest::testTokenCreation_data()
+{
+    QTest::addColumn<QVariantMap>("sessionData");
+    QTest::addColumn<int>("networkError");
+    QTest::addColumn<int>("httpStatus");
+    QTest::addColumn<QString>("replyContents");
+    QTest::addColumn<int>("expectedErrorCode");
+    QTest::addColumn<QVariantMap>("expectedResponse");
+    QTest::addColumn<QVariantMap>("expectedStore");
+    QTest::addColumn<QVariantMap>("expectedUserInteraction");
+
+    UbuntuOne::PluginData sessionData;
+    UbuntuOne::PluginData response;
+    UbuntuOne::PluginData stored;
+    QVariantMap userInteraction;
+
+    sessionData.setTokenName("helloworld");
+    sessionData.setUserName("jim@example.com");
+    sessionData.setSecret("s3cr3t");
+    response.setConsumerKey("aAa");
+    response.setConsumerSecret("bBb");
+    response.setTokenKey("cCc");
+    response.setTokenSecret("dDd");
+    QVariantMap storedData;
+    storedData[sessionData.TokenName()] = response.toMap();
+    stored.setStoredData(storedData);
+    response.setTokenName(sessionData.TokenName());
+    QTest::newRow("no OTP needed, 201") <<
+        sessionData.toMap() <<
+        -1 <<
+        201 << QString("{\n"
+                       "  \"href\": \"https://login.ubuntu.com/api/v2/tokens/oauth/the-key\",\n"
+                       "  \"token_key\": \"cCc\",\n"
+                       "  \"token_secret\": \"dDd\",\n"
+                       "  \"token_name\": \"helloworld\",\n"
+                       "  \"consumer_key\": \"aAa\",\n"
+                       "  \"consumer_secret\": \"bBb\",\n"
+                       "  \"date_created\": \"2013-01-11 12:43:23\",\n"
+                       "  \"date_updated\": \"2013-01-11 12:43:23\"\n"
+                       "}") <<
+        -1 <<
+        response.toMap() << stored.toMap() << userInteraction;
+    sessionData = UbuntuOne::PluginData();
+    response = UbuntuOne::PluginData();
+    stored = UbuntuOne::PluginData();
+    storedData.clear();
+
+    sessionData.setTokenName("helloworld");
+    sessionData.setUserName("jim@example.com");
+    sessionData.setSecret("s3cr3t");
+    userInteraction[SSOUI_KEY_QUERYUSERNAME] = true;
+    userInteraction[SSOUI_KEY_USERNAME] = "jim@example.com";
+    userInteraction[SSOUI_KEY_QUERYPASSWORD] = true;
+    QTest::newRow("wrong password") <<
+        sessionData.toMap() <<
+        -1 <<
+        401 << QString("{\n"
+                       "  \"code\": \"INVALID_CREDENTIALS\",\n"
+                       "  \"message\": \"Wrong password!\",\n"
+                       "  \"extra\": {}\n"
+                       "}") <<
+        -1 <<
+        response.toMap() << stored.toMap() << userInteraction;
+    sessionData = UbuntuOne::PluginData();
+    userInteraction.clear();
+
+    sessionData.setTokenName("helloworld");
+    sessionData.setUserName("jim@example.com");
+    sessionData.setSecret("s3cr3t");
+    QTest::newRow("network error") <<
+        sessionData.toMap() <<
+        int(QNetworkReply::SslHandshakeFailedError) <<
+        -1 << QString() <<
+        int(SignOn::Error::Ssl) <<
+        response.toMap() << stored.toMap() << userInteraction;
+    sessionData = UbuntuOne::PluginData();
+}
+
+void PluginTest::testTokenCreation()
+{
+    QFETCH(QVariantMap, sessionData);
+    QFETCH(int, httpStatus);
+    QFETCH(int, networkError);
+    QFETCH(QString, replyContents);
+    QFETCH(int, expectedErrorCode);
+    QFETCH(QVariantMap, expectedResponse);
+    QFETCH(QVariantMap, expectedStore);
+    QFETCH(QVariantMap, expectedUserInteraction);
+
+    QSignalSpy result(m_testPlugin, SIGNAL(result(const SignOn::SessionData&)));
+    QSignalSpy error(m_testPlugin, SIGNAL(error(const SignOn::Error &)));
+    QSignalSpy userActionRequired(m_testPlugin,
+                                  SIGNAL(userActionRequired(const SignOn::UiSessionData&)));
+    QSignalSpy store(m_testPlugin, SIGNAL(store(const SignOn::SessionData&)));
+
+    /* Prepare network reply */
+    TestNetworkAccessManager *nam = new TestNetworkAccessManager;
+    m_testPlugin->m_networkAccessManager = nam;
+    TestNetworkReply *reply = new TestNetworkReply(this);
+    if (httpStatus > 0) {
+        reply->setStatusCode(httpStatus);
+    } else {
+        reply->setError(QNetworkReply::NetworkError(networkError),
+                        "Network error");
+    }
+    reply->setContent(replyContents.toUtf8());
+    nam->setNextReply(reply);
+
+
+    m_testPlugin->process(sessionData, "ubuntuone");
+    if (expectedErrorCode < 0) {
+        if (!expectedUserInteraction.isEmpty()) {
+            QTRY_COMPARE(userActionRequired.count(), 1);
+            QVariantMap data =
+                userActionRequired.at(0).at(0).value<UiSessionData>().toMap();
+            QCOMPARE(data, expectedUserInteraction);
+        } else {
+            QCOMPARE(userActionRequired.count(), 0);
+        }
+
+        if (!expectedResponse.isEmpty()) {
+            QTRY_COMPARE(result.count(), 1);
+            QVariantMap resp = result.at(0).at(0).value<SessionData>().toMap();
+            QCOMPARE(resp, expectedResponse);
+        } else {
+            QCOMPARE(result.count(), 0);
+        }
+
+        if (!expectedStore.isEmpty()) {
+            QCOMPARE(store.count(), 1);
+            QVariantMap storedData =
+                store.at(0).at(0).value<SessionData>().toMap();
+            QCOMPARE(storedData, expectedStore);
+        } else {
+            QCOMPARE(store.count(), 0);
+        }
+
+        QCOMPARE(error.count(), 0);
+    } else {
+        QTRY_COMPARE(error.count(), 1);
+        Error err = error.at(0).at(0).value<Error>();
+        QCOMPARE(err.type(), expectedErrorCode);
+    }
 }
 
 #if 0

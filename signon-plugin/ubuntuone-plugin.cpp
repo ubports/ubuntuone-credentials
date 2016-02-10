@@ -234,8 +234,8 @@ namespace UbuntuOne {
 
         int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
         if (statusCode == 200 || statusCode == 201) {
+            QString tokenName = object.value("token_name").toString();
             PluginData token;
-            token.setTokenName(object.value("token_name").toString());
             token.setConsumerKey(object.value("consumer_key").toString());
             token.setConsumerSecret(object.value("consumer_secret").toString());
             token.setTokenKey(object.value("token_key").toString());
@@ -243,11 +243,12 @@ namespace UbuntuOne {
 
             /* Store the token */
             QVariantMap storedData;
-            storedData[token.TokenName()] = token.toMap();
+            storedData[tokenName] = token.toMap();
             PluginData pluginData;
             pluginData.setStoredData(storedData);
             Q_EMIT store(pluginData);
 
+            token.setTokenName(tokenName);
             Q_EMIT result(token);
         } else if (statusCode == 401 && error == ERR_INVALID_CREDENTIALS) {
             m_data.setSecret(QString());
