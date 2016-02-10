@@ -419,6 +419,7 @@ void PluginTest::testTokenCreation_data()
     UbuntuOne::PluginData stored;
     QVariantMap userInteraction;
 
+    // Successful creation, with password only
     sessionData.setTokenName("helloworld");
     sessionData.setUserName("jim@example.com");
     sessionData.setSecret("s3cr3t");
@@ -450,6 +451,7 @@ void PluginTest::testTokenCreation_data()
     stored = UbuntuOne::PluginData();
     storedData.clear();
 
+    // Wrong password
     sessionData.setTokenName("helloworld");
     sessionData.setUserName("jim@example.com");
     sessionData.setSecret("s3cr3t");
@@ -469,6 +471,7 @@ void PluginTest::testTokenCreation_data()
     sessionData = UbuntuOne::PluginData();
     userInteraction.clear();
 
+    // Network error while creating token
     sessionData.setTokenName("helloworld");
     sessionData.setUserName("jim@example.com");
     sessionData.setSecret("s3cr3t");
@@ -479,6 +482,26 @@ void PluginTest::testTokenCreation_data()
         int(SignOn::Error::Ssl) <<
         response.toMap() << stored.toMap() << userInteraction;
     sessionData = UbuntuOne::PluginData();
+
+    // Account needs reset
+    sessionData.setTokenName("helloworld");
+    sessionData.setUserName("jim@example.com");
+    sessionData.setSecret("s3cr3t");
+    userInteraction[SSOUI_KEY_OPENURL] = "http://www.example.com/reset";
+    QTest::newRow("reset needed") <<
+        sessionData.toMap() <<
+        -1 <<
+        403 << QString("{\n"
+                       "  \"code\": \"PASSWORD_POLICY_ERROR\",\n"
+                       "  \"message\": \"Password too short\",\n"
+                       "  \"extra\": {\n"
+                       "    \"location\": \"http://www.example.com/reset\"\n"
+                       "  }\n"
+                       "}") <<
+        -1 <<
+        response.toMap() << stored.toMap() << userInteraction;
+    sessionData = UbuntuOne::PluginData();
+    userInteraction.clear();
 }
 
 void PluginTest::testTokenCreation()
