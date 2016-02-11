@@ -135,7 +135,7 @@ Description: Ubuntu One authentication library - QML Module
 
 Package: signon-plugin-ubuntuone
 Architecture: any
-Multi-Arch: foreign
+Multi-Arch: same
 Pre-Depends:
  multiarch-support,
  ${misc:Pre-Depends},
@@ -159,6 +159,7 @@ Pre-Depends:
 Depends:
  libubuntuoneauth-2.0-0 (= ${binary:Version}),
  qml-module-ubuntuone (= ${binary:Version}),
+ signon-plugin-ubuntuone,
  ubuntu-system-settings-online-accounts,
  ${misc:Depends},
  ${shlibs:Depends},
