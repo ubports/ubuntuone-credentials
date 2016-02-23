@@ -3,6 +3,9 @@ SET (CMAKE_INCLUDE_CURRENT_DIR ON)
 SET (CMAKE_AUTOMOC ON)
 find_package(Qt5Core REQUIRED)
 
+set(CMAKE_CXX_VISIBILITY_PRESET hidden)
+add_definitions("-DBUILDING_LIBU1AUTH")
+
 # Allow the developer to select if Dynamic or Static libraries are built
 OPTION (BUILD_STATIC_LIBS "Build Static Libraries" OFF)
 
@@ -16,7 +19,18 @@ ENDIF (BUILD_STATIC_LIBS)
 # The sources for building the library
 FILE (GLOB SOURCES *.cpp)
 # HEADERS only includes the public headers for installation.
-FILE (GLOB HEADERS *.h)
+FILE (GLOB HEADERS
+  common.h
+  errormessages.h
+  identityprovider.h
+  keyring.h
+  logging.h
+  network.h
+  requests.h
+  responses.h
+  ssoservice.h
+  token.h
+)
 
 pkg_check_modules(OAUTH REQUIRED oauth)
 add_definitions(${OAUTH_CFLAGS} ${OAUTH_CFLAGS_OTHER})

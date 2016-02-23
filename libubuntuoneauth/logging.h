@@ -24,9 +24,11 @@
 #include <QTextStream>
 #include <QtGlobal>
 
+#include "common.h"
+
 namespace UbuntuOne {
 
-    class AuthLogger : public QObject
+    class U1_EXPORT AuthLogger : public QObject
     {
         Q_OBJECT
     public:

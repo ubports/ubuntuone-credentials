@@ -19,6 +19,8 @@
 #ifndef _REQUESTS_H_
 #define _REQUESTS_H_
 
+#include "common.h"
+
 #include <QString>
 #include <QUrl>
 
@@ -33,7 +35,7 @@ static QString PASSWORD_API = API_BASE + PASSWORD_PATH;
 static QString ACCOUNTS_PATH = API_VERSION + "/accounts";
 static QString ACCOUNTS_API = API_BASE + ACCOUNTS_PATH;
 
-class RequestInterface
+class U1_EXPORT RequestInterface
 {
 public:
     RequestInterface(const QUrl& url);
@@ -45,7 +47,7 @@ protected:
     QUrl _url;
 };
 
-class OAuthTokenRequest : public RequestInterface
+class U1_EXPORT OAuthTokenRequest : public RequestInterface
 {
 public:
     OAuthTokenRequest();
@@ -71,7 +73,7 @@ private:
     QString _email, _password, _name, _otp;
 };
 
-class AccountRequest : public RequestInterface
+class U1_EXPORT AccountRequest : public RequestInterface
 {
 public:
     AccountRequest();
@@ -106,7 +108,7 @@ private:
     bool _createCaptcha;
 };
 
-class PasswordTokenRequest : public RequestInterface
+class U1_EXPORT PasswordTokenRequest : public RequestInterface
 {
 public:
     PasswordTokenRequest();

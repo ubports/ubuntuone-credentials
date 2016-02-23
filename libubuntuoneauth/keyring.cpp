@@ -24,6 +24,7 @@
 #include <QDebug>
 
 #include "keyring.h"
+#include "../signon-plugin/ubuntuonedata.h"
 
 using namespace Accounts;
 using namespace SignOn;
@@ -46,24 +47,17 @@ namespace UbuntuOne {
 
     void Keyring::handleSessionData(const SignOn::SessionData &data)
     {
-        QString secret = data.Secret();
+        PluginData reply = data.data<PluginData>();
 
-        if (secret.length() == 0) {
-            QString msg("Could not read credentials secret value.");
-            qCritical() << msg;
-            emit keyringError(msg);
-            return;
-        }
-
-        Token *token = Token::fromQuery(secret);
-        if (token->isValid()) {
-            emit tokenFound(*token);
+        Token token(reply.TokenKey(), reply.TokenSecret(),
+                    reply.ConsumerKey(), reply.ConsumerSecret());
+        if (token.isValid()) {
+            emit tokenFound(token);
         } else {
             QString message("Failed to convert result to Token object.");
             qCritical() << message;
             emit keyringError(message);
         }
-        delete token;
     }
 
     void Keyring::findToken()
@@ -85,13 +79,15 @@ namespace UbuntuOne {
                 emit tokenNotFound();
                 return;
             }
-            AuthSession *session = identity->createSession(QStringLiteral("password"));
+            AuthSession *session = identity->createSession(QStringLiteral("ubuntuone"));
             if (session != NULL) {
                 connect(session, SIGNAL(response(const SignOn::SessionData&)),
                         this, SLOT(handleSessionData(const SignOn::SessionData&)));
                 connect(session, SIGNAL(error(const SignOn::Error&)),
                         this, SLOT(handleError(const SignOn::Error&)));
-                session->process(SessionData(), QStringLiteral("password"));
+                PluginData data;
+                data.setTokenName(Token::buildTokenName());
+                session->process(data, QStringLiteral("ubuntuone"));
                 return;
             }
             qCritical() << "Unable to create AuthSession.";

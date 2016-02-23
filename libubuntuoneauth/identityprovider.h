@@ -19,6 +19,7 @@
 #ifndef _IDENTITYPROVIDER_H_
 #define _IDENTITYPROVIDER_H_
 
+#include "common.h"
 #include "network.h"
 #include "requests.h"
 #include "responses.h"
@@ -27,7 +28,7 @@
 
 namespace UbuntuOne {
 
-class IdentityProvider : public QObject
+class U1_EXPORT IdentityProvider : public QObject
 {
     Q_OBJECT
 public:
