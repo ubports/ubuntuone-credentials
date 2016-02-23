@@ -115,7 +115,7 @@ namespace UbuntuOne {
     void SSOService::login(QString email, QString password, QString twoFactorCode)
     {
         auto authenticator = new Authenticator(this);
-        authenticator->setUiAllowed(false);
+        authenticator->setUiAllowed(true);
 
         connect(authenticator, &Authenticator::authenticated,
                 [=](const Token &token) {
