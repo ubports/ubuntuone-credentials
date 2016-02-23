@@ -23,6 +23,7 @@
 
 #include <QDebug>
 
+#include "authenticator.h"
 #include "keyring.h"
 #include "../signon-plugin/ubuntuonedata.h"
 
@@ -62,38 +63,24 @@ namespace UbuntuOne {
 
     void Keyring::findToken()
     {
-        QString _acctName("ubuntuone");
-        AccountIdList _ids = _manager.accountList(_acctName);
-        Identity *identity;
-        Account *account;
+        auto authenticator = new Authenticator(this);
+        authenticator->setUiAllowed(false);
 
-        if (_ids.length() > 0) {
-            if (_ids.length() > 1) {
-                qDebug() << "findToken(): Found '" << _ids.length() << "' accounts. Using first.";
+        connect(authenticator, &Authenticator::authenticated,
+                [=](const Token &token) {
+            Q_EMIT tokenFound(token);
+            authenticator->deleteLater();
+        });
+        connect(authenticator, &Authenticator::error,
+                [=](Authenticator::ErrorCode code) {
+            if (code == Authenticator::AccountNotFound) {
+                Q_EMIT tokenNotFound();
+            } else {
+                Q_EMIT keyringError("Authentication failed");
             }
-            account = _manager.account(_ids[0]);
-            qDebug() << "findToken(): Using Ubuntu One account '" << _ids[0] << "'.";
-            identity = Identity::existingIdentity(account->credentialsId());
-            if (identity == NULL) {
-                qCritical() << "findToken(): disabled account " << _acctName << _ids[0];
-                emit tokenNotFound();
-                return;
-            }
-            AuthSession *session = identity->createSession(QStringLiteral("ubuntuone"));
-            if (session != NULL) {
-                connect(session, SIGNAL(response(const SignOn::SessionData&)),
-                        this, SLOT(handleSessionData(const SignOn::SessionData&)));
-                connect(session, SIGNAL(error(const SignOn::Error&)),
-                        this, SLOT(handleError(const SignOn::Error&)));
-                PluginData data;
-                data.setTokenName(Token::buildTokenName());
-                session->process(data, QStringLiteral("ubuntuone"));
-                return;
-            }
-            qCritical() << "Unable to create AuthSession.";
-        }
-        qDebug() << "findToken(): No accounts found matching " << _acctName;
-        emit tokenNotFound();
+            authenticator->deleteLater();
+        });
+        authenticator->authenticate(Token::buildTokenName());
     }
 
     void Keyring::handleCredentialsStored(const quint32 id)
