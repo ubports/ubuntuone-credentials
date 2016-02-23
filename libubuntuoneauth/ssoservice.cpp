@@ -22,6 +22,7 @@
 #include <QNetworkRequest>
 #include <QUrlQuery>
 
+#include "authenticator.h"
 #include "logging.h"
 #include "ssoservice.h"
 #include "requests.h"
@@ -63,9 +64,6 @@ namespace UbuntuOne {
         connect(_nam, SIGNAL(finished(QNetworkReply*)),
                 this, SLOT(accountPinged(QNetworkReply*)));
 
-        connect(&(_provider),
-                SIGNAL(OAuthTokenGranted(const OAuthTokenResponse&)),
-                this, SLOT(tokenReceived(const OAuthTokenResponse&)));
         connect(&(_provider),
                 SIGNAL(AccountGranted(const AccountResponse&)),
                 this, SLOT(accountRegistered(const AccountResponse&)));
@@ -116,12 +114,26 @@ namespace UbuntuOne {
 
     void SSOService::login(QString email, QString password, QString twoFactorCode)
     {
-        OAuthTokenRequest request(getAuthBaseUrl(),
-                                  email, password,
-                                  Token::buildTokenName(), twoFactorCode);
-        _tempEmail = email;
+        auto authenticator = new Authenticator(this);
+        authenticator->setUiAllowed(false);
 
-        _provider.GetOAuthToken(request);
+        connect(authenticator, &Authenticator::authenticated,
+                [=](const Token &token) {
+            _keyring->storeToken(token, email);
+            authenticator->deleteLater();
+        });
+        connect(authenticator, &Authenticator::error,
+                [=](Authenticator::ErrorCode code) {
+            if (code == Authenticator::AccountNotFound) {
+                Q_EMIT credentialsNotFound();
+            } else {
+                /* TODO: deliver a proper error response. */
+                Q_EMIT requestFailed(ErrorResponse());
+            }
+            authenticator->deleteLater();
+        });
+        authenticator->authenticate(Token::buildTokenName(),
+                                    email, password, twoFactorCode);
     }
 
     void SSOService::handleTwoFactorAuthRequired()
@@ -147,10 +159,7 @@ namespace UbuntuOne {
 
     void SSOService::tokenReceived(const OAuthTokenResponse& token)
     {
-        Token realToken = Token(token.token_key(), token.token_secret(),
-                                token.consumer_key(), token.consumer_secret(),
-                                token.date_created(), token.date_updated());
-        _keyring->storeToken(realToken, _tempEmail);
+        // Not used anymore
     }
 
     void SSOService::accountPinged(QNetworkReply*)
