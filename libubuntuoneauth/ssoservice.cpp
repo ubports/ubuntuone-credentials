@@ -160,6 +160,13 @@ namespace UbuntuOne {
     void SSOService::tokenReceived(const OAuthTokenResponse& token)
     {
         // Not used anymore
+
+        /* The following two lines are needed to ensure that the
+         * OAuthTokenRequest::~OAuthTokenRequest() symbol is exported by the
+         * library.
+         */
+        OAuthTokenRequest request;
+        qDebug() << request.serialize();
     }
 
     void SSOService::accountPinged(QNetworkReply*)
