@@ -18,7 +18,9 @@
 
 #include <Accounts/Account>
 #include <Accounts/Service>
+#include <SignOn/AuthSession>
 #include <SignOn/Identity>
+#include <SignOn/IdentityInfo>
 
 #include <QDebug>
 
@@ -57,10 +59,7 @@ void Authenticator::handleSessionData(const SignOn::SessionData &data)
     }
 }
 
-void Authenticator::authenticate(const QString &tokenName,
-                                 const QString &userName,
-                                 const QString &password,
-                                 const QString &otp)
+quint32 Authenticator::credentialsId()
 {
     QString providerId("ubuntuone");
     Accounts::AccountIdList accountIds = m_manager->accountList(providerId);
@@ -68,7 +67,7 @@ void Authenticator::authenticate(const QString &tokenName,
     if (accountIds.isEmpty()) {
         qDebug() << "authenticate(): No UbuntuOne accounts found";
         Q_EMIT error(AccountNotFound);
-        return;
+        return 0;
     }
 
     if (accountIds.count() > 1) {
@@ -87,7 +86,7 @@ void Authenticator::authenticate(const QString &tokenName,
          * can retry.
          */
         Q_EMIT error(AuthenticationError);
-        return;
+        return 0;
     }
 
     /* Here we should check that the account service is enabled; but since the
@@ -95,13 +94,28 @@ void Authenticator::authenticate(const QString &tokenName,
      * of knowing which service we are interested in, let's leave it as a TODO.
      */
 
-    auto identity =
-        SignOn::Identity::existingIdentity(account->credentialsId(), this);
-    if (Q_UNLIKELY(!identity)) {
-        qCritical() << "authenticate(): unable to load credentials for "
-            "account" << accountIds[0];
-        Q_EMIT error(AccountNotFound);
-        return;
+    return account->credentialsId();
+}
+
+void Authenticator::authenticate(const QString &tokenName,
+                                 const QString &userName,
+                                 const QString &password,
+                                 const QString &otp)
+{
+    SignOn::Identity *identity;
+    if (userName.isEmpty()) {
+        // Use existing account
+        quint32 id = credentialsId();
+        if (Q_UNLIKELY(!id)) return;
+
+        identity = SignOn::Identity::existingIdentity(id, this);
+        if (Q_UNLIKELY(!identity)) {
+            qCritical() << "authenticate(): unable to load credentials" << id;
+            Q_EMIT error(AccountNotFound);
+            return;
+        }
+    } else {
+        identity = SignOn::Identity::newIdentity(SignOn::IdentityInfo(), this);
     }
 
     auto session = identity->createSession(QStringLiteral("ubuntuone"));

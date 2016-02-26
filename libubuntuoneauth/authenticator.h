@@ -52,6 +52,9 @@ Q_SIGNALS:
     void authenticated(const Token& token);
     void error(UbuntuOne::Authenticator::ErrorCode code);
 
+private:
+    quint32 credentialsId();
+
 private Q_SLOTS:
     void handleError(const SignOn::Error &error);
     void handleSessionData(const SignOn::SessionData &data);
