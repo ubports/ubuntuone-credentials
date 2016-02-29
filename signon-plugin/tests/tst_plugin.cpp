@@ -191,6 +191,13 @@ void PluginTest::testLoading()
     }
 
     QVERIFY(module.isLoaded());
+    typedef AuthPluginInterface *(*AuthPluginInstanceF)();
+    auto instance =
+        (AuthPluginInstanceF)module.resolve("auth_plugin_instance");
+    QVERIFY(instance);
+
+    auto plugin = qobject_cast<AuthPluginInterface *>(instance());
+    QVERIFY(plugin);
 }
 
 void PluginTest::testInitialization()

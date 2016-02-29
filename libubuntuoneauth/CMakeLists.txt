@@ -43,12 +43,12 @@ qt5_use_modules (${AUTH_LIB_NAME} Core DBus Xml Network)
 target_link_libraries (${AUTH_LIB_NAME}
   ${LIBSIGNON_LDFLAGS}
   ${OAUTH_LDFLAGS}
-  -Wl,--version-script -Wl,${CMAKE_CURRENT_SOURCE_DIR}/libubuntuoneauth.symbols
 )
 
 SET_TARGET_PROPERTIES(${AUTH_LIB_NAME} PROPERTIES
   VERSION ${AUTH_LIB_VERSION}
   SOVERSION ${AUTH_LIB_SOVERSION}
+  LINK_FLAGS "-Wl,--version-script -Wl,\"${CMAKE_CURRENT_SOURCE_DIR}/libubuntuoneauth.symbols\""
 )
 
 INSTALL (
