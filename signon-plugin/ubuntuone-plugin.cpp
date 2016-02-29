@@ -227,7 +227,9 @@ namespace UbuntuOne {
         m_reply->deleteLater();
         m_reply = 0;
 
-        QJsonDocument json = QJsonDocument::fromJson(reply->readAll());
+        QByteArray data = reply->readAll();
+        qDebug() << "Received" << data;
+        QJsonDocument json = QJsonDocument::fromJson(data);
         QJsonObject object = json.object();
 
         QString error = object.value("code").toString();
@@ -283,6 +285,7 @@ namespace UbuntuOne {
             formData.insert("otp", m_data.OneTimePassword());
         }
 
+        qDebug() << "Sending" << QJsonDocument(formData).toJson();
         m_reply =
             m_networkAccessManager->post(req, QJsonDocument(formData).toJson());
         QObject::connect(m_reply, SIGNAL(finished()),
