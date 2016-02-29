@@ -40,7 +40,7 @@ Authenticator::Authenticator(QObject *parent):
 
 void Authenticator::handleError(const SignOn::Error &e)
 {
-    qCritical() << "Error:" << e.message();
+    qCritical() << "Authentication error:" << e.message();
     Q_EMIT error(AuthenticationError);
 }
 
