@@ -7,7 +7,11 @@ SET (CMAKE_AUTOMOC ON)
 find_package(Qt5Core REQUIRED)
 
 pkg_check_modules(SIGNON REQUIRED signon-plugins)
-add_definitions(${SIGNON_CFLAGS} ${SIGNON_CFLAGS_OTHER})
+add_definitions(
+    ${SIGNON_CFLAGS}
+    ${SIGNON_CFLAGS_OTHER}
+    "-DPLUGIN_PATH=\"${CMAKE_CURRENT_BINARY_DIR}/../libubuntuoneplugin.so\""
+)
 
 # Workaround for cmake not adding these to automoc properly
 SET (CMAKE_AUTOMOC_MOC_OPTIONS "${SIGNON_CFLAGS} ${CMAKE_AUTOMOC_MOC_OPTIONS}")

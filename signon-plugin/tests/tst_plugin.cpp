@@ -142,6 +142,7 @@ private Q_SLOTS:
     void initTestCase();
     void cleanupTestCase();
 
+    void testLoading();
     void testInitialization();
     void testPluginType();
     void testPluginMechanisms();
@@ -180,6 +181,16 @@ void PluginTest::cleanup()
 {
     delete m_testPlugin;
     m_testPlugin = 0;
+}
+
+void PluginTest::testLoading()
+{
+    QLibrary module(PLUGIN_PATH);
+    if (!module.load()) {
+        qDebug() << "Failed to load module:" << module.errorString();
+    }
+
+    QVERIFY(module.isLoaded());
 }
 
 void PluginTest::testInitialization()
