@@ -160,6 +160,7 @@ namespace UbuntuOne {
             if (isValid) {
                 Q_EMIT result(m_checkedToken);
             } else {
+                qDebug() << "Server verification failed";
                 getCredentialsAndCreateNewToken();
             }
         } else {

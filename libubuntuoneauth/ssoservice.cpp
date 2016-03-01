@@ -115,7 +115,13 @@ namespace UbuntuOne {
     void SSOService::login(QString email, QString password, QString twoFactorCode)
     {
         auto authenticator = new Authenticator(this);
-        authenticator->setUiAllowed(false);
+        qDebug() << "Application name:" << QCoreApplication::applicationName();
+        if (QCoreApplication::applicationName() == "online-accounts-ui") {
+            qDebug() << "in account plugin";
+            authenticator->setUiAllowed(false);
+        } else {
+            authenticator->setUiAllowed(true);
+        }
 
         connect(authenticator, &Authenticator::authenticated,
                 [=](const Token &token) {
