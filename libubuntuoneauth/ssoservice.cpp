@@ -115,7 +115,7 @@ namespace UbuntuOne {
     void SSOService::login(QString email, QString password, QString twoFactorCode)
     {
         auto authenticator = new Authenticator(this);
-        authenticator->setUiAllowed(true);
+        authenticator->setUiAllowed(false);
 
         connect(authenticator, &Authenticator::authenticated,
                 [=](const Token &token) {
@@ -126,6 +126,8 @@ namespace UbuntuOne {
                 [=](Authenticator::ErrorCode code) {
             if (code == Authenticator::AccountNotFound) {
                 Q_EMIT credentialsNotFound();
+            } else if (code == Authenticator::OneTimePasswordRequired) {
+                Q_EMIT twoFactorAuthRequired();
             } else {
                 /* TODO: deliver a proper error response. */
                 Q_EMIT requestFailed(ErrorResponse());

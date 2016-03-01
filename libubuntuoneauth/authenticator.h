@@ -36,6 +36,8 @@ public:
     enum ErrorCode {
         NoError = 0,
         AccountNotFound,
+        OneTimePasswordRequired,
+        InvalidPassword,
         AuthenticationError, // will create more specific codes if needed
     };
 

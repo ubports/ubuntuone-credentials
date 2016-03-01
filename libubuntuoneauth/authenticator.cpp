@@ -48,6 +48,24 @@ void Authenticator::handleSessionData(const SignOn::SessionData &data)
 {
     PluginData reply = data.data<PluginData>();
 
+    auto errorCode = PluginData::ErrorCode(reply.U1ErrorCode());
+    if (errorCode != PluginData::NoError) {
+        switch (errorCode) {
+        case PluginData::OneTimePasswordRequired:
+            qDebug() << "Error: OTP required";
+            Q_EMIT error(OneTimePasswordRequired);
+            break;
+        case PluginData::InvalidPassword:
+            qDebug() << "Error: invalid password";
+            Q_EMIT error(InvalidPassword);
+            break;
+        default:
+            qWarning() << "Unknown error code" << errorCode;
+            Q_EMIT error(AuthenticationError);
+        }
+        return;
+    }
+
     Token token(reply.TokenKey(), reply.TokenSecret(),
                 reply.ConsumerKey(), reply.ConsumerSecret());
     if (token.isValid()) {

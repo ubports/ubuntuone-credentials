@@ -332,9 +332,20 @@ namespace UbuntuOne {
         } else if (code == QUERY_ERROR_SSL) {
             Q_EMIT error(Error(Error::Ssl, QLatin1String("SSL error")));
         } else {
-            Q_EMIT error(Error(Error::UserInteraction,
-                               QString("userActionFinished error: ")
-                               + QString::number(data.QueryErrorCode())));
+            QVariantMap map = data.toMap();
+            if (map.contains(SSOUI_KEY_QUERY2FA)) {
+                PluginData reply;
+                reply.setU1ErrorCode(PluginData::OneTimePasswordRequired);
+                Q_EMIT result(reply);
+            } else if (map.contains(SSOUI_KEY_QUERYPASSWORD)) {
+                PluginData reply;
+                reply.setU1ErrorCode(PluginData::InvalidPassword);
+                Q_EMIT result(reply);
+            } else {
+                Q_EMIT error(Error(Error::UserInteraction,
+                                   QString("userActionFinished error: ")
+                                   + QString::number(data.QueryErrorCode())));
+            }
         }
         return true;
     }

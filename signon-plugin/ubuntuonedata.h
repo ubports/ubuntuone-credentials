@@ -42,6 +42,14 @@ namespace UbuntuOne {
         SIGNON_SESSION_DECLARE_PROPERTY(QString, TokenKey);
         SIGNON_SESSION_DECLARE_PROPERTY(QString, TokenSecret);
 
+        // Error code
+        enum ErrorCode {
+            NoError = 0,
+            OneTimePasswordRequired,
+            InvalidPassword,
+        };
+        SIGNON_SESSION_DECLARE_PROPERTY(int, U1ErrorCode);
+
         // Data which the plugin has stored into signond
         SIGNON_SESSION_DECLARE_PROPERTY(QVariantMap, StoredData);
     };
