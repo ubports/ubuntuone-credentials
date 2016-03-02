@@ -33,6 +33,7 @@
 #define BASE_URL "https://login.ubuntu.com"
 
 #define ERR_INVALID_CREDENTIALS QLatin1String("INVALID_CREDENTIALS")
+#define ERR_INVALID_DATA QLatin1String("INVALID_DATA")
 #define ERR_TWOFACTOR_REQUIRED QLatin1String("TWOFACTOR_REQUIRED")
 #define ERR_TWOFACTOR_FAILURE QLatin1String("TWOFACTOR_FAILURE")
 #define ERR_PASSWORD_POLICY_ERROR QLatin1String("PASSWORD_POLICY_ERROR")
@@ -237,6 +238,7 @@ namespace UbuntuOne {
         QString error = object.value("code").toString();
 
         int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+        qDebug() << "Status code:" << statusCode;
         if (statusCode == 200 || statusCode == 201) {
             QString tokenName = object.value("token_name").toString();
             PluginData token;
@@ -269,6 +271,12 @@ namespace UbuntuOne {
             QJsonObject extra = object.value("extra").toObject();
             data[SSOUI_KEY_OPENURL] = extra.value("location").toString();
             Q_EMIT userActionRequired(data);
+        } else if (error == ERR_INVALID_DATA) {
+            // This error is received when the email address is invalid
+            m_data.setUserName(QString());
+            m_data.setSecret(QString());
+            m_data.setOneTimePassword(QString());
+            getCredentialsAndCreateNewToken();
         } else {
             emitErrorFromReply(reply);
         }
