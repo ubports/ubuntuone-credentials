@@ -116,9 +116,13 @@ namespace UbuntuOne {
     void SSOService::login(QString email, QString password, QString twoFactorCode)
     {
         auto authenticator = new Authenticator(this);
-        qDebug() << "Application name:" << QCoreApplication::applicationName();
+        /* This is a hack: there should be a public API to decide whether UI
+         * interactions are allowed.
+         * For the time being, allow them everywhere except from the account
+         * plugin (which has its own UI to request all the needed info).
+         */
         if (QCoreApplication::applicationName() == "online-accounts-ui") {
-            qDebug() << "in account plugin";
+            qDebug() << "In account plugin: disabling UI interactions";
             authenticator->setUiAllowed(false);
         } else {
             authenticator->setUiAllowed(true);
