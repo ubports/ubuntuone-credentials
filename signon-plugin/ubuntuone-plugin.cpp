@@ -144,17 +144,21 @@ namespace UbuntuOne {
 
     void SignOnPlugin::onValidationFinished()
     {
+        QNetworkReply *reply = m_reply;
+        m_reply->deleteLater();
+        m_reply = 0;
+
         /* Note on error handling: we consider the token to be (in)valid only if
          * we can parse the JSON response and it contains the response.  If the
          * validation has failed because of some other error (SSL error,
          * unparsable server reply, etc.) then we report the error to the
          * client.
          */
-        QJsonDocument json = QJsonDocument::fromJson(m_reply->readAll());
+        QJsonDocument json = QJsonDocument::fromJson(reply->readAll());
         QJsonObject object = json.object();
         QJsonValue value = object.value("is_valid");
 
-        int statusCode = m_reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+        int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
         if (statusCode == 200 && value.isBool()) {
             bool isValid = value.toBool();
             if (isValid) {
@@ -164,11 +168,8 @@ namespace UbuntuOne {
                 getCredentialsAndCreateNewToken();
             }
         } else {
-            emitErrorFromReply(m_reply);
+            emitErrorFromReply(reply);
         }
-
-        m_reply->deleteLater();
-        m_reply = 0;
     }
 
     void SignOnPlugin::checkTokenValidity(const Token &token,
