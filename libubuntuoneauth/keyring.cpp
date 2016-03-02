@@ -150,11 +150,13 @@ namespace UbuntuOne {
 
     void Keyring::handleAccountRemoved()
     {
+        /* DEPRECATED, UNUSED */
         emit tokenDeleted();
     }
 
     void Keyring::handleDeleteError(const SignOn::Error &error)
     {
+        /* DEPRECATED, UNUSED */
         // Just log the error here, as we don't want to infinite loop.
         qWarning() << "Error deleting token:" << error.message();
     }
@@ -163,24 +165,11 @@ namespace UbuntuOne {
     {
         QString _acctName("ubuntuone");
         AccountIdList _ids = _manager.accountList(_acctName);
-        if (_ids.length() > 0) {
-            if (_ids.length() > 1) {
-                qDebug() << "deleteToken(): Found '" << _ids.length() << "' accounts. Using first.";
-            }
-            Account *account = _manager.account(_ids[0]);
-            qDebug() << "deleteToken(): Using Ubuntu One account '" << _ids[0] << "'.";
-            Identity *identity = Identity::existingIdentity(account->credentialsId());
-            connect(account, SIGNAL(removed()),
-                    this, SLOT(handleAccountRemoved()));
-            connect(identity, SIGNAL(error(const SignOn::Error&)),
-                    this, SLOT(handleDeleteError(const SignOn::Error&)));
-
-            identity->remove();
-            account->remove();
-            account->sync();
-            return;
+        if (_ids.isEmpty()) {
+            emit tokenNotFound();
         }
-        emit tokenNotFound();
+
+        /* We don't remove accounts anymore */
     }
 
 } // namespace UbuntuOne
