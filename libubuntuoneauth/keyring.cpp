@@ -64,7 +64,7 @@ namespace UbuntuOne {
     void Keyring::findToken()
     {
         auto authenticator = new Authenticator(this);
-        authenticator->setUiAllowed(false);
+        authenticator->setUiAllowed(true);
 
         connect(authenticator, &Authenticator::authenticated,
                 [=](const Token &token) {
