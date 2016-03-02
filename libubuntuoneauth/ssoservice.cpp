@@ -17,6 +17,7 @@
  */
 #include <sys/utsname.h>
 
+#include <QCoreApplication>
 #include <QDebug>
 #include <QtGlobal>
 #include <QNetworkRequest>

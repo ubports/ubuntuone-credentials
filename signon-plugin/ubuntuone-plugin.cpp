@@ -286,7 +286,7 @@ namespace UbuntuOne {
             formData.insert("otp", m_data.OneTimePassword());
         }
 
-        qDebug() << "Sending" << QJsonDocument(formData).toJson();
+        qDebug() << "Sending data for token creation";
         m_reply =
             m_networkAccessManager->post(req, QJsonDocument(formData).toJson());
         QObject::connect(m_reply, SIGNAL(finished()),
