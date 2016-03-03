@@ -309,6 +309,7 @@ namespace UbuntuOne {
             createNewToken();
         } else if (m_data.Secret().isEmpty()) {
             QVariantMap data;
+            data[SSOUI_KEY_TITLE] = _("UbuntuOne authentication");
             data[SSOUI_KEY_QUERYUSERNAME] = true;
             data[SSOUI_KEY_USERNAME] = m_data.UserName();
             data[SSOUI_KEY_QUERYPASSWORD] = true;
@@ -316,6 +317,7 @@ namespace UbuntuOne {
             Q_EMIT userActionRequired(data);
         } else {
             QVariantMap data;
+            data[SSOUI_KEY_TITLE] = _("UbuntuOne authentication");
             data[SSOUI_KEY_USERNAME] = m_data.UserName();
             data[SSOUI_KEY_PASSWORD] = m_data.Secret();
             data[SSOUI_KEY_QUERY2FA] = true;
@@ -373,8 +375,10 @@ namespace UbuntuOne {
             m_data.setSecret(uiData.Secret());
         }
 
-        if (!uiData.OneTimePassword().isEmpty()) {
-            m_data.setOneTimePassword(uiData.OneTimePassword());
+        QVariantMap map = data.toMap();
+        QString oneTimePassword = map.value(SSOUI_KEY_2FA).toString();
+        if (!oneTimePassword.isEmpty()) {
+            m_data.setOneTimePassword(oneTimePassword);
         }
 
         getCredentialsAndCreateNewToken();
