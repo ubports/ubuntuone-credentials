@@ -115,7 +115,7 @@ namespace UbuntuOne {
 
     void SSOService::login(QString email, QString password, QString twoFactorCode)
     {
-        auto authenticator = new Authenticator(this);
+        auto authenticator = new Authenticator;
         /* This is a hack: there should be a public API to decide whether UI
          * interactions are allowed.
          * For the time being, allow them everywhere except from the account
