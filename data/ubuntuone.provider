@@ -8,8 +8,8 @@
 
   <template>
     <group name="auth">
-      <setting name="method">password</setting>
-      <setting name="mechanism">password</setting>
+      <setting name="method">ubuntuone</setting>
+      <setting name="mechanism">ubuntuone</setting>
     </group>
   </template>
 </provider>
