@@ -6,7 +6,7 @@ DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 DEB_HOST_ARCH ?= $(shell dpk-architecture -qDEB_HOST_ARCH)
 
 ifneq(,$(filter $(DEB_HOST_ARCH), powerpc))
-	DEB_BUILD_OPTIONS := nocheck $(DEB_BUILD_OPTIONS)
+  DEB_BUILD_OPTIONS := nocheck $(DEB_BUILD_OPTIONS)
 endif
 
 
