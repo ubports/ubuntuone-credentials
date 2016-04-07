@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: ubuntuone-credentials\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-01 15:51-0400\n"
-"PO-Revision-Date: 2014-08-30 09:38+0000\n"
-"Last-Translator: Данило Шеган <Unknown>\n"
+"PO-Revision-Date: 2016-04-03 20:13+0000\n"
+"Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: Serbian <sr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-12-11 05:43+0000\n"
-"X-Generator: Launchpad (build 17865)\n"
+"X-Launchpad-Export-Date: 2016-04-04 05:26+0000\n"
+"X-Generator: Launchpad (build 17972)\n"
 
 #: ../online-accounts-provider/ExistingAccount.qml:37
 msgid "Email"
@@ -23,7 +23,7 @@ msgstr "Е-пошта"
 
 #: ../online-accounts-provider/ExistingAccount.qml:50
 msgid "Remove account…"
-msgstr "Уклони налог..."
+msgstr "Уклони налог…"
 
 #: ../online-accounts-provider/ExistingAccount.qml:64
 msgid "Remove Credentials"
@@ -55,19 +55,19 @@ msgstr "Унесите лозинку:"
 
 #: ../online-accounts-provider/LoginForm.qml:49
 msgid "Forgot password?"
-msgstr "Заборављена лозинка?"
+msgstr "Заборавили сте лозинку?"
 
 #: ../online-accounts-provider/LoginForm.qml:61
 msgid "Type your verification code:"
-msgstr "Унесите ваш код за проверу:"
+msgstr "Унесите шифру за проверу:"
 
 #: ../online-accounts-provider/LoginForm.qml:67
 msgid "2-factor device code"
-msgstr "Код уређаја 2. чиниоца"
+msgstr "Шифра уређаја са 2 чинилаца"
 
 #: ../online-accounts-provider/LoginForm.qml:78
 msgid "Authentication Device Help"
-msgstr "Помоћ за уређај за аутентификацију"
+msgstr "Помоћ за уређај за потврђивање идентитета"
 
 #: ../online-accounts-provider/LoginForm.qml:106
 msgid "Sign in"
@@ -83,7 +83,7 @@ msgstr "Лозинка мора бити дугачка бар 8 знакова.
 
 #: ../online-accounts-provider/LoginForm.qml:149
 msgid "Please enter your two-factor device code."
-msgstr "Унесите код са вашег уређаја који је 2. чинилац аутентификације."
+msgstr "Унесите шифру вашег уређаја са 2 чинилаца."
 
 #: ../online-accounts-provider/NewAccount.qml:72
 msgid "Please type your email:"
@@ -100,11 +100,11 @@ msgstr "Унесите исправну адресу е-поште."
 
 #: ../online-accounts-provider/NewAccount.qml:166
 msgid "Create your Ubuntu One account"
-msgstr "Направите свој Убунту Један налог"
+msgstr "Направите свој налог Убунтуа Један"
 
 #: ../online-accounts-provider/NewAccount.qml:171
 msgid "Sign in to your Ubuntu One account"
-msgstr "Пријавите се на свој Убунту Један налог"
+msgstr "Пријавите се на свој налог Убунтуа Један"
 
 #: ../online-accounts-provider/NewAccount.qml:236
 msgid "An internal error occurred. Please try again later."
@@ -112,7 +112,7 @@ msgstr "Дошло је до унутрашње грешке. Поново по�
 
 #: ../online-accounts-provider/RegisterForm.qml:34
 msgid "Please tell us your name:"
-msgstr "Реците нам своје име:"
+msgstr "Како се зовете:"
 
 #: ../online-accounts-provider/RegisterForm.qml:40
 msgid "First and last name"
@@ -136,7 +136,7 @@ msgstr "Настави"
 
 #: ../online-accounts-provider/RegisterForm.qml:144
 msgid "I'm an existing Ubuntu One user, sign me in"
-msgstr "Постојећи сам корисник Убунту Један, пријави ме"
+msgstr "Већ сам корисник Убунтуа Један, пријави ме"
 
 #: ../online-accounts-provider/RegisterForm.qml:167
 msgid "Please enter a name."
@@ -152,4 +152,4 @@ msgstr "Лозинке се не слажу."
 
 #: ../online-accounts-provider/RegisterForm.qml:186
 msgid "Please accept the terms and conditions by checking the box."
-msgstr "Прихватите услове штиклирањем кућице."
+msgstr "Прихватите одредбе и услове штиклирањем кућице."
