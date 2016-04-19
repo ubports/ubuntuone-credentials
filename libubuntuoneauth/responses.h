@@ -19,6 +19,8 @@
 #ifndef _RESPONSES_H_
 #define _RESPONSES_H_
 
+#include "common.h"
+
 #include <map>
 #include <string>
 #include <QString>
@@ -26,7 +28,7 @@
 
 namespace UbuntuOne {
 
-class ErrorResponse
+class U1_EXPORT ErrorResponse
 {
 public:
     ErrorResponse();
@@ -62,7 +64,7 @@ private:
     void initializeMap();
 };
 
-class OAuthTokenResponse
+class U1_EXPORT OAuthTokenResponse
 {
 public:
     OAuthTokenResponse();
@@ -91,7 +93,7 @@ private:
             _consumer_secret, _consumer_key, _href;
 };
 
-class PasswordTokenResponse
+class U1_EXPORT PasswordTokenResponse
 {
 public:
     PasswordTokenResponse();
@@ -105,7 +107,7 @@ private:
   
 };
 
-class AccountResponse
+class U1_EXPORT AccountResponse
 {
 public:
     AccountResponse();

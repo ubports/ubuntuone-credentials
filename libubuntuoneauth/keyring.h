@@ -24,12 +24,13 @@
 
 #include <QObject>
 
+#include "common.h"
 #include "token.h"
 
 
 namespace UbuntuOne {
 
-    class Keyring : public QObject
+    class U1_EXPORT Keyring : public QObject
     {
         Q_OBJECT
     public:
