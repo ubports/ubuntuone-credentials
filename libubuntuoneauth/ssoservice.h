@@ -24,7 +24,6 @@
 #include <QObject>
 #include <QString>
 
-#include "common.h"
 #include "keyring.h"
 #include "token.h"
 
@@ -33,7 +32,7 @@
 
 namespace UbuntuOne {
 
-    class U1_EXPORT SSOService : public QObject
+    class SSOService : public QObject
     {
         Q_OBJECT
     public:

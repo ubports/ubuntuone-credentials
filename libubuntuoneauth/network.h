@@ -19,7 +19,6 @@
 #ifndef _NETWORK_H_
 #define _NETWORK_H_
 
-#include "common.h"
 #include "responses.h"
 
 #include <QObject>
@@ -29,7 +28,7 @@
 
 namespace UbuntuOne {
 
-class U1_EXPORT Network : public QObject
+class Network : public QObject
 {
     Q_OBJECT
 public:

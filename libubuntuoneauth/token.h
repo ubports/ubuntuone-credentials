@@ -23,7 +23,6 @@
 #include <QString>
 #include <QUrl>
 
-#include "common.h"
 
 namespace UbuntuOne {
 
@@ -31,7 +30,7 @@ namespace UbuntuOne {
 #define TOKEN_SEP " @ "
 #define TOKEN_SEP_REPLACEMENT " AT "
 
-    class U1_EXPORT Token
+    class Token
     {
     public:
         Token() {};
