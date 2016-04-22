@@ -1,3 +1,8 @@
+project(SignonPlugin)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-exceptions -fno-rtti")
+set(CMAKE_MODULE_LINKER_FLAGS "-Wl,--no-undefined")
+
 # Qt5 bits
 SET (CMAKE_INCLUDE_CURRENT_DIR ON)
 SET (CMAKE_AUTOMOC ON)
@@ -24,13 +29,15 @@ target_link_libraries (${SIGNON_PLUGIN_NAME}
   -L${CMAKE_BINARY_DIR}/libubuntuoneauth
   ${AUTH_LIB_NAME}
   ${SIGNON_PLUGIN_LDFLAGS}
+  ${SIGNON_LDFLAGS}
+  ${SIGNON_LDFLAGS_OTHER}
 )
 
-SET (SIGNON_PLUGIN_INSTALL_DIR lib/signon)
+SET (SIGNON_PLUGIN_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR}/signon)
 
 INSTALL (
   TARGETS ${SIGNON_PLUGIN_NAME}
   LIBRARY DESTINATION ${SIGNON_PLUGIN_INSTALL_DIR}
 )
 
-#add_subdirectory(tests)
+add_subdirectory(tests)
