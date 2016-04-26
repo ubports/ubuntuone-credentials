@@ -18,7 +18,6 @@ SET (CMAKE_AUTOMOC_MOC_OPTIONS "${SIGNON_CFLAGS} ${CMAKE_AUTOMOC_MOC_OPTIONS}")
 
 # The sources for building the tests
 SET (SOURCES
-    ${SignonPlugin_SOURCE_DIR}/i18n.cpp
     ${SignonPlugin_SOURCE_DIR}/ubuntuone-plugin.cpp
     test_plugin.cpp
 )

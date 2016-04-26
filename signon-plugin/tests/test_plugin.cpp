@@ -96,8 +96,9 @@ protected:
 
     bool isSequential() const Q_DECL_OVERRIDE { return true; }
     qint64 readData(char *data, qint64 maxSize) Q_DECL_OVERRIDE {
-        if (m_offset >= m_content.size())
+        if (m_offset >= m_content.size()) {
             return -1;
+        }
         qint64 number = qMin(maxSize, m_content.size() - m_offset);
         memcpy(data, m_content.constData() + m_offset, number);
         m_offset += number;
@@ -220,9 +221,6 @@ void PluginTest::testPluginMechanisms()
 void PluginTest::testStoredToken_data()
 {
     QTest::addColumn<QVariantMap>("sessionData");
-    QTest::addColumn<int>("networkError");
-    QTest::addColumn<int>("httpStatus");
-    QTest::addColumn<QString>("replyContents");
     QTest::addColumn<int>("expectedErrorCode");
     QTest::addColumn<bool>("uiExpected");
     QTest::addColumn<QVariantMap>("expectedResponse");
@@ -234,7 +232,6 @@ void PluginTest::testStoredToken_data()
 
     QTest::newRow("empty") <<
         sessionData.toMap() <<
-        -1 << -1 << QString() <<
         int(Error::MissingData) <<
         false << QVariantMap() << QVariantMap();
 
@@ -251,57 +248,7 @@ void PluginTest::testStoredToken_data()
     QTest::newRow("in secret, valid") <<
         sessionData.toMap() <<
         -1 <<
-        200 << QString("{\n"
-                       "  \"is_valid\": true,\n"
-                       "  \"identifier\": \"64we8bn\",\n"
-                       "  \"account_verified\": true\n"
-                       "}") <<
-        -1 <<
         false << response.toMap() << stored.toMap();
-    sessionData = UbuntuOne::PluginData();
-    response = UbuntuOne::PluginData();
-    stored = UbuntuOne::PluginData();
-    storedData.clear();
-
-    sessionData.setTokenName("helloworld");
-    sessionData.setSecret("consumer_key=aAa&consumer_secret=bBb&name=helloworld&token=cCc&token_secret=dDd");
-    response.setConsumerKey("aAa");
-    response.setConsumerSecret("bBb");
-    response.setTokenKey("cCc");
-    response.setTokenSecret("dDd");
-    storedData[sessionData.TokenName()] = response.toMap();
-    stored.setStoredData(storedData);
-    response = UbuntuOne::PluginData();
-    QTest::newRow("in secret, invalid") <<
-        sessionData.toMap() <<
-        -1 <<
-        200 << QString("{\n"
-                       "  \"is_valid\": false,\n"
-                       "  \"identifier\": \"64we8bn\",\n"
-                       "  \"account_verified\": true\n"
-                       "}") <<
-        -1 <<
-        true << response.toMap() << stored.toMap();
-    sessionData = UbuntuOne::PluginData();
-    response = UbuntuOne::PluginData();
-    stored = UbuntuOne::PluginData();
-    storedData.clear();
-
-    sessionData.setTokenName("helloworld");
-    sessionData.setSecret("consumer_key=aAa&consumer_secret=bBb&name=helloworld&token=cCc&token_secret=dDd");
-    response.setConsumerKey("aAa");
-    response.setConsumerSecret("bBb");
-    response.setTokenKey("cCc");
-    response.setTokenSecret("dDd");
-    storedData[sessionData.TokenName()] = response.toMap();
-    stored.setStoredData(storedData);
-    response = UbuntuOne::PluginData();
-    QTest::newRow("in secret, network error") <<
-        sessionData.toMap() <<
-        int(QNetworkReply::SslHandshakeFailedError) <<
-        -1 << QString() <<
-        int(SignOn::Error::Ssl) <<
-        true << response.toMap() << stored.toMap();
     sessionData = UbuntuOne::PluginData();
     response = UbuntuOne::PluginData();
     stored = UbuntuOne::PluginData();
@@ -311,9 +258,6 @@ void PluginTest::testStoredToken_data()
 void PluginTest::testStoredToken()
 {
     QFETCH(QVariantMap, sessionData);
-    QFETCH(int, httpStatus);
-    QFETCH(int, networkError);
-    QFETCH(QString, replyContents);
     QFETCH(int, expectedErrorCode);
     QFETCH(bool, uiExpected);
     QFETCH(QVariantMap, expectedResponse);
@@ -324,20 +268,6 @@ void PluginTest::testStoredToken()
     QSignalSpy userActionRequired(m_testPlugin,
                                   SIGNAL(userActionRequired(const SignOn::UiSessionData&)));
     QSignalSpy store(m_testPlugin, SIGNAL(store(const SignOn::SessionData&)));
-
-    /* Prepare network reply */
-    TestNetworkAccessManager *nam = new TestNetworkAccessManager;
-    m_testPlugin->m_networkAccessManager = nam;
-    TestNetworkReply *reply = new TestNetworkReply(this);
-    if (httpStatus > 0) {
-        reply->setStatusCode(httpStatus);
-    } else {
-        reply->setError(QNetworkReply::NetworkError(networkError),
-                        "Network error");
-    }
-    reply->setContent(replyContents.toUtf8());
-    nam->setNextReply(reply);
-
 
     m_testPlugin->process(sessionData, "ubuntuone");
     if (expectedErrorCode < 0) {
@@ -385,6 +315,9 @@ void PluginTest::testUserInteraction()
     QTRY_COMPARE(userActionRequired.count(), 1);
     QVariantMap data =
         userActionRequired.at(0).at(0).value<UiSessionData>().toMap();
+    /* We want the title to be there, but we don't care about its value here */
+    QVERIFY(data.contains(SSOUI_KEY_TITLE));
+    data.remove(SSOUI_KEY_TITLE);
     QVariantMap expectedUserInteraction;
     expectedUserInteraction[SSOUI_KEY_QUERYUSERNAME] = true;
     expectedUserInteraction[SSOUI_KEY_USERNAME] = "tom@example.com";
@@ -418,6 +351,9 @@ void PluginTest::testUserInteraction()
      * about the value */
     QVERIFY(data.contains(SSOUI_KEY_2FA_TEXT));
     data.remove(SSOUI_KEY_2FA_TEXT);
+    /* Same goes for the title */
+    QVERIFY(data.contains(SSOUI_KEY_TITLE));
+    data.remove(SSOUI_KEY_TITLE);
     QCOMPARE(data, expectedUserInteraction);
 }
 
@@ -445,6 +381,8 @@ void PluginTest::testTokenCreation_data()
     response.setConsumerSecret("bBb");
     response.setTokenKey("cCc");
     response.setTokenSecret("dDd");
+    response.setDateUpdated(1357901003000);
+    response.setDateCreated(1357901003000);
     QVariantMap storedData;
     storedData[sessionData.TokenName()] = response.toMap();
     stored.setStoredData(storedData);
@@ -559,6 +497,8 @@ void PluginTest::testTokenCreation()
             QTRY_COMPARE(userActionRequired.count(), 1);
             QVariantMap data =
                 userActionRequired.at(0).at(0).value<UiSessionData>().toMap();
+            /* We don't care about the title here */
+            data.remove(SSOUI_KEY_TITLE);
             QCOMPARE(data, expectedUserInteraction);
         } else {
             QCOMPARE(userActionRequired.count(), 0);

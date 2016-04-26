@@ -59,13 +59,13 @@ add_subdirectory(po)
 # We use $namespace-tests[-valgrind[-leaks]] for the test names in subdirs,
 # and depend on them here, so that 'make check' will run them all.
 add_custom_target(check
-  DEPENDS ubuntuoneauth-tests
+  DEPENDS ubuntuoneauth-tests ubuntuone-plugin-tests
 )
 
 add_custom_target(check-valgrind
-  DEPENDS ubuntuoneauth-tests-valgrind
+  DEPENDS ubuntuoneauth-tests-valgrind ubuntuone-plugin-tests-valgrind
 )
 
 add_custom_target(check-valgrind-leaks
-  DEPENDS ubuntuoneauth-tests-valgrind-leaks
+  DEPENDS ubuntuoneauth-tests-valgrind-leaks ubuntuone-plugin-tests-valgrind-leaks
 )

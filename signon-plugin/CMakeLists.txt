@@ -20,7 +20,10 @@ add_definitions(${SIGNON_CFLAGS} ${SIGNON_CFLAGS_OTHER})
 SET (CMAKE_AUTOMOC_MOC_OPTIONS "${SIGNON_CFLAGS} ${CMAKE_AUTOMOC_MOC_OPTIONS}")
 
 # Need the project version here
-add_definitions("-DPROJECT_VERSION=\"${PROJECT_VERSION}\"")
+add_definitions(
+  "-DPROJECT_VERSION=\"${PROJECT_VERSION}\""
+  "-DGETTEXT_PACKAGE=\"ubuntuone-credentials\""
+)
 
 add_library (${SIGNON_PLUGIN_NAME} MODULE ${SOURCES})
 qt5_use_modules (${SIGNON_PLUGIN_NAME} Core Xml Network)

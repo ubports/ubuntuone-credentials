@@ -42,6 +42,10 @@ namespace UbuntuOne {
         SIGNON_SESSION_DECLARE_PROPERTY(QString, TokenKey);
         SIGNON_SESSION_DECLARE_PROPERTY(QString, TokenSecret);
 
+        // Timestamps (ms since UNIX epoch)
+        SIGNON_SESSION_DECLARE_PROPERTY(qint64, DateCreated);
+        SIGNON_SESSION_DECLARE_PROPERTY(qint64, DateUpdated);
+
         // Error code
         enum ErrorCode {
             NoError = 0,

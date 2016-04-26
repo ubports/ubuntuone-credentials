@@ -56,21 +56,17 @@ namespace UbuntuOne {
     private:
         bool validateInput(const PluginData &data, const QString &mechanism);
         bool respondWithStoredData();
-        void checkTokenValidity(const Token &token,
-                                const PluginData &tokenData);
         void emitErrorFromReply(QNetworkReply *reply);
         void createNewToken();
         void getCredentialsAndCreateNewToken();
         bool handleUiError(const SignOn::UiSessionData &data);
 
     private Q_SLOTS:
-        void onValidationFinished();
         void onCreationFinished();
 
     private:
         friend class ::PluginTest;
         PluginData m_data;
-        PluginData m_checkedToken;
         QNetworkAccessManager *m_networkAccessManager;
         QNetworkReply *m_reply;
         bool m_didAskForPassword;

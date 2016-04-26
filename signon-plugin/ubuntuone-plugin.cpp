@@ -25,12 +25,12 @@
 #include <SignOn/UiSessionData>
 #include <SignOn/uisessiondata_priv.h>
 
+#include <ssoservice.h>
 #include <token.h>
 
-#include "i18n.h"
-#include "ubuntuone-plugin.h"
+#include <libintl.h>
 
-#define BASE_URL "https://login.ubuntu.com"
+#include "ubuntuone-plugin.h"
 
 #define ERR_INVALID_CREDENTIALS QLatin1String("INVALID_CREDENTIALS")
 #define ERR_INVALID_DATA QLatin1String("INVALID_DATA")
@@ -39,6 +39,11 @@
 #define ERR_PASSWORD_POLICY_ERROR QLatin1String("PASSWORD_POLICY_ERROR")
 
 namespace UbuntuOne {
+
+    QString _(const char *text, const char *domain = 0)
+    {
+        return QString::fromUtf8(dgettext(domain, text));
+    }
 
     SignOnPlugin::SignOnPlugin(QObject *parent):
         AuthPluginInterface(parent),
@@ -97,6 +102,14 @@ namespace UbuntuOne {
                 tokenData.setConsumerSecret(token->consumerSecret());
                 tokenData.setTokenKey(token->tokenKey());
                 tokenData.setTokenSecret(token->tokenSecret());
+                QDateTime time = token->updated();
+                if (time.isValid()) {
+                    tokenData.setDateUpdated(time.toMSecsSinceEpoch());
+                }
+                time = token->created();
+                if (time.isValid()) {
+                    tokenData.setDateCreated(time.toMSecsSinceEpoch());
+                }
                 storedData[token->name()] = tokenData.toMap();
                 PluginData pluginData;
                 pluginData.setStoredData(storedData);
@@ -116,12 +129,16 @@ namespace UbuntuOne {
         /* Check if we have stored data for this token name */
         PluginData tokenData(storedData[m_data.TokenName()].toMap());
         Token token(tokenData.TokenKey(), tokenData.TokenSecret(),
-                    tokenData.ConsumerKey(), tokenData.ConsumerSecret());
-        if (!token.isValid()) return false;
+                    tokenData.ConsumerKey(), tokenData.ConsumerSecret(),
+                    QDateTime::fromMSecsSinceEpoch(tokenData.DateCreated()).toString(Qt::ISODate),
+                    QDateTime::fromMSecsSinceEpoch(tokenData.DateUpdated()).toString(Qt::ISODate));
+        if (!token.isValid()) {
+            return false;
+        }
         qDebug() << "Token is valid!" << tokenData.TokenKey();
 
         tokenData.setTokenName(m_data.TokenName());
-        checkTokenValidity(token, tokenData);
+        Q_EMIT result(tokenData);
         return true;
     }
 
@@ -143,58 +160,6 @@ namespace UbuntuOne {
         Q_EMIT error(SignOn::Error(type, reply->errorString()));
     }
 
-    void SignOnPlugin::onValidationFinished()
-    {
-        QNetworkReply *reply = m_reply;
-        m_reply->deleteLater();
-        m_reply = 0;
-
-        /* Note on error handling: we consider the token to be (in)valid only if
-         * we can parse the JSON response and it contains the response.  If the
-         * validation has failed because of some other error (SSL error,
-         * unparsable server reply, etc.) then we report the error to the
-         * client.
-         */
-        QJsonDocument json = QJsonDocument::fromJson(reply->readAll());
-        QJsonObject object = json.object();
-        QJsonValue value = object.value("is_valid");
-
-        int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-        if (statusCode == 200 && value.isBool()) {
-            bool isValid = value.toBool();
-            if (isValid) {
-                Q_EMIT result(m_checkedToken);
-            } else {
-                qDebug() << "Server verification failed";
-                getCredentialsAndCreateNewToken();
-            }
-        } else {
-            emitErrorFromReply(reply);
-        }
-    }
-
-    void SignOnPlugin::checkTokenValidity(const Token &token,
-                                          const PluginData &tokenData)
-    {
-        m_checkedToken = tokenData;
-
-        QNetworkRequest req(QUrl(BASE_URL "/api/v2/requests/validate"));
-        req.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-
-        QString httpUrl("http://www.example.com");
-        QString httpMethod("GET");
-
-        QJsonObject formData;
-        formData.insert("http_url", httpUrl);
-        formData.insert("http_method", httpMethod);
-        formData.insert("authorization", token.signUrl(httpUrl, httpMethod));
-
-        m_reply =
-            m_networkAccessManager->post(req, QJsonDocument(formData).toJson());
-        QObject::connect(m_reply, SIGNAL(finished()),
-                         this, SLOT(onValidationFinished()));
-    }
-
     void SignOnPlugin::process(const SignOn::SessionData &inData,
                                const QString &mechanism)
     {
@@ -202,7 +167,8 @@ namespace UbuntuOne {
             m_networkAccessManager = new QNetworkAccessManager(this);
         }
 
-        initTr("ubuntuone-credentials", NULL);
+        bindtextdomain(GETTEXT_PACKAGE, NULL);
+        textdomain(GETTEXT_PACKAGE);
 
         PluginData response;
         m_data = inData.data<PluginData>();
@@ -246,6 +212,18 @@ namespace UbuntuOne {
             token.setConsumerSecret(object.value("consumer_secret").toString());
             token.setTokenKey(object.value("token_key").toString());
             token.setTokenSecret(object.value("token_secret").toString());
+            QDateTime time = QDateTime::fromString(
+                Token::dateStringToISO(object.value("date_created").toString()),
+                Qt::ISODate);
+            if (time.isValid()) {
+                token.setDateCreated(time.toMSecsSinceEpoch());
+            }
+            time = QDateTime::fromString(
+                Token::dateStringToISO(object.value("date_updated").toString()),
+                Qt::ISODate);
+            if (time.isValid()) {
+                token.setDateUpdated(time.toMSecsSinceEpoch());
+            }
 
             /* Store the token */
             QVariantMap storedData;
@@ -284,7 +262,8 @@ namespace UbuntuOne {
 
     void SignOnPlugin::createNewToken()
     {
-        QNetworkRequest req(QUrl(BASE_URL "/api/v2/tokens/oauth"));
+        QNetworkRequest req(QUrl(SSOService::getAuthBaseUrl() +
+                                 QStringLiteral("/api/v2/tokens/oauth")));
         req.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
         QJsonObject formData;
@@ -309,7 +288,7 @@ namespace UbuntuOne {
             createNewToken();
         } else if (m_data.Secret().isEmpty()) {
             QVariantMap data;
-            data[SSOUI_KEY_TITLE] = _("UbuntuOne authentication");
+            data[SSOUI_KEY_TITLE] = _("Sign in to your Ubuntu One account");
             data[SSOUI_KEY_QUERYUSERNAME] = true;
             data[SSOUI_KEY_USERNAME] = m_data.UserName();
             data[SSOUI_KEY_QUERYPASSWORD] = true;
@@ -317,7 +296,7 @@ namespace UbuntuOne {
             Q_EMIT userActionRequired(data);
         } else {
             QVariantMap data;
-            data[SSOUI_KEY_TITLE] = _("UbuntuOne authentication");
+            data[SSOUI_KEY_TITLE] = _("Sign in to your Ubuntu One account");
             data[SSOUI_KEY_USERNAME] = m_data.UserName();
             data[SSOUI_KEY_PASSWORD] = m_data.Secret();
             data[SSOUI_KEY_QUERY2FA] = true;
@@ -364,7 +343,9 @@ namespace UbuntuOne {
 
     void SignOnPlugin::userActionFinished(const SignOn::UiSessionData &data)
     {
-        if (handleUiError(data)) return;
+        if (handleUiError(data)) {
+            return;
+        }
 
         PluginData uiData = data.data<PluginData>();
         if (!uiData.UserName().isEmpty()) {
