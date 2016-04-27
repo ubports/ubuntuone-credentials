@@ -28,7 +28,7 @@
 #include <ssoservice.h>
 #include <token.h>
 
-#include <libintl.h>
+#include <glib/gi18n-lib.h>
 
 #include "ubuntuone-plugin.h"
 
@@ -39,11 +39,6 @@
 #define ERR_PASSWORD_POLICY_ERROR QLatin1String("PASSWORD_POLICY_ERROR")
 
 namespace UbuntuOne {
-
-    QString _(const char *text, const char *domain = 0)
-    {
-        return QString::fromUtf8(dgettext(domain, text));
-    }
 
     SignOnPlugin::SignOnPlugin(QObject *parent):
         AuthPluginInterface(parent),
@@ -277,7 +272,8 @@ namespace UbuntuOne {
             createNewToken();
         } else if (m_data.Secret().isEmpty()) {
             QVariantMap data;
-            data[SSOUI_KEY_TITLE] = _("Sign in to your Ubuntu One account");
+            data[SSOUI_KEY_TITLE] =
+                QString::fromUtf8(_("Sign in to your Ubuntu One account"));
             if (m_data.UserName().isEmpty()) {
                 data[SSOUI_KEY_QUERYUSERNAME] = true;
             }
@@ -287,11 +283,13 @@ namespace UbuntuOne {
             Q_EMIT userActionRequired(data);
         } else {
             QVariantMap data;
-            data[SSOUI_KEY_TITLE] = _("Sign in to your Ubuntu One account");
+            data[SSOUI_KEY_TITLE] =
+                QString::fromUtf8(_("Sign in to your Ubuntu One account"));
             data[SSOUI_KEY_USERNAME] = m_data.UserName();
             data[SSOUI_KEY_PASSWORD] = m_data.Secret();
             data[SSOUI_KEY_QUERY2FA] = true;
-            data[SSOUI_KEY_2FA_TEXT] = _("2-factor device code");
+            data[SSOUI_KEY_2FA_TEXT] =
+                QString::fromUtf8(_("2-factor device code"));
             Q_EMIT userActionRequired(data);
         }
     }

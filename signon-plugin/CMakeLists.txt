@@ -13,7 +13,7 @@ FILE (GLOB SOURCES *.cpp)
 # HEADERS only includes the public headers for installation.
 FILE (GLOB HEADERS *.h)
 
-pkg_check_modules(SIGNON REQUIRED signon-plugins)
+pkg_check_modules(SIGNON REQUIRED signon-plugins glib-2.0)
 add_definitions(${SIGNON_CFLAGS} ${SIGNON_CFLAGS_OTHER})
 
 # Workaround for cmake not adding these to automoc properly

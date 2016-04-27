@@ -6,6 +6,7 @@ Build-Depends:
  debhelper (>= 9),
  dh-migrations,
  libaccounts-qt5-dev,
+ libglib2.0-dev,
  liboauth-dev,
  libsignon-qt5-dev,
  pkg-config,
