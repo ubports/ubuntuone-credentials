@@ -39,6 +39,7 @@ class TestToken: public QObject
         void cleanupTestCase();
 
         void testEmptyToken();
+        void testTokenEmptyStrings();
         void testTokenArgs();
         void testTokenCopy();
 
