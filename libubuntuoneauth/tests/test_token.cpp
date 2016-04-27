@@ -46,6 +46,13 @@ void TestToken::testEmptyToken()
     delete token;
 }
 
+void TestToken::testTokenEmptyStrings()
+{
+    Token *token = new Token(QString(), QString(), QString(), QString());
+    QVERIFY(!token->isValid());
+    delete token;
+}
+
 void TestToken::testTokenArgs()
 {
     Token *token = new Token("a", "b", "c", "d");
