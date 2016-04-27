@@ -104,11 +104,11 @@ namespace UbuntuOne {
                 tokenData.setTokenSecret(token->tokenSecret());
                 QDateTime time = token->updated();
                 if (time.isValid()) {
-                    tokenData.setDateUpdated(time.toMSecsSinceEpoch());
+                    tokenData.setDateUpdated(time.toString(Qt::ISODate));
                 }
                 time = token->created();
                 if (time.isValid()) {
-                    tokenData.setDateCreated(time.toMSecsSinceEpoch());
+                    tokenData.setDateCreated(time.toString(Qt::ISODate));
                 }
                 storedData[token->name()] = tokenData.toMap();
                 PluginData pluginData;
@@ -130,8 +130,7 @@ namespace UbuntuOne {
         PluginData tokenData(storedData[m_data.TokenName()].toMap());
         Token token(tokenData.TokenKey(), tokenData.TokenSecret(),
                     tokenData.ConsumerKey(), tokenData.ConsumerSecret(),
-                    QDateTime::fromMSecsSinceEpoch(tokenData.DateCreated()).toString(Qt::ISODate),
-                    QDateTime::fromMSecsSinceEpoch(tokenData.DateUpdated()).toString(Qt::ISODate));
+                    tokenData.DateCreated(), tokenData.DateUpdated());
         if (!token.isValid()) {
             return false;
         }
@@ -212,18 +211,8 @@ namespace UbuntuOne {
             token.setConsumerSecret(object.value("consumer_secret").toString());
             token.setTokenKey(object.value("token_key").toString());
             token.setTokenSecret(object.value("token_secret").toString());
-            QDateTime time = QDateTime::fromString(
-                Token::dateStringToISO(object.value("date_created").toString()),
-                Qt::ISODate);
-            if (time.isValid()) {
-                token.setDateCreated(time.toMSecsSinceEpoch());
-            }
-            time = QDateTime::fromString(
-                Token::dateStringToISO(object.value("date_updated").toString()),
-                Qt::ISODate);
-            if (time.isValid()) {
-                token.setDateUpdated(time.toMSecsSinceEpoch());
-            }
+            token.setDateCreated(Token::dateStringToISO(object.value("date_created").toString()));
+            token.setDateUpdated(Token::dateStringToISO(object.value("date_updated").toString()));
 
             /* Store the token */
             QVariantMap storedData;

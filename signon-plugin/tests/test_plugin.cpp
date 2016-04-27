@@ -381,8 +381,8 @@ void PluginTest::testTokenCreation_data()
     response.setConsumerSecret("bBb");
     response.setTokenKey("cCc");
     response.setTokenSecret("dDd");
-    response.setDateUpdated(1357901003000);
-    response.setDateCreated(1357901003000);
+    response.setDateUpdated("2013-01-11 12:43:23");
+    response.setDateCreated("2013-01-11 12:43:23");
     QVariantMap storedData;
     storedData[sessionData.TokenName()] = response.toMap();
     stored.setStoredData(storedData);
