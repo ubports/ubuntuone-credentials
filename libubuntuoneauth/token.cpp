@@ -97,13 +97,53 @@ namespace UbuntuOne {
     }
 
     /**
+     * \fn QString Token::name()
+     *
+     * Returns the token name, or empty string if not set.
+     */
+    QString Token::name() const
+    {
+        return _tokenHash.value(TOKEN_NAME_KEY, "");
+    }
+
+    /**
      * \fn QString Token::consumerKey()
      *
-     * Retruns a consumer key for this token, or empty string if consumer key is not set.
+     * Returns a consumer key for this token, or empty string if consumer key is not set.
      */
     QString Token::consumerKey() const
     {
         return _tokenHash.value(TOKEN_CONSUMER_KEY, "");
+    }
+
+    /**
+     * \fn QString Token::consumerSecret()
+     *
+     * Returns a consumer secret for this token, or empty string if not set.
+     */
+    QString Token::consumerSecret() const
+    {
+        return _tokenHash.value(TOKEN_CONSUMER_SEC_KEY, "");
+    }
+
+    /**
+     * \fn QString Token::tokenKey()
+     *
+     * Returns a token key for this token, or empty string if token key is not set.
+     */
+    QString Token::tokenKey() const
+    {
+        return _tokenHash.value(TOKEN_TOKEN_KEY, "");
+    }
+
+    /**
+     * \fn QString Token::tokenSecret()
+     *
+     * Returns a token secret for this token, or empty string if not set.
+     */
+    QString Token::tokenSecret() const
+    {
+        return _tokenHash.value(TOKEN_TOKEN_SEC_KEY, "");
     }
 
     /**
@@ -295,6 +335,9 @@ namespace UbuntuOne {
         QStringList params = query.split("&");
         for (int i = 0; i < params.size(); ++i) {
             QStringList pair = params.at(i).split("=");
+            if (pair.count() < 2) {
+                continue;
+            }
             if (pair.at(0) == TOKEN_NAME_KEY) {
                 // TODO: Need to figure out how to actually use the
                 // QUrl::fromPercentEncoding at this point in the code.

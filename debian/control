@@ -6,6 +6,7 @@ Build-Depends:
  debhelper (>= 9),
  dh-migrations,
  libaccounts-qt5-dev,
+ libglib2.0-dev,
  liboauth-dev,
  libsignon-qt5-dev,
  pkg-config,
@@ -14,7 +15,7 @@ Build-Depends:
  qtdeclarative5-dev-tools,
  qtdeclarative5-ubuntu-ui-toolkit-plugin,
  python3-all:native,
- signon-plugins-dev,
+ signon-plugins-dev (>= 8.58),
  ubuntu-ui-toolkit-autopilot:native,
  xvfb,
 Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
@@ -135,7 +136,7 @@ Description: Ubuntu One authentication library - QML Module
 
 Package: signon-plugin-ubuntuone
 Architecture: any
-Multi-Arch: foreign
+Multi-Arch: same
 Pre-Depends:
  multiarch-support,
  ${misc:Pre-Depends},

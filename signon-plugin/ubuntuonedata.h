@@ -25,16 +25,37 @@ namespace UbuntuOne {
     class PluginData : public SignOn::SessionData
     {
     public:
+        PluginData(const QVariantMap &data = QVariantMap()):
+            SignOn::SessionData(data) {}
+
         // The name of the token
-        SIGNON_SESSION_DECLARE_PROPERTY(QString, Name);
+        SIGNON_SESSION_DECLARE_PROPERTY(QString, TokenName);
+
+        // The one-time password (optional)
+        SIGNON_SESSION_DECLARE_PROPERTY(QString, OneTimePassword);
 
         // The consumer key and secret for signing
-        SIGNON_SESSION_DECLARE_PROPERTY(QString, Consumer);
+        SIGNON_SESSION_DECLARE_PROPERTY(QString, ConsumerKey);
         SIGNON_SESSION_DECLARE_PROPERTY(QString, ConsumerSecret);
 
         // The access token and secret for signing
-        SIGNON_SESSION_DECLARE_PROPERTY(QString, Token);
+        SIGNON_SESSION_DECLARE_PROPERTY(QString, TokenKey);
         SIGNON_SESSION_DECLARE_PROPERTY(QString, TokenSecret);
+
+        // Token creation and update time
+        SIGNON_SESSION_DECLARE_PROPERTY(QString, DateCreated);
+        SIGNON_SESSION_DECLARE_PROPERTY(QString, DateUpdated);
+
+        // Error code
+        enum ErrorCode {
+            NoError = 0,
+            OneTimePasswordRequired,
+            InvalidPassword,
+        };
+        SIGNON_SESSION_DECLARE_PROPERTY(int, U1ErrorCode);
+
+        // Data which the plugin has stored into signond
+        SIGNON_SESSION_DECLARE_PROPERTY(QVariantMap, StoredData);
     };
 
 } // namespace UbuntuOne
