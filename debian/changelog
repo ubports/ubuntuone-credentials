@@ -1,3 +1,14 @@
+ubuntuone-credentials (15.11+16.04.20160427) xenial; urgency=medium
+
+  [ Alberto Mardegan ]
+  * Be more explicit about which headers are installed. Move the symbol
+    export map to LINK_FLAGS on the target.
+  * Complete the UbuntuOne authentication plugin
+  * Make Token::isValid() return false on tokens created out of empty
+    strings. (LP: #1572943)
+
+ -- Rodney Dawes <ci-train-bot@canonical.com>  Wed, 27 Apr 2016 20:33:37 +0000
+
 ubuntuone-credentials (15.11+16.04.20160323) xenial; urgency=medium
 
   [ CI Train Bot ]
