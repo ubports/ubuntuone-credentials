@@ -319,7 +319,6 @@ void PluginTest::testUserInteraction()
     QVERIFY(data.contains(SSOUI_KEY_TITLE));
     data.remove(SSOUI_KEY_TITLE);
     QVariantMap expectedUserInteraction;
-    expectedUserInteraction[SSOUI_KEY_QUERYUSERNAME] = true;
     expectedUserInteraction[SSOUI_KEY_USERNAME] = "tom@example.com";
     expectedUserInteraction[SSOUI_KEY_QUERYPASSWORD] = true;
     QCOMPARE(data, expectedUserInteraction);
@@ -411,7 +410,6 @@ void PluginTest::testTokenCreation_data()
     sessionData.setTokenName("helloworld");
     sessionData.setUserName("jim@example.com");
     sessionData.setSecret("s3cr3t");
-    userInteraction[SSOUI_KEY_QUERYUSERNAME] = true;
     userInteraction[SSOUI_KEY_USERNAME] = "jim@example.com";
     userInteraction[SSOUI_KEY_QUERYPASSWORD] = true;
     QTest::newRow("wrong password") <<
@@ -420,6 +418,25 @@ void PluginTest::testTokenCreation_data()
         401 << QString("{\n"
                        "  \"code\": \"INVALID_CREDENTIALS\",\n"
                        "  \"message\": \"Wrong password!\",\n"
+                       "  \"extra\": {}\n"
+                       "}") <<
+        -1 <<
+        response.toMap() << stored.toMap() << userInteraction;
+    sessionData = UbuntuOne::PluginData();
+    userInteraction.clear();
+
+    // Empty username
+    sessionData.setTokenName("helloworld");
+    sessionData.setSecret("s3cr3t");
+    userInteraction[SSOUI_KEY_QUERYUSERNAME] = true;
+    userInteraction[SSOUI_KEY_USERNAME] = "";
+    userInteraction[SSOUI_KEY_QUERYPASSWORD] = true;
+    QTest::newRow("empty username") <<
+        sessionData.toMap() <<
+        -1 <<
+        401 << QString("{\n"
+                       "  \"code\": \"INVALID_CREDENTIALS\",\n"
+                       "  \"message\": \"Missing username\",\n"
                        "  \"extra\": {}\n"
                        "}") <<
         -1 <<

@@ -278,7 +278,9 @@ namespace UbuntuOne {
         } else if (m_data.Secret().isEmpty()) {
             QVariantMap data;
             data[SSOUI_KEY_TITLE] = _("Sign in to your Ubuntu One account");
-            data[SSOUI_KEY_QUERYUSERNAME] = true;
+            if (m_data.UserName().isEmpty()) {
+                data[SSOUI_KEY_QUERYUSERNAME] = true;
+            }
             data[SSOUI_KEY_USERNAME] = m_data.UserName();
             data[SSOUI_KEY_QUERYPASSWORD] = true;
             m_didAskForPassword = true;
