@@ -13,7 +13,7 @@ Build-Depends:
  qtbase5-dev,
  qtdeclarative5-dev,
  qtdeclarative5-dev-tools,
- qtdeclarative5-ubuntu-ui-toolkit-plugin,
+ qml-module-ubuntu-components,
  python3-all:native,
  signon-plugins-dev (>= 8.58),
  ubuntu-ui-toolkit-autopilot:native,
@@ -54,7 +54,7 @@ Depends:
  qml-module-qttest,
  qml-module-ubuntuone,
  qml-module-ubuntu-onlineaccounts,
- qtdeclarative5-ubuntu-ui-toolkit-plugin | qtdeclarative5-ubuntu-ui-toolkit-plugin-gles,
+ qml-module-ubuntu-components | qml-module-ubuntu-components-gles,
  qttestability-autopilot | libautopilot-qt,
  ubuntu-keyboard-autopilot,
  ubuntu-ui-toolkit-autopilot,
@@ -118,7 +118,7 @@ Pre-Depends:
  ${misc:Pre-Depends},
 Depends:
  libubuntuoneauth-2.0-0 (= ${binary:Version}),
- qtdeclarative5-ubuntu-ui-toolkit-plugin,
+ qml-module-ubuntu-components,
  ${misc:Depends},
  ${shlibs:Depends},
 Breaks:
