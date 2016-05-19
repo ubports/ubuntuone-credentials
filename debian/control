@@ -1,23 +1,22 @@
 Source: ubuntuone-credentials
 Section: libs
 Priority: optional
-Build-Depends:
- cmake,
- debhelper (>= 9),
- dh-migrations,
- libaccounts-qt5-dev,
- libglib2.0-dev,
- liboauth-dev,
- libsignon-qt5-dev,
- pkg-config,
- qtbase5-dev,
- qtdeclarative5-dev,
- qtdeclarative5-dev-tools,
- qml-module-ubuntu-components,
- python3-all:native,
- signon-plugins-dev (>= 8.58),
- ubuntu-ui-toolkit-autopilot:native,
- xvfb,
+Build-Depends: cmake,
+               debhelper (>= 9),
+               dh-migrations,
+               libaccounts-qt5-dev,
+               libglib2.0-dev,
+               liboauth-dev,
+               libsignon-qt5-dev,
+               pkg-config,
+               python3-all:native,
+               qml-module-ubuntu-components,
+               qtbase5-dev,
+               qtdeclarative5-dev,
+               qtdeclarative5-dev-tools,
+               signon-plugins-dev (>= 8.58),
+               ubuntu-ui-toolkit-autopilot:native,
+               xvfb,
 Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
 XSBC-Original-Maintainer: Ubuntu One Developers <ubuntuone-users@lists.launchpad.net>
 Standards-Version: 3.9.5
@@ -28,13 +27,11 @@ X-Ubuntu-Use-Langpack: yes
 Package: ubuntuone-credentials-common
 Architecture: all
 Multi-Arch: foreign
-Pre-Depends:
- multiarch-support,
- ${misc:Pre-Depends},
-Depends:
- ubuntuone-client-data (>= 4.2.0),
- ${misc:Depends},
- ${shlibs:Depends},
+Pre-Depends: multiarch-support,
+             ${misc:Pre-Depends},
+Depends: ubuntuone-client-data (>= 4.2.0),
+         ${misc:Depends},
+         ${shlibs:Depends},
 Description: Ubuntu One authentication library - common data
  A library for native applications to log into the Ubuntu One services,
  to synchronize data, purchase music and software, or access data stored
@@ -45,22 +42,21 @@ Description: Ubuntu One authentication library - common data
 
 Package: ubuntuone-credentials-autopilot
 Architecture: all
-Depends:
- autopilot-qt5 (>= 1.4+14.10.20140820) | libautopilot-qt (>= 1.4),
- python3-autopilot,
- python3-fixtures,
- python3-testtools,
- qml-module-qtquick2,
- qml-module-qttest,
- qml-module-ubuntuone,
- qml-module-ubuntu-onlineaccounts,
- qml-module-ubuntu-components | qml-module-ubuntu-components-gles,
- qttestability-autopilot | libautopilot-qt,
- ubuntu-keyboard-autopilot,
- ubuntu-ui-toolkit-autopilot,
- ${misc:Depends},
- ${python:Depends},
- ${shlibs:Depends},
+Depends: autopilot-qt5 (>= 1.4+14.10.20140820) | libautopilot-qt (>= 1.4),
+         python3-autopilot,
+         python3-fixtures,
+         python3-testtools,
+         qml-module-qtquick2,
+         qml-module-qttest,
+         qml-module-ubuntu-components | qml-module-ubuntu-components-gles,
+         qml-module-ubuntu-onlineaccounts,
+         qml-module-ubuntuone,
+         qttestability-autopilot | libautopilot-qt,
+         ubuntu-keyboard-autopilot,
+         ubuntu-ui-toolkit-autopilot,
+         ${misc:Depends},
+         ${python:Depends},
+         ${shlibs:Depends},
 Description: Ubuntu One authentication library - autopilot tests
  A library for native applications to log into the Ubuntu One services,
  to synchronize data, purchase music and software, or access data stored
@@ -71,16 +67,14 @@ Description: Ubuntu One authentication library - autopilot tests
 Package: libubuntuoneauth-2.0-0
 Architecture: any
 Multi-Arch: same
-Pre-Depends:
- multiarch-support,
- ${misc:Pre-Depends},
-Depends:
- account-plugin-tools,
- signon-plugin-password,
- sqlite3,
- ubuntuone-credentials-common (= ${source:Version}),
- ${misc:Depends},
- ${shlibs:Depends},
+Pre-Depends: multiarch-support,
+             ${misc:Pre-Depends},
+Depends: account-plugin-tools,
+         signon-plugin-password,
+         sqlite3,
+         ubuntuone-credentials-common (= ${source:Version}),
+         ${misc:Depends},
+         ${shlibs:Depends},
 Description: Ubuntu One authentication library
  A library for native applications to log into the Ubuntu One services,
  to synchronize data, purchase music and software, or access data stored
@@ -92,16 +86,14 @@ Package: libubuntuoneauth-2.0-dev
 Section: libdevel
 Architecture: any
 Multi-Arch: same
-Pre-Depends:
- multiarch-support,
- ${misc:Pre-Depends},
-Depends:
- libaccounts-qt5-dev,
- liboauth-dev,
- libsignon-qt5-dev,
- libubuntuoneauth-2.0-0 (= ${binary:Version}),
- qtbase5-dev | qtbase5-gles-dev,
- ${misc:Depends},
+Pre-Depends: multiarch-support,
+             ${misc:Pre-Depends},
+Depends: libaccounts-qt5-dev,
+         liboauth-dev,
+         libsignon-qt5-dev,
+         libubuntuoneauth-2.0-0 (= ${binary:Version}),
+         qtbase5-dev | qtbase5-gles-dev,
+         ${misc:Depends},
 Description: Ubuntu One authentication library - development files
  A library for native applications to log into the Ubuntu One services,
  to synchronize data, purchase music and software, or access data stored
@@ -113,20 +105,16 @@ Description: Ubuntu One authentication library - development files
 Package: qml-module-ubuntuone
 Architecture: any
 Multi-Arch: same
-Pre-Depends:
- multiarch-support,
- ${misc:Pre-Depends},
-Depends:
- libubuntuoneauth-2.0-0 (= ${binary:Version}),
- qml-module-ubuntu-components,
- ${misc:Depends},
- ${shlibs:Depends},
-Breaks:
- qtdeclarative5-ubuntuone-credentials-plugin,
- qtdeclarative5-ubuntuone1.0,
-Replaces:
- qtdeclarative5-ubuntuone-credentials-plugin,
- qtdeclarative5-ubuntuone1.0,
+Pre-Depends: multiarch-support,
+             ${misc:Pre-Depends},
+Depends: libubuntuoneauth-2.0-0 (= ${binary:Version}),
+         qml-module-ubuntu-components,
+         ${misc:Depends},
+         ${shlibs:Depends},
+Breaks: qtdeclarative5-ubuntuone-credentials-plugin,
+        qtdeclarative5-ubuntuone1.0,
+Replaces: qtdeclarative5-ubuntuone-credentials-plugin,
+          qtdeclarative5-ubuntuone1.0,
 Description: Ubuntu One authentication library - QML Module
  A library for native applications to log into the Ubuntu One services,
  to synchronize data, purchase music and software, or access data stored
@@ -137,13 +125,11 @@ Description: Ubuntu One authentication library - QML Module
 Package: signon-plugin-ubuntuone
 Architecture: any
 Multi-Arch: same
-Pre-Depends:
- multiarch-support,
- ${misc:Pre-Depends},
-Depends:
- libubuntuoneauth-2.0-0 (= ${binary:Version}),
- ${misc:Depends},
- ${shlibs:Depends},
+Pre-Depends: multiarch-support,
+             ${misc:Pre-Depends},
+Depends: libubuntuoneauth-2.0-0 (= ${binary:Version}),
+         ${misc:Depends},
+         ${shlibs:Depends},
 Description: Ubuntu One authentication library - signon plug-in
  A library for native applications to log into the Ubuntu One services,
  to synchronize data, purchase music and software, or access data stored
@@ -154,15 +140,13 @@ Description: Ubuntu One authentication library - signon plug-in
 Package: account-plugin-ubuntuone
 Architecture: any
 Multi-Arch: foreign
-Pre-Depends:
- multiarch-support,
- ${misc:Pre-Depends},
-Depends:
- libubuntuoneauth-2.0-0 (= ${binary:Version}),
- qml-module-ubuntuone (= ${binary:Version}),
- ubuntu-system-settings-online-accounts,
- ${misc:Depends},
- ${shlibs:Depends},
+Pre-Depends: multiarch-support,
+             ${misc:Pre-Depends},
+Depends: libubuntuoneauth-2.0-0 (= ${binary:Version}),
+         qml-module-ubuntuone (= ${binary:Version}),
+         ubuntu-system-settings-online-accounts,
+         ${misc:Depends},
+         ${shlibs:Depends},
 Description: Ubuntu One authentication library - account settings plug-in
  A library for native applications to log into the Ubuntu One services,
  to synchronize data, purchase music and software, or access data stored
