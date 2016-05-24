@@ -232,8 +232,8 @@ void PluginTest::testStoredToken_data()
 
     QTest::newRow("empty") <<
         sessionData.toMap() <<
-        int(Error::MissingData) <<
-        false << QVariantMap() << QVariantMap();
+        -1 <<
+        true << QVariantMap() << QVariantMap();
 
     sessionData.setTokenName("helloworld");
     sessionData.setSecret("consumer_key=aAa&consumer_secret=bBb&name=helloworld&token=cCc&token_secret=dDd");
@@ -382,10 +382,10 @@ void PluginTest::testTokenCreation_data()
     response.setTokenSecret("dDd");
     response.setDateUpdated("2013-01-11 12:43:23");
     response.setDateCreated("2013-01-11 12:43:23");
+    response.setTokenName(sessionData.TokenName());
     QVariantMap storedData;
     storedData[sessionData.TokenName()] = response.toMap();
     stored.setStoredData(storedData);
-    response.setTokenName(sessionData.TokenName());
     QTest::newRow("no OTP needed, 201") <<
         sessionData.toMap() <<
         -1 <<
