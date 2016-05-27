@@ -28,6 +28,7 @@
 
 #include <SignOn/uisessiondata_priv.h>
 
+#include "token.h"
 #include "ubuntuone-plugin.h"
 
 using namespace SignOn;
@@ -249,10 +250,29 @@ void PluginTest::testStoredToken_data()
         sessionData.toMap() <<
         -1 <<
         false << response.toMap() << stored.toMap();
+
     sessionData = UbuntuOne::PluginData();
+    QString tokenName = UbuntuOne::Token::buildTokenName();
+    sessionData.setStoredData(QVariantMap {
+        { tokenName, QVariantMap {
+            { "ConsumerKey", "ck" },
+            { "ConsumerSecret", "cs" },
+            { "TokenKey", "tk" },
+            { "TokenSecret", "ts" },
+        }},
+    });
     response = UbuntuOne::PluginData();
+    response.setConsumerKey("ck");
+    response.setConsumerSecret("cs");
+    response.setTokenKey("tk");
+    response.setTokenSecret("ts");
+    response.setTokenName(tokenName);
     stored = UbuntuOne::PluginData();
     storedData.clear();
+    QTest::newRow("stored, valid") <<
+        sessionData.toMap() <<
+        -1 <<
+        false << response.toMap() << stored.toMap();
 }
 
 void PluginTest::testStoredToken()
