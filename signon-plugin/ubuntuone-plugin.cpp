@@ -107,6 +107,9 @@ namespace UbuntuOne {
                 m_data.setSecret(QString());
             }
             delete token;
+        } else {
+            /* Always use the same token name for now */
+            m_data.setTokenName(Token::buildTokenName());
         }
 
         /* Check if we have stored data for this token name */
