@@ -28,6 +28,7 @@
 
 #include <SignOn/uisessiondata_priv.h>
 
+#include "token.h"
 #include "ubuntuone-plugin.h"
 
 using namespace SignOn;
@@ -232,8 +233,8 @@ void PluginTest::testStoredToken_data()
 
     QTest::newRow("empty") <<
         sessionData.toMap() <<
-        int(Error::MissingData) <<
-        false << QVariantMap() << QVariantMap();
+        -1 <<
+        true << QVariantMap() << QVariantMap();
 
     sessionData.setTokenName("helloworld");
     sessionData.setSecret("consumer_key=aAa&consumer_secret=bBb&name=helloworld&token=cCc&token_secret=dDd");
@@ -249,10 +250,29 @@ void PluginTest::testStoredToken_data()
         sessionData.toMap() <<
         -1 <<
         false << response.toMap() << stored.toMap();
+
     sessionData = UbuntuOne::PluginData();
+    QString tokenName = UbuntuOne::Token::buildTokenName();
+    sessionData.setStoredData(QVariantMap {
+        { tokenName, QVariantMap {
+            { "ConsumerKey", "ck" },
+            { "ConsumerSecret", "cs" },
+            { "TokenKey", "tk" },
+            { "TokenSecret", "ts" },
+        }},
+    });
     response = UbuntuOne::PluginData();
+    response.setConsumerKey("ck");
+    response.setConsumerSecret("cs");
+    response.setTokenKey("tk");
+    response.setTokenSecret("ts");
+    response.setTokenName(tokenName);
     stored = UbuntuOne::PluginData();
     storedData.clear();
+    QTest::newRow("stored, valid") <<
+        sessionData.toMap() <<
+        -1 <<
+        false << response.toMap() << stored.toMap();
 }
 
 void PluginTest::testStoredToken()
@@ -382,10 +402,10 @@ void PluginTest::testTokenCreation_data()
     response.setTokenSecret("dDd");
     response.setDateUpdated("2013-01-11 12:43:23");
     response.setDateCreated("2013-01-11 12:43:23");
+    response.setTokenName(sessionData.TokenName());
     QVariantMap storedData;
     storedData[sessionData.TokenName()] = response.toMap();
     stored.setStoredData(storedData);
-    response.setTokenName(sessionData.TokenName());
     QTest::newRow("no OTP needed, 201") <<
         sessionData.toMap() <<
         -1 <<

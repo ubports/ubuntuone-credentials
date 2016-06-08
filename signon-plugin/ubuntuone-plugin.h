@@ -54,7 +54,6 @@ namespace UbuntuOne {
         void userActionFinished(const SignOn::UiSessionData &data) Q_DECL_OVERRIDE;
 
     private:
-        bool validateInput(const PluginData &data, const QString &mechanism);
         bool respondWithStoredData();
         void emitErrorFromReply(QNetworkReply *reply);
         void createNewToken();

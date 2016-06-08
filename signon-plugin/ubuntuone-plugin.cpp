@@ -69,18 +69,6 @@ namespace UbuntuOne {
     {
     }
 
-    bool SignOnPlugin::validateInput(const PluginData &data,
-                                     const QString &mechanism)
-    {
-        Q_UNUSED(mechanism);
-
-        if (data.TokenName().isEmpty()) {
-            return false;
-        }
-
-        return true;
-    }
-
     bool SignOnPlugin::respondWithStoredData()
     {
         QVariantMap storedData = m_data.StoredData();
@@ -119,6 +107,9 @@ namespace UbuntuOne {
                 m_data.setSecret(QString());
             }
             delete token;
+        } else {
+            /* Always use the same token name for now */
+            m_data.setTokenName(Token::buildTokenName());
         }
 
         /* Check if we have stored data for this token name */
@@ -167,12 +158,6 @@ namespace UbuntuOne {
         PluginData response;
         m_data = inData.data<PluginData>();
 
-        if (!validateInput(m_data, mechanism)) {
-            qWarning() << "Invalid parameters passed";
-            Q_EMIT error(SignOn::Error(SignOn::Error::MissingData));
-            return;
-        }
-
         /* It may be that the stored token is valid; however, do the check only
          * if no OTP was provided (since the presence of an OTP is a clear
          * signal that the caller wants to get a new token). */
@@ -208,6 +193,7 @@ namespace UbuntuOne {
             token.setTokenSecret(object.value("token_secret").toString());
             token.setDateCreated(Token::dateStringToISO(object.value("date_created").toString()));
             token.setDateUpdated(Token::dateStringToISO(object.value("date_updated").toString()));
+            token.setTokenName(tokenName);
 
             /* Store the token */
             QVariantMap storedData;
@@ -216,7 +202,6 @@ namespace UbuntuOne {
             pluginData.setStoredData(storedData);
             Q_EMIT store(pluginData);
 
-            token.setTokenName(tokenName);
             Q_EMIT result(token);
         } else if (statusCode == 401 && error == ERR_INVALID_CREDENTIALS) {
             m_data.setSecret(QString());
@@ -253,7 +238,7 @@ namespace UbuntuOne {
         QJsonObject formData;
         formData.insert("email", m_data.UserName());
         formData.insert("password", m_data.Secret());
-        formData.insert("token_name", m_data.TokenName());
+        formData.insert("token_name", Token::buildTokenName());
         if (!m_data.OneTimePassword().isEmpty()) {
             formData.insert("otp", m_data.OneTimePassword());
         }
