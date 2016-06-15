@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: ubuntuone-credentials\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-01 15:51-0400\n"
-"PO-Revision-Date: 2015-01-17 19:23+0000\n"
-"Last-Translator: Paweł Stroka <pawstr@gmail.com>\n"
+"PO-Revision-Date: 2016-06-14 18:53+0000\n"
+"Last-Translator: Małgorzata Mularz <malgorzata.mularz@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2016-05-18 05:33+0000\n"
-"X-Generator: Launchpad (build 18025)\n"
+"X-Launchpad-Export-Date: 2016-06-15 06:09+0000\n"
+"X-Generator: Launchpad (build 18097)\n"
 
 #: ../online-accounts-provider/ExistingAccount.qml:37
 msgid "Email"
@@ -23,7 +23,7 @@ msgstr "e-mail"
 
 #: ../online-accounts-provider/ExistingAccount.qml:50
 msgid "Remove account…"
-msgstr "Usunięcie konta..."
+msgstr "Usuń konto..."
 
 #: ../online-accounts-provider/ExistingAccount.qml:64
 msgid "Remove Credentials"
@@ -51,7 +51,7 @@ msgstr "Anuluj"
 
 #: ../online-accounts-provider/LoginForm.qml:33
 msgid "Enter your password:"
-msgstr "Wpisz swoje hasło :"
+msgstr "Wpisz swoje hasło:"
 
 #: ../online-accounts-provider/LoginForm.qml:49
 msgid "Forgot password?"
@@ -59,11 +59,11 @@ msgstr "Nie pamiętasz hasła?"
 
 #: ../online-accounts-provider/LoginForm.qml:61
 msgid "Type your verification code:"
-msgstr "Proszę wprowadzić kod weryfikacyjny:"
+msgstr "Podaj kod weryfikacyjny:"
 
 #: ../online-accounts-provider/LoginForm.qml:67
 msgid "2-factor device code"
-msgstr "dwuczęściowy kod urządzenia"
+msgstr "dwuetapowa weryfikacja urządzenia"
 
 #: ../online-accounts-provider/LoginForm.qml:78
 msgid "Authentication Device Help"
@@ -83,11 +83,11 @@ msgstr "Hasło musi mieć co najmniej 8 znaków."
 
 #: ../online-accounts-provider/LoginForm.qml:149
 msgid "Please enter your two-factor device code."
-msgstr "Proszę wprowadzić dwuczęściowy kod urządzenia."
+msgstr "Wprowadź kod dwuetapowej weryfikacji urządzenia."
 
 #: ../online-accounts-provider/NewAccount.qml:72
 msgid "Please type your email:"
-msgstr "Proszę wprowadzić adres email:"
+msgstr "Podaj swój e-mail:"
 
 #: ../online-accounts-provider/NewAccount.qml:81
 msgid "example: user@ubuntu.com"
@@ -96,7 +96,7 @@ msgstr "przykład: user@ubuntu.com"
 #: ../online-accounts-provider/NewAccount.qml:134
 #: ../online-accounts-provider/NewAccount.qml:249
 msgid "Please enter a valid email address."
-msgstr "Proszę wpisać poprawny adres email."
+msgstr "Wpisz poprawny adres e-mail."
 
 #: ../online-accounts-provider/NewAccount.qml:166
 msgid "Create your Ubuntu One account"
@@ -104,15 +104,15 @@ msgstr "Załóż konto Ubuntu One"
 
 #: ../online-accounts-provider/NewAccount.qml:171
 msgid "Sign in to your Ubuntu One account"
-msgstr "Zaloguj się do swojego konta Ubuntu One"
+msgstr "Zaloguj się na swoje konto Ubuntu One"
 
 #: ../online-accounts-provider/NewAccount.qml:236
 msgid "An internal error occurred. Please try again later."
-msgstr "Wystąpił błąd wewnętrzny. Proszę spróbować później."
+msgstr "Wystąpił błąd wewnętrzny. Spróbuj ponownie za chwilę."
 
 #: ../online-accounts-provider/RegisterForm.qml:34
 msgid "Please tell us your name:"
-msgstr "Podaj proszę swoje imię:"
+msgstr "Podaj swoje imię:"
 
 #: ../online-accounts-provider/RegisterForm.qml:40
 msgid "First and last name"
@@ -120,7 +120,7 @@ msgstr "Imię i nazwisko"
 
 #: ../online-accounts-provider/RegisterForm.qml:53
 msgid "Choose a password:"
-msgstr "Podaj hasło:"
+msgstr "Ustaw hasło:"
 
 #: ../online-accounts-provider/RegisterForm.qml:59
 msgid "At least 8 characters"
@@ -140,7 +140,7 @@ msgstr "Jestem użytkownikiem Ubuntu One, zaloguj mnie"
 
 #: ../online-accounts-provider/RegisterForm.qml:167
 msgid "Please enter a name."
-msgstr "Proszę podać imię"
+msgstr "Podaj imię."
 
 #: ../online-accounts-provider/RegisterForm.qml:174
 msgid "Your password must be at least 8 characters long."
