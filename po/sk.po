@@ -8,26 +8,26 @@ msgstr ""
 "Project-Id-Version: ubuntuone-credentials\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-01 15:51-0400\n"
-"PO-Revision-Date: 2016-04-01 05:19+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2016-07-25 11:10+0000\n"
+"Last-Translator: P_E_T_O <Unknown>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2016-05-18 05:33+0000\n"
-"X-Generator: Launchpad (build 18025)\n"
+"X-Launchpad-Export-Date: 2016-07-26 05:25+0000\n"
+"X-Generator: Launchpad (build 18153)\n"
 
 #: ../online-accounts-provider/ExistingAccount.qml:37
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: ../online-accounts-provider/ExistingAccount.qml:50
 msgid "Remove account…"
-msgstr ""
+msgstr "Vymazať účet..."
 
 #: ../online-accounts-provider/ExistingAccount.qml:64
 msgid "Remove Credentials"
-msgstr ""
+msgstr "Vymazať prihlasovacie údaje"
 
 #: ../online-accounts-provider/ExistingAccount.qml:65
 msgid ""
@@ -35,118 +35,121 @@ msgid ""
 "device from accessing your account. You can authorize the device again by "
 "providing your username and password."
 msgstr ""
+"Odstránenie overovacích údajov z Ubuntu One zabráni aplikáciám na tomto "
+"zariadení v prístupe k účtu. Zariadenie môžete opäť oprávniť tým, že zadáte "
+"svoje užívateľské meno a heslo."
 
 #: ../online-accounts-provider/ExistingAccount.qml:68
 msgid "Remove"
-msgstr ""
+msgstr "Vymazať"
 
 #: ../online-accounts-provider/ExistingAccount.qml:81
 #: ../online-accounts-provider/LoginForm.qml:94
 #: ../online-accounts-provider/RegisterForm.qml:118
 msgid "Cancel"
-msgstr ""
+msgstr "Zrušiť"
 
 #: ../online-accounts-provider/LoginForm.qml:33
 msgid "Enter your password:"
-msgstr ""
+msgstr "Zadajte heslo:"
 
 #: ../online-accounts-provider/LoginForm.qml:49
 msgid "Forgot password?"
-msgstr ""
+msgstr "Zabudli ste heslo?"
 
 #: ../online-accounts-provider/LoginForm.qml:61
 msgid "Type your verification code:"
-msgstr ""
+msgstr "Zadajte overovací kód:"
 
 #: ../online-accounts-provider/LoginForm.qml:67
 msgid "2-factor device code"
-msgstr ""
+msgstr "2-faktorový kód zariadenia"
 
 #: ../online-accounts-provider/LoginForm.qml:78
 msgid "Authentication Device Help"
-msgstr ""
+msgstr "Pomoc pri overovaní zariadenia"
 
 #: ../online-accounts-provider/LoginForm.qml:106
 msgid "Sign in"
-msgstr ""
+msgstr "Prihlásiť sa"
 
 #: ../online-accounts-provider/LoginForm.qml:119
 msgid "I'm a new Ubuntu One user, sign me up"
-msgstr ""
+msgstr "Som nový používateľ Ubuntu One, zaregistrujte ma"
 
 #: ../online-accounts-provider/LoginForm.qml:139
 msgid "Password must be at least 8 characters long."
-msgstr ""
+msgstr "Heslo musí mať najmenej 8 znakov."
 
 #: ../online-accounts-provider/LoginForm.qml:149
 msgid "Please enter your two-factor device code."
-msgstr ""
+msgstr "Prosím zadajte 2-faktorový kód zariadenia."
 
 #: ../online-accounts-provider/NewAccount.qml:72
 msgid "Please type your email:"
-msgstr ""
+msgstr "Prosím, zadajte email:"
 
 #: ../online-accounts-provider/NewAccount.qml:81
 msgid "example: user@ubuntu.com"
-msgstr ""
+msgstr "príklad: user@ubuntu.com"
 
 #: ../online-accounts-provider/NewAccount.qml:134
 #: ../online-accounts-provider/NewAccount.qml:249
 msgid "Please enter a valid email address."
-msgstr ""
+msgstr "Prosím, zadajte platnú emailovú adresu."
 
 #: ../online-accounts-provider/NewAccount.qml:166
 msgid "Create your Ubuntu One account"
-msgstr ""
+msgstr "Vytvoriť Ubuntu One účet"
 
 #: ../online-accounts-provider/NewAccount.qml:171
 msgid "Sign in to your Ubuntu One account"
-msgstr ""
+msgstr "Prihlásiť sa do Ubuntu One účtu"
 
 #: ../online-accounts-provider/NewAccount.qml:236
 msgid "An internal error occurred. Please try again later."
-msgstr ""
+msgstr "Vyskytla sa vnútorná chyba. Skúste to neskôr."
 
 #: ../online-accounts-provider/RegisterForm.qml:34
 msgid "Please tell us your name:"
-msgstr ""
+msgstr "Zadajte svoje meno:"
 
 #: ../online-accounts-provider/RegisterForm.qml:40
 msgid "First and last name"
-msgstr ""
+msgstr "Meno a priezvisko"
 
 #: ../online-accounts-provider/RegisterForm.qml:53
 msgid "Choose a password:"
-msgstr ""
+msgstr "Vyberte si heslo:"
 
 #: ../online-accounts-provider/RegisterForm.qml:59
 msgid "At least 8 characters"
-msgstr ""
+msgstr "Najmenej 8 znakov"
 
 #: ../online-accounts-provider/RegisterForm.qml:75
 msgid "Must match the previous field"
-msgstr ""
+msgstr "Musí sa zhodovať s predchádzajúcim poľom"
 
 #: ../online-accounts-provider/RegisterForm.qml:130
 msgid "Continue"
-msgstr ""
+msgstr "Pokračovať"
 
 #: ../online-accounts-provider/RegisterForm.qml:144
 msgid "I'm an existing Ubuntu One user, sign me in"
-msgstr ""
+msgstr "Som existujúci používateľ Ubuntu One, prihláste ma"
 
 #: ../online-accounts-provider/RegisterForm.qml:167
 msgid "Please enter a name."
-msgstr ""
+msgstr "Prosím, zadajte meno."
 
 #: ../online-accounts-provider/RegisterForm.qml:174
 msgid "Your password must be at least 8 characters long."
-msgstr ""
+msgstr "Vaše heslo musí mať najmenej 8 znakov."
 
 #: ../online-accounts-provider/RegisterForm.qml:181
 msgid "The passwords do not match."
-msgstr ""
+msgstr "Heslá sa nezhodujú."
 
 #: ../online-accounts-provider/RegisterForm.qml:186
 msgid "Please accept the terms and conditions by checking the box."
-msgstr ""
+msgstr "Prosím, prijmite podmienky zaškrtnutím políčka."
