@@ -28,7 +28,10 @@ using namespace UbuntuOne;
 
 void TestToken::cleanupTestCase()
 {
-    qputenv("SSO_AUTH_BASE_URL", old_base_url.toUtf8().data());
+    if (!old_base_url.isEmpty()) {
+        qputenv("SSO_AUTH_BASE_URL", old_base_url.toUtf8().data());
+    }
+
     if (process != nullptr) {
         process->close();
         process->deleteLater();
