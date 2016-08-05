@@ -40,6 +40,7 @@ void TestToken::cleanupTestCase()
 
 TestToken::TestToken()
     : test_hostname(QHostInfo::localHostName()),
+      process(nullptr),
       old_base_url("")
 {
 }
