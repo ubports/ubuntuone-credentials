@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2016-05-18 05:33+0000\n"
-"X-Generator: Launchpad (build 18025)\n"
+"X-Launchpad-Export-Date: 2016-08-16 05:57+0000\n"
+"X-Generator: Launchpad (build 18169)\n"
 
 #: ../online-accounts-provider/ExistingAccount.qml:37
 msgid "Email"
@@ -60,7 +60,7 @@ msgstr "Picatz vòstre còde de verificacion :"
 
 #: ../online-accounts-provider/LoginForm.qml:67
 msgid "2-factor device code"
-msgstr "Còde de dispositiu de 2 factors"
+msgstr ""
 
 #: ../online-accounts-provider/LoginForm.qml:78
 msgid "Authentication Device Help"
@@ -68,7 +68,7 @@ msgstr "Ajuda sus l'autentificacion del dispositiu"
 
 #: ../online-accounts-provider/LoginForm.qml:106
 msgid "Sign in"
-msgstr "S'identifier"
+msgstr ""
 
 #: ../online-accounts-provider/LoginForm.qml:119
 msgid "I'm a new Ubuntu One user, sign me up"
@@ -80,7 +80,7 @@ msgstr "Lo senhal deu èsser de 8 caractèrs minimum."
 
 #: ../online-accounts-provider/LoginForm.qml:149
 msgid "Please enter your two-factor device code."
-msgstr "Picatz vòstre còde de dispositiu de dos factors."
+msgstr ""
 
 #: ../online-accounts-provider/NewAccount.qml:72
 msgid "Please type your email:"
