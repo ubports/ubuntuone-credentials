@@ -41,8 +41,7 @@ Flickable {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.top
-        source: sourceComponent === null ? (account.accountId != 0 ? existingAccountUrl : newAccountUrl) : ""
-        sourceComponent: account.accountId != 0 ? existingAccountComponent : newAccountComponent
+        source: account.accountId != 0 ? existingAccountUrl : newAccountUrl
 
         Connections {
             target: account
