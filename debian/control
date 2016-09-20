@@ -17,6 +17,7 @@ Build-Depends:
  qtdeclarative5-dev-tools,
  signon-plugins-dev (>= 8.58),
  ubuntu-ui-toolkit-autopilot:native,
+ upstart,
  xvfb,
 Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
 XSBC-Original-Maintainer: Ubuntu One Developers <ubuntuone-users@lists.launchpad.net>
