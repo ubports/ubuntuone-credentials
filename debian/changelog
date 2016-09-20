@@ -1,3 +1,13 @@
+ubuntuone-credentials (15.11+16.10.20160920) yakkety; urgency=medium
+
+  [ Alberto Mardegan ]
+  * Fix the loader to avoid blank page with Qt 5.6. (LP: #1620338)
+
+  [ Rodney Dawes ]
+  * Build-Depend on upstart to avoid s390x builds on yakkety.
+
+ -- Rodney Dawes <rodney.dawes@canonical.com>  Tue, 20 Sep 2016 14:17:52 +0000
+
 ubuntuone-credentials (15.11+16.10.20160805.2) yakkety; urgency=medium
 
   * Skip the timestamp tests for now due to autopkgtests flakiness.
