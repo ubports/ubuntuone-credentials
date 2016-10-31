@@ -15,6 +15,8 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
+#include <fcntl.h>
+#include <glib/gstdio.h>
 #include <snapd-glib/snapd-glib.h>
 #include <sys/utsname.h>
 
@@ -141,7 +143,8 @@ namespace UbuntuOne {
             auto jsonOutput = g_strdup_printf("{\"macaroon\":\"%s\",\"discharges\":[\"%s\"]}",
                                               snapd_auth_data_get_macaroon(snapdAuth),
                                               jsonDischarges);
-            auto dirname = g_path_get_dirname(_snapdAuthPath.toStdString().c_str());
+            auto cpath = _snapdAuthPath.toStdString().c_str();
+            auto dirname = g_path_get_dirname(cpath);
             auto result = g_mkdir_with_parents(dirname, 0700);
             auto errnum = result == 0 ? 0 : errno;
             g_free(dirname);
@@ -152,9 +155,12 @@ namespace UbuntuOne {
                 free(errorString);
                 return;
             }
-            g_file_set_contents(_snapdAuthPath.toStdString().c_str(),
-                                jsonOutput, strlen(jsonOutput),
-                                &error);
+            if (g_file_test(cpath, G_FILE_TEST_EXISTS)) {
+                g_chmod(cpath, 0600);
+            } else {
+                g_creat(cpath, 0600);
+            }
+            g_file_set_contents(cpath, jsonOutput, strlen(jsonOutput), &error);
             g_free (jsonDischarges);
             g_free (jsonOutput);
             if (error != nullptr) {
