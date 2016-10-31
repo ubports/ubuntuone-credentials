@@ -141,6 +141,17 @@ namespace UbuntuOne {
             auto jsonOutput = g_strdup_printf("{\"macaroon\":\"%s\",\"discharges\":[\"%s\"]}",
                                               snapd_auth_data_get_macaroon(snapdAuth),
                                               jsonDischarges);
+            auto dirname = g_path_get_dirname(_snapdAuthPath.toStdString().c_str());
+            auto result = g_mkdir_with_parents(dirname, 0700);
+            auto errnum = result == 0 ? 0 : errno;
+            g_free(dirname);
+            if (errnum != 0) {
+                auto errorString = strerror(errnum);
+                ErrorResponse rsp{500, "", "", errorString};
+                emit errorOccurred(rsp);
+                free(errorString);
+                return;
+            }
             g_file_set_contents(_snapdAuthPath.toStdString().c_str(),
                                 jsonOutput, strlen(jsonOutput),
                                 &error);
