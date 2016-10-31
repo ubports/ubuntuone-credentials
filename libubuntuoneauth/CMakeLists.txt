@@ -31,6 +31,10 @@ FILE (GLOB HEADERS
 pkg_check_modules(OAUTH REQUIRED oauth)
 add_definitions(${OAUTH_CFLAGS} ${OAUTH_CFLAGS_OTHER})
 
+# Need snapd-glib
+pkg_check_modules(SNAPD REQUIRED snapd-glib)
+add_definitions(${SNAPD_CFLAGS} ${SNAPD_CFLAGS_OTHER})
+
 # Need the project version here
 add_definitions("-DPROJECT_VERSION=\"${PROJECT_VERSION}\"")
 
@@ -39,6 +43,7 @@ qt5_use_modules (${AUTH_LIB_NAME} Core DBus Xml Network)
 target_link_libraries (${AUTH_LIB_NAME}
   ${LIBSIGNON_LDFLAGS}
   ${OAUTH_LDFLAGS}
+  ${SNAPD_LDFLAGS}
 )
 
 SET_TARGET_PROPERTIES(${AUTH_LIB_NAME} PROPERTIES

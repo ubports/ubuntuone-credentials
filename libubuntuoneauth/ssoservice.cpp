@@ -15,9 +15,12 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
+#include <snapd-glib/snapd-glib.h>
 #include <sys/utsname.h>
 
 #include <QDebug>
+#include <QDir>
+#include <QFile>
 #include <QtGlobal>
 #include <QNetworkRequest>
 #include <QUrlQuery>
@@ -116,6 +119,17 @@ namespace UbuntuOne {
 
     void SSOService::login(QString email, QString password, QString twoFactorCode)
     {
+        GError *error;
+        snapd_login_sync(email.toStdString().c_str(),
+                         password.toStdString().c_str(),
+                         twoFactorCode.toStdString().c_str(),
+                         nullptr, &error);
+        if (error != nullptr) {
+            ErrorResponse rsp{500, "", "", error->message};
+            emit errorOccurred(rsp);
+            g_error_free(error);
+            return;
+        }
         OAuthTokenRequest request(getAuthBaseUrl(),
                                   email, password,
                                   Token::buildTokenName(), twoFactorCode);
@@ -160,6 +174,7 @@ namespace UbuntuOne {
 
     void SSOService::invalidateCredentials()
     {
+        QFile::remove(QDir::homePath() + "/.snap/auth.json");
         _keyring->deleteToken();
     }
 
