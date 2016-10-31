@@ -35,7 +35,8 @@ namespace UbuntuOne {
     static Token _pendingPing;
 
     SSOService::SSOService(QObject *parent) :
-        QObject(parent)
+        QObject(parent),
+        _snapdAuthPath(QDir::homePath() + "/.snap/auth.json")
     {
         // Set up logging
         AuthLogger::setupLogging();
@@ -120,15 +121,37 @@ namespace UbuntuOne {
     void SSOService::login(QString email, QString password, QString twoFactorCode)
     {
         GError *error;
-        snapd_login_sync(email.toStdString().c_str(),
-                         password.toStdString().c_str(),
-                         twoFactorCode.toStdString().c_str(),
-                         nullptr, &error);
+        auto snapdAuth = snapd_login_sync(email.toStdString().c_str(),
+                                          password.toStdString().c_str(),
+                                          twoFactorCode.toStdString().c_str(),
+                                          nullptr, &error);
         if (error != nullptr) {
             ErrorResponse rsp{500, "", "", error->message};
             emit errorOccurred(rsp);
             g_error_free(error);
             return;
+        } else if (snapdAuth == nullptr) {
+            ErrorResponse rsp{500, "", "",
+                    "An unspecified error occurred while logging in to snapd."
+                    };
+            emit errorOccurred(rsp);
+            return;
+        } else {
+            auto jsonDischarges = g_strjoinv("\",\"", snapd_auth_data_get_discharges(snapdAuth));
+            auto jsonOutput = g_strdup_printf("{\"macaroon\":\"%s\",\"discharges\":[\"%s\"]}",
+                                              snapd_auth_data_get_macaroon(snapdAuth),
+                                              jsonDischarges);
+            g_file_set_contents(_snapdAuthPath.toStdString().c_str(),
+                                jsonOutput, strlen(jsonOutput),
+                                &error);
+            g_free (jsonDischarges);
+            g_free (jsonOutput);
+            if (error != nullptr) {
+                ErrorResponse rsp{500, "", "", error->message};
+                emit errorOccurred(rsp);
+                g_error_free(error);
+                return;
+            }
         }
         OAuthTokenRequest request(getAuthBaseUrl(),
                                   email, password,
@@ -174,7 +197,7 @@ namespace UbuntuOne {
 
     void SSOService::invalidateCredentials()
     {
-        QFile::remove(QDir::homePath() + "/.snap/auth.json");
+        QFile::remove(_snapdAuthPath);
         _keyring->deleteToken();
     }
 
