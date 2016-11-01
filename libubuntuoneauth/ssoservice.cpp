@@ -122,7 +122,7 @@ namespace UbuntuOne {
 
     void SSOService::login(QString email, QString password, QString twoFactorCode)
     {
-        GError *error;
+        GError *error = nullptr;
         auto snapdAuth = snapd_login_sync(email.toStdString().c_str(),
                                           password.toStdString().c_str(),
                                           twoFactorCode.toStdString().c_str(),
