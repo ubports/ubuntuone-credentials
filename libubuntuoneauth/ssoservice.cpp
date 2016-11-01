@@ -128,7 +128,7 @@ namespace UbuntuOne {
                                           twoFactorCode.toStdString().c_str(),
                                           nullptr, &error);
         if (error != nullptr) {
-            g_debug("Login failed: %s", error->message);
+            qDebug() << "Login failed:" << error->message;
             ErrorResponse rsp{500, "", "", error->message};
             emit errorOccurred(rsp);
             g_clear_error(&error);
@@ -140,7 +140,7 @@ namespace UbuntuOne {
             emit errorOccurred(rsp);
             return;
         } else {
-            g_debug("Successful login. Attempting to write ~/.snap/auth.json");
+            qDebug() << "Successful login. Attempting to write ~/.snap/auth.json";
             auto jsonDischarges = g_strjoinv("\",\"", snapd_auth_data_get_discharges(snapdAuth));
             auto jsonOutput = g_strdup_printf("{\"macaroon\":\"%s\",\"discharges\":[\"%s\"]}",
                                               snapd_auth_data_get_macaroon(snapdAuth),
@@ -149,7 +149,7 @@ namespace UbuntuOne {
             auto dirpath = g_path_get_dirname(cpath);
             auto result = g_mkdir_with_parents(dirpath, 0700);
             auto errnum = result == 0 ? 0 : errno;
-            g_debug("Finished mkdir. result: %d", errnum);
+            qDebug() << "Finished mkdir of:" << dirpath << "result:" << errnum;
             g_free(dirpath);
             if (errnum != 0) {
                 auto errorString = strerror(errnum);
