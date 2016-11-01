@@ -130,7 +130,7 @@ namespace UbuntuOne {
         if (error != nullptr) {
             ErrorResponse rsp{500, "", "", error->message};
             emit errorOccurred(rsp);
-            g_error_free(error);
+            g_clear_error(&error);
             return;
         } else if (snapdAuth == nullptr) {
             ErrorResponse rsp{500, "", "",
@@ -166,7 +166,7 @@ namespace UbuntuOne {
             if (error != nullptr) {
                 ErrorResponse rsp{500, "", "", error->message};
                 emit errorOccurred(rsp);
-                g_error_free(error);
+                g_clear_error(&error);
                 return;
             }
         }
