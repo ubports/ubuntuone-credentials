@@ -128,6 +128,7 @@ namespace UbuntuOne {
                                           twoFactorCode.toStdString().c_str(),
                                           nullptr, &error);
         if (error != nullptr) {
+            g_debug("Login failed: %s", error->message);
             ErrorResponse rsp{500, "", "", error->message};
             emit errorOccurred(rsp);
             g_clear_error(&error);
@@ -139,15 +140,17 @@ namespace UbuntuOne {
             emit errorOccurred(rsp);
             return;
         } else {
+            g_debug("Successful login. Attempting to write ~/.snap/auth.json");
             auto jsonDischarges = g_strjoinv("\",\"", snapd_auth_data_get_discharges(snapdAuth));
             auto jsonOutput = g_strdup_printf("{\"macaroon\":\"%s\",\"discharges\":[\"%s\"]}",
                                               snapd_auth_data_get_macaroon(snapdAuth),
                                               jsonDischarges);
             auto cpath = _snapdAuthPath.toStdString().c_str();
-            auto dirname = g_path_get_dirname(cpath);
-            auto result = g_mkdir_with_parents(dirname, 0700);
+            auto dirpath = g_path_get_dirname(cpath);
+            auto result = g_mkdir_with_parents(dirpath, 0700);
             auto errnum = result == 0 ? 0 : errno;
-            g_free(dirname);
+            g_debug("Finished mkdir. result: %d", errnum);
+            g_free(dirpath);
             if (errnum != 0) {
                 auto errorString = strerror(errnum);
                 ErrorResponse rsp{500, "", "", errorString};
@@ -155,12 +158,10 @@ namespace UbuntuOne {
                 free(errorString);
                 return;
             }
+            g_file_set_contents(cpath, jsonOutput, strlen(jsonOutput), &error);
             if (g_file_test(cpath, G_FILE_TEST_EXISTS)) {
                 g_chmod(cpath, 0600);
-            } else {
-                g_creat(cpath, 0600);
             }
-            g_file_set_contents(cpath, jsonOutput, strlen(jsonOutput), &error);
             g_free (jsonDischarges);
             g_free (jsonOutput);
             if (error != nullptr) {
