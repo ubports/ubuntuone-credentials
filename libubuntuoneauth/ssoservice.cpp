@@ -37,9 +37,11 @@ namespace UbuntuOne {
     static Token _pendingPing;
 
     SSOService::SSOService(QObject *parent) :
-        QObject(parent),
-        _snapdAuthPath(QDir::homePath() + "/.snap/auth.json")
+        QObject(parent)
     {
+        // Store the path for the auth.json file.
+        _snapdAuthPath = QDir::homePath() + "/.snap/auth.json";
+
         // Set up logging
         AuthLogger::setupLogging();
 #if ENABLE_DEBUG
