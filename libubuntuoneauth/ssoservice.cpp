@@ -176,6 +176,10 @@ namespace UbuntuOne {
                 return;
             }
         }
+        // Necessary to avoid hitting ABI check failure
+        OAuthTokenRequest request(getAuthBaseUrl(),
+                                  email, password,
+                                  Token::buildTokenName(), twoFactorCode);
         emit credentialsStored();
     }
 
