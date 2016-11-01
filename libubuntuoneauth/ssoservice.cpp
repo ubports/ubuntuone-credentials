@@ -142,11 +142,12 @@ namespace UbuntuOne {
         } else {
             qDebug() << "Successful login. Attempting to write ~/.snap/auth.json";
             auto cpath = _snapdAuthPath.toStdString().c_str();
+            qDebug() << "File path:" << cpath;
             auto dirpath = g_path_get_dirname(cpath);
+            qDebug() << "Directory path:" << dirpath;
             auto result = g_mkdir_with_parents(dirpath, 0700);
             auto errnum = result == 0 ? 0 : errno;
             qDebug() << "Finished mkdir of:" << dirpath << "result:" << errnum;
-            g_free(dirpath);
 
             if (errnum != 0) {
                 auto errorString = strerror(errnum);
@@ -160,8 +161,7 @@ namespace UbuntuOne {
             auto jsonOutput = g_strdup_printf("{\"macaroon\":\"%s\",\"discharges\":[\"%s\"]}",
                                               snapd_auth_data_get_macaroon(snapdAuth),
                                               jsonDischarges);
-            g_file_set_contents(cpath, jsonOutput,
-                                g_utf8_strlen(jsonOutput, -1), &error);
+            g_file_set_contents(cpath, jsonOutput, strlen(jsonOutput), &error);
             g_free (jsonDischarges);
             g_free (jsonOutput);
 
@@ -176,12 +176,7 @@ namespace UbuntuOne {
                 return;
             }
         }
-        OAuthTokenRequest request(getAuthBaseUrl(),
-                                  email, password,
-                                  Token::buildTokenName(), twoFactorCode);
-        _tempEmail = email;
-
-        _provider.GetOAuthToken(request);
+        emit credentialsStored();
     }
 
     void SSOService::handleTwoFactorAuthRequired()
