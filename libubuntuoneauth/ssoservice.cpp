@@ -125,12 +125,18 @@ namespace UbuntuOne {
     void SSOService::login(QString email, QString password, QString twoFactorCode)
     {
         GError *error = nullptr;
+
         auto snapdAuth = snapd_login_sync(email.toStdString().c_str(),
                                           password.toStdString().c_str(),
                                           twoFactorCode.toStdString().c_str(),
                                           nullptr, &error);
+
         if (error != nullptr) {
-            qDebug() << "Login failed:" << error->message;
+            if (g_error_matches(error, SNAPD_ERROR,
+                                SNAPD_ERROR_TWO_FACTOR_REQUIRED)) {
+                emit twoFactorAuthRequired();
+                return;
+            }
             ErrorResponse rsp{500, "", "", error->message};
             emit errorOccurred(rsp);
             g_clear_error(&error);
@@ -142,14 +148,12 @@ namespace UbuntuOne {
             emit errorOccurred(rsp);
             return;
         } else {
-            qDebug() << "Successful login. Attempting to write ~/.snap/auth.json";
-            auto cpath = _snapdAuthPath.toStdString().c_str();
-            qDebug() << "File path:" << cpath;
-            auto dirpath = g_path_get_dirname(cpath);
-            qDebug() << "Directory path:" << dirpath;
+            auto cpath = _snapdAuthPath.toStdString();
+            auto dirpath = g_path_get_dirname(cpath.c_str());
             auto result = g_mkdir_with_parents(dirpath, 0700);
             auto errnum = result == 0 ? 0 : errno;
-            qDebug() << "Finished mkdir of:" << dirpath << "result:" << errnum;
+
+            g_free(dirpath);
 
             if (errnum != 0) {
                 auto errorString = strerror(errnum);
@@ -163,12 +167,16 @@ namespace UbuntuOne {
             auto jsonOutput = g_strdup_printf("{\"macaroon\":\"%s\",\"discharges\":[\"%s\"]}",
                                               snapd_auth_data_get_macaroon(snapdAuth),
                                               jsonDischarges);
-            g_file_set_contents(cpath, jsonOutput, strlen(jsonOutput), &error);
-            g_free (jsonDischarges);
-            g_free (jsonOutput);
+            g_file_set_contents(cpath.c_str(), jsonOutput, strlen(jsonOutput), &error);
+            Token nonToken{"", jsonOutput, "", ""};
+            _keyring->storeToken(nonToken, email);
 
-            if (g_file_test(cpath, G_FILE_TEST_EXISTS)) {
-                g_chmod(cpath, 0600);
+            g_free(jsonDischarges);
+            g_free(jsonOutput);
+            g_object_unref(snapdAuth);
+
+            if (g_file_test(cpath.c_str(), G_FILE_TEST_EXISTS)) {
+                g_chmod(cpath.c_str(), 0600);
             }
 
             if (error != nullptr) {
@@ -178,11 +186,11 @@ namespace UbuntuOne {
                 return;
             }
         }
+
         // Necessary to avoid hitting ABI check failure
         OAuthTokenRequest request(getAuthBaseUrl(),
                                   email, password,
                                   Token::buildTokenName(), twoFactorCode);
-        emit credentialsStored();
     }
 
     void SSOService::handleTwoFactorAuthRequired()

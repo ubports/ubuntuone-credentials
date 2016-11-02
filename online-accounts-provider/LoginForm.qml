@@ -36,7 +36,6 @@ Column {
     TextField {
         id: passwordTextField
         objectName: "loginFormPasswordTextField"
-        echoMode: TextInput.Password
         width: main.width - (2 * main.anchors.margins)
 
         Keys.onReturnPressed: main.processForm();
