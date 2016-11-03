@@ -39,8 +39,6 @@ Column {
         objectName: "nameTextField"
         placeholderText: i18n.dtr(rootFlickable.domain, "First and last name")
         width: main.width - (2 * main.anchors.margins)
-        KeyNavigation.tab: newPasswordTextField
-        KeyNavigation.backtab: emailTextField
         onLengthChanged: {
             if (nameTextField.length > 0) {
                 validateInput();
@@ -59,8 +57,6 @@ Column {
         placeholderText: i18n.dtr(rootFlickable.domain, "At least 8 characters")
         echoMode: TextInput.Password
         width: main.width - (2 * main.anchors.margins)
-        KeyNavigation.tab: confirmPasswordTextField
-        KeyNavigation.backtab: nameTextField
         inputMethodHints: Qt.ImhSensitiveData
         onLengthChanged: {
             if (newPasswordTextField.length > 0) {
@@ -75,8 +71,6 @@ Column {
         placeholderText: i18n.dtr(rootFlickable.domain, "Must match the previous field")
         echoMode: TextInput.Password
         width: main.width - (2 * main.anchors.margins)
-        KeyNavigation.tab: emailTextField
-        KeyNavigation.backtab: newPasswordTextField
         inputMethodHints: Qt.ImhSensitiveData
         onLengthChanged: {
             if (confirmPasswordTextField.length > 0) {
