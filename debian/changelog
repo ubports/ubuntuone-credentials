@@ -1,3 +1,10 @@
+ubuntuone-credentials (15.11+17.04.20161107) zesty; urgency=medium
+
+  * Use snapd-glib to log in with snapd. (LP: #1637387)
+  * Don't do manual tab key handling in the UI. (LP: #1595715)
+
+ -- Rodney Dawes <rodney.dawes@canonical.com>  Mon, 07 Nov 2016 13:48:41 +0000
+
 ubuntuone-credentials (15.11+16.10.20160920) yakkety; urgency=medium
 
   [ Alberto Mardegan ]
