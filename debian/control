@@ -9,6 +9,7 @@ Build-Depends:
  libglib2.0-dev,
  liboauth-dev,
  libsignon-qt5-dev,
+ libsnapd-glib-dev,
  pkg-config,
  python3-all:native,
  qml-module-ubuntu-components,
