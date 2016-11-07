@@ -79,8 +79,6 @@ Column {
         width: main.width - (2 * main.anchors.margins)
         validator: RegExpValidator { regExp: /.+@.+/ }
         focus: true
-        KeyNavigation.tab: state == "login" ? passwordTextField : registerForm.nameTextField
-        KeyNavigation.backtab: state == "login" ? (twoFactorVisible ? twoFactorTextField : passwordTextField) : registerForm.confirmPasswordTextField
         inputMethodHints: Qt.ImhEmailCharactersOnly
         anchors.left: parent.left
         anchors.right: parent.right
