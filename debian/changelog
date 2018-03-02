@@ -1,3 +1,9 @@
+ubuntuone-credentials (15.12+ubports) xenial; urgency=medium
+
+  * Imported to UBports
+
+ -- UBports auto importer <infra@ubports.com>  Fri, 02 Mar 2018 23:46:34 +0100
+
 ubuntuone-credentials (15.11+17.04.20161107) zesty; urgency=medium
 
   * Use snapd-glib to log in with snapd. (LP: #1637387)
