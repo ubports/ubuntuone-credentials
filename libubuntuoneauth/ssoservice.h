@@ -72,7 +72,6 @@ namespace UbuntuOne {
 
             QString _tempPassword;
             QString _tempEmail;
-            QString _snapdAuthPath;
             IdentityProvider _provider;
             QNetworkAccessManager *_nam;
     };

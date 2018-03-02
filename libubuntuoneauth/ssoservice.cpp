@@ -15,14 +15,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
-#include <fcntl.h>
-#include <glib/gstdio.h>
-#include <snapd-glib/snapd-glib.h>
 #include <sys/utsname.h>
 
 #include <QDebug>
-#include <QDir>
-#include <QFile>
 #include <QtGlobal>
 #include <QNetworkRequest>
 #include <QUrlQuery>
@@ -39,9 +34,6 @@ namespace UbuntuOne {
     SSOService::SSOService(QObject *parent) :
         QObject(parent)
     {
-        // Store the path for the auth.json file.
-        _snapdAuthPath = QDir::homePath() + "/.snap/auth.json";
-
         // Set up logging
         AuthLogger::setupLogging();
 #if ENABLE_DEBUG
@@ -124,83 +116,12 @@ namespace UbuntuOne {
 
     void SSOService::login(QString email, QString password, QString twoFactorCode)
     {
-        GError *error = nullptr;
-
-        // Necessary to avoid hitting ABI check failure
         OAuthTokenRequest request(getAuthBaseUrl(),
                                   email, password,
                                   Token::buildTokenName(), twoFactorCode);
+        _tempEmail = email;
 
-        // Log in to snapd. This really should be async instead
-        auto snapdAuth = snapd_login_sync(email.toStdString().c_str(),
-                                          password.toStdString().c_str(),
-                                          twoFactorCode.toStdString().c_str(),
-                                          nullptr, &error);
-
-        if (error != nullptr) {
-            // Check if we're being asked for OTP
-            if (g_error_matches(error, SNAPD_ERROR,
-                                SNAPD_ERROR_TWO_FACTOR_REQUIRED)) {
-                emit twoFactorAuthRequired();
-                return;
-            }
-
-            // Some other error occurred, so pass it on.
-            ErrorResponse rsp{500, "", "", error->message};
-            emit errorOccurred(rsp);
-            g_clear_error(&error);
-            return;
-        }
-
-        /* No errors. Grab the result and shove it into the auth.json,
-           for snap CLI and go client lib to use
-        */
-        auto cpath = _snapdAuthPath.toStdString();
-        auto dirpath = g_path_get_dirname(cpath.c_str());
-        auto result = g_mkdir_with_parents(dirpath, 0700);
-        auto errnum = result == 0 ? 0 : errno;
-
-        g_free(dirpath);
-
-        if (errnum != 0) {
-            // Failed to create the ~/.snap directory
-            auto errorString = strerror(errnum);
-            ErrorResponse rsp{500, "", "", errorString};
-            emit errorOccurred(rsp);
-            free(errorString);
-            return;
-        }
-
-        // Recreate the JSON to store in the auth.json file
-        auto jsonDischarges = g_strjoinv("\",\"", snapd_auth_data_get_discharges(snapdAuth));
-        auto jsonOutput = g_strdup_printf("{\"macaroon\":\"%s\",\"discharges\":[\"%s\"]}",
-                                          snapd_auth_data_get_macaroon(snapdAuth),
-                                          jsonDischarges);
-        g_file_set_contents(cpath.c_str(), jsonOutput, strlen(jsonOutput), &error);
-
-        // Create the token object for storing secret in signon db
-        // FIXME: really shouldn't do it this way, but smallest change.
-        Token nonToken{"", jsonOutput, "", ""};
-
-        g_free(jsonDischarges);
-        g_free(jsonOutput);
-        g_object_unref(snapdAuth);
-
-        // Make sure the auth.json file is mode 0600
-        if (g_file_test(cpath.c_str(), G_FILE_TEST_EXISTS)) {
-            g_chmod(cpath.c_str(), 0600);
-        }
-
-        if (error != nullptr) {
-            // Failed to write the auth.json file
-            ErrorResponse rsp{500, "", "", error->message};
-            emit errorOccurred(rsp);
-            g_clear_error(&error);
-            return;
-        }
-
-        // Store the result in signon database
-        _keyring->storeToken(nonToken, email);
+        _provider.GetOAuthToken(request);
     }
 
     void SSOService::handleTwoFactorAuthRequired()
@@ -239,7 +160,6 @@ namespace UbuntuOne {
 
     void SSOService::invalidateCredentials()
     {
-        QFile::remove(_snapdAuthPath);
         _keyring->deleteToken();
     }
 
